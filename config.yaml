@@ -1,0 +1,8 @@
+regions: au
+sport: soccer
+markets: totals
+odds_format: decimal
+date_format: iso
+leagues:
+  - name: "English Championship League"
+    sport_key: "soccer_epl"
