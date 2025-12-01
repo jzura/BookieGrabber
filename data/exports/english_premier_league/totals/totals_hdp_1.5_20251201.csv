@@ -1,0 +1,21 @@
+event_id,home_team,away_team,competition,match_time,odds_time,Bet365_over_odds_1.5,Bet365_under_odds_1.5,Betfair_Exchange_over_odds_1.5,Betfair_Exchange_under_odds_1.5,Over RPD,Under RPD
+61300775,AFC Bournemouth,Everton FC,England - Premier League,2025-12-03T03:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.285,3.75,1.33,3.85,3.442,2.632
+61300777,Arsenal FC,Brentford FC,England - Premier League,2025-12-04T03:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.222,4.333,1.26,4.5,3.062,3.781
+61300779,Brighton & Hove Albion,Aston Villa,England - Premier League,2025-12-04T03:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.25,4.0,1.3,4.1,3.922,2.469
+61300781,Burnley FC,Crystal Palace,England - Premier League,2025-12-04T03:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.333,3.4,1.35,3.6,1.267,5.714
+61300783,Fulham FC,Manchester City,England - Premier League,2025-12-03T03:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.2,4.5,1.23,5.0,2.469,10.526
+61300785,Leeds United,Chelsea FC,England - Premier League,2025-12-04T04:15:00+08:00,2025-12-01T18:50:35.378610+08:00,1.285,3.75,1.3,4.12,1.161,9.403
+61300787,Newcastle United,Tottenham Hotspur,England - Premier League,2025-12-03T04:15:00+08:00,2025-12-01T18:50:35.378610+08:00,1.222,4.333,1.25,4.6,2.265,5.978
+61300789,Wolverhampton Wanderers,Nottingham Forest,England - Premier League,2025-12-04T03:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.333,3.4,1.38,3.45,3.465,1.46
+61300791,Liverpool FC,Sunderland AFC,England - Premier League,2025-12-04T04:15:00+08:00,2025-12-01T18:50:35.378610+08:00,1.166,5.0,1.2,5.5,2.874,9.524
+61300793,Manchester United,West Ham United,England - Premier League,2025-12-05T04:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.166,5.0,1.18,6.0,1.194,18.182
+61300795,AFC Bournemouth,Chelsea FC,England - Premier League,2025-12-06T23:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.2,4.5,1.18,2.52,1.0,1.0
+61300797,Aston Villa,Arsenal FC,England - Premier League,2025-12-06T20:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.333,3.4,1.31,2.71,1.0,1.0
+61300799,Brighton & Hove Albion,West Ham United,England - Premier League,2025-12-07T22:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.2,4.5,1.18,3.49,1.0,1.0
+61300801,Everton FC,Nottingham Forest,England - Premier League,2025-12-06T23:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.363,3.2,1.32,2.66,1.0,1.0
+61300803,Fulham FC,Crystal Palace,England - Premier League,2025-12-08T00:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.333,3.4,1.29,2.89,1.0,1.0
+61300805,Leeds United,Liverpool FC,England - Premier League,2025-12-07T01:30:00+08:00,2025-12-01T18:50:35.378610+08:00,1.2,4.5,1.18,3.49,1.0,1.0
+61300807,Manchester City,Sunderland AFC,England - Premier League,2025-12-06T23:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.166,5.0,1.15,3.49,1.0,1.0
+61300809,Newcastle United,Burnley FC,England - Premier League,2025-12-06T23:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.166,5.0,1.18,3.49,1.194,1.0
+61300811,Tottenham Hotspur,Brentford FC,England - Premier League,2025-12-06T23:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.25,4.0,1.24,3.1,1.0,1.0
+64618978,Wolverhampton Wanderers,Manchester United,England - Premier League,2025-12-09T04:00:00+08:00,2025-12-01T18:50:35.378610+08:00,1.222,4.333,1.2,3.34,1.0,1.0

@@ -1,0 +1,102 @@
+file: /Users/notbahd/Desktop/BookieGrabber/todo
+title: BookieGrabber TODO
+
+project_goals:
+    - Add match volume (Betfair) metrics to markets:
+            - Asian Goal Line (Asian Handicap / Asian totals)
+            - BTTS (Both Teams To Score)
+    - Aggregation: combine totals into an Excel workbook with ModelInput column + Excel formulas
+    - Bet alerts: send email when odd_times and match_times are within tolerance and model signals to bet
+
+tasks:
+    1_data_ingestion_betfair:
+        description: Fetch Betfair match volume from odds-api and store raw snapshots
+        market_types:
+            - asian_goal_line
+            - totals
+            - btts
+            - future:
+                    - 1x2
+                    - OU_ladder
+                    - correct_score
+        storage:
+            raw_snapshots: daily folder structure
+
+    2_market_augmentation:
+        description: Enrich market snapshots with volume/time metadata and perform transforms
+        add_fields:
+            - total_matched_volume
+            - volume_time_series
+            - hours_to_kickoff
+        transforms:
+            - convert_timestamps_to_perth_tz: true
+        sanity_checks:
+            - odds_time < match_time
+            - hours_to_kickoff monotonic_over_snapshots
+
+    3_tolerance_based_email_alerts:
+        description: Detect targets and notify via email
+        config_keys:
+            - odds_time_limit_hours
+            - tolerance_hours
+        alert_logic: >
+            trigger when abs((match_time - odds_time) - odds_time_limit_hours) <= tolerance_hours
+        email:
+            formats:
+                - html
+                - plain
+            dedupe_cooldown: 1h
+        schedule:
+            run_detector: launchd_every_10_to_15_minutes
+
+    4_excel_workbook_aggregation:
+        script: excel_aggregator.py
+        output: Excel (openpyxl)
+        dataframe_columns:
+            - match_id
+            - competition
+            - start_time
+            - market_type
+            - total_volume
+            - last_price
+            - odds_time
+            - match_time
+            - hours_to_kickoff
+            - ModelInput
+        features:
+            - combine_all_markets_into_single_workbook
+            - add_ModelInput_column
+            - include_formula_examples
+            - freeze_header_and_formatting
+
+    5_integration_and_cli:
+        cli_commands:
+            - fetch_snapshot
+            - run_detectors
+            - export_excel
+        optional:
+            - webhook_or_service_endpoint
+
+    6_config_and_secrets:
+        schema:
+            - api_keys
+            - tolerances
+            - email
+            - excel_output_path
+        secrets_storage: .env
+
+    7_testing:
+        unit_tests:
+            - fetch -> map -> alert -> excel
+        integration_tests:
+            - synthetic_volumes_for_end_to_end_validation
+
+    8_deployment:
+        platform: launchd_only
+        tasks:
+            - create_plist_for_scheduled_fetcher_and_detector
+            - logs_directory: ~/Library/Logs/BookieGrabber/
+
+notes:
+    - keep alert detector idempotent and safe for frequent runs
+    - prioritize data snapshot integrity before aggregation/alerts
