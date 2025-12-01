@@ -10,6 +10,7 @@ import pytz
 import requests
 import numpy as np
 import pandas as pd
+from dateutil import parser
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -19,6 +20,12 @@ from dotenv import load_dotenv
 API_BASE = "https://api.odds-api.io/v3"
 BOOKMAKERS = "Bet365,Betfair Exchange"
 
+TOTAL_MARKETS = {
+"Bet365": ["Goals Over/Under", "Alternative Total Goals"],
+"Betfair Exchange": ["Totals"],
+}
+
+TARGET_HDPS = [1.5, 2.5, 3.5]
 # -------------------------------------------------------------
 # Environment variables
 # -------------------------------------------------------------
@@ -69,27 +76,27 @@ def get_event_odds(api_key, event_id):
 
 
 def extract_events_to_df(events):
-    """Convert event list to DataFrame with timezone-aware match times."""
     perth_tz = pytz.timezone("Australia/Perth")
     rows = []
 
     for e in events:
-        # Convert UTC timestamp ('Z' → '+00:00') to Perth local datetime
         raw_date = e.get("date")
         if raw_date:
-            match_time_utc = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
+            match_time_utc = parser.isoparse(raw_date)
             match_time_local = match_time_utc.astimezone(perth_tz)
         else:
             match_time_local = None
+
         rows.append({
             "event_id": e.get("id"),
             "date": match_time_local.strftime("%Y-%m-%d") if match_time_local else None,
             "home_team": e.get("home"),
             "away_team": e.get("away"),
             "competition": e.get("league", {}).get("name"),
-            "match_time": match_time_local,  # timezone-aware datetime
+            "match_time": match_time_local,
             "odds_time": datetime.now(perth_tz).strftime("%Y-%m-%d %H:%M:%S")
         })
+
     return pd.DataFrame(rows)
 
 
@@ -97,16 +104,22 @@ def extract_totals(odds_data):
     """Extract Totals market from odds data."""
     totals = []
     for bookmaker, markets in odds_data.get("bookmakers", {}).items():
+        allowed_markets = TOTAL_MARKETS.get(bookmaker, [])
         for market in markets:
-            if market.get("name") == "Goals Over/Under" or market.get("name") == "Totals" or market.get("name") == "Alternative Total Goals":
-                for o in market.get("odds", []):
-                    if o.get("hdp") in [1.5, 2.5, 3.5]:
-                        totals.append({
-                            "bookmaker": bookmaker,
-                            "hdp": o.get("hdp"),
-                            "over_odds": o.get("over"),
-                            "under_odds": o.get("under")
-                        })
+            # Skip irrelevant markets
+            if market.get("name") not in allowed_markets:
+                continue
+            for o in market.get("odds", []):
+                hdp = o.get("hdp")
+                if hdp not in TARGET_HDPS:
+                    continue
+                totals.append({
+                    "bookmaker": bookmaker,
+                    "market_name": market.get("name"),
+                    "hdp": hdp,
+                    "over_odds": o.get("over"),
+                    "under_odds": o.get("under")
+                })
     return totals
 
 def extract_btts(odds_data):
@@ -128,31 +141,41 @@ def pivot_totals(df_totals):
     if df_totals.empty:
         return df_totals
 
-    # Ensure clean bookmaker names for columns
-    df_totals["bookmaker_clean"] = df_totals["bookmaker"].str.replace(" ", "_")
-    # Create unique column keys like Bet365_over_odds_2.5
+    # Always make an explicit copy so we can safely modify columns
+    df_totals = df_totals.copy()
+
+    # Clean bookmaker names for column naming
+    df_totals.loc[:, "bookmaker_clean"] = df_totals["bookmaker"].str.replace(" ", "_", regex=False)
+
+    # Melt into long form (over/under values stacked)
     df_long = df_totals.melt(
         id_vars=[
-            "event_id", "home_team", "away_team", "competition", "match_time", "bookmaker_clean", "hdp", "odds_time"
+            "event_id", "home_team", "away_team", "competition",
+            "match_time", "bookmaker_clean", "hdp", "odds_time"
         ],
         value_vars=["over_odds", "under_odds"],
         var_name="odds_type",
         value_name="odds_value"
     )
-    df_long["col_name"] = (
+
+    # Build clean column names like Bet365_over_odds_2.5
+    df_long.loc[:, "col_name"] = (
         df_long["bookmaker_clean"] + "_" + df_long["odds_type"] + "_" + df_long["hdp"].astype(str)
     )
-    # Pivot to wide format
+
+    # Pivot back to wide format
     df_pivot = df_long.pivot_table(
         index=["event_id", "home_team", "away_team", "competition", "match_time", "odds_time"],
         columns="col_name",
         values="odds_value",
         aggfunc="first"
     ).reset_index()
-    # Flatten MultiIndex columns
+
+    # Flatten MultiIndex columns (remove hierarchy)
     df_pivot.columns.name = None
 
     return df_pivot
+
 
 def ensure_dir(path):
     """Ensure directory exists."""
@@ -167,6 +190,15 @@ def save_dataframe(df, name, folder="data/exports"):
     df.to_csv(filepath, index=False)
     print(f"Saved: {filepath}")
     return filepath
+
+
+def load_env():
+    load_dotenv()
+    api_key = os.getenv("ODDS_API_KEY")
+    if not api_key:
+        raise ValueError("ODDS_API_KEY not found in .env file")
+    return api_key
+
 
 def main():
     """Fetch EPL events, extract Totals (by line) and BTTS, and save separately."""
@@ -226,14 +258,68 @@ def main():
 
     if not df_totals_all.empty:
         for hdp in [1.5, 2.5, 3.5]:
-            df_hdp = df_totals_all[df_totals_all["hdp"] == hdp]
+            df_hdp = df_totals_all[df_totals_all["hdp"] == hdp].copy()
             df_totals_pivoted = pivot_totals(df_hdp)
-            if not df_totals_pivoted.empty:
-                save_dataframe(df_totals_pivoted, f"totals_hdp_{hdp}", folder="data/exports/totals")
-            else:
+    
+            if df_totals_pivoted.empty:
                 print(f"No data for hdp={hdp}")
+                continue
+            
+            # Define columns
+            col_365_over = f"Bet365_over_odds_{hdp}"
+            col_365_under = f"Bet365_under_odds_{hdp}"
+            col_bf_over = f"Betfair_Exchange_over_odds_{hdp}"
+            col_bf_under = f"Betfair_Exchange_under_odds_{hdp}"
+    
+            # Convert odds columns to numeric (coerce invalid strings to NaN)
+            for col in [col_365_over, col_365_under, col_bf_over, col_bf_under]:
+                df_totals_pivoted[col] = pd.to_numeric(df_totals_pivoted[col], errors="coerce")
+    
+            # --- Vectorized RPD calculation ---
+            # =IF(OR(ISBLANK(G2), ISBLANK(I2)), "", IF(G2 > I2, 1, IF(ABS(G2 - I2) / ((G2 + I2) / 2) * 100 < 1, 1, ABS(G2 - I2) / ((G2 + I2) / 2) * 100)))
+            # Over RPD
+            o1 = df_totals_pivoted[col_365_over]
+            o2 = df_totals_pivoted[col_bf_over]
+            opct = abs(o1 - o2) / ((o1 + o2) / 2) * 100
+            df_totals_pivoted["Over RPD"] = np.where(
+                o1.isna() | o2.isna(),
+                np.nan,
+                np.where(
+                    o1 > o2,
+                    1,
+                    np.where(
+                        opct < 1,
+                        1,
+                        opct
+                    )
+                )
+            ).round(3)
+    
+            # Under RPD
+            u1 = df_totals_pivoted[col_365_under]
+            u2 = df_totals_pivoted[col_bf_under]
+            upct = abs(u1 - u2) / ((u1 + u2) / 2) * 100
+            df_totals_pivoted["Under RPD"] = np.where(
+                u1.isna() | u2.isna(),
+                np.nan,
+                np.where(
+                    u1 > u2,
+                    1,
+                    np.where(
+                        upct < 1,
+                        1,
+                        upct
+                    )
+                )
+            ).round(3)
+    
+            # Optionally, drop rows where both RPDs are NaN
+            df_totals_pivoted = df_totals_pivoted.dropna(subset=["Over RPD", "Under RPD"], how="all")
+    
+            save_dataframe(df_totals_pivoted, f"totals_hdp_{hdp}", folder="data/exports/totals")
     else:
         print("No totals data found")
+
 
     # --- Save BTTS data ---
     if not df_btts.empty:
@@ -241,8 +327,8 @@ def main():
     else:
         print("No BTTS data found")
 
-    # return df_totals_all, df_btts
+    return df_totals_all, df_btts
 
 
 if __name__ == "__main__":
-    main()
+        main()  
