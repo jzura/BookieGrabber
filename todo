@@ -1,4 +1,3 @@
-file: /Users/notbahd/Desktop/BookieGrabber/todo
 title: BookieGrabber TODO
 
 project_goals:
@@ -13,12 +12,7 @@ tasks:
         description: Fetch Betfair match volume from odds-api and store raw snapshots
         market_types:
             - asian_goal_line
-            - totals
             - btts
-            - future:
-                    - 1x2
-                    - OU_ladder
-                    - correct_score
         storage:
             raw_snapshots: daily folder structure
 
