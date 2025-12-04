@@ -306,103 +306,124 @@ def load_existing_csv(path):
 
 def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: int):
     """
-    Merge existing and new DF based on event_id and the 'target_hours' rule.
-    Returns a DataFrame with chosen rows to save.
+    Merge existing and new DataFrames on event_id using the following rules:
+      1) If existing odds are already within the target_hours window -> KEEP existing row.
+      2) Else if new odds are within the target_hours window -> USE new row.
+      3) Else (neither in window) -> choose the row with the LATER odds_time (newer snapshot).
+
+    Returns final DataFrame with tz-aware datetimes and a new column:
+      - hours_until_KO : (match_time - odds_time) in hours (float; can be negative if odds_time after match_time)
     """
+    # Normalize dtypes & tz
+    def _ensure_tz(df, col):
+        if col in df.columns:
+            df[col] = pd.to_datetime(df[col], utc=True).dt.tz_convert(PERTH)
+        return df
 
-    if existing_df.empty:
-        # ensure odds_time & match_time columns are tz-aware datetimes
-        if "odds_time" in new_df.columns:
-            new_df["odds_time"] = pd.to_datetime(new_df["odds_time"], utc=True).dt.tz_convert(PERTH) if new_df["odds_time"].dtype == object else new_df["odds_time"]
-        if "match_time" in new_df.columns:
-            new_df["match_time"] = pd.to_datetime(new_df["match_time"], utc=True).dt.tz_convert(PERTH) if new_df["match_time"].dtype == object else new_df["match_time"]
-        return new_df
+    existing = existing_df.copy() if existing_df is not None else pd.DataFrame()
+    new = new_df.copy() if new_df is not None else pd.DataFrame()
 
-    # Normalize datetimes
-    if "match_time" in existing_df.columns:
-        existing_df["match_time"] = pd.to_datetime(existing_df["match_time"], utc=True).dt.tz_convert(PERTH)
-    if "odds_time" in existing_df.columns:
-        existing_df["odds_time"] = pd.to_datetime(existing_df["odds_time"], utc=True).dt.tz_convert(PERTH)
+    existing = _ensure_tz(existing, "match_time")
+    existing = _ensure_tz(existing, "odds_time")
+    new = _ensure_tz(new, "match_time")
+    new = _ensure_tz(new, "odds_time")
 
-    if "match_time" in new_df.columns:
-        new_df["match_time"] = pd.to_datetime(new_df["match_time"], utc=True).dt.tz_convert(PERTH)
-    if "odds_time" in new_df.columns:
-        new_df["odds_time"] = pd.to_datetime(new_df["odds_time"], utc=True).dt.tz_convert(PERTH)
+    # If no existing rows, just return new after computing hours_until_KO
+    if existing.empty:
+        if not new.empty:
+            new["hours_until_KO"] = (new["match_time"] - new["odds_time"]).dt.total_seconds() / 3600.0
+        return new
 
-    # merge on event_id, but keep all columns (suffixes _old/_new)
-    merged = existing_df.merge(new_df, on=["event_id"], how="outer", suffixes=("_old", "_new"), indicator=True)
+    # Outer merge so we see all event_ids
+    merged = existing.merge(new, on="event_id", how="outer", suffixes=("_old", "_new"), indicator=True)
 
-    rows = []
-    for _, row in merged.iterrows():
-        # Helper to pull fields with suffix
-        def g(field, suffix):
+    chosen_rows = []
+    for _, r in merged.iterrows():
+        # helper to get fields safely
+        def val(field, suffix):
             k = f"{field}{suffix}"
-            return row.get(k) if k in row.index else None
+            return r[k] if k in r.index else None
 
-        match_old = g("match_time", "_old")
-        match_new = g("match_time", "_new")
-        odds_old = g("odds_time", "_old")
-        odds_new = g("odds_time", "_new")
+        match_old = val("match_time", "_old")
+        odds_old = val("odds_time", "_old")
+        match_new = val("match_time", "_new")
+        odds_new = val("odds_time", "_new")
 
-        # If only one side exists — pick that side
+        # If only new exists
         if pd.isna(match_old) and not pd.isna(match_new):
-            # pick new
-            chosen = {k.replace("_new", ""): row[k] for k in row.index if k.endswith("_new")}
-            rows.append(chosen)
+            chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+            chosen_rows.append(chosen)
             continue
+
+        # If only old exists
         if pd.isna(match_new) and not pd.isna(match_old):
-            chosen = {k.replace("_old", ""): row[k] for k in row.index if k.endswith("_old")}
-            rows.append(chosen)
+            chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
+            chosen_rows.append(chosen)
             continue
 
-        # At this point both exist (or both NaN). Use the rule:
-        # - old_in_window = match_old - odds_old <= target_hours
-        # - new_in_window = match_new - odds_new <= target_hours
-        def in_window(match_dt, odds_dt):
+        # Both exist (or both NaN) — compute hours until KO safely
+        def hours_until_ko(match_dt, odds_dt):
             try:
-                return (match_dt - odds_dt).total_seconds() / 3600 <= target_hours
+                return (match_dt - odds_dt).total_seconds() / 3600.0
             except Exception:
-                return False
+                return float("inf")  # treat as "not in window" if something's wrong
 
-        old_in = in_window(match_old, odds_old)
-        new_in = in_window(match_new, odds_new)
+        hours_old = hours_until_ko(match_old, odds_old)
+        hours_new = hours_until_ko(match_new, odds_new)
 
-        if old_in:
-            # keep old row
-            chosen = {k.replace("_old", ""): row[k] for k in row.index if k.endswith("_old")}
-            rows.append(chosen)
+        old_in_window = hours_old <= target_hours
+        new_in_window = hours_new <= target_hours
+
+        # 1) If existing is already in the window -> keep existing
+        if old_in_window:
+            chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
+            chosen_rows.append(chosen)
             continue
 
-        if new_in:
-            # replace with new row
-            chosen = {k.replace("_new", ""): row[k] for k in row.index if k.endswith("_new")}
-            rows.append(chosen)
+        # 2) Else if new is in the window -> use new (we want the first/any snapshot inside window)
+        if new_in_window:
+            chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+            chosen_rows.append(chosen)
             continue
 
-        # Neither in window: choose the row with the later odds_time (newer snapshot).
+        # 3) Neither is in the window -> pick the later odds_time (newer snapshot)
         try:
-            # compare odds_new and odds_old robustly
             odds_old_ts = pd.to_datetime(odds_old) if odds_old is not None else pd.NaT
             odds_new_ts = pd.to_datetime(odds_new) if odds_new is not None else pd.NaT
             if pd.isna(odds_old_ts) and not pd.isna(odds_new_ts):
-                chosen = {k.replace("_new", ""): row[k] for k in row.index if k.endswith("_new")}
+                chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
             elif pd.isna(odds_new_ts) and not pd.isna(odds_old_ts):
-                chosen = {k.replace("_old", ""): row[k] for k in row.index if k.endswith("_old")}
+                chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
             else:
-                chosen = {k.replace("_new", ""): row[k] for k in row.index if k.endswith("_new")} if odds_new_ts >= odds_old_ts else {k.replace("_old", ""): row[k] for k in row.index if k.endswith("_old")}
+                # choose new if it's equal or later
+                if odds_new_ts >= odds_old_ts:
+                    chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+                else:
+                    chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
         except Exception:
-            # fallback: prefer new
-            chosen = {k.replace("_new", ""): row[k] for k in row.index if k.endswith("_new")}
-        rows.append(chosen)
+            # fallback prefer new
+            chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+        chosen_rows.append(chosen)
 
-    # Build final DataFrame (normalize columns)
-    final = pd.DataFrame(rows)
-    # Ensure we have match_time/odds_time as tz-aware datetimes
+    final = pd.DataFrame(chosen_rows)
+
+    # Normalize datetimes again, ensure tz-awareness
     if "match_time" in final.columns:
         final["match_time"] = pd.to_datetime(final["match_time"], utc=True).dt.tz_convert(PERTH)
     if "odds_time" in final.columns:
         final["odds_time"] = pd.to_datetime(final["odds_time"], utc=True).dt.tz_convert(PERTH)
+
+    # Add hours_until_KO column for debugging & downstream rules
+    if "match_time" in final.columns and "odds_time" in final.columns:
+        final["hours_until_KO"] = (final["match_time"] - final["odds_time"]).dt.total_seconds() / 3600.0
+    else:
+        final["hours_until_KO"] = float("nan")
+
+    # Order the final csv by hours_until_KO ascending
+    final = final.sort_values(by="hours_until_KO", ascending=True).reset_index(drop=True)
+
     return final
+
 
 # -------------------------------------------------------------
 # Main pipeline per-league
@@ -417,19 +438,16 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     league_key = league_cfg["sport_key"]
     target_hours = int(league_cfg.get("odds_time_limit", 9))
     slug = league_slug(league_name)
-
     print(f"\n--- Processing league: {league_name} (sport_key={league_key}) ---")
-
     events = get_league_events(api_key, league_key, limit=limit)
     if not events:
         print(f"No events fetched for {league_name}")
         return
-
     df_events = extract_events_to_df(events)
     if df_events.empty:
         print(f"No event rows for {league_name}")
         return
-
+    
     totals_rows = []
     btts_rows = []
 
