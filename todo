@@ -55,7 +55,7 @@ tasks:
             - last_price
             - odds_time
             - match_time
-            - hours_to_kickoff
+            - hours_to_kickoff 
             - ModelInput
         features:
             - combine_all_markets_into_single_workbook
