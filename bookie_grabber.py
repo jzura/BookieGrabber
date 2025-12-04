@@ -1,6 +1,6 @@
 """
-AUTHOR: RUDOLF (rewritten)
-DATE: 24 Oct 2025 (updated)
+AUTHOR: JZ
+DATE: 24 Oct 2025
 DESCRIPTION: Config-driven fetcher to pull Totals/BTTS odds from Odds-API,
              pivot results, compute RPDs and save CSVs. Only replaces odds
              following a 'target hours before KO' rule (e.g. 9 hours).
