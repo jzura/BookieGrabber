@@ -2,8 +2,8 @@
 AUTHOR: JZ
 DATE: 24 Oct 2025
 DESCRIPTION: Config-driven fetcher to pull Totals/BTTS odds from Odds-API,
-             pivot results, compute RPDs and save CSVs. Only replaces odds
-             following a 'target hours before KO' rule (e.g. 9 hours).
+            pivot results, compute RPDs and save CSVs. Only replaces odds
+            following a 'target hours before KO' rule (e.g. 9 hours).
 """
 
 import os
@@ -200,26 +200,23 @@ def extract_btts(odds_data):
 # -------------------------------------------------------------
 # Pivot & calculations
 # -------------------------------------------------------------
-def pivot_totals(df_totals):
+def pivot_odds_dataframe(df_totals, id_cols, val_cols):
     """Pivot totals DataFrame so each bookmaker × odds type × hdp becomes a column."""
     if df_totals.empty:
         return df_totals
 
     df_totals = df_totals.copy()
-    df_totals.loc[:, "bookmaker_clean"] = df_totals["bookmaker"].str.replace(" ", "_", regex=False)
+    df_totals["bookmaker_clean"] = df_totals["bookmaker"].str.replace(" ", "_", regex=False)
 
     df_long = df_totals.melt(
-        id_vars=[
-            "event_id", "home_team", "away_team", "competition",
-            "match_time", "bookmaker_clean", "hdp", "odds_time"
-        ],
-        value_vars=["over_odds", "under_odds"],
+        id_vars=id_cols + ["bookmaker_clean"],
+        value_vars=val_cols,
         var_name="odds_type",
         value_name="odds_value"
     )
 
-    df_long.loc[:, "col_name"] = (
-        df_long["bookmaker_clean"] + "_" + df_long["odds_type"] + "_" + df_long["hdp"].astype(str)
+    df_long["col_name"] = (
+        df_long["bookmaker_clean"] + "_" + df_long["odds_type"]
     )
 
     df_pivot = df_long.pivot_table(
@@ -232,52 +229,53 @@ def pivot_totals(df_totals):
     df_pivot.columns.name = None
     return df_pivot
 
-def compute_rpds(df_pivot):
-    """Compute Over/Under RPD columns in-place (vectorized)."""
+def compute_rpds(df_pivot, btts=False):
+    """
+    Compute Over/Under (or Yes/No) RPDs.
+    """
     df = df_pivot.copy()
-    for hdp in TARGET_HDPS:
-        col_365_over = f"Bet365_over_odds_{hdp}"
-        col_365_under = f"Bet365_under_odds_{hdp}"
-        col_bf_over = f"Betfair_Exchange_over_odds_{hdp}"
-        col_bf_under = f"Betfair_Exchange_under_odds_{hdp}"
 
-        for col in [col_365_over, col_365_under, col_bf_over, col_bf_under]:
-            if col in df.columns:
-                df[col] = pd.to_numeric(df[col], errors="coerce")
+    # Column name mapping
+    prefix_365 = "Bet365"
+    prefix_bf  = "Betfair_Exchange"
 
-        # Over RPD
-        if col_365_over in df.columns and col_bf_over in df.columns:
-            o1 = df[col_365_over]
-            o2 = df[col_bf_over]
-            opct = abs(o1 - o2) / ((o1 + o2) / 2) * 100
-            df["Over RPD"] = np.where(
-                o1.isna() | o2.isna(),
-                np.nan,
-                np.where(
-                    o1 > o2,
-                    1,
-                    np.where(opct < 1, 1, opct)
-                )
-            ).round(3)
+    if not btts:
+        pairs = [
+            (f"{prefix_365}_over_odds",  f"{prefix_bf}_over_odds",  "Over RPD"),
+            (f"{prefix_365}_under_odds", f"{prefix_bf}_under_odds", "Under RPD"),
+        ]
+    else:
+        pairs = [
+            (f"{prefix_365}_yes_odds", f"{prefix_bf}_yes_odds", "Yes RPD"),
+            (f"{prefix_365}_no_odds",  f"{prefix_bf}_no_odds",  "No RPD"),
+        ]
 
-        # Under RPD
-        if col_365_under in df.columns and col_bf_under in df.columns:
-            u1 = df[col_365_under]
-            u2 = df[col_bf_under]
-            upct = abs(u1 - u2) / ((u1 + u2) / 2) * 100
-            df["Under RPD"] = np.where(
-                u1.isna() | u2.isna(),
-                np.nan,
-                np.where(
-                    u1 > u2,
-                    1,
-                    np.where(upct < 1, 1, upct)
-                )
-            ).round(3)
+    def calc_rpd(a, b):
+        """
+        Vectorised RPD:
+            - if any missing → NaN
+            - if a > b → 1
+            - else → percent difference, minimum = 1
+        """
+        opct = (a - b).abs() / ((a + b) / 2) * 100
+        return np.where(
+            a.isna() | b.isna(),
+            np.nan,
+            np.where(a > b, 1, np.where(opct < 1, 1, opct))
+        )
 
-    # Drop rows where both RPDs missing (optional)
-    if "Over RPD" in df.columns and "Under RPD" in df.columns:
-        df = df.dropna(subset=["Over RPD", "Under RPD"], how="all")
+    # Process each pair
+    for c1, c2, out_col in pairs:
+
+        # if either column not present → skip gracefully
+        if c1 not in df.columns or c2 not in df.columns:
+            continue
+
+        # numeric conversion (vectorised)
+        a = pd.to_numeric(df[c1], errors="coerce")
+        b = pd.to_numeric(df[c2], errors="coerce")
+
+        df[out_col] = calc_rpd(a, b).round(3)
 
     return df
 
@@ -307,12 +305,12 @@ def load_existing_csv(path):
 def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: int):
     """
     Merge existing and new DataFrames on event_id using the following rules:
-      1) If existing odds are already within the target_hours window -> KEEP existing row.
-      2) Else if new odds are within the target_hours window -> USE new row.
-      3) Else (neither in window) -> choose the row with the LATER odds_time (newer snapshot).
+        1) If existing odds are already within the target_hours window -> KEEP existing row.
+        2) Else if new odds are within the target_hours window -> USE new row.
+        3) Else (neither in window) -> choose the row with the LATER odds_time (newer snapshot).
 
     Returns final DataFrame with tz-aware datetimes and a new column:
-      - hours_until_KO : (match_time - odds_time) in hours (float; can be negative if odds_time after match_time)
+        - hours_until_KO : (match_time - odds_time) in hours (float; can be negative if odds_time after match_time)
     """
     # Normalize dtypes & tz
     def _ensure_tz(df, col):
@@ -351,13 +349,17 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
 
         # If only new exists
         if pd.isna(match_old) and not pd.isna(match_new):
-            chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+            chosen = {"event_id": r["event_id"], **{
+                k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
+            }}
             chosen_rows.append(chosen)
             continue
 
         # If only old exists
         if pd.isna(match_new) and not pd.isna(match_old):
-            chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
+            chosen = {"event_id": r["event_id"], **{
+                k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
+            }}
             chosen_rows.append(chosen)
             continue
 
@@ -376,13 +378,17 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
 
         # 1) If existing is already in the window -> keep existing
         if old_in_window:
-            chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
+            chosen = {"event_id": r["event_id"], **{
+                k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
+            }}
             chosen_rows.append(chosen)
             continue
 
         # 2) Else if new is in the window -> use new (we want the first/any snapshot inside window)
         if new_in_window:
-            chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+            chosen = {"event_id": r["event_id"], **{
+                k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
+            }}
             chosen_rows.append(chosen)
             continue
 
@@ -391,18 +397,28 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
             odds_old_ts = pd.to_datetime(odds_old) if odds_old is not None else pd.NaT
             odds_new_ts = pd.to_datetime(odds_new) if odds_new is not None else pd.NaT
             if pd.isna(odds_old_ts) and not pd.isna(odds_new_ts):
-                chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+                chosen = {"event_id": r["event_id"], **{
+                k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
+                }}
             elif pd.isna(odds_new_ts) and not pd.isna(odds_old_ts):
-                chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
+                chosen = {"event_id": r["event_id"], **{
+                k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
+                }}
             else:
                 # choose new if it's equal or later
                 if odds_new_ts >= odds_old_ts:
-                    chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+                    chosen = {"event_id": r["event_id"], **{
+                    k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
+                    }}
                 else:
-                    chosen = {k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")}
+                    chosen = {"event_id": r["event_id"], **{
+                    k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
+                    }}
         except Exception:
             # fallback prefer new
-            chosen = {k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")}
+            chosen = {"event_id": r["event_id"], **{
+                    k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
+                    }}
         chosen_rows.append(chosen)
 
     final = pd.DataFrame(chosen_rows)
@@ -502,11 +518,26 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
         btts_out_path = todays_filename(btts_folder, "btts")
         # Convert tz-aware datetimes to ISO strings for CSV
         df_btts_copy = df_btts.copy()
-        if "match_time" in df_btts_copy.columns:
-            df_btts_copy["match_time"] = df_btts_copy["match_time"].apply(lambda x: x.isoformat() if not pd.isna(x) else "")
-        if "odds_time" in df_btts_copy.columns:
-            df_btts_copy["odds_time"] = df_btts_copy["odds_time"].apply(lambda x: x.isoformat() if not pd.isna(x) else "")
-        df_btts_copy.to_csv(btts_out_path, index=False)
+        # pivot btts
+        idbc = ['event_id', 'home_team', 'away_team', 'competition', 'match_time', 'bookmaker', 'odds_time']
+        vc = ['no_odds', 'yes_odds']
+        df_btts_pivoted = pivot_odds_dataframe(df_btts_copy, idbc, vc)
+        # compute RPD
+        df_btts_final = compute_rpds(df_btts_pivoted, btts=True)
+        # Normalize datetimes to ISO strings for CSV writing, but keep tz-aware datetimes for merging
+        df_for_merge = df_btts_final.copy()
+        # ensure match_time and odds_time are tz-aware datetimes
+        if "match_time" in df_for_merge.columns and df_for_merge["match_time"].dtype == object:
+            df_for_merge["match_time"] = pd.to_datetime(df_for_merge["match_time"], utc=True).dt.tz_convert(PERTH)
+        if "odds_time" in df_for_merge.columns and df_for_merge["odds_time"].dtype == object:
+            df_for_merge["odds_time"] = pd.to_datetime(df_for_merge["odds_time"], utc=True).dt.tz_convert(PERTH)
+
+        # existing file path (today's)
+        out_path = todays_filename(btts_folder, f"btts")
+        existing = load_existing_csv(out_path)
+        merged_final = decide_merge(existing, df_for_merge, target_hours)
+        merged_final.to_csv(btts_out_path, index=False)
+
         print(f"Saved BTTS: {btts_out_path}")
     else:
         print("No BTTS data for this run.")
@@ -515,15 +546,15 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     if not df_totals_all.empty:
         for hdp in TARGET_HDPS:
             df_hdp = df_totals_all[df_totals_all["hdp"] == hdp].copy()
-            df_totals_pivoted = pivot_totals(df_hdp)
-
+            idtc = ["event_id", "home_team", "away_team", "competition", "match_time", "hdp", "odds_time"]
+            vc = ["over_odds", "under_odds"]
+            df_totals_pivoted = pivot_odds_dataframe(df_hdp, idtc, vc)
             if df_totals_pivoted.empty:
                 print(f"No totals for hdp={hdp}")
                 continue
 
             # compute RPD
             df_totals_final = compute_rpds(df_totals_pivoted)
-
             # Normalize datetimes to ISO strings for CSV writing, but keep tz-aware datetimes for merging
             df_for_merge = df_totals_final.copy()
             # ensure match_time and odds_time are tz-aware datetimes
@@ -535,19 +566,11 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             # existing file path (today's)
             out_path = todays_filename(totals_folder, f"totals_hdp_{hdp}")
             existing = load_existing_csv(out_path)
-
             merged_final = decide_merge(existing, df_for_merge, target_hours)
+            merged_final.to_csv(out_path, index=False)
 
-            # Convert tz-aware datetimes to ISO strings for CSV output
-            to_save = merged_final.copy()
-            if "match_time" in to_save.columns:
-                to_save["match_time"] = to_save["match_time"].apply(lambda x: x.isoformat() if not pd.isna(x) else "")
-            if "odds_time" in to_save.columns:
-                to_save["odds_time"] = to_save["odds_time"].apply(lambda x: x.isoformat() if not pd.isna(x) else "")
 
-            to_save.to_csv(out_path, index=False)
             print(f"Saved totals (hdp={hdp}): {out_path}")
-
     else:
         print("No totals data found for this run.")
 

@@ -26,6 +26,8 @@ KEY_FILE = "client-2048.key"
 BETFAIR_API_URL = "https://api.betfair.com/exchange/betting/json-rpc/v1"
 SSO_CERT_URL = "https://identitysso-cert.betfair.com/api/certlogin"
 
+MARKETS = ["OVER_UNDER_15", "OVER_UNDER_25", "OVER_UNDER_35", "BOTH_TEAMS_TO_SCORE"]
+
 # ---------------------------
 # Load leagues from YAML
 # ---------------------------
@@ -88,7 +90,7 @@ def get_over_under_markets(session_token, competition_id):
         "params": {
             "filter": {
                 "competitionIds": [competition_id],
-                "marketTypeCodes": ["OVER_UNDER_15", "OVER_UNDER_25", "OVER_UNDER_35"],
+                "marketTypeCodes": ["OVER_UNDER_15", "OVER_UNDER_25", "OVER_UNDER_35", "BOTH_TEAMS_TO_SCORE"],
             },
             "maxResults": "200",
             "marketProjection": ["EVENT", "MARKET_DESCRIPTION", "RUNNER_DESCRIPTION"]
