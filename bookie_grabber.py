@@ -8,6 +8,7 @@ DESCRIPTION: Config-driven fetcher to pull Totals/BTTS odds from Odds-API,
 
 import os
 import re
+import json
 import yaml
 import pytz
 import requests
@@ -15,12 +16,14 @@ import numpy as np
 import pandas as pd
 from dateutil import parser
 from datetime import datetime, timedelta
+from betfair_api import *
 from dotenv import load_dotenv
 
 # -------------------------------------------------------------
 # Configurable constants
 # -------------------------------------------------------------
-API_BASE = "https://api.odds-api.io/v3"
+API_BASE_OLD = "https://api.odds-api.io/v3"
+API_BASE = "https://api2.odds-api.io/v3"
 BOOKMAKERS = "Bet365,Betfair Exchange"
 
 TOTAL_MARKETS = {
@@ -33,6 +36,14 @@ TARGET_HDPS = [1.5, 2.5, 3.5]
 # folders
 EXPORT_ROOT = "data/exports"
 
+# Betfair market line for total volume
+BF_BTTS_MARKET_NAME = 'Both teams to Score?'
+BF_TOTALS_MARKET_NAME = {
+    1.5: 'Over/Under 1.5 Goals',
+    2.5: 'Over/Under 2.5 Goals',
+    3.5: 'Over/Under 3.5 Goals'
+}
+
 # -------------------------------------------------------------
 # Helpers: IO, env, slugify
 # -------------------------------------------------------------
@@ -42,6 +53,12 @@ def load_env():
     if not api_key:
         raise ValueError("ODDS_API_KEY not found in .env file")
     return api_key
+
+def load_team_map(path="data/mappings/team_name_map.json"):
+    with open(path, "r") as f:
+        return json.load(f)
+
+TEAM_MAP = load_team_map()
 
 def ensure_dir(path):
     os.makedirs(path, exist_ok=True)
@@ -200,7 +217,7 @@ def extract_btts(odds_data):
 # -------------------------------------------------------------
 # Pivot & calculations
 # -------------------------------------------------------------
-def pivot_odds_dataframe(df_totals, id_cols, val_cols):
+def pivot_odds_dataframe(df_totals:pd.DataFrame, id_cols:list, val_cols:list):
     """Pivot totals DataFrame so each bookmaker × odds type × hdp becomes a column."""
     if df_totals.empty:
         return df_totals
@@ -450,10 +467,16 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     fetch events, fetch odds for each event, extract totals/btts,
     pivot, compute RPDs and save files, applying merge rules.
     """
-    league_name = league_cfg["name"]
-    league_key = league_cfg["sport_key"]
+    league_name = league_cfg["name"] # Also the betfair api league name
+    league_key = league_cfg["sport_key"] #odds-api sport key 
     target_hours = int(league_cfg.get("odds_time_limit", 9))
     slug = league_slug(league_name)
+    # Add betfair totalmatch volume from betfair_api
+    session_token = get_session_token()
+    df_bf_ou_volume = get_ou_volume(session_token, league_name)
+    if df_bf_ou_volume.empty:
+        print(f"No Betfair OU volume data for league {league_name}")
+
     print(f"\n--- Processing league: {league_name} (sport_key={league_key}) ---")
     events = get_league_events(api_key, league_key, limit=limit)
     if not events:
@@ -531,13 +554,23 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             df_for_merge["match_time"] = pd.to_datetime(df_for_merge["match_time"], utc=True).dt.tz_convert(PERTH)
         if "odds_time" in df_for_merge.columns and df_for_merge["odds_time"].dtype == object:
             df_for_merge["odds_time"] = pd.to_datetime(df_for_merge["odds_time"], utc=True).dt.tz_convert(PERTH)
-
         # existing file path (today's)
         out_path = todays_filename(btts_folder, f"btts")
         existing = load_existing_csv(out_path)
-        merged_final = decide_merge(existing, df_for_merge, target_hours)
-        merged_final.to_csv(btts_out_path, index=False)
+        # merge in total volume from betfair
+        df_bf_btts = df_for_merge.copy()
+        df_bf_btts['bf_team_name_home'] = df_bf_btts['home_team'].map(TEAM_MAP)
+        df_bf_btts['bf_team_name_away'] = df_bf_btts['away_team'].map(TEAM_MAP)
+        df_bf_btts['bf_merge_key'] = df_bf_btts['bf_team_name_home'] + " v " + df_bf_btts['bf_team_name_away']
+        # you want to check all the df_bf_ou_volume event keys have beem mapped and exist in the df_bf_btts['bf_merge_key']
+        for k in df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME].event.unique():
+            if k not in df_bf_btts['bf_merge_key'].unique():
+                print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
+                
+        df_bf_btts_tv = df_bf_btts.merge(df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME], how='left', left_on='bf_merge_key', right_on='event')
 
+        merged_final = decide_merge(existing, df_bf_btts_tv, target_hours)
+        merged_final.to_csv(btts_out_path, index=False)
         print(f"Saved BTTS: {btts_out_path}")
     else:
         print("No BTTS data for this run.")
@@ -545,6 +578,8 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     # Totals: process per HDP, pivot, compute RPD and merge with existing
     if not df_totals_all.empty:
         for hdp in TARGET_HDPS:
+            # BF MARKET NAME for this hdp
+            bf_market_name = BF_TOTALS_MARKET_NAME.get(hdp)
             df_hdp = df_totals_all[df_totals_all["hdp"] == hdp].copy()
             idtc = ["event_id", "home_team", "away_team", "competition", "match_time", "hdp", "odds_time"]
             vc = ["over_odds", "under_odds"]
@@ -566,10 +601,21 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             # existing file path (today's)
             out_path = todays_filename(totals_folder, f"totals_hdp_{hdp}")
             existing = load_existing_csv(out_path)
-            merged_final = decide_merge(existing, df_for_merge, target_hours)
+
+            # merge in total volume from betfair
+            df_bf_total = df_for_merge.copy()
+            df_bf_total['bf_team_name_home'] = df_bf_total['home_team'].map(TEAM_MAP)
+            df_bf_total['bf_team_name_away'] = df_bf_total['away_team'].map(TEAM_MAP)
+            df_bf_total['bf_merge_key'] = df_bf_total['bf_team_name_home'] + " v " + df_bf_total['bf_team_name_away']
+            # you want to check all the df_bf_ou_volume event keys have beem mapped and exist in the df_bf_btts['bf_merge_key']
+            for k in df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name].event.unique():
+                if k not in df_bf_total['bf_merge_key'].unique():
+                    print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
+
+            df_bf_total_tv = df_bf_total.merge(df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name], how='left', left_on='bf_merge_key', right_on='event')
+
+            merged_final = decide_merge(existing, df_bf_total_tv, target_hours)
             merged_final.to_csv(out_path, index=False)
-
-
             print(f"Saved totals (hdp={hdp}): {out_path}")
     else:
         print("No totals data found for this run.")

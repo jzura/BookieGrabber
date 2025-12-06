@@ -39,7 +39,7 @@ LEAGUES = CONFIG.get("leagues", [])
 # ---------------------------
 # JSON-RPC helper
 # ---------------------------
-def make_request(app_key, session_token, payload):
+def make_request(app_key:str, session_token:str, payload):
     headers = {
         "X-Application": app_key,
         "X-Authentication": session_token,
@@ -67,7 +67,7 @@ def get_session_token():
 # ---------------------------
 # Generic league functions
 # ---------------------------
-def get_competition_id(session_token, league_name):
+def get_competition_id(session_token:str, league_name):
     payload = {
         "jsonrpc": "2.0",
         "method": "SportsAPING/v1.0/listCompetitions",
@@ -83,7 +83,7 @@ def get_competition_id(session_token, league_name):
 
     raise ValueError(f"Competition '{league_name}' not found.")
 
-def get_over_under_markets(session_token, competition_id):
+def get_over_under_markets(session_token:str, competition_id):
     payload = {
         "jsonrpc": "2.0",
         "method": "SportsAPING/v1.0/listMarketCatalogue",
@@ -101,7 +101,7 @@ def get_over_under_markets(session_token, competition_id):
     data = make_request(APP_KEY, session_token, payload)
     return data["result"]
 
-def get_ou_volume(session_token, league_name):
+def get_ou_volume(session_token:str, league_name:str):
     competition_id = get_competition_id(session_token, league_name)
     markets = get_over_under_markets(session_token, competition_id)
 
