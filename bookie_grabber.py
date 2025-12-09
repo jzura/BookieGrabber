@@ -17,6 +17,7 @@ import pandas as pd
 from dateutil import parser
 from datetime import datetime, timedelta
 from betfair_api import *
+from bookie_postproc import run_postprocessing_and_exports
 from dotenv import load_dotenv
 
 # -------------------------------------------------------------
@@ -490,6 +491,9 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     totals_rows = []
     btts_rows = []
 
+    totals_exports = []
+    btts_export = None
+
     # Iterate events and fetch odds
     for _, row in df_events.iterrows():
         event_id = row["event_id"]
@@ -566,10 +570,11 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
         for k in df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME].event.unique():
             if k not in df_bf_btts['bf_merge_key'].unique():
                 print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
-                
+
         df_bf_btts_tv = df_bf_btts.merge(df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME], how='left', left_on='bf_merge_key', right_on='event')
 
         merged_final = decide_merge(existing, df_bf_btts_tv, target_hours)
+        btts_export = merged_final
         merged_final.to_csv(btts_out_path, index=False)
         print(f"Saved BTTS: {btts_out_path}")
     else:
@@ -615,23 +620,72 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             df_bf_total_tv = df_bf_total.merge(df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name], how='left', left_on='bf_merge_key', right_on='event')
 
             merged_final = decide_merge(existing, df_bf_total_tv, target_hours)
+            totals_exports.append(merged_final)
             merged_final.to_csv(out_path, index=False)
             print(f"Saved totals (hdp={hdp}): {out_path}")
     else:
         print("No totals data found for this run.")
 
+    # Combine totals across all HDPs
+    df_totals_export = pd.concat(totals_exports, ignore_index=True) if totals_exports else pd.DataFrame()
+    df_btts_export = btts_export if btts_export is not None else pd.DataFrame()
+
+    return df_totals_export, df_btts_export
+
+
 # -------------------------------------------------------------
 # Main entrypoint
 # -------------------------------------------------------------
+# def main():
+#     api_key = load_env()
+#     cfg = load_config()
+
+#     for league in cfg["leagues"]:
+#         try:
+#             process_league(api_key, league, limit=10)
+#         except Exception as exc:
+#             print(f"[ERROR] League {league.get('name')} failed: {exc}")
+
 def main():
     api_key = load_env()
     cfg = load_config()
 
+    all_totals = []
+    all_btts = []
+
     for league in cfg["leagues"]:
         try:
-            process_league(api_key, league, limit=10)
+            df_totals_export, df_btts_export = process_league(api_key, league, limit=10)
+
+            # Append to global lists for downstream pipeline
+            all_totals.append(df_totals_export)
+            all_btts.append(df_btts_export)
+
+            # per-league postprocessing
+            run_postprocessing_and_exports(league['slug'], df_totals_export, df_btts_export, target_hours=league.get("odds_time_limit", 9))
         except Exception as exc:
-            print(f"[ERROR] League {league.get('name')} failed: {exc}")
+            print(f"League {league.get('name')} failed: {exc}")
+
+    # df_totals_all = pd.concat(all_totals, ignore_index=True) if all_totals else pd.DataFrame()
+    # df_btts_all = pd.concat(all_btts, ignore_index=True) if all_btts else pd.DataFrame()
+
+    # Feed to prod pipeline
+        # Combine all leagues
+        # Take the latest totals + BTTS DataFrames (df_totals_all, df_btts_all).
+        # Store them somewhere:
+        # Database
+        # Data lake / S3
+        # Internal cache for downstream models
+        # Possibly clean, normalize, or validate the data.
+    # ingest_new_data(df_totals_all, df_btts_all)
+        # This is the next step in your production workflow. Its purpose is to:
+        # Take the ingested, cleaned data
+        # Prepare it in the format your downstream consumers need:
+        # ML models
+        # Dashboards
+        # Reporting
+        # Trigger any downstream actions, e.g., retraining models, refreshing dashboards, etc.
+    # export_model_ready()
 
 if __name__ == "__main__":
     main()
