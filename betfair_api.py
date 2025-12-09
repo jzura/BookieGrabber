@@ -112,7 +112,6 @@ def get_ou_volume(session_token:str, league_name:str):
             "line": m["marketName"],
             "total_volume": m["totalMatched"],
             "event": m["event"]["name"],
-            "kickoff": m["event"]["openDate"]
         })
 
     return pd.DataFrame(rows)
