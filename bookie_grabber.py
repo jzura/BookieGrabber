@@ -15,7 +15,7 @@ import requests
 import numpy as np
 import pandas as pd
 from dateutil import parser
-from datetime import datetime, timedelta
+from datetime import datetime
 from betfair_api import *
 from bookie_postproc import run_postprocessing_and_exports
 from dotenv import load_dotenv
@@ -23,20 +23,17 @@ from dotenv import load_dotenv
 # -------------------------------------------------------------
 # Configurable constants
 # -------------------------------------------------------------
+
 API_BASE_OLD = "https://api.odds-api.io/v3"
 API_BASE = "https://api2.odds-api.io/v3"
 BOOKMAKERS = "Bet365,Betfair Exchange"
-
 TOTAL_MARKETS = {
     "Bet365": ["Goals Over/Under", "Alternative Total Goals"],
     "Betfair Exchange": ["Totals"],
 }
-
 TARGET_HDPS = [1.5, 2.5, 3.5]
-
 # folders
 EXPORT_ROOT = "data/exports"
-
 # Betfair market line for total volume
 BF_BTTS_MARKET_NAME = 'Both teams to Score?'
 BF_TOTALS_MARKET_NAME = {
@@ -48,6 +45,7 @@ BF_TOTALS_MARKET_NAME = {
 # -------------------------------------------------------------
 # Helpers: IO, env, slugify
 # -------------------------------------------------------------
+
 def load_env():
     load_dotenv()
     api_key = os.getenv("ODDS_API_KEY")
@@ -55,24 +53,17 @@ def load_env():
         raise ValueError("ODDS_API_KEY not found in .env file")
     return api_key
 
-def load_team_map(path="data/mappings/team_name_map.json"):
+def load_team_map(path):
     with open(path, "r") as f:
         return json.load(f)
-
-TEAM_MAP = load_team_map()
 
 def ensure_dir(path):
     os.makedirs(path, exist_ok=True)
 
-def league_slug(name: str) -> str:
-    """Create a filesystem-safe slug for league names."""
-    slug = re.sub(r"[^\w\-]+", "_", name.strip().lower())
-    slug = re.sub(r"_+", "_", slug).strip("_")
-    return slug
-
 # -------------------------------------------------------------
 # Config loader
 # -------------------------------------------------------------
+
 def load_config(path: str = "config.yaml"):
     with open(path, "r") as fh:
         cfg = yaml.safe_load(fh)
@@ -83,9 +74,11 @@ def load_config(path: str = "config.yaml"):
 # -------------------------------------------------------------
 # API fetchers
 # -------------------------------------------------------------
+
 def get_league_events(api_key: str, league: str, limit: int = 200):
     """Fetch list of upcoming events for a given league from Odds-API."""
     url = f"{API_BASE}/events"
+    # "status": "pending"
     params = {"apiKey": api_key, "sport": "football", "league": league, "limit": limit}
     try:
         r = requests.get(url, params=params, timeout=15)
@@ -119,6 +112,7 @@ def get_event_odds(api_key: str, event_id: int):
 # -------------------------------------------------------------
 # Parsing / extraction helpers
 # -------------------------------------------------------------
+
 PERTH = pytz.timezone("Australia/Perth")
 
 def parse_api_datetime_to_perth(raw_date: str):
@@ -218,6 +212,7 @@ def extract_btts(odds_data):
 # -------------------------------------------------------------
 # Pivot & calculations
 # -------------------------------------------------------------
+
 def pivot_odds_dataframe(df_totals:pd.DataFrame, id_cols:list, val_cols:list):
     """Pivot totals DataFrame so each bookmaker × odds type × hdp becomes a column."""
     if df_totals.empty:
@@ -300,6 +295,7 @@ def compute_rpds(df_pivot, btts=False):
 # -------------------------------------------------------------
 # Existing data loader + merge decision logic
 # -------------------------------------------------------------
+
 def todays_filename(folder: str, prefix: str):
     date_str = datetime.now(PERTH).strftime("%Y%m%d")
     ensure_dir(folder)
@@ -458,20 +454,21 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
 
     return final
 
-
 # -------------------------------------------------------------
 # Main pipeline per-league
 # -------------------------------------------------------------
+
 def process_league(api_key: str, league_cfg: dict, limit=200):
     """
     For a single league config (name, sport_key, odds_time_limit),
-    fetch events, fetch odds for each event, extract totals/btts,
+    fetch events, fetch odds for each event, extract markets currently (totals, btts),
     pivot, compute RPDs and save files, applying merge rules.
     """
-    league_name = league_cfg["name"] # Also the betfair api league name
-    league_key = league_cfg["sport_key"] #odds-api sport key 
-    target_hours = int(league_cfg.get("odds_time_limit", 9))
-    slug = league_slug(league_name)
+    league_name = league_cfg["name"]
+    league_key = league_cfg["sport_key"]
+    slug = league_cfg["slug"] 
+    target_hours = int(league_cfg["odds_time_limit"])
+    league_bf_map = load_team_map(f"mappings/{slug}/team_name_map.json")
     # Add betfair totalmatch volume from betfair_api
     session_token = get_session_token()
     df_bf_ou_volume = get_ou_volume(session_token, league_name)
@@ -479,6 +476,7 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
         print(f"No Betfair OU volume data for league {league_name}")
 
     print(f"\n--- Processing league: {league_name} (sport_key={league_key}) ---")
+    # might be able to 
     events = get_league_events(api_key, league_key, limit=limit)
     if not events:
         print(f"No events fetched for {league_name}")
@@ -490,9 +488,6 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     
     totals_rows = []
     btts_rows = []
-
-    totals_exports = []
-    btts_export = None
 
     # Iterate events and fetch odds
     for _, row in df_events.iterrows():
@@ -540,6 +535,8 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     ensure_dir(totals_folder)
     ensure_dir(btts_folder)
 
+    totals_exports = []
+    btts_export = None
     # Save BTTS straightforwardly (merge-by-event not required here, but could be added)
     if not df_btts.empty:
         btts_out_path = todays_filename(btts_folder, "btts")
@@ -563,15 +560,15 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
         existing = load_existing_csv(out_path)
         # merge in total volume from betfair
         df_bf_btts = df_for_merge.copy()
-        df_bf_btts['bf_team_name_home'] = df_bf_btts['home_team'].map(TEAM_MAP)
-        df_bf_btts['bf_team_name_away'] = df_bf_btts['away_team'].map(TEAM_MAP)
+        df_bf_btts['bf_team_name_home'] = df_bf_btts['home_team'].map(league_bf_map)
+        df_bf_btts['bf_team_name_away'] = df_bf_btts['away_team'].map(league_bf_map)
         df_bf_btts['bf_merge_key'] = df_bf_btts['bf_team_name_home'] + " v " + df_bf_btts['bf_team_name_away']
         # you want to check all the df_bf_ou_volume event keys have beem mapped and exist in the df_bf_btts['bf_merge_key']
         for k in df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME].event.unique():
             if k not in df_bf_btts['bf_merge_key'].unique():
                 print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
 
-        df_bf_btts_tv = df_bf_btts.merge(df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME], how='left', left_on='bf_merge_key', right_on='event')
+        df_bf_btts_tv = df_bf_btts.merge(df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME], how='inner', left_on='bf_merge_key', right_on='event')
 
         merged_final = decide_merge(existing, df_bf_btts_tv, target_hours)
         btts_export = merged_final
@@ -609,15 +606,15 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
 
             # merge in total volume from betfair
             df_bf_total = df_for_merge.copy()
-            df_bf_total['bf_team_name_home'] = df_bf_total['home_team'].map(TEAM_MAP)
-            df_bf_total['bf_team_name_away'] = df_bf_total['away_team'].map(TEAM_MAP)
+            df_bf_total['bf_team_name_home'] = df_bf_total['home_team'].map(league_bf_map)
+            df_bf_total['bf_team_name_away'] = df_bf_total['away_team'].map(league_bf_map)
             df_bf_total['bf_merge_key'] = df_bf_total['bf_team_name_home'] + " v " + df_bf_total['bf_team_name_away']
             # you want to check all the df_bf_ou_volume event keys have beem mapped and exist in the df_bf_btts['bf_merge_key']
             for k in df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name].event.unique():
                 if k not in df_bf_total['bf_merge_key'].unique():
                     print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
 
-            df_bf_total_tv = df_bf_total.merge(df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name], how='left', left_on='bf_merge_key', right_on='event')
+            df_bf_total_tv = df_bf_total.merge(df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name], how='inner', left_on='bf_merge_key', right_on='event')
 
             merged_final = decide_merge(existing, df_bf_total_tv, target_hours)
             totals_exports.append(merged_final)
@@ -632,19 +629,9 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
 
     return df_totals_export, df_btts_export
 
-
 # -------------------------------------------------------------
 # Main entrypoint
 # -------------------------------------------------------------
-# def main():
-#     api_key = load_env()
-#     cfg = load_config()
-
-#     for league in cfg["leagues"]:
-#         try:
-#             process_league(api_key, league, limit=10)
-#         except Exception as exc:
-#             print(f"[ERROR] League {league.get('name')} failed: {exc}")
 
 def main():
     api_key = load_env()

@@ -32,21 +32,22 @@ PERTH = pytz.timezone("Australia/Perth")
 # -------------------------------------------------------------
 # Configurable paths & constants
 # -------------------------------------------------------------
+
 PROJECT_ROOT = Path(__file__).resolve().parent
 EXPORT_ROOT = PROJECT_ROOT / "data" / "exports"
 READY_ROOT = PROJECT_ROOT / "data" / "ready"
 CACHE_PATH = PROJECT_ROOT / "processed_cache.json"
-LOG_PATH = PROJECT_ROOT / "logs" / "bookie_grabber.log"
 CONFIG_PATH = PROJECT_ROOT / "config.yaml"
-TEAM_MAP_PATH = PROJECT_ROOT / "data" / "mappings" / "team_name_map.json"
+date = datetime.now().strftime("%Y-%m-%d")
+log_path = PROJECT_ROOT / "logs" / f"bookie_grabber_{date}.log"
 
 # Ensure directories exist
-for p in (EXPORT_ROOT, READY_ROOT, LOG_PATH.parent):
+for p in (EXPORT_ROOT, READY_ROOT, log_path.parent):
     p.mkdir(parents=True, exist_ok=True)
 
 # Setup logging
 logging.basicConfig(
-    filename=str(LOG_PATH),
+    filename=str(log_path),
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
