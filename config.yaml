@@ -1,4 +1,21 @@
 leagues:
   - name: "English Premier League"
+    slug: "english_premier_league"
     sport_key: "england-premier-league"
-    odds_time_limit: 9
+    odds_time_limit: 9 
+  - name: "Spanish La Liga"
+    slug: "spanish_la_liga"
+    sport_key: "spain-laliga"
+    odds_time_limit: 9 
+  - name: "German Bundesliga"
+    slug: "german_bundesliga"
+    sport_key: "germany-bundesliga"
+    odds_time_limit: 9 
+  - name: "Italian Serie A"
+    slug: "italian_serie_a"
+    sport_key: "italy-serie-a"
+    odds_time_limit: 9   
+  # - name: "French Ligue 1"
+  #   slug: "french_ligue_1"
+  #   sport_key: "france-ligue-1"
+  #   odds_time_limit: 9 
