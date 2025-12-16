@@ -15,7 +15,15 @@ leagues:
     slug: "italian_serie_a"
     sport_key: "italy-serie-a"
     odds_time_limit: 9   
+  - name: "UEFA Europa Conference League"
+    slug: "uefa_europa_conference_league"
+    sport_key: "international-clubs-uefa-conference-league"
+    odds_time_limit: 9 
   # - name: "French Ligue 1"
+  #   slug: "french_ligue_1"
+  #   sport_key: "france-ligue-1"
+  #   odds_time_limit: 9 
+  # - name: "UEFA Champions League"
   #   slug: "french_ligue_1"
   #   sport_key: "france-ligue-1"
   #   odds_time_limit: 9 
