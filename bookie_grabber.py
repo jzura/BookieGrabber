@@ -647,6 +647,11 @@ def main():
         try:
             df_totals_export, df_btts_export = process_league(api_key, league, limit=10)
 
+            # Skip if both are None or empty
+            if (df_totals_export is None or df_totals_export.empty) and (df_btts_export is None or df_btts_export.empty):
+                print(f"No data for league {league.get('name')}, skipping.")
+                continue
+
             # Append to global lists for downstream pipeline
             all_totals.append(df_totals_export)
             all_btts.append(df_btts_export)
