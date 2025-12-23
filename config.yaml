@@ -14,16 +14,20 @@ leagues:
   - name: "Italian Serie A"
     slug: "italian_serie_a"
     sport_key: "italy-serie-a"
-    odds_time_limit: 9   
+    odds_time_limit: 9
+  - name: "UEFA Champions League"
+    slug: "uefa_champions_league"
+    sport_key: "international-clubs-uefa-champions-league"
+    odds_time_limit: 9
+  - name: "Portuguese Primeira Liga"
+    slug: "portuguese_primeira_liga"
+    sport_key: "portugal-liga-portugal"
+    odds_time_limit: 7
   - name: "UEFA Europa Conference League"
     slug: "uefa_europa_conference_league"
     sport_key: "international-clubs-uefa-conference-league"
-    odds_time_limit: 9 
-  # - name: "French Ligue 1"
-  #   slug: "french_ligue_1"
-  #   sport_key: "france-ligue-1"
-  #   odds_time_limit: 9 
-  # - name: "UEFA Champions League"
-  #   slug: "french_ligue_1"
-  #   sport_key: "france-ligue-1"
-  #   odds_time_limit: 9 
+    odds_time_limit: 7
+  - name: "Scottish Premiership"
+    slug: "scottish_premiership"
+    sport_key: "scotland-premiership"
+    odds_time_limit: 5
