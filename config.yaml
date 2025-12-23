@@ -1,4 +1,8 @@
 leagues:
+  - name: "French Ligue 1"
+    slug: "french_ligue_1"
+    sport_key: "france-ligue-1"
+    odds_time_limit: 9 
   - name: "English Premier League"
     slug: "english_premier_league"
     sport_key: "england-premier-league"

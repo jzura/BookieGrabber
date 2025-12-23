@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <key>Label</key>
+    <string>com.john.bookiepipeline.hourly</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- Use venv python -->
+        <string>/Users/notbahd/Desktop/BookieGrabber/venv/bin/python</string>
+        <string>/Users/notbahd/Desktop/BookieGrabber/bookie_grabber.py</string>
+    </array>
+
+    <!-- Run every hour (3600 seconds) -->
+    <key>StartInterval</key>
+    <integer>3600</integer>
+
+    <!-- Run immediately on login / reboot -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Restart if it crashes -->
+    <key>KeepAlive</key>
+    <false/>
+
+    <!-- Ensure relative paths work -->
+    <key>WorkingDirectory</key>
+    <string>/Users/notbahd/Desktop/BookieGrabber</string>
+
+    <!-- Logs -->
+    <key>StandardOutPath</key>
+    <string>/Users/notbahd/Desktop/BookieGrabber/logs/bookiepipeline.out</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/notbahd/Desktop/BookieGrabber/logs/bookiepipeline.err</string>
+
+</dict>
+</plist>
