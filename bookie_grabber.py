@@ -11,6 +11,8 @@ import re
 import json
 import yaml
 import pytz
+import shutil
+from pathlib import Path
 import requests
 import numpy as np
 import pandas as pd
@@ -18,6 +20,7 @@ from dateutil import parser
 from datetime import datetime
 from betfair_api import *
 from bookie_postproc import run_postprocessing_and_exports
+from bookie_emailer import email_workbook
 from dotenv import load_dotenv
 
 # -------------------------------------------------------------
@@ -28,7 +31,7 @@ API_BASE_OLD = "https://api.odds-api.io/v3"
 API_BASE = "https://api2.odds-api.io/v3"
 BOOKMAKERS = "Bet365,Betfair Exchange"
 TOTAL_MARKETS = {
-    "Bet365": ["Goals Over/Under", "Alternative Total Goals"],
+    "Bet365": ["Goals Over/Under", "Alternative Goal Line"],
     "Betfair Exchange": ["Totals"],
 }
 TARGET_HDPS = [1.5, 2.5, 3.5]
@@ -612,7 +615,7 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             # you want to check all the df_bf_ou_volume event keys have beem mapped and exist in the df_bf_btts['bf_merge_key']
             for k in df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name].event.unique():
                 if k not in df_bf_total['bf_merge_key'].unique():
-                    print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
+                    print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in Total {hdp} data")
 
             df_bf_total_tv = df_bf_total.merge(df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name], how='inner', left_on='bf_merge_key', right_on='event')
 
@@ -649,7 +652,30 @@ def main():
             all_btts.append(df_btts_export)
 
             # per-league postprocessing
-            run_postprocessing_and_exports(league['slug'], df_totals_export, df_btts_export, target_hours=league.get("odds_time_limit", 9))
+            ready_games_workbook_path = run_postprocessing_and_exports(league['slug'], df_totals_export, df_btts_export, target_hours=league.get("odds_time_limit", 9))
+
+            # email ready games
+            if ready_games_workbook_path: 
+                if os.path.exists(ready_games_workbook_path):
+                    success = email_workbook(
+                        ready_games_workbook_path,
+                        subject=f"Ready Games - {league['name']}",
+                        body="Attached is today's ready games workbook.",
+                    )
+                    if not success:
+                        print(f"Failed to email workbook")
+                    else:
+                        sent_dir = Path("/Users/notbahd/Desktop/BookieGrabber/data/ready/sent")
+                        sent_dir.mkdir(parents=True, exist_ok=True)
+
+                        dest = sent_dir / Path(ready_games_workbook_path).name
+                        shutil.move(ready_games_workbook_path, dest)
+
+                        print(f"Workbook emailed and moved to: {dest}")
+                else:
+                    print(f"Ready games workbook does not exist: {ready_games_workbook_path}")
+
+
         except Exception as exc:
             print(f"League {league.get('name')} failed: {exc}")
 
