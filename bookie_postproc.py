@@ -117,15 +117,13 @@ def make_datetimes_timezone_naive(df: pd.DataFrame, datetime_cols: list):
             df_copy[col] = pd.to_datetime(df_copy[col], errors='coerce').dt.tz_localize(None)
     return df_copy
 
-def write_ready_workbook(date: datetime, totals_df: pd.DataFrame, btts_df: pd.DataFrame, out_dir: Path = READY_ROOT):
+def write_ready_workbook(date: datetime, league_slug:str,  totals_df: pd.DataFrame, btts_df: pd.DataFrame, out_dir: Path = READY_ROOT):
     """Writes a single workbook for the given date with multiple sheets."""
+    DROP_COLS = ["event_id", "bf_team_name_home", "bf_team_name_away", "bf_merge_key", "marketid", "event"]
     date_str = date.strftime("%Y-%m-%d")
     out_dir.mkdir(parents=True, exist_ok=True)
-    filename = out_dir / f"ready_games_{date_str}.xlsx"
-
-    if filename.exists():
-        timestamp = datetime.now(PERTH).strftime("%H%M%S")
-        filename = out_dir / f"ready_games_{date_str}_{timestamp}.xlsx"
+    timestamp = datetime.now(PERTH).strftime("%H%M%S")
+    filename = out_dir / f"ready_games_{league_slug}_{date_str}_{timestamp}.xlsx"
 
     try:
         with pd.ExcelWriter(filename, engine="openpyxl", datetime_format="YYYY-MM-DD HH:MM:SS") as writer:
@@ -249,7 +247,7 @@ def run_postprocessing_and_exports(league_slug: str, totals_master: pd.DataFrame
         return None
 
     # Export Excel workbook
-    workbook_path = write_ready_workbook(datetime.now(PERTH), ready_totals, ready_btts)
+    workbook_path = write_ready_workbook(datetime.now(PERTH), league_slug, ready_totals, ready_btts)
 
     # Mark processed events
     mark_events_processed(list(ready_event_ids), CACHE_PATH)

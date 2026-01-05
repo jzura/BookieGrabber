@@ -675,12 +675,10 @@ def main():
 
                         dest = sent_dir / Path(ready_games_workbook_path).name
                         shutil.move(ready_games_workbook_path, dest)
-
                         print(f"Workbook emailed and moved to: {dest}")
                 else:
                     print(f"Ready games workbook does not exist: {ready_games_workbook_path}")
-
-
+                    
         except Exception as exc:
             print(f"League {league.get('name')} failed: {exc}")
 
