@@ -27,11 +27,17 @@ leagues:
     slug: "portuguese_primeira_liga"
     sport_key: "portugal-liga-portugal"
     odds_time_limit: 7
-  - name: "UEFA Europa Conference League"
-    slug: "uefa_europa_conference_league"
-    sport_key: "international-clubs-uefa-conference-league"
+  - name: "Belgian Pro League"
+    slug: "belgian_pro_league"
+    sport_key: "belgium-pro-league"
     odds_time_limit: 7
-  - name: "Scottish Premiership"
-    slug: "scottish_premiership"
-    sport_key: "scotland-premiership"
-    odds_time_limit: 5
+  - name: "English Sky Bet Championship"
+    slug: "english_sky_bet_championship"
+    sport_key: "england-championship"
+    odds_time_limit: 7
+  # - name: "UEFA Europa Conference League"
+  #   slug: "uefa_europa_conference_league"
+  #   sport_key: "international-clubs-uefa-conference-league"
+  #   odds_time_limit: 7
+
+    
