@@ -35,6 +35,19 @@ leagues:
     slug: "english_sky_bet_championship"
     sport_key: "england-championship"
     odds_time_limit: 7
+  - name: "Turkish Super Cup"
+    slug: "turkish_super_cup"
+    sport_key: "turkiye-1-lig"
+    odds_time_limit: 7
+  - name: "Dutch Eerste Divisie"
+    slug: "dutch_eerste_divisie"
+    sport_key: "netherlands-eerste-divisie"
+    odds_time_limit: 7
+  # - name: "Romanian Liga I"
+  #   slug: "romanian_liga_i"
+  #   sport_key: "romania-superliga"
+  #   odds_time_limit: 5 
+
   # - name: "UEFA Europa Conference League"
   #   slug: "uefa_europa_conference_league"
   #   sport_key: "international-clubs-uefa-conference-league"
