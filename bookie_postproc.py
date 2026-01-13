@@ -1,15 +1,15 @@
 """
 PRODUCTION-READY bookie_grabber
 Generates:
- - master per-league CSVs (daily)
- - per-day Excel workbook with all "ready" matches (totals + btts + merged)
- - processed_cache.json to avoid duplicate exports across multiple runs
+    - master per-league CSVs (daily)
+    - per-day Excel workbook with all "ready" matches (totals + btts + merged)
+    - processed_cache.json to avoid duplicate exports across multiple runs
 
 Excludes: email module and scheduler (you said you'll use launchd on macOS).
 
 Requirements:
-  pip install -r requirements.txt
-  (requests, pyyaml, python-dotenv, pandas, openpyxl, pytz, python-dateutil)
+    pip install -r requirements.txt
+    (requests, pyyaml, python-dotenv, pandas, openpyxl, pytz, python-dateutil)
 
 Drop into your existing project and adapt paths / config.yaml as needed.
 """
@@ -22,7 +22,8 @@ from pathlib import Path
 from datetime import datetime
 import pytz
 import pandas as pd
-from dotenv import load_dotenv
+from openpyxl import load_workbook
+import yaml
 
 # Import existing helper functions from your current module if available.
 # For portability we duplicate small helpers here; if you re-use your module, import instead.
@@ -38,6 +39,7 @@ EXPORT_ROOT = PROJECT_ROOT / "data" / "exports"
 READY_ROOT = PROJECT_ROOT / "data" / "ready"
 CACHE_PATH = PROJECT_ROOT / "processed_cache.json"
 CONFIG_PATH = PROJECT_ROOT / "config.yaml"
+FORMULA_PATH = PROJECT_ROOT / "formulas.yaml" 
 date = datetime.now().strftime("%Y-%m-%d")
 log_path = PROJECT_ROOT / "logs" / f"bookie_grabber_{date}.log"
 
@@ -56,6 +58,17 @@ logger = logging.getLogger("bookie_grabber")
 # -------------------------------------------------------------
 # Utilities
 # -------------------------------------------------------------
+
+def load_yaml_safe(path: Path):
+    if not path.exists():
+        return {}
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+    except Exception as e:
+        logger.error(f"Failed to load YAML {path}: {e}")
+        return {}
+
 
 def load_json_safe(path: Path):
     if not path.exists():
@@ -199,6 +212,66 @@ def find_ready_games_from_master(master_df: pd.DataFrame, target_hours: int, pro
     return ready
 
 
+def expand_formula(template: str, row: int, bf_col: str | None = None) -> str:
+    """
+    Expands an Excel formula template for a given row:
+        - replaces cell refs (L2/R2/H2/T2/I2/J2) with the correct row
+        - replaces {ODDS} 
+        - applies any custom substitutions
+    """
+    # Replace generic cell refs
+    formula = (
+        template
+        .replace("L2", f"L{row}")
+        .replace("R2", f"R{row}")
+        .replace("H2", f"H{row}")
+        .replace("T2", f"T{row}")
+        .replace("I2", f"I{row}")
+        .replace("J2", f"J{row}")
+    )
+    # Replace {ODDS}
+    if bf_col:
+        formula = formula.replace("{ODDS}", bf_col)
+    return formula
+
+def apply_excel_formulas(workbook_path: Path, config: dict):
+    wb = load_workbook(workbook_path)
+    # -------- TOTALS --------
+    if "totals_ready" in wb.sheetnames:
+        ws = wb["totals_ready"]
+        ws["T1"] = "O/U"
+        ws["U1"] = "Prediction"
+        for row in range(2, ws.max_row + 1):
+            # O/U formula
+            ws[f"T{row}"] = expand_formula(config["excel_formulas"]["O/U"], row)
+            over_rpd = ws[f"K{row}"].value
+            under_rpd = ws[f"L{row}"].value
+            bf_col = f"I{row}" if over_rpd < under_rpd else f"J{row}"
+            line = ws[f"Q{row}"].value
+            if line == "Over/Under 1.5 Goals":
+                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g1_5"], row, bf_col)
+            elif line == "Over/Under 2.5 Goals":
+                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g2_5"], row, bf_col)
+            else:
+                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g3_5"], row, bf_col)
+
+    # -------- BTTS --------
+    if "btts_ready" in wb.sheetnames:
+        ws = wb["btts_ready"]
+        ws["T1"] = "O/U"
+        ws["U1"] = "Prediction"
+        for row in range(2, ws.max_row + 1):
+            # O/U formula
+            ws[f"T{row}"] = expand_formula(config["excel_formulas"]["O/U"], row)
+            over_rpd = ws[f"K{row}"].value
+            under_rpd = ws[f"L{row}"].value
+            bf_col = f"J{row}" if over_rpd < under_rpd else f"I{row}"
+            # BTTS stake formula
+            ws[f"U{row}"] = expand_formula(config["excel_formulas"]["btts"]["stake"], row, bf_col)
+
+    wb.save(workbook_path)
+
+
 # -------------------------------------------------------------
 # Entrypoint glue to your existing pipeline
 # -------------------------------------------------------------
@@ -248,6 +321,36 @@ def run_postprocessing_and_exports(league_slug: str, totals_master: pd.DataFrame
 
     # Export Excel workbook
     workbook_path = write_ready_workbook(datetime.now(PERTH), league_slug, ready_totals, ready_btts)
+
+    # check if workbook has required columns before applying formulas
+    wb = load_workbook(workbook_path, read_only=True)
+    wst = wb["totals_ready"]
+    totals_headers = [cell.value for cell in wst[1]]
+    wsb = wb["btts_ready"]
+    btts_headers = [cell.value for cell in wsb[1]]
+    totals_required_columns = {
+        "Bet365_over_odds",
+        "Bet365_under_odds",
+        "Betfair_Exchange_over_odds",
+        "Betfair_Exchange_under_odds",
+    }
+    btts_required_columns = {
+        "Bet365_yes_odds",
+        "Bet365_no_odds",
+        "Betfair_Exchange_yes_odds",
+        "Betfair_Exchange_no_odds",
+    }
+    all_columsns_present = True
+    if (not totals_required_columns.issubset(set(totals_headers))) or (not btts_required_columns.issubset(set(btts_headers))):
+        logger.error("Workbook missing required columns — skipping formula application")
+        all_columsns_present = False
+    
+    if all_columsns_present:
+        try:
+            formulas = load_yaml_safe(FORMULA_PATH)
+            apply_excel_formulas(workbook_path, formulas)
+        except Exception:
+            logger.exception("Failed applying Excel formulas")  
 
     # Mark processed events
     mark_events_processed(list(ready_event_ids), CACHE_PATH)

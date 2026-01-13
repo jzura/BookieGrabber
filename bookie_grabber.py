@@ -469,6 +469,9 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     """
     league_name = league_cfg["name"]
     league_key = league_cfg["sport_key"]
+
+    print(f"\n--- Processing league: {league_name} (sport_key={league_key}) ---")
+
     slug = league_cfg["slug"] 
     target_hours = int(league_cfg["odds_time_limit"])
     league_bf_map = load_team_map(f"mappings/{slug}/team_name_map.json")
@@ -478,7 +481,6 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     if df_bf_ou_volume.empty:
         print(f"No Betfair OU volume data for league {league_name}")
 
-    print(f"\n--- Processing league: {league_name} (sport_key={league_key}) ---")
     # might be able to 
     events = get_league_events(api_key, league_key, limit=limit)
     if not events:
@@ -678,7 +680,7 @@ def main():
                         print(f"Workbook emailed and moved to: {dest}")
                 else:
                     print(f"Ready games workbook does not exist: {ready_games_workbook_path}")
-                    
+
         except Exception as exc:
             print(f"League {league.get('name')} failed: {exc}")
 
