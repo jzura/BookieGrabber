@@ -212,7 +212,7 @@ def find_ready_games_from_master(master_df: pd.DataFrame, target_hours: int, pro
     return ready
 
 
-def expand_formula(template: str, row: int, bf_col: str | None = None) -> str:
+def expand_formula(template: str, row: int, bf_col: str | None = None, rpd_col: str | None = None) -> str:
     """
     Expands an Excel formula template for a given row:
         - replaces cell refs (L2/R2/H2/T2/I2/J2) with the correct row
@@ -230,8 +230,9 @@ def expand_formula(template: str, row: int, bf_col: str | None = None) -> str:
         .replace("J2", f"J{row}")
     )
     # Replace {ODDS}
-    if bf_col:
-        formula = formula.replace("{ODDS}", bf_col)
+    if bf_col and rpd_col:
+        formula = formula.replace("{ODDS}", bf_col).replace("{RPD}", rpd_col)
+
     return formula
 
 def apply_excel_formulas(workbook_path: Path, config: dict):
@@ -239,35 +240,46 @@ def apply_excel_formulas(workbook_path: Path, config: dict):
     # -------- TOTALS --------
     if "totals_ready" in wb.sheetnames:
         ws = wb["totals_ready"]
-        ws["T1"] = "O/U"
-        ws["U1"] = "Prediction"
+        ws["T1"] = "o/u"
+        ws["U1"] = "stake"
         for row in range(2, ws.max_row + 1):
             # O/U formula
             ws[f"T{row}"] = expand_formula(config["excel_formulas"]["O/U"], row)
-            over_rpd = ws[f"K{row}"].value
-            under_rpd = ws[f"L{row}"].value
-            bf_col = f"I{row}" if over_rpd < under_rpd else f"J{row}"
+            over_rpd = float(ws[f"K{row}"].value)
+            under_rpd = float(ws[f"L{row}"].value)
+            if over_rpd < under_rpd:
+                bf_col = f"I{row}"
+                rpd_col = f"K{row}"
+            else:
+                bf_col = f"J{row}"
+                rpd_col = f"L{row}"
+
             line = ws[f"Q{row}"].value
             if line == "Over/Under 1.5 Goals":
-                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g1_5"], row, bf_col)
+                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g1_5"], row, bf_col, rpd_col)
             elif line == "Over/Under 2.5 Goals":
-                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g2_5"], row, bf_col)
+                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g2_5"], row, bf_col, rpd_col)
             else:
-                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g3_5"], row, bf_col)
-
+                ws[f"U{row}"] = expand_formula(config["excel_formulas"]["totals"]["g3_5"], row, bf_col, rpd_col)
     # -------- BTTS --------
     if "btts_ready" in wb.sheetnames:
         ws = wb["btts_ready"]
-        ws["T1"] = "O/U"
-        ws["U1"] = "Prediction"
+        ws["T1"] = "o/u"
+        ws["U1"] = "stake"
         for row in range(2, ws.max_row + 1):
             # O/U formula
             ws[f"T{row}"] = expand_formula(config["excel_formulas"]["O/U"], row)
             over_rpd = ws[f"K{row}"].value
             under_rpd = ws[f"L{row}"].value
-            bf_col = f"J{row}" if over_rpd < under_rpd else f"I{row}"
+            # bf_col = f"J{row}" if over_rpd < under_rpd else f"I{row}"
+            if over_rpd < under_rpd:
+                bf_col = f"J{row}"
+                rpd_col = f"K{row}"
+            else:
+                bf_col = f"I{row}"
+                rpd_col = f"L{row}"
             # BTTS stake formula
-            ws[f"U{row}"] = expand_formula(config["excel_formulas"]["btts"]["stake"], row, bf_col)
+            ws[f"U{row}"] = expand_formula(config["excel_formulas"]["btts"]["stake"], row, bf_col, rpd_col)
 
     wb.save(workbook_path)
 

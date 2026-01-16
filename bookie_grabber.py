@@ -480,6 +480,7 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     df_bf_ou_volume = get_ou_volume(session_token, league_name)
     if df_bf_ou_volume.empty:
         print(f"No Betfair OU volume data for league {league_name}")
+        return
 
     # might be able to 
     events = get_league_events(api_key, league_key, limit=limit)
