@@ -55,6 +55,10 @@ leagues:
     slug: "swiss_super_league"
     sport_key: "switzerland-super-league"
     odds_time_limit: 6 #5
+  - name: "Danish Superliga"
+    slug: "danish_superliga"
+    sport_key: "denmark-superliga"
+    odds_time_limit: 8 #7
   # - name: "UEFA Europa Conference League"
   #   slug: "uefa_europa_conference_league"
   #   sport_key: "international-clubs-uefa-conference-league"
