@@ -138,6 +138,18 @@ def write_ready_workbook(date: datetime, league_slug:str,  totals_df: pd.DataFra
     timestamp = datetime.now(PERTH).strftime("%H%M%S")
     filename = out_dir / f"ready_games_{league_slug}_{date_str}_{timestamp}.xlsx"
 
+    # odds columns to ensure are floats
+    totals_odds_cols = ['Bet365_over_odds', 'Bet365_under_odds', 'Betfair_Exchange_over_odds', 'Betfair_Exchange_under_odds']
+    btts_odds_cols = ['Bet365_no_odds', 'Bet365_yes_odds', 'Betfair_Exchange_no_odds', 'Betfair_Exchange_yes_odds']
+
+    # make sure the odds columns are float
+    for col in totals_odds_cols:
+        if col in totals_df.columns:
+            totals_df[col] = pd.to_numeric(totals_df[col], errors='coerce')
+    for col in btts_odds_cols:
+        if col in btts_df.columns:
+            btts_df[col] = pd.to_numeric(btts_df[col], errors='coerce')
+
     try:
         with pd.ExcelWriter(filename, engine="openpyxl", datetime_format="YYYY-MM-DD HH:MM:SS") as writer:
             
@@ -228,6 +240,7 @@ def expand_formula(template: str, row: int, bf_col: str | None = None, rpd_col: 
         .replace("T2", f"T{row}")
         .replace("I2", f"I{row}")
         .replace("J2", f"J{row}")
+        .replace("K2", f"K{row}")
     )
     # Replace {ODDS}
     if bf_col and rpd_col:

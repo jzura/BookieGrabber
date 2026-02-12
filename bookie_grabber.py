@@ -17,7 +17,7 @@ import requests
 import numpy as np
 import pandas as pd
 from dateutil import parser
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from betfair_api import *
 from bookie_postproc import run_postprocessing_and_exports
 from bookie_emailer import email_workbook
@@ -82,11 +82,25 @@ def get_league_events(api_key: str, league: str, limit: int = 200):
     """Fetch list of upcoming events for a given league from Odds-API."""
     url = f"{API_BASE}/events"
     # "status": "pending"
-    params = {"apiKey": api_key, "sport": "football", "league": league, "limit": limit}
+    end_dt = (
+            datetime.now(timezone.utc)
+            .date() + timedelta(days=2)
+        )
+
+    end_rfc3339 = datetime(
+            end_dt.year,
+            end_dt.month,
+            end_dt.day,
+            23, 59, 59,
+            tzinfo=timezone.utc
+        ).isoformat().replace("+00:00", "Z")
+
+    params = {"apiKey": api_key, "sport": "football", "league": league, "limit": limit, "to": end_rfc3339}
     try:
         r = requests.get(url, params=params, timeout=15)
         r.raise_for_status()
         data = r.json()
+        
         # The API might put the list under data or return a list directly
         # Try common fields first:
         if isinstance(data, dict):

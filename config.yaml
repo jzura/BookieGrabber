@@ -2,64 +2,84 @@ leagues:
   - name: "French Ligue 1"
     slug: "french_ligue_1"
     sport_key: "france-ligue-1"
-    odds_time_limit: 10 #9
+    odds_time_limit: 12 #10 #9
   - name: "English Premier League"
     slug: "english_premier_league"
     sport_key: "england-premier-league"
-    odds_time_limit: 12 #11
+    odds_time_limit: 14 #12 #11
   - name: "Spanish La Liga"
     slug: "spanish_la_liga"
     sport_key: "spain-laliga"
-    odds_time_limit: 6 #5
+    odds_time_limit: 8 #6 #5
   - name: "German Bundesliga"
     slug: "german_bundesliga"
     sport_key: "germany-bundesliga"
-    odds_time_limit: 10 #9
+    odds_time_limit: 12 #10 #9
   - name: "Italian Serie A"
     slug: "italian_serie_a"
     sport_key: "italy-serie-a"
-    odds_time_limit: 8 #7
+    odds_time_limit: 10 #8 #7
   - name: "UEFA Champions League"
     slug: "uefa_champions_league"
     sport_key: "international-clubs-uefa-champions-league"
-    odds_time_limit: 10 #9
+    odds_time_limit: 12 #10 #9
   - name: "Portuguese Primeira Liga"
     slug: "portuguese_primeira_liga"
     sport_key: "portugal-liga-portugal"
-    odds_time_limit: 8 #7
+    odds_time_limit: 10 #8 #7
   - name: "Belgian Pro League"
     slug: "belgian_pro_league"
     sport_key: "belgium-pro-league"
-    odds_time_limit: 8 #7
+    odds_time_limit: 10 #8 #7
   - name: "English Sky Bet Championship"
     slug: "english_sky_bet_championship"
     sport_key: "england-championship"
-    odds_time_limit: 8 #7
+    odds_time_limit: 10 #8 #7
   - name: "Turkish Super League"
     slug: "turkish_super_league"
     sport_key: "turkiye-super-lig"
-    odds_time_limit: 8 #7
+    odds_time_limit: 10 #8 #7
   - name: "Dutch Eredivisie"
     slug: "dutch_eredivisie"
     sport_key: "netherlands-eredivisie"
-    odds_time_limit: 8 #7
+    odds_time_limit: 10 #8 #7
   - name: "Greek Super League"
     slug: "greek_super_league"
     sport_key: "greece-super-league"
-    odds_time_limit: 6 #5
+    odds_time_limit: 8 #6 #5
   - name: "Romanian Liga I"
     slug: "romanian_liga_i"
     sport_key: "romania-superliga"
-    odds_time_limit: 6 #5 
+    odds_time_limit: 8 #6 #5 
   - name: "Swiss Super League"
     slug: "swiss_super_league"
     sport_key: "switzerland-super-league"
-    odds_time_limit: 6 #5
+    odds_time_limit: 8 #6 #5
   - name: "Danish Superliga"
     slug: "danish_superliga"
     sport_key: "denmark-superliga"
-    odds_time_limit: 8 #7
-  # - name: "UEFA Europa Conference League"
+    odds_time_limit: 10 #8 #7
+  - name: "Croatian HNL"
+    slug: "croatian_hnl"
+    sport_key: "croatia-hnl"
+    odds_time_limit: 8 #6 #5
+  - name: "Polish Ekstraklasa"
+    slug: "polish_ekstraklasa"
+    sport_key: "poland-ekstraklasa"
+    odds_time_limit: 8 #6 #5
+  - name: "Serbian Super League"
+    slug: "serbian_super_league"
+    sport_key: "serbia-superliga"
+    odds_time_limit: 8 #6 #5
+  - name: "Austrian Bundesliga"
+    slug: "austrian_bundesliga"
+    sport_key: "austria-bundesliga"
+    odds_time_limit: 8 #6 #5
+  - name: "Czech 1 Liga"
+    slug: "czech_1_liga"
+    sport_key: "czechia-1-liga"
+    odds_time_limit: 8 #6 #5
+  # - name: "UEFA Europa Conference League" Serbian Super League
   #   slug: "uefa_europa_conference_league"
   #   sport_key: "international-clubs-uefa-conference-league"
   #   odds_time_limit: 7
