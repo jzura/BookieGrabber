@@ -4,38 +4,38 @@
 <plist version="1.0">
 <dict>
 
+    <!-- Label for your job -->
     <key>Label</key>
     <string>com.john.bookiepipeline.hourly</string>
 
+    <!-- Program to run -->
     <key>ProgramArguments</key>
     <array>
-        <!-- Use venv python -->
-        <string>/Users/notbahd/Desktop/BookieGrabber/venv/bin/python</string>
-        <string>/Users/notbahd/Desktop/BookieGrabber/bookie_grabber.py</string>
+        <string>/Users/notbahd/BookieGrabber/venv/bin/python</string>
+        <string>/Users/notbahd/BookieGrabber/bookie_grabber.py</string>
     </array>
 
-    <!-- Run every hour (3600 seconds) -->
+    <!-- Run every hour -->
     <key>StartInterval</key>
     <integer>3600</integer>
 
-    <!-- Run immediately on login / reboot -->
+    <!-- Run immediately on load -->
     <key>RunAtLoad</key>
     <true/>
 
-    <!-- Restart if it crashes -->
+    <!-- Do NOT try to restart if it crashes -->
     <key>KeepAlive</key>
     <false/>
 
-    <!-- Ensure relative paths work -->
+    <!-- Set working directory -->
     <key>WorkingDirectory</key>
-    <string>/Users/notbahd/Desktop/BookieGrabber</string>
+    <string>/Users/notbahd/BookieGrabber</string>
 
     <!-- Logs -->
     <key>StandardOutPath</key>
-    <string>/Users/notbahd/Desktop/BookieGrabber/logs/bookiepipeline.out</string>
-
+    <string>/Users/notbahd/BookieGrabber/logs/bookiepipeline.out</string>
     <key>StandardErrorPath</key>
-    <string>/Users/notbahd/Desktop/BookieGrabber/logs/bookiepipeline.err</string>
+    <string>/Users/notbahd/BookieGrabber/logs/bookiepipeline.err</string>
 
 </dict>
 </plist>
