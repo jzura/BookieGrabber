@@ -152,6 +152,23 @@ with tab1:
         legend=dict(x=0.02, y=0.98))
     st.plotly_chart(fig_cum, use_container_width=True, key="cum_profit")
 
+    # Cumulative Profit by Date
+    st.subheader("Cumulative Profit by Date")
+    cum_by_date = settled_f.sort_values('Date').copy()
+    cum_by_date['Cum_Profit'] = cum_by_date['Profit'].cumsum()
+
+    fig_cum_date = go.Figure()
+    fig_cum_date.add_trace(go.Scatter(
+        x=cum_by_date['Date'], y=cum_by_date['Cum_Profit'],
+        mode='lines', line=dict(color='#2196F3', width=2), name='Cumulative Profit',
+        hovertemplate='%{x|%Y-%m-%d}<br>Profit: %{y:.2f}<extra></extra>'
+    ))
+    fig_cum_date.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+    fig_cum_date.update_layout(template='plotly_dark', height=350,
+        margin=dict(l=40, r=20, t=10, b=40),
+        xaxis_title="Date", yaxis_title="Profit (Units)")
+    st.plotly_chart(fig_cum_date, use_container_width=True, key="cum_profit_date")
+
     # Monthly + By Market
     col_left, col_right = st.columns(2)
 
