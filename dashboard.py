@@ -122,7 +122,7 @@ fig_cum.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
 fig_cum.update_layout(template='plotly_dark', height=400,
     margin=dict(l=40, r=20, t=20, b=40),
     xaxis_title="Bet Number", yaxis_title="Profit (Units)")
-st.plotly_chart(fig_cum, use_container_width=True)
+st.plotly_chart(fig_cum, use_container_width=True, key="cum_profit")
 
 # ─── Monthly + By Market ───
 col_left, col_right = st.columns(2)
@@ -141,7 +141,7 @@ with col_left:
     fig_m.add_trace(go.Bar(x=monthly['Month'], y=monthly['Profit'], marker_color=colors))
     fig_m.update_layout(template='plotly_dark', height=350,
         margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit (Units)")
-    st.plotly_chart(fig_m, use_container_width=True)
+    st.plotly_chart(fig_m, use_container_width=True, key="monthly_chart")
     st.dataframe(monthly[['Month', 'Bets', 'Profit', 'ROI %', 'SR %']],
                  use_container_width=True, hide_index=True)
 
@@ -199,7 +199,7 @@ with col_bf:
     fig.add_trace(go.Bar(x=bf_stats['BF_Bin'], y=bf_stats['Profit'],
         marker_color=['#4CAF50' if p >= 0 else '#f44336' for p in bf_stats['Profit']]))
     fig.update_layout(template='plotly_dark', height=300, margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key="bf_chart")
 
 with col_vol:
     st.subheader("Profit by Volume")
@@ -212,7 +212,7 @@ with col_vol:
     fig2.add_trace(go.Bar(x=vol_stats['Vol_Bin'], y=vol_stats['Profit'],
         marker_color=['#4CAF50' if p >= 0 else '#f44336' for p in vol_stats['Profit']]))
     fig2.update_layout(template='plotly_dark', height=300, margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit")
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, use_container_width=True, key="vol_chart")
 
 st.markdown("---")
 
