@@ -313,20 +313,40 @@ with tab3:
     st.subheader("Profit by Day of Week")
     dow_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     dow = settled_f.groupby('DayOfWeek').agg(
-        Bets=('Profit', 'count'), Profit=('Profit', 'sum'), Staked=('Stake', 'sum'),
+        Bets=('Profit', 'count'), Staked=('Stake', 'sum'),
+        Profit=('Profit', 'sum'), Wins=('Return', lambda x: (x > 0).sum()),
     ).reindex(dow_order).reset_index()
     dow['ROI %'] = (dow['Profit'] / dow['Staked'] * 100).round(1)
+    dow['SR %'] = (dow['Wins'] / dow['Bets'] * 100).round(1)
+    dow['Profit'] = dow['Profit'].round(2)
+    dow['Staked'] = dow['Staked'].round(0)
 
-    fig_dow = go.Figure()
-    colors = ['#4CAF50' if p >= 0 else '#f44336' for p in dow['Profit']]
-    fig_dow.add_trace(go.Bar(x=dow['DayOfWeek'], y=dow['Profit'], marker_color=colors,
-        hovertemplate='%{x}<br>Profit: %{y:.2f}<br>Bets: %{customdata[0]}<br>ROI: %{customdata[1]}%<extra></extra>',
-        customdata=dow[['Bets', 'ROI %']].values))
-    fig_dow.update_layout(template='plotly_dark', height=350,
-        margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit (Units)")
-    st.plotly_chart(fig_dow, use_container_width=True, key="dow_chart")
+    col_dow1, col_dow2 = st.columns(2)
 
-    st.dataframe(dow[['DayOfWeek', 'Bets', 'Profit', 'ROI %']].rename(columns={'DayOfWeek': 'Day'}),
+    with col_dow1:
+        fig_dow = go.Figure()
+        colors = ['#4CAF50' if p >= 0 else '#f44336' for p in dow['Profit']]
+        fig_dow.add_trace(go.Bar(x=dow['DayOfWeek'], y=dow['Profit'], marker_color=colors,
+            name='Profit (Units)',
+            hovertemplate='%{x}<br>Profit: %{y:.2f}<br>Bets: %{customdata[0]}<br>ROI: %{customdata[1]}%<extra></extra>',
+            customdata=dow[['Bets', 'ROI %']].values))
+        fig_dow.update_layout(template='plotly_dark', height=350,
+            margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit (Units)")
+        st.plotly_chart(fig_dow, use_container_width=True, key="dow_chart")
+
+    with col_dow2:
+        fig_roi = go.Figure()
+        roi_colors = ['#4CAF50' if r >= 0 else '#f44336' for r in dow['ROI %']]
+        fig_roi.add_trace(go.Bar(x=dow['DayOfWeek'], y=dow['ROI %'], marker_color=roi_colors,
+            name='ROI %',
+            hovertemplate='%{x}<br>ROI: %{y:.1f}%<br>Staked: %{customdata[0]:.0f}<extra></extra>',
+            customdata=dow[['Staked']].values))
+        fig_roi.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+        fig_roi.update_layout(template='plotly_dark', height=350,
+            margin=dict(l=40, r=20, t=10, b=40), yaxis_title="ROI %")
+        st.plotly_chart(fig_roi, use_container_width=True, key="dow_roi_chart")
+
+    st.dataframe(dow[['DayOfWeek', 'Bets', 'Staked', 'Profit', 'ROI %', 'SR %']].rename(columns={'DayOfWeek': 'Day'}),
                  use_container_width=True, hide_index=True)
 
     st.markdown("---")
