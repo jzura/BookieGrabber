@@ -84,7 +84,7 @@ def get_league_events(api_key: str, league: str, limit: int = 200):
     # "status": "pending"
     end_dt = (
             datetime.now(timezone.utc)
-            .date() + timedelta(days=2)
+            .date() + timedelta(days=4)
         )
 
     end_rfc3339 = datetime(
@@ -490,11 +490,16 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     target_hours = int(league_cfg["odds_time_limit"])
     league_bf_map = load_team_map(f"mappings/{slug}/team_name_map.json")
     # Add betfair totalmatch volume from betfair_api
-    session_token = get_session_token()
-    df_bf_ou_volume = get_ou_volume(session_token, league_name)
+    try:
+        session_token = get_session_token()
+        df_bf_ou_volume, bf_market_catalogue = get_ou_volume(session_token, league_name)
+    except Exception as e:
+        print(f"Betfair API failed for {league_name}: {e} — proceeding without BF volume")
+        session_token = None
+        df_bf_ou_volume = pd.DataFrame()
+        bf_market_catalogue = []
     if df_bf_ou_volume.empty:
-        print(f"No Betfair OU volume data for league {league_name}")
-        return
+        print(f"No Betfair OU volume data for league {league_name} — proceeding with Odds API only")
 
     # might be able to 
     events = get_league_events(api_key, league_key, limit=limit)
@@ -518,6 +523,28 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             continue
 
         totals = extract_totals(odds_data)
+        btts = extract_btts(odds_data)
+
+        # Fallback: if Odds API didn't return Betfair Exchange, fetch directly
+        bf_in_totals = any(t["bookmaker"] == "Betfair Exchange" for t in totals)
+        bf_in_btts = any(b["bookmaker"] == "Betfair Exchange" for b in btts)
+        if not bf_in_totals or not bf_in_btts:
+            bf_home = league_bf_map.get(row["home_team"])
+            bf_away = league_bf_map.get(row["away_team"])
+            if bf_home and bf_away:
+                bf_event_key = f"{bf_home} v {bf_away}"
+                try:
+                    fb_totals, fb_btts = fetch_bf_odds_for_event(
+                        session_token, bf_event_key, bf_market_catalogue)
+                    if not bf_in_totals and fb_totals:
+                        totals.extend(fb_totals)
+                        print(f"  [BF FALLBACK] Injected {len(fb_totals)} totals lines")
+                    if not bf_in_btts and fb_btts:
+                        btts.extend(fb_btts)
+                        print(f"  [BF FALLBACK] Injected {len(fb_btts)} BTTS lines")
+                except Exception as e:
+                    print(f"  [BF FALLBACK] Failed: {e}")
+
         for t in totals:
             totals_rows.append({
                 "event_id": event_id,
@@ -532,7 +559,6 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
                 "odds_time": row["odds_time"]
             })
 
-        btts = extract_btts(odds_data)
         for b in btts:
             btts_rows.append({
                 "event_id": event_id,
@@ -583,12 +609,14 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
         df_bf_btts['bf_team_name_home'] = df_bf_btts['home_team'].map(league_bf_map)
         df_bf_btts['bf_team_name_away'] = df_bf_btts['away_team'].map(league_bf_map)
         df_bf_btts['bf_merge_key'] = df_bf_btts['bf_team_name_home'] + " v " + df_bf_btts['bf_team_name_away']
-        # you want to check all the df_bf_ou_volume event keys have beem mapped and exist in the df_bf_btts['bf_merge_key']
-        for k in df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME].event.unique():
-            if k not in df_bf_btts['bf_merge_key'].unique():
-                print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
-
-        df_bf_btts_tv = df_bf_btts.merge(df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME], how='inner', left_on='bf_merge_key', right_on='event')
+        bf_btts_vol = df_bf_ou_volume[df_bf_ou_volume.line == BF_BTTS_MARKET_NAME] if not df_bf_ou_volume.empty else pd.DataFrame()
+        if not bf_btts_vol.empty:
+            for k in bf_btts_vol.event.unique():
+                if k not in df_bf_btts['bf_merge_key'].unique():
+                    print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
+            df_bf_btts_tv = df_bf_btts.merge(bf_btts_vol, how='inner', left_on='bf_merge_key', right_on='event')
+        else:
+            df_bf_btts_tv = df_bf_btts
 
         merged_final = decide_merge(existing, df_bf_btts_tv, target_hours)
         btts_export = merged_final
@@ -629,12 +657,14 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             df_bf_total['bf_team_name_home'] = df_bf_total['home_team'].map(league_bf_map)
             df_bf_total['bf_team_name_away'] = df_bf_total['away_team'].map(league_bf_map)
             df_bf_total['bf_merge_key'] = df_bf_total['bf_team_name_home'] + " v " + df_bf_total['bf_team_name_away']
-            # you want to check all the df_bf_ou_volume event keys have beem mapped and exist in the df_bf_btts['bf_merge_key']
-            for k in df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name].event.unique():
-                if k not in df_bf_total['bf_merge_key'].unique():
-                    print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in Total {hdp} data")
-
-            df_bf_total_tv = df_bf_total.merge(df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name], how='inner', left_on='bf_merge_key', right_on='event')
+            bf_total_vol = df_bf_ou_volume[df_bf_ou_volume.line == bf_market_name] if not df_bf_ou_volume.empty else pd.DataFrame()
+            if not bf_total_vol.empty:
+                for k in bf_total_vol.event.unique():
+                    if k not in df_bf_total['bf_merge_key'].unique():
+                        print(f"[WARN] Betfair volume event key '{k}' has no matching event in Total {hdp} data")
+                df_bf_total_tv = df_bf_total.merge(bf_total_vol, how='inner', left_on='bf_merge_key', right_on='event')
+            else:
+                df_bf_total_tv = df_bf_total
 
             merged_final = decide_merge(existing, df_bf_total_tv, target_hours)
             totals_exports.append(merged_final)
@@ -653,12 +683,43 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
 # Main entrypoint
 # -------------------------------------------------------------
 
+def send_failure_alert(subject, body):
+    """Send a failure alert email so the user knows something broke."""
+    try:
+        import smtplib
+        from email.message import EmailMessage
+
+        email_user = os.environ.get("EMAIL_USER")
+        email_pass = os.environ.get("EMAIL_PASS")
+        email_to = os.environ.get("EMAIL_TO", "")
+        recipients = [e.strip() for e in email_to.split(",") if e.strip()]
+
+        if not email_user or not email_pass or not recipients:
+            return
+
+        msg = EmailMessage()
+        msg["From"] = email_user
+        msg["To"] = ", ".join(recipients)
+        msg["Subject"] = subject
+        msg.set_content(body)
+
+        with smtplib.SMTP("smtp.mail.me.com", 587, timeout=15) as server:
+            server.starttls()
+            server.login(email_user, email_pass)
+            server.send_message(msg)
+    except Exception:
+        pass  # can't send alert about failure to send alerts
+
+
 def main():
     api_key = load_env()
     cfg = load_config()
 
     all_totals = []
     all_btts = []
+    total_leagues = len(cfg["leagues"])
+    failed_leagues = []
+    succeeded = 0
 
     for league in cfg["leagues"]:
         try:
@@ -677,7 +738,7 @@ def main():
             ready_games_workbook_path = run_postprocessing_and_exports(league['slug'], df_totals_export, df_btts_export, target_hours=league.get("odds_time_limit", 9))
 
             # email ready games
-            if ready_games_workbook_path: 
+            if ready_games_workbook_path:
                 if os.path.exists(ready_games_workbook_path):
                     success = email_workbook(
                         ready_games_workbook_path,
@@ -687,7 +748,7 @@ def main():
                     if not success:
                         print(f"Failed to email workbook")
                     else:
-                        sent_dir = Path("/Users/notbahd/Desktop/BookieGrabber/data/ready/sent")
+                        sent_dir = Path("/Users/Joel/REPOS/BookieGrabber/data/ready/sent")
                         sent_dir.mkdir(parents=True, exist_ok=True)
 
                         dest = sent_dir / Path(ready_games_workbook_path).name
@@ -696,8 +757,28 @@ def main():
                 else:
                     print(f"Ready games workbook does not exist: {ready_games_workbook_path}")
 
+            succeeded += 1
+
         except Exception as exc:
             print(f"League {league.get('name')} failed: {exc}")
+            failed_leagues.append((league.get("name"), str(exc)))
+
+    # Send failure alert if too many leagues failed
+    if failed_leagues:
+        fail_rate = len(failed_leagues) / total_leagues
+        # Alert if all leagues failed, or more than half failed
+        if fail_rate >= 0.5:
+            lines = [f"{name}: {err}" for name, err in failed_leagues]
+            body = (
+                f"Pipeline run completed with {len(failed_leagues)}/{total_leagues} leagues failing "
+                f"({succeeded} succeeded).\n\n"
+                f"Failed leagues:\n" + "\n".join(lines) + "\n\n"
+                f"Check logs at ~/REPOS/BookieGrabber/logs/ for details."
+            )
+            send_failure_alert(
+                f"BookieGrabber ALERT — {len(failed_leagues)}/{total_leagues} leagues failed",
+                body,
+            )
 
     # df_totals_all = pd.concat(all_totals, ignore_index=True) if all_totals else pd.DataFrame()
     # df_btts_all = pd.concat(all_btts, ignore_index=True) if all_btts else pd.DataFrame()
@@ -721,4 +802,15 @@ def main():
     # export_model_ready()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as exc:
+        import traceback
+        tb = traceback.format_exc()
+        print(f"FATAL: Pipeline crashed: {exc}\n{tb}")
+        send_failure_alert(
+            "BookieGrabber ALERT — Pipeline crashed",
+            f"The pipeline crashed and did not complete.\n\n"
+            f"Error: {exc}\n\n{tb}\n\n"
+            f"The hourly launchd job will retry next hour, but you may need to check the machine.",
+        )

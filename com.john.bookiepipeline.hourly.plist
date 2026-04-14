@@ -11,13 +11,13 @@
     <!-- Program to run -->
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/notbahd/BookieGrabber/venv/bin/python</string>
-        <string>/Users/notbahd/BookieGrabber/bookie_grabber.py</string>
+        <string>/Users/Joel/REPOS/BookieGrabber/venv/bin/python</string>
+        <string>/Users/Joel/REPOS/BookieGrabber/bookie_grabber.py</string>
     </array>
 
-    <!-- Run every hour -->
+    <!-- Run every 30 minutes -->
     <key>StartInterval</key>
-    <integer>3600</integer>
+    <integer>1800</integer>
 
     <!-- Run immediately on load -->
     <key>RunAtLoad</key>
@@ -29,13 +29,13 @@
 
     <!-- Set working directory -->
     <key>WorkingDirectory</key>
-    <string>/Users/notbahd/BookieGrabber</string>
+    <string>/Users/Joel/REPOS/BookieGrabber</string>
 
     <!-- Logs -->
     <key>StandardOutPath</key>
-    <string>/Users/notbahd/BookieGrabber/logs/bookiepipeline.out</string>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/bookiepipeline.out</string>
     <key>StandardErrorPath</key>
-    <string>/Users/notbahd/BookieGrabber/logs/bookiepipeline.err</string>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/bookiepipeline.err</string>
 
 </dict>
 </plist>

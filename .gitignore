@@ -208,3 +208,17 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Sensitive files
+.env
+.sm_cookie
+client-2048.cer
+client-2048.key
+.streamlit/secrets.toml
+
+# Logs
+logs/
+
+# Cache
+__pycache__/
+*.pyc

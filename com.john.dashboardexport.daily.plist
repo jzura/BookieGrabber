@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <key>Label</key>
+    <string>com.john.dashboardexport.daily</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/Joel/REPOS/BookieGrabber/venv/bin/python</string>
+        <string>/Users/Joel/REPOS/BookieGrabber/export_dashboard_data.py</string>
+    </array>
+
+    <!-- Run at 07:10 and 19:10 every day -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>7</integer>
+            <key>Minute</key>
+            <integer>10</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>19</integer>
+            <key>Minute</key>
+            <integer>10</integer>
+        </dict>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/Joel/REPOS/BookieGrabber</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/dashboardexport.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/dashboardexport.err</string>
+
+</dict>
+</plist>

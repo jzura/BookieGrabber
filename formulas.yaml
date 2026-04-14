@@ -1,109 +1,42 @@
 excel_formulas:
+  # T = prediction: 0 = Under/No, 1 = Over/Yes
+  # {ODDS} = BF odds for the side with lower RPD
+  # {RPD} = RPD for the side with lower RPD
+  # R = total_volume
+  #
+  # Master-aligned staking:
+  #   Core: pred=0, BF>1.45, vol 40-1100, RPD<=2.8 (BF<=2.7) or RPD<=3.5 (BF>2.7)
+  #   BTTS fade: pred=0, RPD>=5, vol 40-1100
+  #   1.5G fade: pred=1, RPD>=4.6, vol 40-1100
+  #   Double-staking handled in master sheet only
+
   O/U: >
     =IF(K2<L2, 1, 0)
 
   totals:
     g1_5: >
-      =IF(R2>=4000,"",IF(OR(ISBLANK({RPD}),ISBLANK(R2),ISBLANK({ODDS})),"",IF(AND({RPD}<=3.5,R2>=70),IF({ODDS}>=2.3,2,IF({ODDS}<=1.44,IF({RPD}<=2.3,1,""),1)),"")))
+      =IF(OR(ISBLANK({RPD}),ISBLANK(R2),ISBLANK({ODDS})),"",
+        IF(AND(T2=0,{ODDS}>1.45,{ODDS}<=2.7,{RPD}<=2.8,R2>=40,R2<=1100),1,
+          IF(AND(T2=0,{ODDS}>2.7,{RPD}<=3.5,R2>=40,R2<=1100),1,
+            IF(AND(T2=1,{RPD}>=4.6,R2>=40,R2<=1100),1,
+              ""))))
 
     g2_5: >
       =IF(OR(ISBLANK({RPD}),ISBLANK(R2),ISBLANK({ODDS})),"",
-      IF(R2>=3500,"",
-        IF(AND({RPD}<=4.1,R2>=155),
-          IF({ODDS}>=2,2,1),
-        "")))
+        IF(AND(T2=0,{ODDS}>1.45,{ODDS}<=2.7,{RPD}<=2.8,R2>=40,R2<=1100),1,
+          IF(AND(T2=0,{ODDS}>2.7,{RPD}<=3.5,R2>=40,R2<=1100),1,
+            "")))
 
     g3_5: >
-      =IF(
-        OR(R2>5500, ISBLANK({RPD}), ISBLANK(R2), ISBLANK({ODDS})),
-        "",
-        IF(
-          OR(
-            AND({ODDS}>=2.69, {RPD}<=5.5, R2>=125),
-            AND({ODDS}>=2, {ODDS}<2.69, {RPD}<=2.1, R2>=125),
-            AND({ODDS}>=1.85, {ODDS}<2, {RPD}<=6.6, R2>=190)
-          ),
-          2,
-          IF(
-            OR(
-              AND({ODDS}>=1.76, {ODDS}<1.85, {RPD}<=6.6, R2>=190),
-              AND({ODDS}>=1.45, {ODDS}<1.76, {RPD}<=4.9, R2>=190),
-              AND({ODDS}>=1.27, {ODDS}<1.45, {RPD}<=3.6, R2>=190),
-              AND({ODDS}<1.27, {RPD}<=2.4, R2>=190)
-            ),
-            1,
-            ""
-          )
-        )
-      )
+      =IF(OR(ISBLANK({RPD}),ISBLANK(R2),ISBLANK({ODDS})),"",
+        IF(AND(T2=0,{ODDS}>1.45,{ODDS}<=2.7,{RPD}<=2.8,R2>=40,R2<=1100),1,
+          IF(AND(T2=0,{ODDS}>2.7,{RPD}<=3.5,R2>=40,R2<=1100),1,
+            "")))
 
   btts:
     stake: >
-      =IF(
-        OR(R2>7000, ISBLANK({RPD}), ISBLANK(R2)),
-        "",
-        IF(AND({RPD}<=4.6, R2>=240, {ODDS}>=1.9), 2,
-          IF(AND({RPD}<=4.7, R2>=240, {ODDS}<1.6, {RPD}<=2), 1,
-            IF(AND({RPD}<=4.7, R2>=240, {ODDS}>=1.6, {ODDS}<1.7, {RPD}<=2.5), 1,
-              IF(AND({RPD}<=4.7, R2>=240, {ODDS}>=1.7, {ODDS}<1.9, {RPD}<=3.2), 1,
-                ""
-              )
-            )
-          )
-        )
-      )
-
-
-
-
-
-
-
-
-# K = volume
-# L = Lowest RPD
-# I = Betfair Odds (for outcome with the lowest RPD)
-# 1 = 1 stake
-# 2 = 2 stakes
-
-# 1.5G 
-# =IF(K2>=4000,"",IF(OR(ISBLANK(L2),ISBLANK(K2),ISBLANK({ODDS})),"",IF(AND(L2<=3.5,K2>=70),IF({ODDS}>=2.3,2,IF({ODDS}<=1.44,IF(L2<=2.3,1,""),1)),"")))
-
-# 2.5G =IF(OR(ISBLANK(L2),ISBLANK(K2),ISBLANK({ODDS})),"",IF(K2>=3500,"",IF(AND(L2<=4.1,K2>=155),IF({ODDS}>=2,2,1),"")))
-
-# 3.5G
-# =IF(
-#   OR(K2>5500, ISBLANK(L2), ISBLANK(K2), ISBLANK({ODDS})),
-#   "",
-#   IF(
-#     OR(
-#       AND({ODDS}>=2.69, L2<=5.5, K2>=125),
-#       AND({ODDS}>=2, {ODDS}<2.69, L2<=2.1, K2>=125),
-#       AND({ODDS}>=1.85, {ODDS}<2, L2<=6.6, K2>=190)
-#     ),
-#     2,
-#     IF(
-#       OR(
-#         AND({ODDS}>=1.76, {ODDS}<1.85, L2<=6.6, K2>=190),
-#         AND({ODDS}>=1.45, {ODDS}<1.76, L2<=4.9, K2>=190),
-#         AND({ODDS}>=1.27, {ODDS}<1.45, L2<=3.6, K2>=190),
-#         AND({ODDS}<1.27, L2<=2.4, K2>=190)
-#       ),
-#       1,
-#       ""
-#     )
-#   )
-# )
-
-# BTTS
-# =IF(
-#   OR(K2>7000, ISBLANK(L2), ISBLANK(K2)),
-#   "",
-#   IFS(
-#     AND(L2<=4.6, K2>=240, {ODDS}>=1.9), 2,
-#     AND(L2<=4.7, K2>=240, {ODDS}<1.6, L2<=2), 1,
-#     AND(L2<=4.7, K2>=240, {ODDS}>=1.6, {ODDS}<1.7, L2<=2.5), 1,
-#     AND(L2<=4.7, K2>=240, {ODDS}>=1.7, {ODDS}<1.9, L2<=3.2), 1,
-#     TRUE, ""
-#   )
-# )
+      =IF(OR(ISBLANK({RPD}),ISBLANK(R2)),"",
+        IF(AND(T2=0,{ODDS}>1.45,{ODDS}<=2.7,{RPD}<=2.8,R2>=40,R2<=1100),1,
+          IF(AND(T2=0,{ODDS}>2.7,{RPD}<=3.5,R2>=40,R2<=1100),1,
+            IF(AND(T2=0,{RPD}>=5,R2>=40,R2<=1100),1,
+              ""))))

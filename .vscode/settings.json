@@ -1,0 +1,4 @@
+{
+    "python.terminal.envFile": "${workspaceFolder}/.env",
+    "python.envFile": "${workspaceFolder}/.env"
+}
