@@ -1,0 +1,566 @@
+[
+  {
+    "timestamp": "2025-12-18T19:00:00",
+    "current_balance": 58465.31,
+    "today_pl": 2355.43,
+    "daily_staked": 19198.85
+  },
+  {
+    "timestamp": "2025-12-19T19:00:00",
+    "current_balance": 57338.03,
+    "today_pl": -1127.28,
+    "daily_staked": 5599.9
+  },
+  {
+    "timestamp": "2025-12-20T19:00:00",
+    "current_balance": 60244.72,
+    "today_pl": 2906.69,
+    "daily_staked": 33597.79
+  },
+  {
+    "timestamp": "2025-12-21T19:00:00",
+    "current_balance": 53513.6,
+    "today_pl": -6731.12,
+    "daily_staked": 25598.66
+  },
+  {
+    "timestamp": "2025-12-22T19:00:00",
+    "current_balance": 53625.09,
+    "today_pl": 111.49,
+    "daily_staked": 3199.71
+  },
+  {
+    "timestamp": "2025-12-27T19:00:00",
+    "current_balance": 56001.57,
+    "today_pl": 2376.48,
+    "daily_staked": 14399.86
+  },
+  {
+    "timestamp": "2025-12-28T19:00:00",
+    "current_balance": 63816.7,
+    "today_pl": 7815.13,
+    "daily_staked": 10140.51
+  },
+  {
+    "timestamp": "2025-12-29T19:00:00",
+    "current_balance": 65222.91,
+    "today_pl": 1406.21,
+    "daily_staked": 1600.0
+  },
+  {
+    "timestamp": "2025-12-30T19:00:00",
+    "current_balance": 62749.02,
+    "today_pl": -2473.89,
+    "daily_staked": 8999.21
+  },
+  {
+    "timestamp": "2026-01-01T19:00:00",
+    "current_balance": 62777.71,
+    "today_pl": 28.69,
+    "daily_staked": 8999.58
+  },
+  {
+    "timestamp": "2026-01-02T19:00:00",
+    "current_balance": 63981.38,
+    "today_pl": 1203.67,
+    "daily_staked": 5999.85
+  },
+  {
+    "timestamp": "2026-01-03T19:00:00",
+    "current_balance": 54159.44,
+    "today_pl": -9821.94,
+    "daily_staked": 23498.72
+  },
+  {
+    "timestamp": "2026-01-04T19:00:00",
+    "current_balance": 52245.11,
+    "today_pl": -1914.33,
+    "daily_staked": 31498.05
+  },
+  {
+    "timestamp": "2026-01-05T19:00:00",
+    "current_balance": 51680.12,
+    "today_pl": -564.99,
+    "daily_staked": 1499.9
+  },
+  {
+    "timestamp": "2026-01-06T19:00:00",
+    "current_balance": 51880.64,
+    "today_pl": 200.52,
+    "daily_staked": 3999.85
+  },
+  {
+    "timestamp": "2026-01-07T19:00:00",
+    "current_balance": 53763.55,
+    "today_pl": 1882.91,
+    "daily_staked": 14499.31
+  },
+  {
+    "timestamp": "2026-01-08T19:00:00",
+    "current_balance": 54852.42,
+    "today_pl": 1088.87,
+    "daily_staked": 999.95
+  },
+  {
+    "timestamp": "2026-01-09T19:00:00",
+    "current_balance": 55818.68,
+    "today_pl": 966.26,
+    "daily_staked": 1499.97
+  },
+  {
+    "timestamp": "2026-01-10T19:00:00",
+    "current_balance": 58719.33,
+    "today_pl": 2900.65,
+    "daily_staked": 26248.22
+  },
+  {
+    "timestamp": "2026-01-11T19:00:00",
+    "current_balance": 61370.73,
+    "today_pl": 2651.4,
+    "daily_staked": 17999.29
+  },
+  {
+    "timestamp": "2026-01-12T19:00:00",
+    "current_balance": 62870.07,
+    "today_pl": 1499.34,
+    "daily_staked": 1999.95
+  },
+  {
+    "timestamp": "2026-01-13T19:00:00",
+    "current_balance": 64594.67,
+    "today_pl": 1724.6,
+    "daily_staked": 2999.52
+  },
+  {
+    "timestamp": "2026-01-14T19:00:00",
+    "current_balance": 64293.24,
+    "today_pl": -301.43,
+    "daily_staked": 8499.45
+  },
+  {
+    "timestamp": "2026-01-15T19:00:00",
+    "current_balance": 65202.93,
+    "today_pl": 909.69,
+    "daily_staked": 3999.86
+  },
+  {
+    "timestamp": "2026-01-16T19:00:00",
+    "current_balance": 66954.91,
+    "today_pl": 1751.98,
+    "daily_staked": 8499.38
+  },
+  {
+    "timestamp": "2026-01-17T19:00:00",
+    "current_balance": 60574.08,
+    "today_pl": -6380.83,
+    "daily_staked": 41997.55
+  },
+  {
+    "timestamp": "2026-01-18T19:00:00",
+    "current_balance": 52986.72,
+    "today_pl": -7587.36,
+    "daily_staked": 29416.8
+  },
+  {
+    "timestamp": "2026-01-19T19:00:00",
+    "current_balance": 52153.11,
+    "today_pl": -833.61,
+    "daily_staked": 8498.86
+  },
+  {
+    "timestamp": "2026-01-20T19:00:00",
+    "current_balance": 54227.09,
+    "today_pl": 2073.98,
+    "daily_staked": 20498.8
+  },
+  {
+    "timestamp": "2026-01-21T19:00:00",
+    "current_balance": 51750.57,
+    "today_pl": -2476.52,
+    "daily_staked": 10999.12
+  },
+  {
+    "timestamp": "2026-01-22T19:00:00",
+    "current_balance": 46333.19,
+    "today_pl": -5417.38,
+    "daily_staked": 19498.78
+  },
+  {
+    "timestamp": "2026-01-23T19:00:00",
+    "current_balance": 43125.26,
+    "today_pl": -3207.93,
+    "daily_staked": 7999.57
+  },
+  {
+    "timestamp": "2026-01-24T19:00:00",
+    "current_balance": 46377.82,
+    "today_pl": 3252.56,
+    "daily_staked": 41496.3
+  },
+  {
+    "timestamp": "2026-01-25T19:00:00",
+    "current_balance": 44732.48,
+    "today_pl": -1645.34,
+    "daily_staked": 35498.24
+  },
+  {
+    "timestamp": "2026-01-26T19:00:00",
+    "current_balance": 45667.45,
+    "today_pl": 934.97,
+    "daily_staked": 4999.63
+  },
+  {
+    "timestamp": "2026-01-28T19:00:00",
+    "current_balance": 46613.37,
+    "today_pl": 945.92,
+    "daily_staked": 10599.06
+  },
+  {
+    "timestamp": "2026-01-29T19:00:00",
+    "current_balance": 48055.45,
+    "today_pl": 1442.08,
+    "daily_staked": 18999.18
+  },
+  {
+    "timestamp": "2026-01-30T19:00:00",
+    "current_balance": 49562.98,
+    "today_pl": 1507.53,
+    "daily_staked": 11499.11
+  },
+  {
+    "timestamp": "2026-01-31T19:00:00",
+    "current_balance": 41978.77,
+    "today_pl": -7584.21,
+    "daily_staked": 47497.75
+  },
+  {
+    "timestamp": "2026-02-01T19:00:00",
+    "current_balance": 31817.7,
+    "today_pl": -10161.07,
+    "daily_staked": 43997.56
+  },
+  {
+    "timestamp": "2026-02-02T19:00:00",
+    "current_balance": 28065.42,
+    "today_pl": -3752.28,
+    "daily_staked": 6499.67
+  },
+  {
+    "timestamp": "2026-02-03T19:00:00",
+    "current_balance": 25669.58,
+    "today_pl": -2395.84,
+    "daily_staked": 10499.44
+  },
+  {
+    "timestamp": "2026-02-04T19:00:00",
+    "current_balance": 26074.47,
+    "today_pl": 404.89,
+    "daily_staked": 7981.46
+  },
+  {
+    "timestamp": "2026-02-05T19:00:00",
+    "current_balance": 25574.99,
+    "today_pl": -499.48,
+    "daily_staked": 499.48
+  },
+  {
+    "timestamp": "2026-02-06T19:00:00",
+    "current_balance": 23319.52,
+    "today_pl": -2255.47,
+    "daily_staked": 7499.56
+  },
+  {
+    "timestamp": "2026-02-07T19:00:00",
+    "current_balance": 23425.3,
+    "today_pl": 105.78,
+    "daily_staked": 14449.23
+  },
+  {
+    "timestamp": "2026-02-08T19:00:00",
+    "current_balance": 18274.93,
+    "today_pl": -5150.37,
+    "daily_staked": 12998.72
+  },
+  {
+    "timestamp": "2026-02-09T19:00:00",
+    "current_balance": 17651.32,
+    "today_pl": -623.61,
+    "daily_staked": 2499.08
+  },
+  {
+    "timestamp": "2026-02-10T19:00:00",
+    "current_balance": 18805.43,
+    "today_pl": 1154.11,
+    "daily_staked": 2499.81
+  },
+  {
+    "timestamp": "2026-02-11T19:00:00",
+    "current_balance": 20792.7,
+    "today_pl": 1987.27,
+    "daily_staked": 7498.58
+  },
+  {
+    "timestamp": "2026-02-13T19:00:00",
+    "current_balance": 21120.41,
+    "today_pl": 327.71,
+    "daily_staked": 6498.55
+  },
+  {
+    "timestamp": "2026-02-14T19:00:00",
+    "current_balance": 19705.58,
+    "today_pl": -1414.83,
+    "daily_staked": 10499.41
+  },
+  {
+    "timestamp": "2026-02-15T19:00:00",
+    "current_balance": 16320.07,
+    "today_pl": -3385.51,
+    "daily_staked": 15032.26
+  },
+  {
+    "timestamp": "2026-02-16T19:00:00",
+    "current_balance": 16841.96,
+    "today_pl": 521.89,
+    "daily_staked": 2999.95
+  },
+  {
+    "timestamp": "2026-02-18T19:00:00",
+    "current_balance": 18757.88,
+    "today_pl": 1915.92,
+    "daily_staked": 1499.96
+  },
+  {
+    "timestamp": "2026-02-19T19:00:00",
+    "current_balance": 15074.9,
+    "today_pl": -3682.98,
+    "daily_staked": 7999.59
+  },
+  {
+    "timestamp": "2026-02-20T19:00:00",
+    "current_balance": 16038.63,
+    "today_pl": 963.73,
+    "daily_staked": 3499.79
+  },
+  {
+    "timestamp": "2026-02-21T19:00:00",
+    "current_balance": 13068.69,
+    "today_pl": -2969.94,
+    "daily_staked": 12998.64
+  },
+  {
+    "timestamp": "2026-02-22T19:00:00",
+    "current_balance": 15657.01,
+    "today_pl": 2588.32,
+    "daily_staked": 12499.09
+  },
+  {
+    "timestamp": "2026-02-23T19:00:00",
+    "current_balance": 14881.31,
+    "today_pl": -775.7,
+    "daily_staked": 4999.81
+  },
+  {
+    "timestamp": "2026-02-24T19:00:00",
+    "current_balance": 14896.81,
+    "today_pl": 15.5,
+    "daily_staked": 2999.8
+  },
+  {
+    "timestamp": "2026-02-25T19:00:00",
+    "current_balance": 15276.24,
+    "today_pl": 379.43,
+    "daily_staked": 2499.9
+  },
+  {
+    "timestamp": "2026-02-26T19:00:00",
+    "current_balance": 13730.9,
+    "today_pl": -1545.34,
+    "daily_staked": 8999.3
+  },
+  {
+    "timestamp": "2026-02-27T19:00:00",
+    "current_balance": 18374.51,
+    "today_pl": 4643.61,
+    "daily_staked": 6998.9
+  },
+  {
+    "timestamp": "2026-02-28T19:00:00",
+    "current_balance": 19412.84,
+    "today_pl": 1038.33,
+    "daily_staked": 14499.04
+  },
+  {
+    "timestamp": "2026-03-01T19:00:00",
+    "current_balance": 26245.98,
+    "today_pl": 6833.14,
+    "daily_staked": 19497.45
+  },
+  {
+    "timestamp": "2026-03-02T19:00:00",
+    "current_balance": 26324.25,
+    "today_pl": 78.27,
+    "daily_staked": 6999.82
+  },
+  {
+    "timestamp": "2026-03-03T19:00:00",
+    "current_balance": 22324.35,
+    "today_pl": -3999.9,
+    "daily_staked": 3999.88
+  },
+  {
+    "timestamp": "2026-03-04T19:00:00",
+    "current_balance": 18490.09,
+    "today_pl": -3834.26,
+    "daily_staked": 12999.82
+  },
+  {
+    "timestamp": "2026-03-05T19:00:00",
+    "current_balance": 18786.65,
+    "today_pl": 296.56,
+    "daily_staked": 2000.02
+  },
+  {
+    "timestamp": "2026-03-06T19:00:00",
+    "current_balance": 18156.96,
+    "today_pl": -629.69,
+    "daily_staked": 4999.92
+  },
+  {
+    "timestamp": "2026-03-07T19:00:00",
+    "current_balance": 15689.13,
+    "today_pl": -2467.83,
+    "daily_staked": 15998.77
+  },
+  {
+    "timestamp": "2026-03-08T19:00:00",
+    "current_balance": 13109.44,
+    "today_pl": -2579.69,
+    "daily_staked": 15997.13
+  },
+  {
+    "timestamp": "2026-03-09T19:00:00",
+    "current_balance": 12533.73,
+    "today_pl": -575.71,
+    "daily_staked": 13472.35
+  },
+  {
+    "timestamp": "2026-03-10T19:00:00",
+    "current_balance": 13397.74,
+    "today_pl": 864.01,
+    "daily_staked": 6999.96
+  },
+  {
+    "timestamp": "2026-03-11T19:00:00",
+    "current_balance": 15806.85,
+    "today_pl": 2409.11,
+    "daily_staked": 5999.74
+  },
+  {
+    "timestamp": "2026-03-12T19:00:00",
+    "current_balance": 13046.22,
+    "today_pl": -2760.63,
+    "daily_staked": 14999.75
+  },
+  {
+    "timestamp": "2026-03-13T19:00:00",
+    "current_balance": 7871.14,
+    "today_pl": -5175.08,
+    "daily_staked": 9999.88
+  },
+  {
+    "timestamp": "2026-03-16T19:00:00",
+    "current_balance": 8642.76,
+    "today_pl": 771.62,
+    "daily_staked": 7234.1
+  },
+  {
+    "timestamp": "2026-03-17T19:00:00",
+    "current_balance": 11166.84,
+    "today_pl": 2524.08,
+    "daily_staked": 6999.7
+  },
+  {
+    "timestamp": "2026-03-18T19:00:00",
+    "current_balance": 13487.41,
+    "today_pl": 2320.57,
+    "daily_staked": 3999.94
+  },
+  {
+    "timestamp": "2026-03-19T19:00:00",
+    "current_balance": 3644.76,
+    "today_pl": -9842.65,
+    "daily_staked": 12850.51
+  },
+  {
+    "timestamp": "2026-03-20T19:00:00",
+    "current_balance": 5508.5,
+    "today_pl": 1863.74,
+    "daily_staked": 2999.97
+  },
+  {
+    "timestamp": "2026-03-21T19:00:00",
+    "current_balance": 7403.82,
+    "today_pl": 1895.32,
+    "daily_staked": 4871.56
+  },
+  {
+    "timestamp": "2026-03-22T19:00:00",
+    "current_balance": 9587.19,
+    "today_pl": 2183.37,
+    "daily_staked": 7642.74
+  },
+  {
+    "timestamp": "2026-04-03T19:00:00",
+    "current_balance": 6502.4,
+    "today_pl": -3084.79,
+    "daily_staked": 8949.84
+  },
+  {
+    "timestamp": "2026-04-05T19:00:00",
+    "current_balance": 6579.92,
+    "today_pl": 77.52,
+    "daily_staked": 3499.24
+  },
+  {
+    "timestamp": "2026-04-06T19:00:00",
+    "current_balance": 6582.39,
+    "today_pl": 2.47,
+    "daily_staked": 1999.8
+  },
+  {
+    "timestamp": "2026-04-07T19:00:00",
+    "current_balance": 6314.47,
+    "today_pl": -267.92,
+    "daily_staked": 999.99
+  },
+  {
+    "timestamp": "2026-04-08T19:00:00",
+    "current_balance": 2508.75,
+    "today_pl": -3805.72,
+    "daily_staked": 3805.72
+  },
+  {
+    "timestamp": "2026-04-09T19:00:00",
+    "current_balance": 3285.85,
+    "today_pl": 777.1,
+    "daily_staked": 999.96
+  },
+  {
+    "timestamp": "2026-04-11T19:00:00",
+    "current_balance": 3380.38,
+    "today_pl": 94.53,
+    "daily_staked": 1249.89
+  },
+  {
+    "timestamp": "2026-04-12T19:00:00",
+    "current_balance": 1971.24,
+    "today_pl": -1409.14,
+    "daily_staked": 1749.92
+  },
+  {
+    "timestamp": "2026-04-13T19:00:00",
+    "current_balance": 2284.1,
+    "today_pl": 312.86,
+    "daily_staked": 499.97
+  }
+]
