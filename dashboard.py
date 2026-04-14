@@ -159,7 +159,7 @@ with col_right:
     fig_mk.add_trace(go.Bar(x=by_market['Market'], y=by_market['Profit'], marker_color=colors))
     fig_mk.update_layout(template='plotly_dark', height=350,
         margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit (Units)")
-    st.plotly_chart(fig_mk, use_container_width=True)
+    st.plotly_chart(fig_mk, use_container_width=True, key="market_chart")
     st.dataframe(by_market[['Market', 'Bets', 'Profit', 'ROI %', 'SR %']],
                  use_container_width=True, hide_index=True)
 

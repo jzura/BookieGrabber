@@ -29,6 +29,130 @@ logging.basicConfig(
 logger = logging.getLogger("dashboard_export")
 
 
+def _rpd(o365, bf):
+    try:
+        a, b = float(o365), float(bf)
+        if a > b: return 1.0
+        pct = abs(a - b) / ((a + b) / 2) * 100
+        return 1.0 if pct < 1 else round(pct, 3)
+    except: return None
+
+
+def _compute_stake_and_return(df):
+    """Compute Stake, Return, Profit from raw data (since Excel formulas aren't cached)."""
+    from collections import defaultdict
+
+    df = df.copy()
+    df['Stake'] = None
+    df['Return'] = None
+    df['Profit'] = None
+
+    # Core qualifying check
+    def is_core(row):
+        if row['Market'] not in ('1.5G', '3.5G', 'BTTS'): return False
+        if row['Prediction'] != 0: return False
+        try:
+            bf = float(row['BF']); vol = float(row['Volume'])
+        except: return False
+        if not (40 <= vol <= 1100): return False
+        if bf <= 1.45: return False
+        rpd = _rpd(row['Bet365'], bf)
+        if rpd is None: return False
+        if bf <= 2.7 and rpd > 2.8: return False
+        if bf > 2.7 and rpd > 3.5: return False
+        return True
+
+    # Fade check
+    def is_btts_fade(row):
+        if row['Market'] != 'BTTS': return False
+        if row['Prediction'] != 0: return False
+        try:
+            vol = float(row['Volume'])
+        except: return False
+        if not (40 <= vol <= 1100): return False
+        rpd = _rpd(row['Bet365'], row['BF'])
+        if rpd is None or rpd < 5: return False
+        return True
+
+    def is_15g_fade(row):
+        if row['Market'] != '1.5G': return False
+        if row['Prediction'] != 1: return False
+        try:
+            vol = float(row['Volume'])
+        except: return False
+        if not (40 <= vol <= 1100): return False
+        rpd = _rpd(row['Bet365'], row['BF'])
+        if rpd is None or rpd < 4.6: return False
+        return True
+
+    # Build core set and double-stake
+    core_idx = set()
+    match_count = defaultdict(int)
+    for idx, row in df.iterrows():
+        if is_core(row):
+            core_idx.add(idx)
+            mk = (str(row['Date']), str(row['Home']), str(row['Away']))
+            match_count[mk] += 1
+
+    # Double-stake: highest BF per match with RPD=1.0 and ≥2 core bets
+    match_dbl = defaultdict(list)
+    for idx in core_idx:
+        row = df.loc[idx]
+        rpd = _rpd(row['Bet365'], row['BF'])
+        mk = (str(row['Date']), str(row['Home']), str(row['Away']))
+        if rpd == 1.0 and match_count[mk] >= 2:
+            try:
+                match_dbl[mk].append((idx, float(row['BF'])))
+            except: pass
+    dbl_idx = set()
+    for mk, candidates in match_dbl.items():
+        best = max(candidates, key=lambda x: x[1])[0]
+        dbl_idx.add(best)
+
+    # Assign stakes
+    for idx, row in df.iterrows():
+        stake = 0
+        fade = False
+        if idx in core_idx:
+            stake = 2 if idx in dbl_idx else 1
+        elif is_btts_fade(row):
+            stake = 1; fade = True
+        elif is_15g_fade(row):
+            stake = 1; fade = True
+
+        if stake == 0: continue
+
+        result = row.get('Result')
+        if result is None or pd.isna(result):
+            df.at[idx, 'Stake'] = stake
+            continue
+
+        result = int(result)
+        try:
+            bf = float(row['BF'])
+        except: continue
+
+        if fade:
+            if result == 0:
+                opp = 1 / (1 - 1 / bf)
+                c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
+                ret = stake * (1 + (opp - 1) * (1 - c))
+            else:
+                ret = 0
+        else:
+            if result == 1:
+                c = 0.01 if bf <= 1.5 else 0.02 if bf <= 2.8 else 0.03 if bf <= 3.5 else 0.04
+                ret = stake * (1 + (bf - 1) * (1 - c))
+            else:
+                ret = 0
+
+        df.at[idx, 'Stake'] = stake
+        df.at[idx, 'Return'] = round(ret, 4)
+        df.at[idx, 'Profit'] = round(ret - stake, 4)
+
+    return df
+
+
 def export_csv():
     if not MASTER_PATH.exists():
         logger.error(f"Master not found: {MASTER_PATH}")
@@ -51,32 +175,70 @@ def export_csv():
         d = ws.cell(row=r, column=2).value
         if isinstance(d, datetime):
             d = d.date()
+
+        # Read raw values — formulas won't be cached
+        result = ws.cell(row=r, column=16).value
+        hg = ws.cell(row=r, column=14).value
+        ag = ws.cell(row=r, column=15).value
+        pred = ws.cell(row=r, column=8).value
+        goals = ws.cell(row=r, column=13).value
+
+        # Compute result if it's a formula (None in data_only mode)
+        if result is None and hg is not None and ag is not None:
+            try:
+                hg_i, ag_i = int(hg), int(ag)
+                tg = hg_i + ag_i
+                if bt == 'BTTS':
+                    both = (hg_i > 0 and ag_i > 0)
+                    result = (1 if both else 0) if pred == 1 else (0 if both else 1)
+                elif bt in ('1.5G', '2.5G', '3.5G'):
+                    line = float(bt.replace('G', ''))
+                    result = (1 if tg > line else 0) if pred == 1 else (1 if tg < line else 0)
+            except: pass
+        elif result is None and goals is not None:
+            try:
+                tg = int(goals)
+                if bt in ('1.5G', '2.5G', '3.5G'):
+                    line = float(bt.replace('G', ''))
+                    result = (1 if tg > line else 0) if pred == 1 else (1 if tg < line else 0)
+            except: pass
+
+        # Compute RPD
+        o365 = ws.cell(row=r, column=9).value
+        bf = ws.cell(row=r, column=10).value
+        rpd = _rpd(o365, bf)
+
         rows.append({
             'Market': bt,
             'Date': d,
             'Home': ws.cell(row=r, column=3).value,
             'Away': ws.cell(row=r, column=4).value,
             'Competition': ws.cell(row=r, column=5).value,
-            'Prediction': ws.cell(row=r, column=8).value,
-            'Bet365': ws.cell(row=r, column=9).value,
-            'BF': ws.cell(row=r, column=10).value,
+            'Prediction': pred,
+            'Bet365': o365,
+            'BF': bf,
             'Volume': ws.cell(row=r, column=11).value,
-            'RPD': ws.cell(row=r, column=12).value,
-            'Goals': ws.cell(row=r, column=13).value,
-            'HG': ws.cell(row=r, column=14).value,
-            'AG': ws.cell(row=r, column=15).value,
-            'Result': ws.cell(row=r, column=16).value,
-            'Stake': ws.cell(row=r, column=17).value,
-            'Return': ws.cell(row=r, column=18).value,
-            'Profit': ws.cell(row=r, column=19).value,
+            'RPD': rpd,
+            'Goals': goals if isinstance(goals, (int, float)) else (int(hg) + int(ag) if hg is not None and ag is not None else None),
+            'HG': hg,
+            'AG': ag,
+            'Result': result,
+            'Stake': None,  # computed below
+            'Return': None,
+            'Profit': None,
             'SM_Odds': ws.cell(row=r, column=22).value,
         })
     wb.close()
 
     df = pd.DataFrame(rows)
+    df = _compute_stake_and_return(df)
+
     DASHBOARD_DIR.mkdir(parents=True, exist_ok=True)
     df.to_csv(CSV_PATH, index=False)
-    logger.info(f"Exported {len(df)} rows to {CSV_PATH}")
+
+    n_staked = df['Stake'].notna().sum()
+    n_settled = df['Profit'].notna().sum()
+    logger.info(f"Exported {len(df)} rows ({n_staked} staked, {n_settled} settled) to {CSV_PATH}")
     return True
 
 
