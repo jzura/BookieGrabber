@@ -487,6 +487,8 @@ with tab6:
 
     # ─── SM Account Balance ───
     st.subheader("SportsMarket Account Balance")
+    EUR_AUD = 1.66  # Update periodically
+
     balance_path = Path(__file__).parent / "dashboard_data" / "sm_balance.json"
     if balance_path.exists():
         import json
@@ -494,24 +496,31 @@ with tab6:
         if bal_history:
             bal_df = pd.DataFrame(bal_history)
             bal_df['timestamp'] = pd.to_datetime(bal_df['timestamp'])
+            bal_df['balance_aud'] = bal_df['current_balance'] * EUR_AUD
+            bal_df['pl_aud'] = bal_df['today_pl'] * EUR_AUD
 
-            c1, c2, c3 = st.columns(3)
             latest = bal_history[-1]
-            c1.metric("Current Balance", f"€{latest.get('current_balance', 0):,.2f}")
-            c2.metric("Today P/L", f"€{latest.get('today_pl', 0):,.2f}")
-            c3.metric("Yesterday P/L", f"€{latest.get('yesterday_pl', 0):,.2f}")
+            bal_eur = latest.get('current_balance', 0)
+            pl_today = latest.get('today_pl', 0)
+            pl_yest = latest.get('yesterday_pl', pl_today)
+
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Balance (EUR)", f"€{bal_eur:,.2f}")
+            c2.metric("Balance (AUD)", f"A${bal_eur * EUR_AUD:,.2f}")
+            c3.metric("Today P/L", f"A${pl_today * EUR_AUD:,.2f}")
+            c4.metric("Yesterday P/L", f"A${pl_yest * EUR_AUD:,.2f}")
 
             if 'current_balance' in bal_df.columns and len(bal_df) > 1:
                 fig_bal = go.Figure()
                 fig_bal.add_trace(go.Scatter(
-                    x=bal_df['timestamp'], y=bal_df['current_balance'],
+                    x=bal_df['timestamp'], y=bal_df['balance_aud'],
                     mode='lines+markers', line=dict(color='#4CAF50', width=2),
                     marker=dict(size=4),
-                    hovertemplate='%{x|%Y-%m-%d %H:%M}<br>Balance: €%{y:,.2f}<extra></extra>'
+                    hovertemplate='%{x|%Y-%m-%d}<br>Balance: A$%{y:,.2f}<extra></extra>'
                 ))
                 fig_bal.update_layout(template='plotly_dark', height=300,
                     margin=dict(l=40, r=20, t=10, b=40),
-                    xaxis_title="Date", yaxis_title="Balance (EUR)")
+                    xaxis_title="Date", yaxis_title="Balance (AUD)")
                 st.plotly_chart(fig_bal, use_container_width=True, key="sm_balance")
     else:
         st.info("SM balance data not yet available. Will populate on next export run.")
