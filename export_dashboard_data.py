@@ -259,9 +259,49 @@ def git_push():
         logger.error(f"Git push failed: {e}")
 
 
+def export_sm_balance():
+    """Fetch and save SM account balance info."""
+    try:
+        import requests
+        from sportsmarket_api import get_session, SM_BASE, SM_USERNAME
+        token = get_session()
+        if not token:
+            logger.warning("No SM session — skipping balance export")
+            return
+        r = requests.get(f"{SM_BASE}/../api/accounting_info",
+                        headers={"Accept": "application/json", "session": token,
+                                 "x-molly-client-name": "sonic"}, timeout=15)
+        if r.status_code != 200:
+            # Try alternate endpoint
+            r = requests.get(f"https://pro.sportmarket.com/v1/accounting_info/",
+                            headers={"Accept": "application/json", "session": token,
+                                     "x-molly-client-name": "sonic"}, timeout=15)
+        if r.status_code == 200:
+            data = r.json()
+            balance_file = DASHBOARD_DIR / "sm_balance.json"
+            import json
+            # Append timestamped entry
+            history = []
+            if balance_file.exists():
+                try:
+                    history = json.loads(balance_file.read_text())
+                except: pass
+            entry = {"timestamp": datetime.now().isoformat()}
+            for item in data.get("data", []):
+                entry[item["key"]] = item["value"]
+            history.append(entry)
+            # Keep last 365 entries
+            history = history[-365:]
+            balance_file.write_text(json.dumps(history, indent=2))
+            logger.info(f"SM balance: {entry.get('current_balance', '?')}")
+    except Exception as e:
+        logger.warning(f"SM balance export failed: {e}")
+
+
 def main():
     logger.info("Starting dashboard data export...")
     if export_csv():
+        export_sm_balance()
         git_push()
     logger.info("Done")
 

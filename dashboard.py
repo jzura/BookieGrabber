@@ -112,9 +112,9 @@ st.markdown("---")
 # ═══════════════════════════════════════════════
 # TAB LAYOUT
 # ═══════════════════════════════════════════════
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "📈 Overview", "🎯 SM vs BF Analysis", "📅 Time Analysis",
-    "🏆 League Heatmap", "📋 Recent Bets"
+    "🏆 League Heatmap", "📋 Recent Bets", "📊 Advanced"
 ])
 
 # ═══════════════════════════════════════════════
@@ -479,6 +479,226 @@ with tab5:
                 'SM_Odds': st.column_config.NumberColumn("SM Odds", format="%.3f"),
             }
         )
+
+# ═══════════════════════════════════════════════
+# TAB 6: ADVANCED
+# ═══════════════════════════════════════════════
+with tab6:
+
+    # ─── SM Account Balance ───
+    st.subheader("SportsMarket Account Balance")
+    balance_path = Path(__file__).parent / "dashboard_data" / "sm_balance.json"
+    if balance_path.exists():
+        import json
+        bal_history = json.loads(balance_path.read_text())
+        if bal_history:
+            bal_df = pd.DataFrame(bal_history)
+            bal_df['timestamp'] = pd.to_datetime(bal_df['timestamp'])
+
+            c1, c2, c3 = st.columns(3)
+            latest = bal_history[-1]
+            c1.metric("Current Balance", f"€{latest.get('current_balance', 0):,.2f}")
+            c2.metric("Today P/L", f"€{latest.get('today_pl', 0):,.2f}")
+            c3.metric("Yesterday P/L", f"€{latest.get('yesterday_pl', 0):,.2f}")
+
+            if 'current_balance' in bal_df.columns and len(bal_df) > 1:
+                fig_bal = go.Figure()
+                fig_bal.add_trace(go.Scatter(
+                    x=bal_df['timestamp'], y=bal_df['current_balance'],
+                    mode='lines+markers', line=dict(color='#4CAF50', width=2),
+                    marker=dict(size=4),
+                    hovertemplate='%{x|%Y-%m-%d %H:%M}<br>Balance: €%{y:,.2f}<extra></extra>'
+                ))
+                fig_bal.update_layout(template='plotly_dark', height=300,
+                    margin=dict(l=40, r=20, t=10, b=40),
+                    xaxis_title="Date", yaxis_title="Balance (EUR)")
+                st.plotly_chart(fig_bal, use_container_width=True, key="sm_balance")
+    else:
+        st.info("SM balance data not yet available. Will populate on next export run.")
+
+    st.markdown("---")
+
+    # ─── Drawdown Chart ───
+    st.subheader("Drawdown Analysis")
+    cum = settled_f.sort_values('Date').copy()
+    cum['Cum_Profit'] = cum['Profit'].cumsum()
+    cum['Peak'] = cum['Cum_Profit'].cummax()
+    cum['Drawdown'] = cum['Cum_Profit'] - cum['Peak']
+    cum['Bet_Number'] = range(1, len(cum) + 1)
+
+    fig_dd = go.Figure()
+    fig_dd.add_trace(go.Scatter(
+        x=cum['Bet_Number'], y=cum['Drawdown'],
+        mode='lines', fill='tozeroy',
+        line=dict(color='#f44336', width=1),
+        fillcolor='rgba(244,67,54,0.2)',
+        hovertemplate='Bet #%{x}<br>Drawdown: %{y:.2f}<extra></extra>'
+    ))
+    fig_dd.update_layout(template='plotly_dark', height=300,
+        margin=dict(l=40, r=20, t=10, b=40),
+        xaxis_title="Bet Number", yaxis_title="Drawdown (Units)")
+    st.plotly_chart(fig_dd, use_container_width=True, key="drawdown")
+
+    dd_c1, dd_c2, dd_c3 = st.columns(3)
+    max_dd = cum['Drawdown'].min() if not cum.empty else 0
+    current_dd = cum['Drawdown'].iloc[-1] if not cum.empty else 0
+    peak = cum['Peak'].max() if not cum.empty else 0
+    dd_c1.metric("Max Drawdown", f"{max_dd:.2f}")
+    dd_c2.metric("Current Drawdown", f"{current_dd:.2f}")
+    dd_c3.metric("Peak Profit", f"{peak:.2f}")
+
+    st.markdown("---")
+
+    # ─── Profit by Region ───
+    st.subheader("Profit by Region")
+    region_map = {
+        'English Premier League': 'UK & Ireland', 'English Championship League': 'UK & Ireland',
+        'Scottish Premiership': 'UK & Ireland',
+        'Spanish La Liga': 'Southern Europe', 'Italian Serie A': 'Southern Europe',
+        'Portuguese Primeira Liga': 'Southern Europe', 'Greek Super League': 'Southern Europe',
+        'German Bundesliga I': 'Central Europe', 'Austrian Bundesliga': 'Central Europe',
+        'Swiss Super League': 'Central Europe', 'Czech First League': 'Central Europe',
+        'Polish Ekstraklasa': 'Central Europe',
+        'French Ligue 1': 'Western Europe', 'Belgian First Division A': 'Western Europe',
+        'Netherlands Eredivisie': 'Western Europe',
+        'Turkish Super Lig': 'Eastern Europe', 'Romanian Liga I': 'Eastern Europe',
+        'Serbian SuperLiga': 'Eastern Europe', 'Croatian HNL': 'Eastern Europe',
+        'Danish Superligaen': 'Scandinavia', 'Norwegian Eliteserien': 'Scandinavia',
+        'Swedish Allsvenskan': 'Scandinavia',
+        'UEFA Champions League': 'UEFA', 'UEFA Europa League': 'UEFA',
+        'UEFA Conference League': 'UEFA', 'UEFA Champions League Q': 'UEFA',
+        'UEFA Europa League Q': 'UEFA', 'UEFA Conference League Q': 'UEFA',
+    }
+    settled_reg = settled_f.copy()
+    settled_reg['Region'] = settled_reg['Competition'].map(region_map).fillna('Other')
+    by_region = settled_reg.groupby('Region').agg(
+        Bets=('Profit', 'count'), Staked=('Stake', 'sum'),
+        Profit=('Profit', 'sum'),
+    ).reset_index()
+    by_region['ROI %'] = (by_region['Profit'] / by_region['Staked'] * 100).round(1)
+    by_region = by_region.sort_values('Profit', ascending=False)
+
+    col_reg1, col_reg2 = st.columns(2)
+    with col_reg1:
+        fig_reg = go.Figure()
+        colors = ['#4CAF50' if p >= 0 else '#f44336' for p in by_region['Profit']]
+        fig_reg.add_trace(go.Bar(x=by_region['Region'], y=by_region['Profit'], marker_color=colors,
+            hovertemplate='%{x}<br>Profit: %{y:.2f}<br>ROI: %{customdata[0]:.1f}%<extra></extra>',
+            customdata=by_region[['ROI %']].values))
+        fig_reg.update_layout(template='plotly_dark', height=300,
+            margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit")
+        st.plotly_chart(fig_reg, use_container_width=True, key="region_chart")
+
+    with col_reg2:
+        fig_pie = go.Figure()
+        fig_pie.add_trace(go.Pie(
+            labels=by_region['Region'], values=by_region['Bets'],
+            marker=dict(colors=px.colors.qualitative.Set2),
+            textinfo='label+percent', hole=0.4))
+        fig_pie.update_layout(template='plotly_dark', height=300,
+            margin=dict(l=20, r=20, t=10, b=10), showlegend=False)
+        st.plotly_chart(fig_pie, use_container_width=True, key="region_pie")
+
+    st.dataframe(by_region[['Region', 'Bets', 'Profit', 'ROI %']],
+                 use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+
+    # ─── Monthly Cumulative Overlay ───
+    st.subheader("Monthly Profit Curves (Overlay)")
+    monthly_cum = settled_f.copy()
+    monthly_cum['MonthKey'] = monthly_cum['Date'].dt.to_period('M').astype(str)
+    monthly_cum = monthly_cum.sort_values('Date')
+
+    fig_overlay = go.Figure()
+    colors_cycle = ['#4CAF50', '#2196F3', '#FF9800', '#f44336', '#9C27B0',
+                    '#00BCD4', '#FFEB3B', '#E91E63', '#8BC34A', '#FF5722',
+                    '#3F51B5', '#009688', '#FFC107', '#795548', '#607D8B']
+    for i, (month, grp) in enumerate(monthly_cum.groupby('MonthKey')):
+        grp = grp.copy()
+        grp['Month_Cum'] = grp['Profit'].cumsum()
+        grp['Bet_In_Month'] = range(1, len(grp) + 1)
+        fig_overlay.add_trace(go.Scatter(
+            x=grp['Bet_In_Month'], y=grp['Month_Cum'],
+            mode='lines', name=month,
+            line=dict(color=colors_cycle[i % len(colors_cycle)], width=1.5),
+            hovertemplate=f'{month}<br>Bet #%{{x}}<br>Cum: %{{y:.2f}}<extra></extra>'
+        ))
+    fig_overlay.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+    fig_overlay.update_layout(template='plotly_dark', height=400,
+        margin=dict(l=40, r=20, t=10, b=40),
+        xaxis_title="Bet # in Month", yaxis_title="Cumulative Profit",
+        legend=dict(orientation='h', y=-0.2))
+    st.plotly_chart(fig_overlay, use_container_width=True, key="monthly_overlay")
+
+    st.markdown("---")
+
+    # ─── Core vs Fade Breakdown ───
+    st.subheader("Core vs Fade Performance")
+    settled_cf = settled_f.copy()
+    def classify_bet(row):
+        if row['Market'] == 'BTTS' and row['Prediction'] == 0:
+            rpd = row.get('RPD')
+            if rpd is not None and not pd.isna(rpd) and rpd >= 5:
+                return 'BTTS Fade (Yes)'
+            return 'BTTS Core (No)'
+        elif row['Market'] == '1.5G' and row['Prediction'] == 1:
+            rpd = row.get('RPD')
+            if rpd is not None and not pd.isna(rpd) and rpd >= 4.6:
+                return '1.5G Fade (Under)'
+            return '1.5G Core (Under)'
+        elif row['Market'] == '1.5G' and row['Prediction'] == 0:
+            return '1.5G Core (Under)'
+        elif row['Market'] == '3.5G':
+            return '3.5G Core (Under)'
+        elif row['Market'] == '2.5G':
+            return '2.5G (tracked only)'
+        return 'Other'
+
+    settled_cf['Bet_Class'] = settled_cf.apply(classify_bet, axis=1)
+    by_class = settled_cf.groupby('Bet_Class').agg(
+        Bets=('Profit', 'count'), Staked=('Stake', 'sum'),
+        Profit=('Profit', 'sum'), Wins=('Return', lambda x: (x > 0).sum()),
+    ).reset_index()
+    by_class['ROI %'] = (by_class['Profit'] / by_class['Staked'] * 100).round(1)
+    by_class['SR %'] = (by_class['Wins'] / by_class['Bets'] * 100).round(1)
+    by_class = by_class.sort_values('Profit', ascending=False)
+
+    fig_class = go.Figure()
+    colors = ['#4CAF50' if p >= 0 else '#f44336' for p in by_class['Profit']]
+    fig_class.add_trace(go.Bar(x=by_class['Bet_Class'], y=by_class['Profit'],
+        marker_color=colors,
+        hovertemplate='%{x}<br>Profit: %{y:.2f}<br>ROI: %{customdata[0]:.1f}%<extra></extra>',
+        customdata=by_class[['ROI %']].values))
+    fig_class.update_layout(template='plotly_dark', height=350,
+        margin=dict(l=40, r=20, t=10, b=40), yaxis_title="Profit (Units)")
+    st.plotly_chart(fig_class, use_container_width=True, key="core_fade_chart")
+
+    st.dataframe(by_class[['Bet_Class', 'Bets', 'Staked', 'Profit', 'ROI %', 'SR %']].rename(
+        columns={'Bet_Class': 'Strategy'}), use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+
+    # ─── Commission Analysis ───
+    st.subheader("Commission Analysis")
+    sm_comm = settled_f[settled_f['SM_Odds'].notna() & settled_f['BF'].notna()].copy()
+    if not sm_comm.empty:
+        # Theoretical commission = BF odds vs SM matched odds
+        sm_comm['Theo_Return_BF'] = sm_comm.apply(
+            lambda r: r['Stake'] * (r['BF'] - 1) if r['Result'] == 1 else -r['Stake'], axis=1)
+        sm_comm['Actual_Return_SM'] = sm_comm.apply(
+            lambda r: r['Stake'] * (r['SM_Odds'] - 1) if r['Result'] == 1 else -r['Stake'], axis=1)
+        sm_comm['Commission_Impact'] = sm_comm['Actual_Return_SM'] - sm_comm['Theo_Return_BF']
+
+        total_comm = sm_comm['Commission_Impact'].sum()
+        avg_comm_pct = ((sm_comm['SM_Odds'] / sm_comm['BF']).mean() - 1) * 100
+
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Total Commission Impact", f"€{total_comm:.2f}")
+        c2.metric("Avg Odds Reduction", f"{avg_comm_pct:.2f}%")
+        c3.metric("Bets with SM Data", f"{len(sm_comm):,}")
+    else:
+        st.info("No SM odds data available for commission analysis.")
 
 # ─── Footer ───
 st.markdown("---")
