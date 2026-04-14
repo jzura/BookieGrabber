@@ -112,8 +112,8 @@ st.markdown("---")
 # ═══════════════════════════════════════════════
 # TAB LAYOUT
 # ═══════════════════════════════════════════════
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "📈 Overview", "🎯 SM vs BF Analysis", "📅 Time Analysis",
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+    "📈 Overview", "💰 SM Account", "🎯 SM vs BF Analysis", "📅 Time Analysis",
     "🏆 League Heatmap", "📋 Recent Bets", "📊 Advanced"
 ])
 
@@ -236,9 +236,125 @@ with tab1:
         st.plotly_chart(fig2, use_container_width=True, key="vol_chart")
 
 # ═══════════════════════════════════════════════
-# TAB 2: SM vs BF ANALYSIS
+# TAB 2: SM ACCOUNT
 # ═══════════════════════════════════════════════
 with tab2:
+    fx_path = Path(__file__).parent / "dashboard_data" / "fx_rate.json"
+    EUR_AUD = 1.66
+    if fx_path.exists():
+        import json as _json
+        fx = _json.loads(fx_path.read_text())
+        EUR_AUD = fx.get("EUR_AUD", 1.66)
+
+    balance_path = Path(__file__).parent / "dashboard_data" / "sm_balance.json"
+    if balance_path.exists():
+        import json
+        bal_history = json.loads(balance_path.read_text())
+        if bal_history:
+            bal_df = pd.DataFrame(bal_history)
+            bal_df['timestamp'] = pd.to_datetime(bal_df['timestamp'])
+            bal_df['balance_aud'] = bal_df['current_balance'] * EUR_AUD
+            bal_df['pl_aud'] = bal_df['today_pl'] * EUR_AUD
+
+            latest = bal_history[-1]
+            bal_eur = latest.get('current_balance', 0)
+            pl_today = latest.get('today_pl', 0)
+
+            # KPIs
+            st.subheader("Account Overview")
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Balance (EUR)", f"€{bal_eur:,.2f}")
+            c2.metric("Balance (AUD)", f"A${bal_eur * EUR_AUD:,.2f}")
+            c3.metric("Last Day P/L (AUD)", f"A${pl_today * EUR_AUD:,.2f}")
+            c4.metric("EUR/AUD Rate", f"{EUR_AUD:.4f}")
+
+            st.markdown("---")
+
+            # Balance chart
+            st.subheader("Account Balance History")
+            fig_bal = go.Figure()
+            fig_bal.add_trace(go.Scatter(
+                x=bal_df['timestamp'], y=bal_df['balance_aud'],
+                mode='lines+markers', line=dict(color='#4CAF50', width=2),
+                marker=dict(size=4),
+                hovertemplate='%{x|%Y-%m-%d}<br>Balance: A$%{y:,.2f}<extra></extra>'
+            ))
+            fig_bal.update_layout(template='plotly_dark', height=350,
+                margin=dict(l=40, r=20, t=10, b=40),
+                xaxis_title="Date", yaxis_title="Balance (AUD)")
+            st.plotly_chart(fig_bal, use_container_width=True, key="sm_balance")
+
+            st.markdown("---")
+
+            # Daily P/L bars
+            st.subheader("Daily P/L")
+            fig_dpl = go.Figure()
+            colors = ['#4CAF50' if p >= 0 else '#f44336' for p in bal_df['pl_aud']]
+            fig_dpl.add_trace(go.Bar(
+                x=bal_df['timestamp'], y=bal_df['pl_aud'],
+                marker_color=colors,
+                hovertemplate='%{x|%Y-%m-%d}<br>P/L: A$%{y:,.2f}<extra></extra>'
+            ))
+            fig_dpl.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+            fig_dpl.update_layout(template='plotly_dark', height=300,
+                margin=dict(l=40, r=20, t=10, b=40),
+                xaxis_title="Date", yaxis_title="Daily P/L (AUD)")
+            st.plotly_chart(fig_dpl, use_container_width=True, key="sm_daily_pl")
+
+            st.markdown("---")
+
+            # Account stats
+            st.subheader("Account Statistics")
+            total_pl_aud = bal_df['pl_aud'].sum()
+            winning_days = (bal_df['today_pl'] > 0).sum()
+            losing_days = (bal_df['today_pl'] < 0).sum()
+            best_day = bal_df.loc[bal_df['pl_aud'].idxmax()]
+            worst_day = bal_df.loc[bal_df['pl_aud'].idxmin()]
+            avg_daily = bal_df['pl_aud'].mean()
+            peak_bal = bal_df['balance_aud'].max()
+            peak_date = bal_df.loc[bal_df['balance_aud'].idxmax(), 'timestamp']
+            current_dd = bal_df['balance_aud'].iloc[-1] - peak_bal
+
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric("Total P/L (AUD)", f"A${total_pl_aud:,.2f}")
+            c2.metric("Winning Days", f"{winning_days} / {winning_days + losing_days}")
+            c3.metric("Avg Daily P/L", f"A${avg_daily:,.2f}")
+            c4.metric("Win Day Rate", f"{winning_days/(winning_days+losing_days)*100:.1f}%" if (winning_days+losing_days) > 0 else "N/A")
+
+            c5, c6, c7, c8 = st.columns(4)
+            c5.metric("Best Day", f"A${best_day['pl_aud']:,.2f}", delta=str(best_day['timestamp'].date()))
+            c6.metric("Worst Day", f"A${worst_day['pl_aud']:,.2f}", delta=str(worst_day['timestamp'].date()))
+            c7.metric("Peak Balance", f"A${peak_bal:,.2f}", delta=str(peak_date.date()))
+            c8.metric("Drawdown from Peak", f"A${current_dd:,.2f}")
+
+            st.markdown("---")
+
+            # Weekly P/L
+            st.subheader("Weekly P/L")
+            bal_df['Week'] = bal_df['timestamp'].dt.to_period('W').astype(str)
+            weekly = bal_df.groupby('Week').agg(
+                PL=('pl_aud', 'sum'),
+                Days=('pl_aud', 'count'),
+                Staked=('daily_staked', 'sum') if 'daily_staked' in bal_df.columns else ('pl_aud', 'count'),
+            ).reset_index()
+            fig_wk = go.Figure()
+            colors = ['#4CAF50' if p >= 0 else '#f44336' for p in weekly['PL']]
+            fig_wk.add_trace(go.Bar(x=weekly['Week'], y=weekly['PL'], marker_color=colors,
+                hovertemplate='%{x}<br>P/L: A$%{y:,.2f}<extra></extra>'))
+            fig_wk.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+            fig_wk.update_layout(template='plotly_dark', height=300,
+                margin=dict(l=40, r=20, t=10, b=80),
+                xaxis_title="Week", yaxis_title="Weekly P/L (AUD)",
+                xaxis_tickangle=-45)
+            st.plotly_chart(fig_wk, use_container_width=True, key="sm_weekly")
+
+    else:
+        st.info("SM balance data not yet available. Will populate on next export run.")
+
+# ═══════════════════════════════════════════════
+# TAB 3: SM vs BF ANALYSIS
+# ═══════════════════════════════════════════════
+with tab3:
     sm_data = settled_f[settled_f['SM_Odds'].notna() & settled_f['BF'].notna()].copy()
 
     if sm_data.empty:
@@ -309,7 +425,7 @@ with tab2:
 # ═══════════════════════════════════════════════
 # TAB 3: TIME ANALYSIS
 # ═══════════════════════════════════════════════
-with tab3:
+with tab4:
     st.subheader("Profit by Day of Week")
     dow_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     dow = settled_f.groupby('DayOfWeek').agg(
@@ -398,7 +514,7 @@ with tab3:
 # ═══════════════════════════════════════════════
 # TAB 4: LEAGUE HEATMAP
 # ═══════════════════════════════════════════════
-with tab4:
+with tab5:
     st.subheader("Profit Heatmap: League × Month")
 
     heatmap_data = settled_f.groupby(['Competition', 'Month']).agg(
@@ -447,7 +563,7 @@ with tab4:
 # ═══════════════════════════════════════════════
 # TAB 5: RECENT BETS
 # ═══════════════════════════════════════════════
-with tab5:
+with tab6:
     st.subheader("Recent Settled Bets")
     n_show = st.slider("Number of bets to show", 10, 200, 50, key="recent_slider")
     recent = settled_f.sort_values('Date', ascending=False).head(n_show)
@@ -483,54 +599,7 @@ with tab5:
 # ═══════════════════════════════════════════════
 # TAB 6: ADVANCED
 # ═══════════════════════════════════════════════
-with tab6:
-
-    # ─── SM Account Balance ───
-    st.subheader("SportsMarket Account Balance")
-    fx_path = Path(__file__).parent / "dashboard_data" / "fx_rate.json"
-    EUR_AUD = 1.66
-    if fx_path.exists():
-        import json as _json
-        fx = _json.loads(fx_path.read_text())
-        EUR_AUD = fx.get("EUR_AUD", 1.66)
-
-    balance_path = Path(__file__).parent / "dashboard_data" / "sm_balance.json"
-    if balance_path.exists():
-        import json
-        bal_history = json.loads(balance_path.read_text())
-        if bal_history:
-            bal_df = pd.DataFrame(bal_history)
-            bal_df['timestamp'] = pd.to_datetime(bal_df['timestamp'])
-            bal_df['balance_aud'] = bal_df['current_balance'] * EUR_AUD
-            bal_df['pl_aud'] = bal_df['today_pl'] * EUR_AUD
-
-            latest = bal_history[-1]
-            bal_eur = latest.get('current_balance', 0)
-            pl_today = latest.get('today_pl', 0)
-            pl_yest = latest.get('yesterday_pl', pl_today)
-
-            c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Balance (EUR)", f"€{bal_eur:,.2f}")
-            c2.metric("Balance (AUD)", f"A${bal_eur * EUR_AUD:,.2f}")
-            c3.metric("Today P/L", f"A${pl_today * EUR_AUD:,.2f}")
-            c4.metric("Yesterday P/L", f"A${pl_yest * EUR_AUD:,.2f}")
-
-            if 'current_balance' in bal_df.columns and len(bal_df) > 1:
-                fig_bal = go.Figure()
-                fig_bal.add_trace(go.Scatter(
-                    x=bal_df['timestamp'], y=bal_df['balance_aud'],
-                    mode='lines+markers', line=dict(color='#4CAF50', width=2),
-                    marker=dict(size=4),
-                    hovertemplate='%{x|%Y-%m-%d}<br>Balance: A$%{y:,.2f}<extra></extra>'
-                ))
-                fig_bal.update_layout(template='plotly_dark', height=300,
-                    margin=dict(l=40, r=20, t=10, b=40),
-                    xaxis_title="Date", yaxis_title="Balance (AUD)")
-                st.plotly_chart(fig_bal, use_container_width=True, key="sm_balance")
-    else:
-        st.info("SM balance data not yet available. Will populate on next export run.")
-
-    st.markdown("---")
+with tab7:
 
     # ─── Drawdown Chart ───
     st.subheader("Drawdown Analysis")
