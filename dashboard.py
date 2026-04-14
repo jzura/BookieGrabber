@@ -51,7 +51,6 @@ def load_data():
     df['Date'] = pd.to_datetime(df['Date'])
     df['Month'] = df['Date'].dt.to_period('M').astype(str)
     df['DayOfWeek'] = df['Date'].dt.day_name()
-    df['Hour'] = pd.to_datetime(df.get('MatchTime', '00:00'), format='%H:%M', errors='coerce').dt.hour
 
     for col in ['Bet365', 'BF', 'Volume', 'RPD', 'Stake', 'Return', 'Profit', 'SM_Odds']:
         df[col] = pd.to_numeric(df[col], errors='coerce')
