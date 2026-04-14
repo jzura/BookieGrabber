@@ -487,7 +487,12 @@ with tab6:
 
     # ─── SM Account Balance ───
     st.subheader("SportsMarket Account Balance")
-    EUR_AUD = 1.66  # Update periodically
+    fx_path = Path(__file__).parent / "dashboard_data" / "fx_rate.json"
+    EUR_AUD = 1.66
+    if fx_path.exists():
+        import json as _json
+        fx = _json.loads(fx_path.read_text())
+        EUR_AUD = fx.get("EUR_AUD", 1.66)
 
     balance_path = Path(__file__).parent / "dashboard_data" / "sm_balance.json"
     if balance_path.exists():

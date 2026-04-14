@@ -259,6 +259,23 @@ def git_push():
         logger.error(f"Git push failed: {e}")
 
 
+def export_fx_rate():
+    """Fetch and save EUR/AUD rate."""
+    try:
+        import json, requests as req
+        r = req.get('https://api.exchangerate-api.com/v4/latest/EUR', timeout=10)
+        if r.status_code == 200:
+            rate = r.json()['rates']['AUD']
+            fx_file = DASHBOARD_DIR / "fx_rate.json"
+            fx_file.write_text(json.dumps({
+                "EUR_AUD": rate,
+                "updated": datetime.now().isoformat()
+            }))
+            logger.info(f"EUR/AUD rate: {rate}")
+    except Exception as e:
+        logger.warning(f"FX rate fetch failed: {e}")
+
+
 def export_sm_balance():
     """Fetch and save SM account balance info."""
     try:
@@ -301,6 +318,7 @@ def export_sm_balance():
 def main():
     logger.info("Starting dashboard data export...")
     if export_csv():
+        export_fx_rate()
         export_sm_balance()
         git_push()
     logger.info("Done")
