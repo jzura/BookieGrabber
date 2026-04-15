@@ -161,6 +161,17 @@ with tab1:
             hovertemplate='30-bet P&L: %{y:.2f}<extra></extra>'
         ))
 
+    # Linear best fit
+    if len(cum) > 2:
+        z = np.polyfit(cum['Bet_Number'], cum['Cum_Profit'], 1)
+        trend_y = np.polyval(z, cum['Bet_Number'])
+        fig_cum.add_trace(go.Scatter(
+            x=cum['Bet_Number'], y=trend_y,
+            mode='lines', line=dict(color='#9E9E9E', width=1, dash='dash'),
+            name=f'Trend ({z[0]:+.3f}/bet)', opacity=0.7,
+            hovertemplate='Trend: %{y:.2f}<extra></extra>'
+        ))
+
     fig_cum.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
     fig_cum.update_layout(template='plotly_dark', height=400,
         margin=dict(l=40, r=20, t=20, b=40),
