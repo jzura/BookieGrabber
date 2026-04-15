@@ -13,12 +13,24 @@
         <string>/Users/Joel/REPOS/BookieGrabber/sm_odds_updater.py</string>
     </array>
 
-    <!-- Run at 07:00 and 19:00 every day -->
+    <!-- Run every 6 hours: 01:05, 07:05, 13:05, 19:05 -->
     <key>StartCalendarInterval</key>
     <array>
         <dict>
             <key>Hour</key>
+            <integer>1</integer>
+            <key>Minute</key>
+            <integer>5</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
             <integer>7</integer>
+            <key>Minute</key>
+            <integer>5</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>13</integer>
             <key>Minute</key>
             <integer>5</integer>
         </dict>

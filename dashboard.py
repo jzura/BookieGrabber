@@ -107,6 +107,22 @@ col3.metric("Total Staked", f"{total_staked:.0f}")
 col4.metric("Total Profit", f"{total_profit:.2f}", delta=f"{roi:.1f}% ROI")
 col5.metric("Avg SM Odds", f"{settled_f['SM_Odds'].mean():.2f}" if settled_f['SM_Odds'].notna().any() else "N/A")
 
+# Recent performance
+from datetime import timedelta as _td
+now = pd.Timestamp.now()
+last_7 = settled_f[settled_f['Date'] >= now - _td(days=7)]
+last_30 = settled_f[settled_f['Date'] >= now - _td(days=30)]
+
+UNIT_VALUE = 250 * 1.66  # EUR per unit * EUR/AUD
+
+col6, col7, col8, col9 = st.columns(4)
+p7 = last_7['Profit'].sum()
+p30 = last_30['Profit'].sum()
+col6.metric("7-Day Profit (units)", f"{p7:+.2f}", delta=f"{len(last_7)} bets")
+col7.metric("7-Day Profit (A$)", f"A${p7 * UNIT_VALUE:+,.0f}")
+col8.metric("30-Day Profit (units)", f"{p30:+.2f}", delta=f"{len(last_30)} bets")
+col9.metric("30-Day Profit (A$)", f"A${p30 * UNIT_VALUE:+,.0f}")
+
 st.markdown("---")
 
 # ═══════════════════════════════════════════════

@@ -349,6 +349,40 @@ def find_result(lookup, match_date, home_team, away_team):
 # Main
 # -------------------------------------------------------------
 
+def fetch_sm_results():
+    """Fetch match results from SportsMarket orders (primary source).
+    Returns dict of {(date, home_norm, away_norm): (hg, ag)}"""
+    results = {}
+    try:
+        from sportsmarket_api import fetch_all_orders, parse_order, normalize as sm_norm
+        orders = fetch_all_orders(max_pages=20)
+        for o in orders:
+            ev = o.get("event_info", {})
+            result = ev.get("result", {})
+            if not result:
+                continue
+            ft_home = result.get("ft_home")
+            ft_away = result.get("ft_away")
+            if ft_home is None or ft_away is None:
+                continue
+            match_date = ev.get("date")
+            if match_date:
+                try:
+                    d = datetime.strptime(match_date, "%Y-%m-%d").date()
+                except:
+                    continue
+            else:
+                continue
+            home = ev.get("home_team", "")
+            away = ev.get("away_team", "")
+            key = (d, normalize(home), normalize(away))
+            results[key] = (int(ft_home), int(ft_away))
+        logger.info(f"SM results: {len(results)} matches with scores")
+    except Exception as e:
+        logger.warning(f"SM results fetch failed: {e}")
+    return results
+
+
 def main():
     logger.info("Starting results updater...")
 
@@ -415,8 +449,35 @@ def main():
     filled_rows = 0
     remaining = rows_to_fill
 
-    # --- Primary: Fotmob (global, single endpoint) ---
-    logger.info("Primary source: Fotmob")
+    # --- Primary: SportsMarket (exact scores from settled bets) ---
+    logger.info("Primary source: SportsMarket")
+    sm_results = fetch_sm_results()
+    if sm_results:
+        sm_filled = 0
+        still_remaining = []
+        for r, bt, d, home, away, pred, comp in remaining:
+            key = (d, normalize(home), normalize(away))
+            # Try exact match, then +/- 1 day
+            result = sm_results.get(key)
+            if not result:
+                for offset in [-1, 1]:
+                    alt = (d + timedelta(days=offset), normalize(home), normalize(away))
+                    result = sm_results.get(alt)
+                    if result:
+                        break
+            if result:
+                hg, ag = result
+                ws.cell(row=r, column=14, value=hg)
+                ws.cell(row=r, column=15, value=ag)
+                sm_filled += 1
+            else:
+                still_remaining.append((r, bt, d, home, away, pred, comp))
+        filled_rows += sm_filled
+        remaining = still_remaining
+        logger.info(f"SM filled: {sm_filled}, remaining: {len(remaining)}")
+
+    # --- Secondary: Fotmob (global, single endpoint) ---
+    logger.info("Secondary source: Fotmob")
     try:
         fotmob_df = download_fotmob_results(needed_dates)
     except Exception as e:

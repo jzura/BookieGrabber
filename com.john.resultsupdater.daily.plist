@@ -5,40 +5,40 @@
 <dict>
 
     <key>Label</key>
-    <string>com.john.dashboardexport.daily</string>
+    <string>com.john.resultsupdater.daily</string>
 
     <key>ProgramArguments</key>
     <array>
         <string>/Users/Joel/REPOS/BookieGrabber/venv/bin/python</string>
-        <string>/Users/Joel/REPOS/BookieGrabber/export_dashboard_data.py</string>
+        <string>/Users/Joel/REPOS/BookieGrabber/results_updater.py</string>
     </array>
 
-    <!-- Run every 6 hours: 01:10, 07:10, 13:10, 19:10 -->
+    <!-- Run every 6 hours: 01:00, 07:00, 13:00, 19:00 -->
     <key>StartCalendarInterval</key>
     <array>
         <dict>
             <key>Hour</key>
             <integer>1</integer>
             <key>Minute</key>
-            <integer>10</integer>
+            <integer>0</integer>
         </dict>
         <dict>
             <key>Hour</key>
             <integer>7</integer>
             <key>Minute</key>
-            <integer>10</integer>
+            <integer>0</integer>
         </dict>
         <dict>
             <key>Hour</key>
             <integer>13</integer>
             <key>Minute</key>
-            <integer>10</integer>
+            <integer>0</integer>
         </dict>
         <dict>
             <key>Hour</key>
             <integer>19</integer>
             <key>Minute</key>
-            <integer>10</integer>
+            <integer>0</integer>
         </dict>
     </array>
 
@@ -46,9 +46,9 @@
     <string>/Users/Joel/REPOS/BookieGrabber</string>
 
     <key>StandardOutPath</key>
-    <string>/Users/Joel/REPOS/BookieGrabber/logs/dashboardexport.out</string>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/resultsupdater.out</string>
     <key>StandardErrorPath</key>
-    <string>/Users/Joel/REPOS/BookieGrabber/logs/dashboardexport.err</string>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/resultsupdater.err</string>
 
 </dict>
 </plist>
