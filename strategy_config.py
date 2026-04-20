@@ -87,14 +87,8 @@ def is_15g_fade(bet_type, prediction, rpd, vol):
 
 
 def is_25g_piggyback(bet_type, prediction, bf, core_15g_match):
-    """Check if a 2.5G Under bet qualifies as a piggyback on a core 1.5G Under."""
-    if bet_type != "2.5G":
-        return False
-    if prediction != 0:
-        return False
-    if bf is None or bf <= BF_MIN:
-        return False
-    return core_15g_match
+    """2.5G piggyback — DISABLED. Minimal profit vs other markets."""
+    return False
 
 
 def core_conditions_excel(r):
