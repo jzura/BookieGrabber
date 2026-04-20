@@ -26,10 +26,13 @@ MASTER_SHEET = "Master Bet Tracker"
 
 @dataclass
 class StrategyParams:
-    """All tunable parameters for the betting strategy."""
+    """Tunable parameters for backtesting/optimization.
+    Defaults here are the OPTIMIZER search defaults — they intentionally differ
+    from production values in strategy_config.py. The optimizer explores wider
+    ranges to find optimal settings."""
     # Volume range
     vol_min: float = 40.0
-    vol_max: float = 700.0
+    vol_max: float = 1100.0
 
     # BF lower bound
     bf_min: float = 1.30
@@ -373,6 +376,19 @@ def run_backtest(bets: list[BetRow], params: StrategyParams,
                 and match_core_count[(b.date, b.home, b.away)] >= params.double_stake_min_count):
             double_stake.add(i)
 
+    # Under 2.5G piggyback: matches where 1.5G Under qualifies as core → flag 2.5G Under
+    matches_with_core_15g = set()
+    for i in core_indices:
+        b = in_range[i]
+        if b.bet_type == "1.5G" and b.prediction == 0:
+            matches_with_core_15g.add((b.date, b.home, b.away))
+
+    piggyback_25g = set()
+    for i, b in enumerate(in_range):
+        if b.bet_type == "2.5G" and b.prediction == 0 and b.bf > params.bf_min:
+            if (b.date, b.home, b.away) in matches_with_core_15g:
+                piggyback_25g.add(i)
+
     # Simulate P&L
     stats = BacktestStats()
     by_market = defaultdict(lambda: BacktestStats())
@@ -389,6 +405,8 @@ def run_backtest(bets: list[BetRow], params: StrategyParams,
 
         if i in core_indices:
             stake = 2.0 if i in double_stake else 1.0
+        elif i in piggyback_25g:
+            stake = 1.0  # Under 2.5G piggyback — always 1x, same return calc as core
         elif is_btts_fade(b, params):
             stake = 1.0
             is_fade = True

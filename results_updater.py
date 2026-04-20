@@ -587,23 +587,12 @@ def _rpd(o365, bf):
 
 
 def _is_core(bt, pred, vol, bf, rpd):
-    if bt not in ("1.5G", "3.5G", "BTTS"):
-        return False
-    if pred != 0:
-        return False
+    from strategy_config import is_core_qualifying
     try:
         vol = float(vol); bf = float(bf)
     except (TypeError, ValueError):
         return False
-    if not (40 <= vol <= 1100):
-        return False
-    if bf <= 1.45 or rpd is None:
-        return False
-    if bf <= 2.7 and rpd > 2.8:
-        return False
-    if bf > 2.7 and rpd > 3.5:
-        return False
-    return True
+    return is_core_qualifying(bt, pred, bf, vol, rpd)
 
 
 def rebuild_stake_formulas(ws):
@@ -656,7 +645,8 @@ def rebuild_stake_formulas(ws):
     for x in rows:
         if x["r"] not in core_rows:
             continue
-        if x["rpd"] == 1.0 and match_count[(x["d"], x["home"], x["away"])] >= 2:
+        from strategy_config import DOUBLE_STAKE_RPD, DOUBLE_STAKE_MIN_COUNT
+        if x["rpd"] == DOUBLE_STAKE_RPD and match_count[(x["d"], x["home"], x["away"])] >= DOUBLE_STAKE_MIN_COUNT:
             try:
                 bf_f = float(x["bf"])
             except (TypeError, ValueError):
@@ -668,17 +658,36 @@ def rebuild_stake_formulas(ws):
         best_r = max(candidates, key=lambda c: c[1])[0]
         double_rows.add(best_r)
 
+    # Under 2.5G piggyback: matches where 1.5G Under qualifies as core
+    matches_with_core_15g = set()
+    for x in rows:
+        if x["r"] in core_rows and x["bt"] == "1.5G" and x["pred"] == 0:
+            matches_with_core_15g.add((x["d"], x["home"], x["away"]))
+
+    piggyback_25g = set()
+    for x in rows:
+        from strategy_config import is_25g_piggyback as _is_pb
+        mk = (x["d"], x["home"], x["away"])
+        try:
+            bf_f = float(x["bf"]) if x["bf"] is not None else 0
+        except (TypeError, ValueError):
+            bf_f = 0
+        if _is_pb(x["bt"], x["pred"], bf_f, mk in matches_with_core_15g):
+            piggyback_25g.add(x["r"])
+
     for x in rows:
         r = x["r"]
         ws.cell(row=r, column=17, value=stake_formula(
             r,
             is_conflict=(r in conflict_rows),
             is_double_stake=(r in double_rows),
+            is_25g_piggyback=(r in piggyback_25g),
         ))
 
     logger.info(
         f"Rebuilt stake formulas: {len(core_rows)} core, "
-        f"{len(double_rows)} double, {len(conflict_rows)} conflicts"
+        f"{len(double_rows)} double, {len(conflict_rows)} conflicts, "
+        f"{len(piggyback_25g)} 2.5G piggyback"
     )
 
 

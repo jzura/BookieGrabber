@@ -115,15 +115,16 @@ def get_league_events(api_key: str, league: str, limit: int = 200):
         return []
 
 def get_event_odds(api_key: str, event_id: int):
-    """Fetch odds data for a specific event from Odds-API."""
+    """Fetch odds data for a specific event from Odds-API (single attempt).
+    Higher-level code retries the entire event-bundle if data is incomplete."""
     url = f"{API_BASE}/odds"
     params = {"apiKey": api_key, "eventId": event_id, "bookmakers": BOOKMAKERS}
     try:
-        r = requests.get(url, params=params, timeout=15)
+        r = requests.get(url, params=params, timeout=20)
         r.raise_for_status()
         return r.json()
     except Exception as e:
-        print(f"[ERROR] Failed to fetch odds for event {event_id}: {e}")
+        print(f"  [ODDS-API] Error for event {event_id}: {e}")
         return {}
 
 # -------------------------------------------------------------
@@ -150,7 +151,7 @@ def extract_events_to_df(events):
         raw_date = e.get("date")
         match_time_local = parse_api_datetime_to_perth(raw_date) if raw_date else None
         rows.append({
-            "event_id": e.get("id"),
+            "event_id": str(e.get("id")),
             "date": match_time_local.strftime("%Y-%m-%d") if match_time_local else None,
             "home_team": e.get("home"),
             "away_team": e.get("away"),
@@ -173,7 +174,7 @@ def extract_totals(odds_data):
         iter_bookmakers = []
         for b in bookmakers_block:
             name = b.get("title") or b.get("key") or b.get("name")
-            markets = b.get("markets") or b.get("markets", []) or b.get("markets", [])
+            markets = b.get("markets") or []
             iter_bookmakers.append((name, markets))
 
     for bookmaker, markets in iter_bookmakers:
@@ -211,7 +212,7 @@ def extract_btts(odds_data):
         iter_bookmakers = []
         for b in bookmakers_block:
             name = b.get("title") or b.get("key") or b.get("name")
-            markets = b.get("markets") or b.get("markets", []) or b.get("markets", [])
+            markets = b.get("markets") or []
             iter_bookmakers.append((name, markets))
 
     for bookmaker, markets in iter_bookmakers:
@@ -249,12 +250,21 @@ def pivot_odds_dataframe(df_totals:pd.DataFrame, id_cols:list, val_cols:list):
         df_long["bookmaker_clean"] + "_" + df_long["odds_type"]
     )
 
+    # Pivot on event identity only — odds_time is metadata, not a grouping key.
+    # Including it would split rows when timestamps differ by microseconds
+    # (e.g. Bet365 vs BF from different sources within the same bundle).
+    pivot_index = ["event_id", "home_team", "away_team", "competition", "match_time"]
     df_pivot = df_long.pivot_table(
-        index=["event_id", "home_team", "away_team", "competition", "match_time", "odds_time"],
+        index=pivot_index,
         columns="col_name",
         values="odds_value",
         aggfunc="first"
     ).reset_index()
+
+    # Restore odds_time as a column (use the latest value per event)
+    if "odds_time" in df_totals.columns:
+        ot = df_totals.groupby("event_id")["odds_time"].max().reset_index()
+        df_pivot = df_pivot.merge(ot, on="event_id", how="left")
 
     df_pivot.columns.name = None
     return df_pivot
@@ -323,6 +333,9 @@ def load_existing_csv(path):
         return pd.DataFrame()
     try:
         df = pd.read_csv(path)
+        # Ensure event_id is always string (prevents int64/str merge crashes)
+        if "event_id" in df.columns:
+            df["event_id"] = df["event_id"].astype(str)
         # Try to parse tz-aware datetimes — pandas will keep tzinfo if present in string
         if "match_time" in df.columns:
             df["match_time"] = pd.to_datetime(df["match_time"], utc=True).dt.tz_convert(PERTH)
@@ -366,6 +379,32 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
     # Outer merge so we see all event_ids
     merged = existing.merge(new, on="event_id", how="outer", suffixes=("_old", "_new"), indicator=True)
 
+    # Columns that exist in only one DataFrame don't get a suffix from the merge.
+    # We track them separately so we can include them when picking from that side.
+    only_in_existing = set(existing.columns) - set(new.columns) - {"event_id"}
+    only_in_new = set(new.columns) - set(existing.columns) - {"event_id"}
+
+    def _pick(r, suffix):
+        """Pick row fields for the chosen side (suffix='_old' or '_new').
+
+        IMPORTANT: We use ONLY the chosen side's values — never mix old and new
+        values for the same event. Mixing would combine prices/volumes captured at
+        different points in time, which corrupts the snapshot atomicity. If a
+        value is NaN/missing on the chosen side, it stays NaN.
+        """
+        out = {"event_id": r["event_id"]}
+        # Suffixed columns: take from the chosen side only
+        for k in r.index:
+            if k.endswith(suffix):
+                out[k[:-len(suffix)]] = r[k]
+        # Unsuffixed columns: include only from the matching side
+        # (columns only_in_existing belong to old, only_in_new belong to new)
+        unsuffixed = only_in_existing if suffix == "_old" else only_in_new
+        for col in unsuffixed:
+            if col in r.index:
+                out[col] = r[col]
+        return out
+
     chosen_rows = []
     for _, r in merged.iterrows():
         # helper to get fields safely
@@ -380,18 +419,12 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
 
         # If only new exists
         if pd.isna(match_old) and not pd.isna(match_new):
-            chosen = {"event_id": r["event_id"], **{
-                k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
-            }}
-            chosen_rows.append(chosen)
+            chosen_rows.append(_pick(r, "_new"))
             continue
 
         # If only old exists
         if pd.isna(match_new) and not pd.isna(match_old):
-            chosen = {"event_id": r["event_id"], **{
-                k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
-            }}
-            chosen_rows.append(chosen)
+            chosen_rows.append(_pick(r, "_old"))
             continue
 
         # Both exist (or both NaN) — compute hours until KO safely
@@ -409,18 +442,12 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
 
         # 1) If existing is already in the window -> keep existing
         if old_in_window:
-            chosen = {"event_id": r["event_id"], **{
-                k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
-            }}
-            chosen_rows.append(chosen)
+            chosen_rows.append(_pick(r, "_old"))
             continue
 
         # 2) Else if new is in the window -> use new (we want the first/any snapshot inside window)
         if new_in_window:
-            chosen = {"event_id": r["event_id"], **{
-                k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
-            }}
-            chosen_rows.append(chosen)
+            chosen_rows.append(_pick(r, "_new"))
             continue
 
         # 3) Neither is in the window -> pick the later odds_time (newer snapshot)
@@ -428,29 +455,18 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
             odds_old_ts = pd.to_datetime(odds_old) if odds_old is not None else pd.NaT
             odds_new_ts = pd.to_datetime(odds_new) if odds_new is not None else pd.NaT
             if pd.isna(odds_old_ts) and not pd.isna(odds_new_ts):
-                chosen = {"event_id": r["event_id"], **{
-                k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
-                }}
+                chosen_rows.append(_pick(r, "_new"))
             elif pd.isna(odds_new_ts) and not pd.isna(odds_old_ts):
-                chosen = {"event_id": r["event_id"], **{
-                k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
-                }}
+                chosen_rows.append(_pick(r, "_old"))
             else:
                 # choose new if it's equal or later
                 if odds_new_ts >= odds_old_ts:
-                    chosen = {"event_id": r["event_id"], **{
-                    k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
-                    }}
+                    chosen_rows.append(_pick(r, "_new"))
                 else:
-                    chosen = {"event_id": r["event_id"], **{
-                    k.replace("_old", ""): r[k] for k in r.index if k.endswith("_old")
-                    }}
+                    chosen_rows.append(_pick(r, "_old"))
         except Exception:
             # fallback prefer new
-            chosen = {"event_id": r["event_id"], **{
-                    k.replace("_new", ""): r[k] for k in r.index if k.endswith("_new")
-                    }}
-        chosen_rows.append(chosen)
+            chosen_rows.append(_pick(r, "_new"))
 
     final = pd.DataFrame(chosen_rows)
 
@@ -472,6 +488,245 @@ def decide_merge(existing_df: pd.DataFrame, new_df: pd.DataFrame, target_hours: 
     return final
 
 # -------------------------------------------------------------
+# Mapping diagnostic — flag unmapped/mismatched team names
+# -------------------------------------------------------------
+
+def diagnose_team_mappings(league_name, odds_api_events, df_bf_ou_volume, league_bf_map):
+    """Compare BF's event list against Odds API events using the current
+    mapping, then report any unmapped teams with fuzzy-match suggestions.
+
+    Each upcoming BF event SHOULD match an Odds API event — if it doesn't,
+    either a team mapping is missing or wrong.
+    """
+    if df_bf_ou_volume.empty:
+        return  # nothing to compare against
+
+    from difflib import get_close_matches
+
+    # Build sets of unique team names from each side
+    oa_home_teams = set(e.get("home", "") for e in odds_api_events if e.get("home"))
+    oa_away_teams = set(e.get("away", "") for e in odds_api_events if e.get("away"))
+    oa_all_teams = oa_home_teams | oa_away_teams
+
+    # BF event keys are "Home v Away" — split them out
+    bf_team_set = set()
+    for evt in df_bf_ou_volume["event"].unique():
+        if " v " in evt:
+            h, a = evt.split(" v ", 1)
+            bf_team_set.add(h.strip())
+            bf_team_set.add(a.strip())
+
+    # Build set of all currently-mapped BF names (from the OA → BF mapping values)
+    mapped_bf_names = set(v for v in league_bf_map.values() if v)
+
+    # Find BF teams that are NOT in any current mapping value
+    unmapped_bf_teams = bf_team_set - mapped_bf_names
+
+    if not unmapped_bf_teams:
+        return
+
+    # For each unmapped BF team, suggest the best Odds API team match
+    suggestions = []
+    for bf_team in sorted(unmapped_bf_teams):
+        candidates = get_close_matches(bf_team, oa_all_teams, n=2, cutoff=0.5)
+        suggestions.append((bf_team, candidates))
+
+    print(f"  [MAPPING-DIAG] {len(unmapped_bf_teams)} BF team(s) not in mapping for {league_name}:")
+    for bf_team, candidates in suggestions:
+        suggestion = candidates[0] if candidates else "(no close match)"
+        print(f'    "{suggestion}": "{bf_team}",   <- BF team "{bf_team}" — closest OA: {candidates}')
+
+    # Also flag any mapping values pointing to non-existent BF names
+    bad_mappings = []
+    for oa_name, bf_name in league_bf_map.items():
+        if not bf_name:
+            bad_mappings.append((oa_name, "EMPTY"))
+        elif bf_name not in bf_team_set:
+            # Only flag if this OA team is actually upcoming — otherwise BF
+            # just doesn't list distant fixtures yet (false positive)
+            if oa_name in oa_all_teams:
+                # Check if any other mapping for this OA team points to a known BF team
+                # (some mappings have multiple OA names → same BF name; ignore good ones)
+                # Suggest closest BF match
+                close = get_close_matches(bf_name, bf_team_set, n=1, cutoff=0.5)
+                bad_mappings.append((oa_name, f"{bf_name!r} not in BF (close: {close})"))
+    if bad_mappings:
+        print(f"  [MAPPING-DIAG] {len(bad_mappings)} mapping(s) point to wrong/missing BF names:")
+        for oa, issue in bad_mappings[:10]:
+            print(f'    "{oa}" -> {issue}')
+
+
+# -------------------------------------------------------------
+# Atomic per-event bundle fetcher with cross-run attempt tracking
+# -------------------------------------------------------------
+
+# Each scheduled run is one attempt. After MAX_ATTEMPTS_PER_EVENT failures
+# (across runs, ~30min apart), the event is given up on. State is persisted
+# to disk so attempts survive across runs.
+MAX_ATTEMPTS_PER_EVENT = 3
+BUNDLE_TIME_BUDGET_SEC = 120  # all data must be collected within 2 minutes
+ATTEMPT_STATE_FILE = "data/state/fetch_attempts.json"
+ATTEMPT_STATE_TTL_HOURS = 48  # prune stale entries after this long
+
+
+def _load_attempt_state():
+    if not os.path.exists(ATTEMPT_STATE_FILE):
+        return {}
+    try:
+        with open(ATTEMPT_STATE_FILE) as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"[WARN] Could not load attempt state: {e}")
+        return {}
+
+
+def _save_attempt_state(state):
+    os.makedirs(os.path.dirname(ATTEMPT_STATE_FILE), exist_ok=True)
+    with open(ATTEMPT_STATE_FILE, "w") as f:
+        json.dump(state, f, indent=2, default=str)
+
+
+def _prune_stale_attempts(state):
+    """Remove entries older than ATTEMPT_STATE_TTL_HOURS so the file
+    doesn't grow forever (events that have already played etc.)."""
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=ATTEMPT_STATE_TTL_HOURS)
+    pruned = {}
+    for eid, info in state.items():
+        try:
+            last = parser.isoparse(info.get("last_attempt", info.get("first_attempt", "")))
+            if last.tzinfo is None:
+                last = last.replace(tzinfo=timezone.utc)
+            if last >= cutoff:
+                pruned[eid] = info
+        except Exception:
+            # Bad entry — drop it
+            pass
+    return pruned
+
+
+def _bundle_is_complete(totals, btts, has_bf_volume, bf_has_btts_for_event):
+    """A bundle is complete when:
+      - Bet365 has at least one of our target HDPs (1.5/2.5/3.5)
+      - Betfair Exchange has at least one of our target HDPs
+      - Bet365 has BTTS data
+      - Betfair Exchange has BTTS data (ONLY if BF lists BTTS for this event)
+      - Betfair total volume is present (ONLY if BF lists volume for this event)
+    """
+    bm_hdps_totals = {}
+    for t in totals:
+        bm_hdps_totals.setdefault(t["bookmaker"], set()).add(t["hdp"])
+    bm_btts = set(b["bookmaker"] for b in btts)
+
+    if not bm_hdps_totals.get("Bet365"):
+        return False, "missing Bet365 totals"
+    if not bm_hdps_totals.get("Betfair Exchange"):
+        return False, "missing Betfair Exchange totals"
+    if "Bet365" not in bm_btts:
+        return False, "missing Bet365 BTTS"
+    # Only require BF BTTS if BF actually lists a BTTS market for this event
+    if bf_has_btts_for_event and "Betfair Exchange" not in bm_btts:
+        return False, "missing Betfair Exchange BTTS"
+    if not has_bf_volume:
+        return False, "missing Betfair volume"
+    return True, "complete"
+
+
+IN_RUN_ATTEMPTS = 3  # tries per scheduled run before giving up for this run
+IN_RUN_BACKOFF_SEC = [10, 20]  # wait between in-run attempts
+
+
+def _fetch_event_bundle_once(
+    api_key,
+    event_row,
+    league_bf_map,
+    bf_session_token,
+    league_name,
+):
+    """Atomic fetch of all data for one event within a single scheduled run.
+
+    ALL sources (Odds API odds, BF Exchange odds, BF volume) are fetched
+    together within each attempt so everything is from the same point in time.
+    Tries up to IN_RUN_ATTEMPTS times. Each attempt must complete within
+    BUNDLE_TIME_BUDGET_SEC (2 minutes). Returns
+    (bundle_dict_or_None, reason_string).
+    """
+    import time
+
+    bf_home = league_bf_map.get(event_row["home_team"])
+    bf_away = league_bf_map.get(event_row["away_team"])
+    bf_event_key = f"{bf_home} v {bf_away}" if bf_home and bf_away else None
+
+    last_reason = "no attempt"
+
+    for attempt in range(1, IN_RUN_ATTEMPTS + 1):
+        start = time.time()
+
+        # 1. Odds API call (returns Bet365 + Betfair Exchange together)
+        odds_data = get_event_odds(api_key, event_row["event_id"])
+        totals = extract_totals(odds_data) if odds_data else []
+        btts = extract_btts(odds_data) if odds_data else []
+
+        # 2. BF volume + catalogue (fetched fresh each attempt for synchronisation)
+        df_bf_ou_volume = pd.DataFrame()
+        bf_market_catalogue = []
+        if bf_session_token:
+            try:
+                df_bf_ou_volume, bf_market_catalogue = get_ou_volume(
+                    bf_session_token, league_name, max_attempts=1)
+            except Exception as e:
+                print(f"  [BF] Volume fetch failed: {e}")
+
+        # 3. BF direct fallback for any missing Betfair Exchange odds
+        bf_in_totals = any(t["bookmaker"] == "Betfair Exchange" for t in totals)
+        bf_in_btts = any(b["bookmaker"] == "Betfair Exchange" for b in btts)
+        if (not bf_in_totals or not bf_in_btts) and bf_event_key and bf_session_token:
+            try:
+                fb_totals, fb_btts = fetch_bf_odds_for_event(
+                    bf_session_token, bf_event_key, bf_market_catalogue)
+                if not bf_in_totals and fb_totals:
+                    totals.extend(fb_totals)
+                    print(f"  [BF FALLBACK] Injected {len(fb_totals)} totals lines")
+                if not bf_in_btts and fb_btts:
+                    btts.extend(fb_btts)
+                    print(f"  [BF FALLBACK] Injected {len(fb_btts)} BTTS lines")
+            except Exception as e:
+                print(f"  [BF FALLBACK] Failed: {e}")
+
+        # 4. Check which BF markets exist for this event
+        bf_volume_available_for_event = False
+        bf_has_btts_for_event = False
+        if bf_event_key and not df_bf_ou_volume.empty:
+            event_markets = df_bf_ou_volume[df_bf_ou_volume["event"] == bf_event_key]
+            bf_volume_available_for_event = not event_markets.empty
+            bf_has_btts_for_event = (event_markets["line"] == "Both teams to Score?").any()
+
+        elapsed = time.time() - start
+
+        # 5. Wall-clock budget check — all data must arrive within 2 minutes
+        if elapsed > BUNDLE_TIME_BUDGET_SEC:
+            last_reason = f"took {elapsed:.1f}s (>{BUNDLE_TIME_BUDGET_SEC}s budget)"
+            print(f"  [ATOMIC] Attempt {attempt}/{IN_RUN_ATTEMPTS}: {last_reason}")
+        else:
+            # 6. Completeness check
+            complete, reason = _bundle_is_complete(
+                totals, btts, has_bf_volume=bf_volume_available_for_event,
+                bf_has_btts_for_event=bf_has_btts_for_event
+            )
+            if complete:
+                if attempt > 1:
+                    print(f"  [ATOMIC] Bundle complete on in-run attempt {attempt} ({elapsed:.1f}s)")
+                return {"totals": totals, "btts": btts,
+                        "df_bf_ou_volume": df_bf_ou_volume}, f"complete in {elapsed:.1f}s"
+            last_reason = reason
+            print(f"  [ATOMIC] Attempt {attempt}/{IN_RUN_ATTEMPTS}: incomplete ({reason}, {elapsed:.1f}s)")
+
+        if attempt < IN_RUN_ATTEMPTS:
+            time.sleep(IN_RUN_BACKOFF_SEC[min(attempt - 1, len(IN_RUN_BACKOFF_SEC) - 1)])
+
+    return None, last_reason
+
+
+# -------------------------------------------------------------
 # Main pipeline per-league
 # -------------------------------------------------------------
 
@@ -489,61 +744,119 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     slug = league_cfg["slug"] 
     target_hours = int(league_cfg["odds_time_limit"])
     league_bf_map = load_team_map(f"mappings/{slug}/team_name_map.json")
-    # Add betfair totalmatch volume from betfair_api
+    # Get BF session + initial volume snapshot (used for mapping diagnostic only;
+    # actual volume for each event is fetched atomically inside the bundle fetcher)
     try:
         session_token = get_session_token()
-        df_bf_ou_volume, bf_market_catalogue = get_ou_volume(session_token, league_name)
+        df_bf_diag, _ = get_ou_volume(session_token, league_name)
     except Exception as e:
-        print(f"Betfair API failed for {league_name}: {e} — proceeding without BF volume")
+        print(f"Betfair API failed for {league_name}: {e}")
         session_token = None
-        df_bf_ou_volume = pd.DataFrame()
-        bf_market_catalogue = []
-    if df_bf_ou_volume.empty:
-        print(f"No Betfair OU volume data for league {league_name} — proceeding with Odds API only")
+        df_bf_diag = pd.DataFrame()
 
-    # might be able to 
     events = get_league_events(api_key, league_key, limit=limit)
     if not events:
         print(f"No events fetched for {league_name}")
-        return
+        return pd.DataFrame(), pd.DataFrame()
     df_events = extract_events_to_df(events)
     if df_events.empty:
         print(f"No event rows for {league_name}")
-        return
-    
+        return pd.DataFrame(), pd.DataFrame()
+
+    # Diagnostic: report any BF teams that aren't in the mapping, with suggestions
+    diagnose_team_mappings(league_name, events, df_bf_diag, league_bf_map)
+
     totals_rows = []
     btts_rows = []
+    bundle_volumes = []  # collect per-event BF volume DataFrames (fetched atomically with odds)
 
-    # Iterate events and fetch odds
+    # Load existing CSVs to find events already recorded in-window (locked)
+    locked_event_ids = set()
+    totals_folder = os.path.join(EXPORT_ROOT, slug, "totals")
+    btts_folder = os.path.join(EXPORT_ROOT, slug, "btts")
+    for hdp in TARGET_HDPS:
+        existing_path = todays_filename(totals_folder, f"totals_hdp_{hdp}")
+        existing_df = load_existing_csv(existing_path)
+        if not existing_df.empty and "hours_until_KO" in existing_df.columns:
+            in_window = existing_df[existing_df["hours_until_KO"] <= target_hours]
+            locked_event_ids.update(in_window["event_id"].astype(str).tolist())
+    existing_btts_path = todays_filename(btts_folder, "btts")
+    existing_btts = load_existing_csv(existing_btts_path)
+    if not existing_btts.empty and "hours_until_KO" in existing_btts.columns:
+        in_window = existing_btts[existing_btts["hours_until_KO"] <= target_hours]
+        locked_event_ids.update(in_window["event_id"].astype(str).tolist())
+    if locked_event_ids:
+        print(f"  {len(locked_event_ids)} events already locked in-window — will not re-fetch")
+
+    # Load cross-run attempt state — events that have failed across runs
+    attempt_state = _load_attempt_state()
+    attempt_state = _prune_stale_attempts(attempt_state)
+
+    # Iterate events and fetch odds atomically
     for _, row in df_events.iterrows():
-        event_id = row["event_id"]
-        print(f"Fetching odds for {row['home_team']} vs {row['away_team']} (event_id={event_id})")
-        odds_data = get_event_odds(api_key, event_id)
-        if not odds_data:
+        event_id = str(row["event_id"])  # JSON keys are strings
+
+        # Skip events outside the collection window
+        match_time = row["match_time"]
+        now = datetime.now(PERTH)
+        hours_until_ko = float("inf")
+        if match_time is not None:
+            if match_time < now:
+                continue  # already started
+            hours_until_ko = (match_time - now).total_seconds() / 3600.0
+            if hours_until_ko > target_hours:
+                continue  # too far away
+
+        # Skip events already locked (in-window odds already recorded)
+        if event_id in locked_event_ids:
             continue
 
-        totals = extract_totals(odds_data)
-        btts = extract_btts(odds_data)
+        print(f"Fetching odds for {row['home_team']} vs {row['away_team']} "
+              f"(event_id={event_id}, KO in {hours_until_ko:.1f}h)")
 
-        # Fallback: if Odds API didn't return Betfair Exchange, fetch directly
-        bf_in_totals = any(t["bookmaker"] == "Betfair Exchange" for t in totals)
-        bf_in_btts = any(b["bookmaker"] == "Betfair Exchange" for b in btts)
-        if not bf_in_totals or not bf_in_btts:
-            bf_home = league_bf_map.get(row["home_team"])
-            bf_away = league_bf_map.get(row["away_team"])
-            if bf_home and bf_away:
-                bf_event_key = f"{bf_home} v {bf_away}"
-                try:
-                    fb_totals, fb_btts = fetch_bf_odds_for_event(
-                        session_token, bf_event_key, bf_market_catalogue)
-                    if not bf_in_totals and fb_totals:
-                        totals.extend(fb_totals)
-                        print(f"  [BF FALLBACK] Injected {len(fb_totals)} totals lines")
-                    if not bf_in_btts and fb_btts:
-                        btts.extend(fb_btts)
-                        print(f"  [BF FALLBACK] Injected {len(fb_btts)} BTTS lines")
-                except Exception as e:
-                    print(f"  [BF FALLBACK] Failed: {e}")
+        # Cross-run check: skip events that have already exhausted their run attempts
+        prior_runs = attempt_state.get(event_id, {}).get("run_attempts", 0)
+        if prior_runs >= MAX_ATTEMPTS_PER_EVENT:
+            print(f"  [SKIP-EXHAUSTED] Event {event_id} has failed {prior_runs} runs — giving up permanently")
+            continue
+
+        bundle, reason = _fetch_event_bundle_once(
+            api_key=api_key,
+            event_row=row,
+            league_bf_map=league_bf_map,
+            bf_session_token=session_token,
+            league_name=league_name,
+        )
+
+        now_iso = datetime.now(timezone.utc).isoformat()
+        if bundle is None:
+            # Record this run as a failed attempt; will retry next scheduled run
+            entry = attempt_state.setdefault(event_id, {
+                "first_attempt": now_iso,
+                "run_attempts": 0,
+                "home_team": row["home_team"],
+                "away_team": row["away_team"],
+            })
+            entry["run_attempts"] = entry.get("run_attempts", 0) + 1
+            entry["last_attempt"] = now_iso
+            entry["last_reason"] = reason
+            remaining = MAX_ATTEMPTS_PER_EVENT - entry["run_attempts"]
+            if remaining > 0:
+                print(f"  [SKIP] Bundle incomplete ({reason}). Run {entry['run_attempts']}/{MAX_ATTEMPTS_PER_EVENT} — will retry next run")
+            else:
+                print(f"  [GIVE-UP] Bundle incomplete ({reason}). All {MAX_ATTEMPTS_PER_EVENT} run attempts exhausted")
+            _save_attempt_state(attempt_state)
+            continue
+
+        # Success — clear any prior failure tracking for this event
+        if event_id in attempt_state:
+            del attempt_state[event_id]
+            _save_attempt_state(attempt_state)
+
+        totals = bundle["totals"]
+        btts = bundle["btts"]
+        if not bundle["df_bf_ou_volume"].empty:
+            bundle_volumes.append(bundle["df_bf_ou_volume"])
 
         for t in totals:
             totals_rows.append({
@@ -575,6 +888,10 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
     df_totals_all = pd.DataFrame(totals_rows)
     df_btts = pd.DataFrame(btts_rows)
 
+    # Combine per-event BF volumes (fetched atomically with odds)
+    df_bf_ou_volume = pd.concat(bundle_volumes, ignore_index=True).drop_duplicates(
+        subset=["marketId"]) if bundle_volumes else pd.DataFrame()
+
     # Prepare export folders
     totals_folder = os.path.join(EXPORT_ROOT, slug, "totals")
     btts_folder = os.path.join(EXPORT_ROOT, slug, "btts")
@@ -589,7 +906,7 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
         # Convert tz-aware datetimes to ISO strings for CSV
         df_btts_copy = df_btts.copy()
         # pivot btts
-        idbc = ['event_id', 'home_team', 'away_team', 'competition', 'match_time', 'bookmaker', 'odds_time']
+        idbc = ['event_id', 'home_team', 'away_team', 'competition', 'match_time', 'odds_time']
         vc = ['no_odds', 'yes_odds']
         df_btts_pivoted = pivot_odds_dataframe(df_btts_copy, idbc, vc)
         # compute RPD
@@ -614,7 +931,8 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
             for k in bf_btts_vol.event.unique():
                 if k not in df_bf_btts['bf_merge_key'].unique():
                     print(f"[WARN] Betfair BTTS volume event key '{k}' has no matching event in BTTS data")
-            df_bf_btts_tv = df_bf_btts.merge(bf_btts_vol, how='inner', left_on='bf_merge_key', right_on='event')
+            # Left merge so we keep events without BF volume (would otherwise lose Bet365 odds)
+            df_bf_btts_tv = df_bf_btts.merge(bf_btts_vol, how='left', left_on='bf_merge_key', right_on='event')
         else:
             df_bf_btts_tv = df_bf_btts
 
@@ -662,7 +980,8 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
                 for k in bf_total_vol.event.unique():
                     if k not in df_bf_total['bf_merge_key'].unique():
                         print(f"[WARN] Betfair volume event key '{k}' has no matching event in Total {hdp} data")
-                df_bf_total_tv = df_bf_total.merge(bf_total_vol, how='inner', left_on='bf_merge_key', right_on='event')
+                # Left merge so we keep events without BF volume (would otherwise lose Bet365 odds)
+                df_bf_total_tv = df_bf_total.merge(bf_total_vol, how='left', left_on='bf_merge_key', right_on='event')
             else:
                 df_bf_total_tv = df_bf_total
 

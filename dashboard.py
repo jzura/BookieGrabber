@@ -130,9 +130,9 @@ st.markdown("---")
 # ═══════════════════════════════════════════════
 # TAB LAYOUT
 # ═══════════════════════════════════════════════
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "📈 Overview", "💰 SM Account", "🎯 SM vs BF Analysis", "📅 Time Analysis",
-    "🏆 League Heatmap", "📋 Recent Bets", "📊 Advanced"
+    "🏆 League Heatmap", "📋 Recent Bets", "📊 Advanced", "🔧 Optimizer"
 ])
 
 # ═══════════════════════════════════════════════
@@ -828,6 +828,168 @@ with tab7:
         c3.metric("Bets with SM Data", f"{len(sm_comm):,}")
     else:
         st.info("No SM odds data available for commission analysis.")
+
+# ─── Tab 8: Optimizer ───
+with tab8:
+    st.header("Parameter Optimizer")
+    st.caption("Each table shows how changing a single parameter affects performance, "
+               "with the current production value highlighted. All other parameters "
+               "are held at their current values.")
+
+    @st.cache_data(ttl=600)
+    def run_optimizer_sweep(df_all):
+        """Run parameter sweeps on settled data. Returns dict of DataFrames."""
+        from strategy_config import (VOL_MIN, VOL_MAX, BF_MIN, BF_TIER1,
+                                     RPD_TIER1, RPD_TIER2, BTTS_FADE_RPD, G15_FADE_RPD)
+
+        # Use all settled bets (not filtered by sidebar)
+        all_staked = df_all[df_all['Stake'].notna() & (df_all['Stake'] > 0)].copy()
+        all_settled = all_staked[all_staked['Profit'].notna()].copy()
+
+        def _rpd(b365, bf):
+            try:
+                a, b = float(b365), float(bf)
+                if a > b: return 1.0
+                pct = abs(a - b) / ((a + b) / 2) * 100
+                return 1.0 if pct < 1 else round(pct, 3)
+            except: return None
+
+        def _commission(odds):
+            if odds <= 1.5: return 0.01
+            if odds <= 2.8: return 0.02
+            if odds <= 3.5: return 0.03
+            return 0.04
+
+        def simulate(df_s, vol_min=VOL_MIN, vol_max=VOL_MAX, bf_min=BF_MIN,
+                     bf_tier1=BF_TIER1, rpd_tier1=RPD_TIER1, rpd_tier2=RPD_TIER2,
+                     btts_fade_rpd=BTTS_FADE_RPD, g15_fade_rpd=G15_FADE_RPD):
+            """Simulate P&L with given parameters. Returns (n_bets, profit, staked, roi)."""
+            total_profit = 0.0
+            total_staked = 0.0
+            n_bets = 0
+
+            for _, row in df_s.iterrows():
+                bt = row['Market']
+                pred = row['Prediction']
+                bf = row['BF']
+                vol = row['Volume']
+                result = row['Result']
+                rpd = _rpd(row['Bet365'], bf)
+
+                if pd.isna(bf) or pd.isna(vol) or pd.isna(result) or rpd is None:
+                    continue
+
+                stake = 0
+                is_fade = False
+
+                # Core
+                if bt in ('1.5G', '3.5G', 'BTTS') and pred == 0:
+                    if vol_min <= vol <= vol_max and bf > bf_min:
+                        if (bf <= bf_tier1 and rpd <= rpd_tier1) or (bf > bf_tier1 and rpd <= rpd_tier2):
+                            stake = 1
+
+                # 2.5G piggyback (simplified — check same match has qualifying 1.5G)
+                # Skip for sweep since it depends on cross-row logic
+
+                # BTTS fade
+                if bt == 'BTTS' and pred == 0 and rpd >= btts_fade_rpd:
+                    if vol_min <= vol <= vol_max:
+                        if stake == 0:
+                            stake = 1
+                            is_fade = True
+
+                # 1.5G fade
+                if bt == '1.5G' and pred == 1 and rpd >= g15_fade_rpd:
+                    if vol_min <= vol <= vol_max:
+                        if stake == 0:
+                            stake = 1
+                            is_fade = True
+
+                if stake == 0:
+                    continue
+
+                n_bets += 1
+                total_staked += stake
+
+                if is_fade:
+                    if result == 0:
+                        opp = 1 / (1 - 1 / bf)
+                        c = _commission(opp)
+                        ret = stake * (1 + (opp - 1) * (1 - c))
+                    else:
+                        ret = 0
+                else:
+                    if result == 1:
+                        c = _commission(bf)
+                        ret = stake * (1 + (bf - 1) * (1 - c))
+                    else:
+                        ret = 0
+
+                total_profit += ret - stake
+
+            roi = (total_profit / total_staked * 100) if total_staked > 0 else 0
+            return n_bets, round(total_profit, 2), round(total_staked, 0), round(roi, 1)
+
+        # Get baseline
+        base = simulate(all_settled)
+
+        # Sweep definitions: (param_name, test_values, current_value, kwarg_name)
+        sweeps = {
+            "Vol Min": {
+                "values": [0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 150, 200],
+                "current": VOL_MIN,
+                "kwarg": "vol_min",
+            },
+            "Vol Max": {
+                "values": [500, 750, 900, 1000, 1100, 1200, 1500, 2000, 3000, 5000, 10000],
+                "current": VOL_MAX,
+                "kwarg": "vol_max",
+            },
+        }
+
+        results = {}
+        for param_name, cfg in sweeps.items():
+            rows = []
+            for val in cfg["values"]:
+                kwargs = {cfg["kwarg"]: val}
+                n, profit, staked, roi = simulate(all_settled, **kwargs)
+                is_current = (val == cfg["current"])
+                # Compute diff from baseline
+                diff = round(profit - base[1], 2)
+                rows.append({
+                    "Value": val,
+                    "Bets": n,
+                    "Staked": int(staked),
+                    "Profit": profit,
+                    "ROI %": roi,
+                    "Diff": diff,
+                    "Current": "→" if is_current else "",
+                })
+            results[param_name] = pd.DataFrame(rows)
+
+        return results, base
+
+    sweep_results, baseline = run_optimizer_sweep(df)
+
+    st.markdown(f"**Baseline** (current params): {baseline[0]} bets, "
+                f"{baseline[1]:+.2f} profit, {baseline[3]:.1f}% ROI")
+    st.markdown("---")
+
+    for param_name, sweep_df in sweep_results.items():
+        st.subheader(param_name)
+        # Style the current value row
+        def highlight_current(row):
+            if row['Current'] == '→':
+                return ['background-color: #2d4a2d'] * len(row)
+            return [''] * len(row)
+
+        styled = sweep_df.style.apply(highlight_current, axis=1).format({
+            'Profit': '{:+.2f}',
+            'ROI %': '{:.1f}',
+            'Diff': '{:+.2f}',
+        })
+        st.dataframe(styled, use_container_width=True, hide_index=True)
+        st.markdown("")
 
 # ─── Footer ───
 st.markdown("---")

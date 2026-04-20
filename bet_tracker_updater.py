@@ -257,6 +257,166 @@ def send_stake_alerts(bets):
     except Exception as e:
         logger.exception(f"Failed to send stake alert: {e}")
 
+    # Also send via Telegram
+    try:
+        from telegram_alerts import send_bet_alerts as tg_send
+        # Build competition name → config slug lookup for SM URL routing
+        # Master sheet comp names often differ from config names, so build
+        # a mapping that handles common variations
+        import yaml
+        with open("config.yaml") as _f:
+            _cfg = yaml.safe_load(_f)
+        _comp_to_slug = {}
+        for lg in _cfg.get("leagues", []):
+            _comp_to_slug[lg["name"]] = lg["slug"]
+            # Also add slug itself and common variations
+            _comp_to_slug[lg["slug"]] = lg["slug"]
+        # Add known master-sheet-to-config name mappings
+        _comp_aliases = {
+            "Danish Superligaen": "danish_superliga",
+            "Belgian First Division A": "belgian_pro_league",
+            "Czech First League": "czech_1_liga",
+            "English Championship League": "english_sky_bet_championship",
+            "German Bundesliga I": "german_bundesliga",
+            "Serbian SuperLiga": "serbian_super_league",
+            "Sweden - Allsvenskan": "swedish_allsvenskan",
+            "Turkish Super Lig": "turkish_super_league",
+        }
+        _comp_to_slug.update(_comp_aliases)
+
+        tg_bets = []
+        for b in bets:
+            desc = _describe_bet(b)
+            rpd_val = b.get("rpd")
+            if rpd_val is None:
+                rpd_val = _compute_rpd(b.get("odds_365"), b.get("bf"))
+            # Resolve the actual prediction to place (fades flip the side)
+            bt = b["bet_type"]
+            pred = b["prediction"]
+            rpd = b.get("rpd")
+            is_btts_fade = (bt == "BTTS" and pred == 0 and rpd is not None and rpd >= 5)
+            is_1_5g_fade = (bt == "1.5G" and pred == 1 and rpd is not None and rpd >= 4.6)
+            if is_btts_fade:
+                actual_pred = 1  # Bet Yes instead of No
+            elif is_1_5g_fade:
+                actual_pred = 0  # Bet Under instead of Over
+            else:
+                actual_pred = pred
+            league_slug = _comp_to_slug.get(b.get("competition"), "")
+            if not league_slug:
+                logger.warning(f"No league_slug for competition '{b.get('competition')}' — SM placement will fail")
+            tg_bets.append({
+                **b,
+                "description": desc,
+                "rpd": rpd_val or 0,
+                "actual_prediction": actual_pred,
+                "league_slug": league_slug,
+            })
+
+        # Resolve SM event IDs for all bets in one Playwright session
+        _resolve_sm_event_ids(tg_bets)
+
+        tg_send(tg_bets)
+        logger.info(f"Telegram alert sent: {len(bets)} bet(s)")
+    except Exception as e:
+        logger.warning(f"Telegram alert failed: {e}")
+
+
+def _resolve_sm_event_ids(tg_bets):
+    """Resolve SportsMarket event IDs for a list of Telegram bets.
+
+    Opens one Playwright session, visits each league's SM sportsbook page,
+    extracts all event links, and matches them to our bets by team name.
+    Modifies each bet dict in-place to set 'event_id' to the SM format
+    (e.g. '2026-04-18,994,996').
+    """
+    from sportsmarket_api import SM_LEAGUE_PREFIXES, SM_SPORTSBOOK_BASE
+    from difflib import SequenceMatcher
+    import re
+
+    # Group bets by league_slug to minimize page loads
+    from collections import defaultdict
+    bets_by_league = defaultdict(list)
+    for b in tg_bets:
+        slug = b.get("league_slug", "")
+        if slug:
+            bets_by_league[slug].append(b)
+
+    if not bets_by_league:
+        return
+
+    try:
+        from playwright.sync_api import sync_playwright
+        password = os.environ.get("SM_PASSWORD", "")
+        username = os.environ.get("SM_USERNAME", "joelbrown95")
+        if not password:
+            logger.warning("SM_PASSWORD not set — cannot resolve SM event IDs")
+            return
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            ctx = browser.new_context(viewport={"width": 1400, "height": 900})
+            page = ctx.new_page()
+
+            # Login
+            page.goto("https://pro.sportmarket.com/login", timeout=30000)
+            page.wait_for_selector('input[type="text"]', timeout=10000)
+            page.fill('input[type="text"]', username)
+            page.fill('input[type="password"]', password)
+            page.click('button[data-testid="35eb9af8"]')
+            page.wait_for_url(
+                lambda url: "/sportsbook" in url or "/trade" in url,
+                timeout=30000)
+
+            for slug, bets in bets_by_league.items():
+                prefix = SM_LEAGUE_PREFIXES.get(slug)
+                if not prefix:
+                    logger.warning(f"No SM prefix for league {slug}")
+                    continue
+
+                page.goto(f"{SM_SPORTSBOOK_BASE}/{prefix}", timeout=15000)
+                page.wait_for_timeout(3000)
+
+                # Extract all event links: href contains event_id, text has team names
+                sm_events = page.evaluate('''(prefix) => {
+                    const links = document.querySelectorAll('a[href*="' + prefix + '"]');
+                    let r = [];
+                    links.forEach(l => {
+                        const href = l.getAttribute('href') || '';
+                        const match = href.match(/(\\d{4}-\\d{2}-\\d{2},\\d+,\\d+)/);
+                        if (match) {
+                            r.push({eid: match[1], text: l.textContent.trim()});
+                        }
+                    });
+                    return r;
+                }''', prefix)
+
+                # Match each bet to an SM event by team name similarity
+                for b in bets:
+                    home = b.get("home_team", "")
+                    away = b.get("away_team", "")
+                    best_score = 0
+                    best_eid = None
+                    for ev in sm_events:
+                        txt = ev["text"].lower()
+                        h_score = SequenceMatcher(None, home.lower(), txt).ratio()
+                        a_score = SequenceMatcher(None, away.lower(), txt).ratio()
+                        # Both teams should appear in the event text
+                        score = h_score + a_score
+                        if score > best_score:
+                            best_score = score
+                            best_eid = ev["eid"]
+                    if best_eid and best_score > 0.6:
+                        b["event_id"] = best_eid
+                        logger.info(f"Resolved SM event: {home} vs {away} -> {best_eid}")
+                    else:
+                        logger.warning(f"Could not resolve SM event for {home} vs {away} "
+                                      f"(best_score={best_score:.2f})")
+
+            browser.close()
+    except Exception as e:
+        logger.warning(f"SM event ID resolution failed: {e}")
+
 
 # -------------------------------------------------------------
 # Data transformation
@@ -375,6 +535,8 @@ def transform_btts(df):
             "bf": bf_odds,
             "volume": round(volume, 2) if not pd.isna(volume) else None,
             "rpd": round(rpd, 3),
+            "rpd_yes": round(float(yes_rpd), 3) if not pd.isna(yes_rpd) else None,
+            "rpd_no": round(float(no_rpd), 3) if not pd.isna(no_rpd) else None,
             "event_id": row.get("event_id"),
         })
     return rows
@@ -457,21 +619,20 @@ def goals_formula(r):
 
 def _core_conditions(r):
     """Core contrarian conditions: 1.5G/3.5G/BTTS, pred=0, volume+BF+RPD schedule."""
-    return (
-        f'AND(OR(A{r}="1.5G",A{r}="3.5G",A{r}="BTTS"),H{r}=0,K{r}>=40,K{r}<=1100,J{r}>1.45,'
-        f'OR(AND(J{r}<=2.7,L{r}<=2.8),AND(J{r}>2.7,L{r}<=3.5)))'
-    )
+    from strategy_config import core_conditions_excel
+    return core_conditions_excel(r)
 
 def _fade_conditions(r):
     """Fade: BTTS pred=0 RPD>=5 (fade to Yes), 1.5G pred=1 RPD>=4.6 (fade to Under)."""
-    return (
-        f'AND(A{r}="BTTS",H{r}=0,L{r}>=5,K{r}>=40,K{r}<=1100,P{r}<>""),'
-        f'AND(A{r}="1.5G",H{r}=1,L{r}>=4.6,K{r}>=40,K{r}<=1100)'
-    )
+    from strategy_config import fade_conditions_excel
+    return fade_conditions_excel(r)
 
-def stake_formula(r, is_conflict=False, is_double_stake=False):
+def stake_formula(r, is_conflict=False, is_double_stake=False, is_25g_piggyback=False):
     if is_conflict:
         return '=""'
+    if is_25g_piggyback:
+        from strategy_config import piggyback_conditions_excel
+        return f'=IF({piggyback_conditions_excel(r)},1,"")'
     if is_double_stake:
         return (
             f'=IF({_core_conditions(r)},2,IF(OR({_fade_conditions(r)}),1,""))'
@@ -560,26 +721,12 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
             return None
 
     def _is_core_qualifying(row_data, idx):
-        if row_data["bet_type"] not in ("1.5G", "3.5G", "BTTS"):
-            return False
-        if row_data["prediction"] != 0:
-            return False
-        vol = row_data.get("volume")
-        bf = row_data.get("bf")
-        if vol is None or not (40 <= vol <= 700):
-            return False
-        if bf is None or bf <= 1.45:
-            return False
-        rpd = _compute_rpd(row_data.get("odds_365"), bf)
-        if rpd is None:
-            return False
-        if bf <= 2.7 and rpd > 2.8:
-            return False
-        if bf > 2.7 and rpd > 3.5:
-            return False
+        from strategy_config import is_core_qualifying as _is_core
         if idx in conflict_indices:
             return False
-        return True
+        rpd = _compute_rpd(row_data.get("odds_365"), row_data.get("bf"))
+        return _is_core(row_data["bet_type"], row_data["prediction"],
+                        row_data.get("bf"), row_data.get("volume"), rpd)
 
     from collections import defaultdict
     core_indices = set()
@@ -596,13 +743,30 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
         rd = new_rows[i]
         rpd = _compute_rpd(rd.get("odds_365"), rd.get("bf"))
         mk = (str(rd["date"]), str(rd["home_team"]), str(rd["away_team"]))
-        if rpd == 1.0 and match_core_count[mk] >= 2:
+        from strategy_config import DOUBLE_STAKE_RPD, DOUBLE_STAKE_MIN_COUNT
+        if rpd == DOUBLE_STAKE_RPD and match_core_count[mk] >= DOUBLE_STAKE_MIN_COUNT:
             match_dbl_candidates[mk].append((i, float(rd.get("bf", 0))))
 
     double_stake_indices = set()
     for mk, candidates in match_dbl_candidates.items():
         best_i = max(candidates, key=lambda x: x[1])[0]
         double_stake_indices.add(best_i)
+
+    # Under 2.5G piggyback: find matches where Under 1.5G qualifies as core,
+    # then flag the corresponding Under 2.5G row on the same match
+    matches_with_core_15g = set()
+    for i in core_indices:
+        rd = new_rows[i]
+        if rd["bet_type"] == "1.5G" and rd["prediction"] == 0:
+            mk = (str(rd["date"]), str(rd["home_team"]), str(rd["away_team"]))
+            matches_with_core_15g.add(mk)
+
+    piggyback_25g_indices = set()
+    for i, rd in enumerate(new_rows):
+        from strategy_config import is_25g_piggyback as _is_pb
+        mk = (str(rd["date"]), str(rd["home_team"]), str(rd["away_team"]))
+        if _is_pb(rd["bet_type"], rd["prediction"], rd.get("bf"), mk in matches_with_core_15g):
+            piggyback_25g_indices.add(i)
 
     # Find actual last row with data in column A (ws.max_row can be inflated by empty formatted rows)
     last_data_row = 1  # header row
@@ -685,6 +849,7 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
             r,
             is_conflict=(i in conflict_indices),
             is_double_stake=(i in double_stake_indices),
+            is_25g_piggyback=(i in piggyback_25g_indices),
         ))
         # R: Return
         ws.cell(row=r, column=18, value=return_formula(r))
@@ -702,6 +867,24 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
     # Track rows with missing Bet365 odds for later retry
     _track_pending_retries(new_rows, start_row)
 
+    # Load set of already-alerted bets to avoid duplicate alerts
+    ALERTED_STATE_FILE = Path(__file__).resolve().parent / "data" / "state" / "alerted_bets.json"
+    alerted_keys = set()
+    if ALERTED_STATE_FILE.exists():
+        try:
+            all_keys = json.loads(ALERTED_STATE_FILE.read_text())
+            # Prune keys older than 3 days (key format: "bt:date:home:away")
+            today = date.today()
+            for k in all_keys:
+                try:
+                    d = date.fromisoformat(k.split(":")[1])
+                    if (today - d).days <= 3:
+                        alerted_keys.add(k)
+                except:
+                    alerted_keys.add(k)  # keep unparseable keys
+        except:
+            pass
+
     # Collect qualifying bets for stake alert email
     alert_bets = []
     for i, row_data in enumerate(new_rows):
@@ -716,29 +899,39 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
 
         stake = None
 
+        from strategy_config import is_core_qualifying as _is_core, is_btts_fade as _is_bf, is_15g_fade as _is_1f
+
         # Core contrarian
-        if bt in ("1.5G", "3.5G", "BTTS") and pred == 0:
-            if vol and 40 <= vol <= 1100 and bf and bf > 1.45 and rpd is not None:
-                if ((bf <= 2.7 and rpd <= 2.8) or
-                    (bf > 2.7 and rpd <= 3.5)):
-                    stake = 2 if i in double_stake_indices else 1
+        if _is_core(bt, pred, bf, vol, rpd):
+            stake = 2 if i in double_stake_indices else 1
 
         # Fade: BTTS pred=0, RPD>=5 (fade to Yes)
-        if bt == "BTTS" and pred == 0 and rpd is not None and rpd >= 5 and vol and 40 <= vol <= 1100:
+        if _is_bf(bt, pred, rpd, vol):
             stake = stake or 1
 
         # Fade: 1.5G pred=1, RPD>=4.6 (fade to Under)
-        if bt == "1.5G" and pred == 1 and rpd is not None and rpd >= 4.6 and vol and 40 <= vol <= 1100:
+        if _is_1f(bt, pred, rpd, vol):
+            stake = stake or 1
+
+        # Under 2.5G piggyback (pre-qualified above)
+        if i in piggyback_25g_indices:
             stake = stake or 1
 
         if stake:
+            alert_key = f"{row_data['bet_type']}:{row_data['date']}:{row_data['home_team']}:{row_data['away_team']}"
+            if alert_key in alerted_keys:
+                continue  # already alerted — don't resend
             alert_bets.append({
                 **row_data,
                 "stake": stake,
             })
+            alerted_keys.add(alert_key)
 
     if alert_bets:
         send_stake_alerts(alert_bets)
+        # Persist alerted keys so we don't re-alert on next run
+        ALERTED_STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        ALERTED_STATE_FILE.write_text(json.dumps(list(alerted_keys), default=str))
 
     try:
         wb.save(master_path)

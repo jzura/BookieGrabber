@@ -47,43 +47,33 @@ def _compute_stake_and_return(df):
     df['Return'] = None
     df['Profit'] = None
 
-    # Core qualifying check
+    from strategy_config import (is_core_qualifying as _is_core_q,
+                                  is_btts_fade as _is_btts_f,
+                                  is_15g_fade as _is_15g_f)
+
     def is_core(row):
-        if row['Market'] not in ('1.5G', '3.5G', 'BTTS'): return False
-        if row['Prediction'] != 0: return False
         try:
             bf = float(row['BF']); vol = float(row['Volume'])
-        except: return False
-        if not (40 <= vol <= 1100): return False
-        if bf <= 1.45: return False
+        except (ValueError, TypeError):
+            return False
         rpd = _rpd(row['Bet365'], bf)
-        if rpd is None: return False
-        if bf <= 2.7 and rpd > 2.8: return False
-        if bf > 2.7 and rpd > 3.5: return False
-        return True
+        return _is_core_q(row['Market'], row['Prediction'], bf, vol, rpd)
 
-    # Fade check
     def is_btts_fade(row):
-        if row['Market'] != 'BTTS': return False
-        if row['Prediction'] != 0: return False
         try:
             vol = float(row['Volume'])
-        except: return False
-        if not (40 <= vol <= 1100): return False
+        except (ValueError, TypeError):
+            return False
         rpd = _rpd(row['Bet365'], row['BF'])
-        if rpd is None or rpd < 5: return False
-        return True
+        return _is_btts_f(row['Market'], row['Prediction'], rpd, vol)
 
     def is_15g_fade(row):
-        if row['Market'] != '1.5G': return False
-        if row['Prediction'] != 1: return False
         try:
             vol = float(row['Volume'])
-        except: return False
-        if not (40 <= vol <= 1100): return False
+        except (ValueError, TypeError):
+            return False
         rpd = _rpd(row['Bet365'], row['BF'])
-        if rpd is None or rpd < 4.6: return False
-        return True
+        return _is_15g_f(row['Market'], row['Prediction'], rpd, vol)
 
     # Build core set and double-stake
     core_idx = set()
@@ -100,7 +90,8 @@ def _compute_stake_and_return(df):
         row = df.loc[idx]
         rpd = _rpd(row['Bet365'], row['BF'])
         mk = (str(row['Date']), str(row['Home']), str(row['Away']))
-        if rpd == 1.0 and match_count[mk] >= 2:
+        from strategy_config import DOUBLE_STAKE_RPD, DOUBLE_STAKE_MIN_COUNT
+        if rpd == DOUBLE_STAKE_RPD and match_count[mk] >= DOUBLE_STAKE_MIN_COUNT:
             try:
                 match_dbl[mk].append((idx, float(row['BF'])))
             except: pass
@@ -109,12 +100,32 @@ def _compute_stake_and_return(df):
         best = max(candidates, key=lambda x: x[1])[0]
         dbl_idx.add(best)
 
+    # Under 2.5G piggyback: matches where 1.5G Under qualifies as core
+    matches_with_core_15g = set()
+    for idx in core_idx:
+        row = df.loc[idx]
+        if row['Market'] == '1.5G' and row['Prediction'] == 0:
+            matches_with_core_15g.add((str(row['Date']), str(row['Home']), str(row['Away'])))
+
+    piggyback_idx = set()
+    for idx, row in df.iterrows():
+        from strategy_config import is_25g_piggyback as _is_pb
+        mk = (str(row['Date']), str(row['Home']), str(row['Away']))
+        try:
+            bf = float(row['BF'])
+        except (ValueError, TypeError):
+            bf = 0
+        if _is_pb(row['Market'], row['Prediction'], bf, mk in matches_with_core_15g):
+            piggyback_idx.add(idx)
+
     # Assign stakes
     for idx, row in df.iterrows():
         stake = 0
         fade = False
         if idx in core_idx:
             stake = 2 if idx in dbl_idx else 1
+        elif idx in piggyback_idx:
+            stake = 1
         elif is_btts_fade(row):
             stake = 1; fade = True
         elif is_15g_fade(row):
@@ -186,7 +197,7 @@ def export_csv():
         # Compute result if it's a formula (None in data_only mode)
         if result is None and hg is not None and ag is not None:
             try:
-                hg_i, ag_i = int(hg), int(ag)
+                hg_i, ag_i = int(float(hg)), int(float(ag))
                 tg = hg_i + ag_i
                 if bt == 'BTTS':
                     both = (hg_i > 0 and ag_i > 0)
@@ -194,14 +205,16 @@ def export_csv():
                 elif bt in ('1.5G', '2.5G', '3.5G'):
                     line = float(bt.replace('G', ''))
                     result = (1 if tg > line else 0) if pred == 1 else (1 if tg < line else 0)
-            except: pass
+            except (ValueError, TypeError):
+                pass
         elif result is None and goals is not None:
             try:
-                tg = int(goals)
+                tg = int(float(goals))
                 if bt in ('1.5G', '2.5G', '3.5G'):
                     line = float(bt.replace('G', ''))
                     result = (1 if tg > line else 0) if pred == 1 else (1 if tg < line else 0)
-            except: pass
+            except (ValueError, TypeError):
+                pass
 
         # Compute RPD
         o365 = ws.cell(row=r, column=9).value
