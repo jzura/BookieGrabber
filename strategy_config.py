@@ -19,9 +19,11 @@ BF_MIN = 1.45
 # Core contrarian: pred=0, within volume/BF bounds, RPD within tier threshold
 # BF <= BF_TIER1 → RPD <= RPD_TIER1
 # BF > BF_TIER1  → RPD <= RPD_TIER2
-BF_TIER1 = 2.7
-RPD_TIER1 = 2.8   # max RPD when BF <= BF_TIER1
-RPD_TIER2 = 3.5   # max RPD when BF > BF_TIER1
+# Previous values (for easy rollback):
+# BF_TIER1 = 2.7, RPD_TIER1 = 2.8, RPD_TIER2 = 3.5
+BF_TIER1 = 3.0
+RPD_TIER1 = 4.0   # max RPD when BF <= BF_TIER1
+RPD_TIER2 = 6.0   # max RPD when BF > BF_TIER1
 
 # ─── Fade thresholds ───
 BTTS_FADE_RPD = 5.0    # BTTS pred=0 with RPD >= this → fade to Yes
