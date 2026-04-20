@@ -917,7 +917,7 @@ with tab8:
 
                 if is_fade:
                     if result == 0:
-                        opp = 1 / (1 - 1 / bf)
+                        opp = 1 / (1 - 1 / bf) * (1 - 0.04)  # 4% haircut on theoretical fade odds
                         c = _commission(opp)
                         ret = stake * (1 + (opp - 1) * (1 - c))
                     else:

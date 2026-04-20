@@ -289,11 +289,10 @@ def detect_btts_conflicts(bets: list[BetRow]) -> set[int]:
 # Return calculation (matching master sheet Return formula)
 # -------------------------------------------------------------
 
-# Conservative haircut applied to theoretical opposite odds for fade bets.
-# The formula 1/(1-1/BF) gives the fair-value inverse, but real bookmaker
-# markets always carry margin (~2-4%). We bake in a 3% reduction so the
-# backtest doesn't over-estimate returns on fade bets.
-FADE_OPPOSITE_ODDS_HAIRCUT = 0.03
+# Haircut on theoretical opposite odds for fade bets.
+# Based on 4 actual SM fade fills: real odds average 3.6% below theoretical.
+# Using 4% for safety (imported from strategy_config).
+from strategy_config import FADE_ODDS_HAIRCUT as FADE_OPPOSITE_ODDS_HAIRCUT
 
 
 def _commission(odds: float) -> float:

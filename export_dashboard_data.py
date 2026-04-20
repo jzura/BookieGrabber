@@ -145,7 +145,8 @@ def _compute_stake_and_return(df):
 
         if fade:
             if result == 0:
-                opp = 1 / (1 - 1 / bf)
+                from strategy_config import FADE_ODDS_HAIRCUT
+                opp = 1 / (1 - 1 / bf) * (1 - FADE_ODDS_HAIRCUT)
                 c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
                 ret = stake * (1 + (opp - 1) * (1 - c))
             else:

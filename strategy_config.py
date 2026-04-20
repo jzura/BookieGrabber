@@ -30,6 +30,12 @@ RPD_TIER2 = 6.0   # max RPD when BF > BF_TIER1
 BTTS_FADE_RPD = 5.0    # BTTS pred=0 with RPD >= this → fade to Yes
 G15_FADE_RPD = 4.6     # 1.5G pred=1 with RPD >= this → fade to Under
 
+# ─── Fade odds haircut ───
+# Theoretical opposite odds = 1/(1-1/BF). Real SM fills are lower due to
+# bookmaker margin on the less popular side. Based on 4 actual fade fills,
+# actual odds average 3.6% below theoretical. Using 4% haircut for safety.
+FADE_ODDS_HAIRCUT = 0.04
+
 # ─── Double stake ───
 DOUBLE_STAKE_RPD = 1.0       # RPD must equal this to qualify for 2x
 DOUBLE_STAKE_MIN_COUNT = 2   # min core bets on same match for 2x
