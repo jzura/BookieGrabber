@@ -21,7 +21,8 @@ BF_MIN = 1.45
 # BF > BF_TIER1  → RPD <= RPD_TIER2
 # Previous values (for easy rollback):
 # BF_TIER1 = 2.7, RPD_TIER1 = 2.8, RPD_TIER2 = 3.5
-BF_TIER1 = 3.0
+# Changed to 3.0 on 2026-04-20, reverted to 2.7 same day
+BF_TIER1 = 2.7
 RPD_TIER1 = 4.0   # max RPD when BF <= BF_TIER1
 RPD_TIER2 = 6.0   # max RPD when BF > BF_TIER1
 
