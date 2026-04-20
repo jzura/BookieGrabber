@@ -942,14 +942,18 @@ with tab8:
              [0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 150, 200]),
             ("Vol Max", "vol_max", VOL_MAX,
              [500, 750, 900, 1000, 1100, 1200, 1500, 2000, 3000, 5000, 10000]),
-            ("Tier 1 BF Max", "bf_tier1", BF_TIER1,
+            ("BF Min (all bets)", "bf_min", BF_MIN,
+             [1.01, 1.10, 1.20, 1.30, 1.35, 1.40, 1.45, 1.50, 1.55, 1.60, 1.70, 1.80]),
+            ("Tier 1 BF Max (RPD tier boundary)", "bf_tier1", BF_TIER1,
              [1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.3, 2.5, 2.7, 3.0, 3.5]),
-            ("Tier 2 BF Max (no cap above this)", "rpd_tier2", RPD_TIER2,
-             [1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 6.0, 8.0, 10.0]),
             ("Tier 1 RPD Cap (BF ≤ Tier 1 Max)", "rpd_tier1", RPD_TIER1,
              [0.5, 1.0, 1.5, 2.0, 2.5, 2.8, 3.0, 3.5, 4.0, 5.0, 6.0, 8.0]),
             ("Tier 2 RPD Cap (BF > Tier 1 Max)", "rpd_tier2", RPD_TIER2,
              [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 8.0, 10.0]),
+            ("BTTS Fade RPD Threshold", "btts_fade_rpd", BTTS_FADE_RPD,
+             [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 10.0]),
+            ("1.5G Fade RPD Threshold", "g15_fade_rpd", G15_FADE_RPD,
+             [3.0, 3.5, 4.0, 4.6, 5.0, 5.5, 6.0, 7.0, 8.0, 10.0]),
         ]
 
         results = []
