@@ -93,19 +93,21 @@ st.sidebar.caption(f"Data: {len(df):,} rows | Staked: {len(staked_f):,} | Last: 
 # ─── KPI Cards ───
 st.title("Performance Dashboard")
 
-col1, col2, col3, col4, col5 = st.columns(5)
+col1, col2, col3, col4, col5, col6 = st.columns(6)
 total_staked = settled_f['Stake'].sum()
 total_profit = settled_f['Profit'].sum()
 n_bets = len(settled_f)
 n_wins = len(settled_f[settled_f['Return'] > 0])
 win_rate = n_wins / n_bets * 100 if n_bets else 0
 roi = total_profit / total_staked * 100 if total_staked else 0
+n_pending = len(staked_f[staked_f['Result'].isna()])
 
 col1.metric("Total Bets", f"{n_bets:,}")
 col2.metric("Win Rate", f"{win_rate:.1f}%")
 col3.metric("Total Staked", f"{total_staked:.0f}")
 col4.metric("Total Profit", f"{total_profit:.2f}", delta=f"{roi:.1f}% ROI")
 col5.metric("Avg SM Odds", f"{settled_f['SM_Odds'].mean():.2f}" if settled_f['SM_Odds'].notna().any() else "N/A")
+col6.metric("Results Pending", f"{n_pending:,}")
 
 # Recent performance
 from datetime import timedelta as _td
