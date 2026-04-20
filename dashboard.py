@@ -613,15 +613,37 @@ with tab5:
 with tab6:
     st.subheader("Recent Settled Bets")
     n_show = st.slider("Number of bets to show", 10, 200, 50, key="recent_slider")
-    recent = settled_f.sort_values('Date', ascending=False).head(n_show)
+    recent = settled_f.sort_values('Date', ascending=False).head(n_show).copy()
+
+    # Add "Bet" column: for BTTS show Yes/No, for goals show Over/Under
+    def describe_bet(row):
+        if row['Market'] == 'BTTS':
+            if row['Prediction'] == 0:
+                rpd = row.get('RPD')
+                if pd.notna(rpd) and rpd >= 5:
+                    return 'Yes (fade)'
+                return 'No'
+            return 'Yes'
+        else:
+            if row['Market'] == '1.5G' and row['Prediction'] == 1:
+                rpd = row.get('RPD')
+                if pd.notna(rpd) and rpd >= 4.6:
+                    return 'Under (fade)'
+            return 'Under' if row['Prediction'] == 0 else 'Over'
+    recent['Bet'] = recent.apply(describe_bet, axis=1)
+
+    # Add total goals
+    recent['Total Goals'] = recent['Goals']
+
     st.dataframe(
-        recent[['Date', 'Market', 'Home', 'Away', 'Competition', 'BF', 'SM_Odds', 'Stake', 'Result', 'Profit']],
+        recent[['Date', 'Market', 'Bet', 'Home', 'Away', 'Competition', 'Total Goals', 'BF', 'SM_Odds', 'Stake', 'Result', 'Profit']],
         use_container_width=True, hide_index=True,
         column_config={
             'Date': st.column_config.DateColumn(format="YYYY-MM-DD"),
             'BF': st.column_config.NumberColumn(format="%.2f"),
             'SM_Odds': st.column_config.NumberColumn("SM Odds", format="%.3f"),
             'Profit': st.column_config.NumberColumn(format="%.2f"),
+            'Total Goals': st.column_config.NumberColumn("Goals", format="%d"),
         }
     )
 
@@ -629,12 +651,13 @@ with tab6:
 
     # Today's open bets
     st.subheader("Open / Unsettled Bets")
-    open_bets = staked_f[staked_f['Profit'].isna()].sort_values('Date', ascending=False)
+    open_bets = staked_f[staked_f['Profit'].isna()].sort_values('Date', ascending=False).copy()
     if open_bets.empty:
         st.info("No open bets.")
     else:
+        open_bets['Bet'] = open_bets.apply(describe_bet, axis=1)
         st.dataframe(
-            open_bets[['Date', 'Market', 'Home', 'Away', 'Competition', 'BF', 'SM_Odds', 'Stake']],
+            open_bets[['Date', 'Market', 'Bet', 'Home', 'Away', 'Competition', 'BF', 'SM_Odds', 'Stake']],
             use_container_width=True, hide_index=True,
             column_config={
                 'Date': st.column_config.DateColumn(format="YYYY-MM-DD"),
