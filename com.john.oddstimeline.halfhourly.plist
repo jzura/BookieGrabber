@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <key>Label</key>
+    <string>com.john.oddstimeline.halfhourly</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/Joel/REPOS/BookieGrabber/venv/bin/python</string>
+        <string>/Users/Joel/REPOS/BookieGrabber/odds_timeline_recorder.py</string>
+    </array>
+
+    <!-- Run every 30 minutes (1800 seconds) -->
+    <key>StartInterval</key>
+    <integer>1800</integer>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/Joel/REPOS/BookieGrabber</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/oddstimeline.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/oddstimeline.err</string>
+
+</dict>
+</plist>

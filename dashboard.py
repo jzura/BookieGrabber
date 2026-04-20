@@ -130,9 +130,10 @@ st.markdown("---")
 # ═══════════════════════════════════════════════
 # TAB LAYOUT
 # ═══════════════════════════════════════════════
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "📈 Overview", "💰 SM Account", "🎯 SM vs BF Analysis", "📅 Time Analysis",
-    "🏆 League Heatmap", "📋 Recent Bets", "📊 Advanced", "🔧 Optimizer"
+    "🏆 League Heatmap", "📋 Recent Bets", "📊 Advanced", "🔧 Optimizer",
+    "⏱️ Odds Timeline"
 ])
 
 # ═══════════════════════════════════════════════
@@ -998,6 +999,238 @@ with tab8:
         })
         st.dataframe(styled, use_container_width=True, hide_index=True)
         st.markdown("")
+
+# ─── Tab 9: Odds Timeline ───
+with tab9:
+    st.header("Odds Timeline Analysis")
+    st.caption("Tracks how odds, RPD, and volume change at different intervals before kickoff. "
+               "Data collected every 30 minutes across all leagues.")
+
+    @st.cache_data(ttl=600)
+    def load_timeline_data():
+        """Load all odds timeline CSVs into one DataFrame."""
+        timeline_dir = Path(__file__).parent / "data" / "odds_timeline"
+        if not timeline_dir.exists():
+            return pd.DataFrame()
+        import glob
+        files = glob.glob(str(timeline_dir / "*" / "*.csv"))
+        if not files:
+            return pd.DataFrame()
+        dfs = []
+        for f in files:
+            try:
+                d = pd.read_csv(f)
+                # Extract league from path
+                league = Path(f).parent.name
+                d["league"] = league
+                dfs.append(d)
+            except Exception:
+                continue
+        if not dfs:
+            return pd.DataFrame()
+        df = pd.concat(dfs, ignore_index=True)
+        # Ensure numeric types
+        num_cols = [c for c in df.columns if c.startswith(("b365_", "bf_", "vol_"))]
+        for c in num_cols:
+            df[c] = pd.to_numeric(df[c], errors="coerce")
+        df["target_hours_before"] = pd.to_numeric(df["target_hours_before"], errors="coerce")
+        return df
+
+    tl = load_timeline_data()
+
+    if tl.empty:
+        st.info("No timeline data collected yet. The recorder runs every 30 minutes — "
+                "check back after a few matches have been captured.")
+    else:
+        n_snapshots = len(tl)
+        n_events = tl["event_id"].nunique()
+        n_leagues = tl["league"].nunique()
+        date_range_tl = f"{tl['snapshot_time'].min()[:10]} to {tl['snapshot_time'].max()[:10]}"
+
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Total Snapshots", f"{n_snapshots:,}")
+        c2.metric("Unique Events", f"{n_events:,}")
+        c3.metric("Leagues", f"{n_leagues}")
+        c4.metric("Date Range", date_range_tl)
+
+        st.markdown("---")
+
+        # ─── 1. Data Coverage ───
+        st.subheader("1. Data Coverage by Interval")
+        st.caption("How many snapshots collected at each target hour mark")
+
+        coverage = tl.groupby("target_hours_before").agg(
+            Snapshots=("event_id", "count"),
+            Events=("event_id", "nunique"),
+            Leagues=("league", "nunique"),
+        ).reset_index().rename(columns={"target_hours_before": "Hours Before KO"})
+        coverage = coverage.sort_values("Hours Before KO", ascending=False)
+
+        col_cov1, col_cov2 = st.columns([2, 3])
+        with col_cov1:
+            st.dataframe(coverage, use_container_width=True, hide_index=True)
+        with col_cov2:
+            fig_cov = go.Figure()
+            fig_cov.add_trace(go.Bar(
+                x=coverage["Hours Before KO"].astype(str) + "h",
+                y=coverage["Events"],
+                marker_color="#4CAF50",
+                hovertemplate="%{x}: %{y} events<extra></extra>",
+            ))
+            fig_cov.update_layout(
+                height=300, margin=dict(l=40, r=20, t=10, b=40),
+                xaxis_title="Hours Before Kickoff", yaxis_title="Events Captured",
+            )
+            st.plotly_chart(fig_cov, use_container_width=True)
+
+        st.markdown("---")
+
+        # ─── 2. Odds Drift ───
+        st.subheader("2. Average BF Odds by Interval")
+        st.caption("How Betfair Exchange odds change as kickoff approaches")
+
+        market_select = st.selectbox("Market", ["Under 2.5G", "Under 1.5G", "Under 3.5G", "BTTS No"],
+                                     key="tl_market")
+        col_map = {
+            "Under 2.5G": ("bf_under_2_5", "b365_under_2_5"),
+            "Under 1.5G": ("bf_under_1_5", "b365_under_1_5"),
+            "Under 3.5G": ("bf_under_3_5", "b365_under_3_5"),
+            "BTTS No": ("bf_btts_no", "b365_btts_no"),
+        }
+        bf_col, b365_col = col_map[market_select]
+
+        if bf_col in tl.columns and b365_col in tl.columns:
+            drift = tl.groupby("target_hours_before").agg(
+                BF_Avg=(bf_col, "mean"),
+                B365_Avg=(b365_col, "mean"),
+                Count=(bf_col, "count"),
+            ).reset_index().sort_values("target_hours_before")
+
+            # Only show intervals with enough data
+            drift = drift[drift["Count"] >= 3]
+
+            if not drift.empty:
+                fig_drift = go.Figure()
+                fig_drift.add_trace(go.Scatter(
+                    x=drift["target_hours_before"], y=drift["BF_Avg"],
+                    mode="lines+markers", name="BF Exchange",
+                    line=dict(color="#2196F3", width=2),
+                    hovertemplate="%{x}h: BF avg %{y:.3f}<extra></extra>",
+                ))
+                fig_drift.add_trace(go.Scatter(
+                    x=drift["target_hours_before"], y=drift["B365_Avg"],
+                    mode="lines+markers", name="Bet365",
+                    line=dict(color="#FF9800", width=2),
+                    hovertemplate="%{x}h: B365 avg %{y:.3f}<extra></extra>",
+                ))
+                fig_drift.update_layout(
+                    height=400, margin=dict(l=40, r=20, t=10, b=40),
+                    xaxis_title="Hours Before Kickoff", yaxis_title="Average Odds",
+                    xaxis=dict(autorange="reversed"),
+                    legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+                )
+                st.plotly_chart(fig_drift, use_container_width=True)
+            else:
+                st.info("Not enough data points yet (need 3+ per interval)")
+        else:
+            st.warning(f"Columns {bf_col}/{b365_col} not found in timeline data")
+
+        st.markdown("---")
+
+        # ─── 3. RPD by Interval ───
+        st.subheader("3. RPD Heatmap by Interval & Market")
+        st.caption("Average RPD at each time interval for each market")
+
+        rpd_rows = []
+        for market_label, (bf_c, b365_c) in col_map.items():
+            if bf_c not in tl.columns or b365_c not in tl.columns:
+                continue
+            for target in sorted(tl["target_hours_before"].dropna().unique()):
+                subset = tl[tl["target_hours_before"] == target]
+                bf_vals = pd.to_numeric(subset[bf_c], errors="coerce")
+                b365_vals = pd.to_numeric(subset[b365_c], errors="coerce")
+                valid = bf_vals.notna() & b365_vals.notna() & (bf_vals > 0) & (b365_vals > 0)
+                if valid.sum() < 3:
+                    continue
+                a, b = b365_vals[valid], bf_vals[valid]
+                rpd = ((a - b).abs() / ((a + b) / 2) * 100)
+                rpd[a > b] = 1.0
+                rpd[rpd < 1] = 1.0
+                rpd_rows.append({
+                    "Market": market_label,
+                    "Hours": int(target),
+                    "Avg RPD": round(rpd.mean(), 2),
+                    "Count": int(valid.sum()),
+                })
+
+        if rpd_rows:
+            rpd_df = pd.DataFrame(rpd_rows)
+            rpd_pivot = rpd_df.pivot_table(index="Market", columns="Hours",
+                                           values="Avg RPD", fill_value=None)
+            # Sort columns descending (48h → 5h)
+            rpd_pivot = rpd_pivot[sorted(rpd_pivot.columns, reverse=True)]
+
+            st.dataframe(rpd_pivot.style.format("{:.2f}").background_gradient(
+                cmap="RdYlGn_r", axis=None), use_container_width=True)
+        else:
+            st.info("Not enough data for RPD heatmap yet")
+
+        st.markdown("---")
+
+        # ─── 4. Volume Growth ───
+        st.subheader("4. Average Volume by Interval")
+        st.caption("How Betfair matched volume grows as kickoff approaches")
+
+        vol_map = {
+            "1.5G": "vol_1_5", "2.5G": "vol_2_5",
+            "3.5G": "vol_3_5", "BTTS": "vol_btts",
+        }
+
+        vol_data = []
+        for mkt, vc in vol_map.items():
+            if vc not in tl.columns:
+                continue
+            for target in sorted(tl["target_hours_before"].dropna().unique()):
+                subset = tl[tl["target_hours_before"] == target]
+                vals = pd.to_numeric(subset[vc], errors="coerce").dropna()
+                if len(vals) < 3:
+                    continue
+                vol_data.append({
+                    "Market": mkt,
+                    "Hours": int(target),
+                    "Avg Volume": round(vals.mean(), 0),
+                })
+
+        if vol_data:
+            vol_df = pd.DataFrame(vol_data)
+            fig_vol = px.line(vol_df, x="Hours", y="Avg Volume", color="Market",
+                             markers=True)
+            fig_vol.update_layout(
+                height=400, margin=dict(l=40, r=20, t=10, b=40),
+                xaxis_title="Hours Before Kickoff", yaxis_title="Average Volume",
+                xaxis=dict(autorange="reversed"),
+            )
+            st.plotly_chart(fig_vol, use_container_width=True)
+        else:
+            st.info("Not enough volume data yet")
+
+        st.markdown("---")
+
+        # ─── 5. League Breakdown ───
+        st.subheader("5. Coverage by League")
+
+        league_cov = tl.groupby("league").agg(
+            Snapshots=("event_id", "count"),
+            Events=("event_id", "nunique"),
+            Intervals=("target_hours_before", "nunique"),
+            First=("snapshot_time", "min"),
+            Last=("snapshot_time", "max"),
+        ).reset_index().rename(columns={"league": "League"})
+        league_cov["First"] = league_cov["First"].str[:10]
+        league_cov["Last"] = league_cov["Last"].str[:10]
+        league_cov = league_cov.sort_values("Snapshots", ascending=False)
+
+        st.dataframe(league_cov, use_container_width=True, hide_index=True)
 
 # ─── Footer ───
 st.markdown("---")
