@@ -16,6 +16,7 @@ Usage:
 
 import os
 import sys
+import json
 import logging
 import smtplib
 import argparse
@@ -375,21 +376,22 @@ def _resolve_sm_event_ids(tg_bets):
                     continue
 
                 page.goto(f"{SM_SPORTSBOOK_BASE}/{prefix}", timeout=15000)
+                page.wait_for_load_state("networkidle", timeout=10000)
                 page.wait_for_timeout(3000)
 
-                # Extract all event links: href contains event_id, text has team names
-                sm_events = page.evaluate('''(prefix) => {
-                    const links = document.querySelectorAll('a[href*="' + prefix + '"]');
+                # Extract all event links on the page (any link with date,id,id pattern)
+                sm_events = page.evaluate('''() => {
+                    const links = document.querySelectorAll('a[href*=","]');
                     let r = [];
                     links.forEach(l => {
                         const href = l.getAttribute('href') || '';
                         const match = href.match(/(\\d{4}-\\d{2}-\\d{2},\\d+,\\d+)/);
-                        if (match) {
+                        if (match && href.includes('/sportsbook/')) {
                             r.push({eid: match[1], text: l.textContent.trim()});
                         }
                     });
                     return r;
-                }''', prefix)
+                }''')
 
                 # Match each bet to an SM event by team name similarity
                 for b in bets:
