@@ -122,6 +122,11 @@ ESPN_LEAGUES = {
     "Romania - Superliga": "rou.1",
     "Swiss Super League": "sui.1",
     "Switzerland - Super League": "sui.1",
+    # Master sheet name variants
+    "Danish Superligaen": "den.1",
+    "German Bundesliga I": "ger.1",
+    "Sweden - Allsvenskan": "swe.1",
+    "Sweden Allsvenskan": "swe.1",
 }
 
 
@@ -432,7 +437,12 @@ def main():
 
     def _apply(lookup, rows):
         filled, remaining = 0, []
+        now_date = datetime.now().date()
         for r, bt, d, home, away, pred, comp in rows:
+            # Never fill results for matches that haven't happened yet
+            if d and d > now_date:
+                remaining.append((r, bt, d, home, away, pred, comp))
+                continue
             hg, ag = find_result(lookup, d, home, away)
             if hg is None:
                 remaining.append((r, bt, d, home, away, pred, comp))
@@ -476,25 +486,9 @@ def main():
         remaining = still_remaining
         logger.info(f"SM filled: {sm_filled}, remaining: {len(remaining)}")
 
-    # --- Secondary: Fotmob (global, single endpoint) ---
-    logger.info("Secondary source: Fotmob")
-    try:
-        fotmob_df = download_fotmob_results(needed_dates)
-    except Exception as e:
-        logger.warning(f"Fotmob fetch failed: {e}")
-        fotmob_df = pd.DataFrame()
-
-    if not fotmob_df.empty:
-        lookup = build_lookup(fotmob_df)
-        n, remaining = _apply(lookup, remaining)
-        filled_rows += n
-        logger.info(f"Fotmob filled: {n}, remaining: {len(remaining)}")
-
-    # --- Fallback: football-data.co.uk + ESPN (only if anything still missing) ---
+    # --- Secondary: ESPN (free, reliable, covers all leagues) ---
     if remaining:
-        logger.info(f"Fallback: football-data.co.uk + ESPN for {len(remaining)} unresolved rows")
-        fd_df = download_football_data_csvs()
-
+        logger.info(f"Secondary source: ESPN for {len(remaining)} remaining rows")
         espn_needed = defaultdict(set)
         for _r, _bt, d, _h, _a, _p, comp in remaining:
             code = ESPN_LEAGUES.get(comp)
@@ -504,13 +498,36 @@ def main():
                 espn_needed[code].add(d + timedelta(days=1))
 
         espn_df = download_espn_results(espn_needed) if espn_needed else pd.DataFrame()
-
-        dfs = [df for df in [fd_df, espn_df] if not df.empty]
-        if dfs:
-            lookup = build_lookup(pd.concat(dfs, ignore_index=True))
+        if not espn_df.empty:
+            lookup = build_lookup(espn_df)
             n, remaining = _apply(lookup, remaining)
             filled_rows += n
-            logger.info(f"Fallback filled: {n}, still unresolved: {len(remaining)}")
+            logger.info(f"ESPN filled: {n}, remaining: {len(remaining)}")
+
+    # --- Tertiary: Fotmob (currently broken — 502 errors, kept as fallback) ---
+    if remaining:
+        logger.info("Tertiary source: Fotmob")
+        try:
+            fotmob_df = download_fotmob_results(needed_dates)
+        except Exception as e:
+            logger.warning(f"Fotmob fetch failed: {e}")
+            fotmob_df = pd.DataFrame()
+
+        if not fotmob_df.empty:
+            lookup = build_lookup(fotmob_df)
+            n, remaining = _apply(lookup, remaining)
+            filled_rows += n
+            logger.info(f"Fotmob filled: {n}, remaining: {len(remaining)}")
+
+    # --- Last resort: football-data.co.uk CSVs ---
+    if remaining:
+        logger.info(f"Last resort: football-data.co.uk for {len(remaining)} unresolved rows")
+        fd_df = download_football_data_csvs()
+        if not fd_df.empty:
+            lookup = build_lookup(fd_df)
+            n, remaining = _apply(lookup, remaining)
+            filled_rows += n
+            logger.info(f"football-data filled: {n}, still unresolved: {len(remaining)}")
 
     logger.info(f"Total filled rows (N home, O away): {filled_rows}")
     if remaining:
