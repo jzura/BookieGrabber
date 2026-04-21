@@ -164,17 +164,14 @@ with tab1:
             hovertemplate='30-bet P&L: %{y:.2f}<extra></extra>'
         ))
 
-    # Linear best fit forced through origin (0, 0)
+    # Linear best fit
     if len(cum) > 2:
-        x_vals = cum['Bet_Number'].values
-        y_vals = cum['Cum_Profit'].values
-        slope = np.sum(x_vals * y_vals) / np.sum(x_vals ** 2)  # OLS without intercept
-        trend_x = np.concatenate([[0], x_vals])
-        trend_y = slope * trend_x
+        z = np.polyfit(cum['Bet_Number'], cum['Cum_Profit'], 1)
+        trend_y = np.polyval(z, cum['Bet_Number'])
         fig_cum.add_trace(go.Scatter(
-            x=trend_x, y=trend_y,
+            x=cum['Bet_Number'], y=trend_y,
             mode='lines', line=dict(color='#9E9E9E', width=1, dash='dash'),
-            name=f'Trend ({slope:+.3f}/bet)', opacity=0.7,
+            name=f'Trend ({z[0]:+.3f}/bet)', opacity=0.7,
             hovertemplate='Trend: %{y:.2f}<extra></extra>'
         ))
 
