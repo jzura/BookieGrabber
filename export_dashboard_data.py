@@ -299,14 +299,9 @@ def export_sm_balance():
         if not token:
             logger.warning("No SM session — skipping balance export")
             return
-        r = requests.get(f"{SM_BASE}/../api/accounting_info",
+        r = requests.get(f"{SM_BASE}/customers/{SM_USERNAME}/accounting_info/",
                         headers={"Accept": "application/json", "session": token,
                                  "x-molly-client-name": "sonic"}, timeout=15)
-        if r.status_code != 200:
-            # Try alternate endpoint
-            r = requests.get(f"https://pro.sportmarket.com/v1/accounting_info/",
-                            headers={"Accept": "application/json", "session": token,
-                                     "x-molly-client-name": "sonic"}, timeout=15)
         if r.status_code == 200:
             data = r.json()
             balance_file = DASHBOARD_DIR / "sm_balance.json"
