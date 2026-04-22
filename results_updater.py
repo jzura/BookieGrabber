@@ -667,7 +667,7 @@ def rebuild_stake_formulas(ws):
         if x["r"] not in core_rows:
             continue
         from strategy_config import DOUBLE_STAKE_RPD, DOUBLE_STAKE_MIN_COUNT
-        if x["rpd"] == DOUBLE_STAKE_RPD and match_count[(x["d"], x["home"], x["away"])] >= DOUBLE_STAKE_MIN_COUNT:
+        if x["rpd"] is not None and x["rpd"] <= DOUBLE_STAKE_RPD and match_count[(x["d"], x["home"], x["away"])] >= DOUBLE_STAKE_MIN_COUNT:
             try:
                 bf_f = float(x["bf"])
             except (TypeError, ValueError):

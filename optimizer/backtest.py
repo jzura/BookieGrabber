@@ -371,7 +371,7 @@ def run_backtest(bets: list[BetRow], params: StrategyParams,
     double_stake = set()
     for i in core_indices:
         b = in_range[i]
-        if (b.rpd == params.double_stake_rpd
+        if (b.rpd <= params.double_stake_rpd
                 and match_core_count[(b.date, b.home, b.away)] >= params.double_stake_min_count):
             double_stake.add(i)
 

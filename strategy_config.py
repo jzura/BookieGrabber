@@ -37,7 +37,8 @@ G15_FADE_RPD = 4.6     # 1.5G pred=1 with RPD >= this → fade to Under
 FADE_ODDS_HAIRCUT = 0.04
 
 # ─── Double stake ───
-DOUBLE_STAKE_RPD = 1.0       # RPD must equal this to qualify for 2x
+# Previous: DOUBLE_STAKE_RPD = 1.0
+DOUBLE_STAKE_RPD = 1.2       # RPD must be <= this to qualify for 2x
 DOUBLE_STAKE_MIN_COUNT = 2   # min core bets on same match for 2x
 
 # ─── Core bet types ───

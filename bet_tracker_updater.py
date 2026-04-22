@@ -746,7 +746,7 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
         rpd = _compute_rpd(rd.get("odds_365"), rd.get("bf"))
         mk = (str(rd["date"]), str(rd["home_team"]), str(rd["away_team"]))
         from strategy_config import DOUBLE_STAKE_RPD, DOUBLE_STAKE_MIN_COUNT
-        if rpd == DOUBLE_STAKE_RPD and match_core_count[mk] >= DOUBLE_STAKE_MIN_COUNT:
+        if rpd is not None and rpd <= DOUBLE_STAKE_RPD and match_core_count[mk] >= DOUBLE_STAKE_MIN_COUNT:
             match_dbl_candidates[mk].append((i, float(rd.get("bf", 0))))
 
     double_stake_indices = set()

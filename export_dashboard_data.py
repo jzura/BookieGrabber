@@ -91,7 +91,7 @@ def _compute_stake_and_return(df):
         rpd = _rpd(row['Bet365'], row['BF'])
         mk = (str(row['Date']), str(row['Home']), str(row['Away']))
         from strategy_config import DOUBLE_STAKE_RPD, DOUBLE_STAKE_MIN_COUNT
-        if rpd == DOUBLE_STAKE_RPD and match_count[mk] >= DOUBLE_STAKE_MIN_COUNT:
+        if rpd is not None and rpd <= DOUBLE_STAKE_RPD and match_count[mk] >= DOUBLE_STAKE_MIN_COUNT:
             try:
                 match_dbl[mk].append((idx, float(row['BF'])))
             except: pass

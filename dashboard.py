@@ -863,7 +863,8 @@ with tab8:
     def run_optimizer_sweep(df_all):
         """Re-qualify ALL bets at each parameter value and compute P&L."""
         from strategy_config import (VOL_MIN, VOL_MAX, BF_MIN, BF_TIER1,
-                                     RPD_TIER1, RPD_TIER2, BTTS_FADE_RPD, G15_FADE_RPD)
+                                     RPD_TIER1, RPD_TIER2, BTTS_FADE_RPD, G15_FADE_RPD,
+                                     DOUBLE_STAKE_RPD, DOUBLE_STAKE_MIN_COUNT)
 
         # Use ALL rows with results (not just currently-staked ones)
         candidates = df_all.copy()
@@ -893,62 +894,82 @@ with tab8:
 
         def simulate(df_c, vol_min=VOL_MIN, vol_max=VOL_MAX, bf_min=BF_MIN,
                      bf_tier1=BF_TIER1, rpd_tier1=RPD_TIER1, rpd_tier2=RPD_TIER2,
-                     btts_fade_rpd=BTTS_FADE_RPD, g15_fade_rpd=G15_FADE_RPD):
-            """Re-qualify all bets and compute P&L. Returns (n_bets, profit, staked, roi)."""
+                     btts_fade_rpd=BTTS_FADE_RPD, g15_fade_rpd=G15_FADE_RPD,
+                     dbl_rpd=DOUBLE_STAKE_RPD):
+            """Re-qualify all bets and compute P&L with double-stake logic."""
+            from collections import defaultdict as _dd
+
+            # First pass: identify core bets and double-stake candidates
+            core_idx = set()
+            match_count = _dd(int)
+            bet_data = {}
+
+            for idx, row in df_c.iterrows():
+                bt, pred, bf, vol, rpd = row['Market'], row['Prediction'], row['BF'], row['Volume'], row['_rpd']
+                if pd.isna(bf) or pd.isna(row['Result']) or pd.isna(rpd):
+                    continue
+                vol = vol if not pd.isna(vol) else 0
+                mk = (str(row['Date']), str(row['Home']), str(row['Away']))
+                bet_data[idx] = {'bt': bt, 'pred': pred, 'bf': bf, 'vol': vol,
+                                 'rpd': rpd, 'result': row['Result'], 'mk': mk,
+                                 'sm': row.get('SM_Odds') if pd.notna(row.get('SM_Odds')) else None}
+
+                if bt in ('1.5G', '3.5G', 'BTTS') and pred == 0:
+                    if vol_min <= vol <= vol_max and bf > bf_min:
+                        if (bf <= bf_tier1 and rpd <= rpd_tier1) or (bf > bf_tier1 and rpd <= rpd_tier2):
+                            core_idx.add(idx)
+                            match_count[mk] += 1
+
+            # Double-stake: RPD <= threshold, ≥2 core on match, highest BF gets 2x
+            dbl_candidates = _dd(list)
+            for idx in core_idx:
+                d = bet_data[idx]
+                if d['rpd'] <= dbl_rpd and match_count[d['mk']] >= DOUBLE_STAKE_MIN_COUNT:
+                    dbl_candidates[d['mk']].append((idx, d['bf']))
+            dbl_idx = set()
+            for mk, cands in dbl_candidates.items():
+                best = max(cands, key=lambda x: x[1])[0]
+                dbl_idx.add(best)
+
+            # Second pass: compute P&L
             total_profit = 0.0
             total_staked = 0.0
             n_bets = 0
 
-            for _, row in df_c.iterrows():
-                bt = row['Market']
-                pred = row['Prediction']
-                bf = row['BF']
-                vol = row['Volume']
-                result = row['Result']
-                rpd = row['_rpd']
-
-                if pd.isna(bf) or pd.isna(result) or pd.isna(rpd):
-                    continue
-                vol = vol if not pd.isna(vol) else 0
-
+            for idx, d in bet_data.items():
                 stake = 0
                 is_fade = False
 
-                # Core contrarian
-                if bt in ('1.5G', '3.5G', 'BTTS') and pred == 0:
-                    if vol_min <= vol <= vol_max and bf > bf_min:
-                        if (bf <= bf_tier1 and rpd <= rpd_tier1) or (bf > bf_tier1 and rpd <= rpd_tier2):
-                            stake = 1
-
-                # BTTS fade
-                if bt == 'BTTS' and pred == 0 and rpd >= btts_fade_rpd:
-                    if vol_min <= vol <= vol_max and stake == 0:
-                        stake = 1
-                        is_fade = True
-
-                # 1.5G fade
-                if bt == '1.5G' and pred == 1 and rpd >= g15_fade_rpd:
-                    if vol_min <= vol <= vol_max and stake == 0:
-                        stake = 1
-                        is_fade = True
+                if idx in core_idx:
+                    stake = 2 if idx in dbl_idx else 1
+                elif d['bt'] == 'BTTS' and d['pred'] == 0 and d['rpd'] >= btts_fade_rpd:
+                    if vol_min <= d['vol'] <= vol_max:
+                        stake = 1; is_fade = True
+                elif d['bt'] == '1.5G' and d['pred'] == 1 and d['rpd'] >= g15_fade_rpd:
+                    if vol_min <= d['vol'] <= vol_max:
+                        stake = 1; is_fade = True
 
                 if stake == 0:
                     continue
 
                 n_bets += 1
                 total_staked += stake
+                bf = d['bf']
+                result = d['result']
+                sm = d['sm']
+                odds = sm if sm else bf
 
                 if is_fade:
                     if result == 0:
-                        opp = 1 / (1 - 1 / bf) * (1 - 0.04)  # 4% haircut on theoretical fade odds
+                        opp = sm if sm else 1 / (1 - 1 / bf) * (1 - 0.04)
                         c = _commission(opp)
                         ret = stake * (1 + (opp - 1) * (1 - c))
                     else:
                         ret = 0
                 else:
                     if result == 1:
-                        c = _commission(bf)
-                        ret = stake * (1 + (bf - 1) * (1 - c))
+                        c = _commission(odds)
+                        ret = stake * (1 + (odds - 1) * (1 - c))
                     else:
                         ret = 0
 
@@ -978,6 +999,8 @@ with tab8:
              [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 10.0]),
             ("1.5G Fade RPD Threshold", "g15_fade_rpd", G15_FADE_RPD,
              [2.0, 2.5, 3.0, 3.5, 4.0, 4.6, 5.0, 5.5, 6.0, 7.0, 8.0, 10.0]),
+            ("Double Stake RPD Threshold", "dbl_rpd", DOUBLE_STAKE_RPD,
+             [1.0, 1.1, 1.2, 1.3, 1.5, 1.8, 2.0, 2.5, 3.0, 3.5]),
         ]
 
         results = []
