@@ -258,7 +258,7 @@ def export_csv():
 
 def git_push():
     try:
-        subprocess.run(["git", "add", str(CSV_PATH)], cwd=str(PROJECT_ROOT),
+        subprocess.run(["git", "add", str(DASHBOARD_DIR)], cwd=str(PROJECT_ROOT),
                        capture_output=True, timeout=30)
         result = subprocess.run(
             ["git", "commit", "-m", f"Dashboard data update {datetime.now().strftime('%Y-%m-%d %H:%M')}"],
