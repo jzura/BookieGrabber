@@ -299,7 +299,7 @@ with tab2:
         bal_history = json.loads(balance_path.read_text())
         if bal_history:
             bal_df = pd.DataFrame(bal_history)
-            bal_df['timestamp'] = pd.to_datetime(bal_df['timestamp'])
+            bal_df['timestamp'] = pd.to_datetime(bal_df['timestamp'], format='mixed')
             bal_df['balance_aud'] = bal_df['current_balance'] * EUR_AUD
             bal_df['pl_aud'] = bal_df['today_pl'] * EUR_AUD
 
