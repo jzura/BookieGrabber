@@ -562,5 +562,126 @@
     "current_balance": 2284.1,
     "today_pl": 312.86,
     "daily_staked": 499.97
+  },
+  {
+    "timestamp": "2026-04-21T20:48:12.465124",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-21T20:48:40.032043",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-21T21:02:35.842462",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-21T21:08:55.738133",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-21T21:37:07.324813",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-21T21:58:27.355535",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-21T22:02:57.547828",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-22T01:10:13.309134",
+    "current_balance": 1776.7607,
+    "open_stakes": 1749.8828,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 26.8779,
+    "today_pl": 0.0,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-22T07:10:12.734285",
+    "current_balance": 2127.7678,
+    "open_stakes": 0.0,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 2127.7678,
+    "today_pl": 351.01,
+    "yesterday_pl": 0
+  },
+  {
+    "timestamp": "2026-04-22T13:10:11.339196",
+    "current_balance": 2127.7678,
+    "open_stakes": 249.95,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 1877.8178,
+    "today_pl": 0,
+    "yesterday_pl": 351.01
+  },
+  {
+    "timestamp": "2026-04-22T16:53:40.220725",
+    "current_balance": 2127.7678,
+    "open_stakes": 1999.8708,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 127.897,
+    "today_pl": 0,
+    "yesterday_pl": 351.01
   }
 ]
