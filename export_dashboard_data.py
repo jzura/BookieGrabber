@@ -368,8 +368,29 @@ def export_odds_timeline_summary():
     logger.info(f"Odds timeline summary: {len(combined)} snapshots from {len(files)} files")
 
 
+def backup_master_spreadsheet():
+    """Save a daily backup of the master spreadsheet."""
+    import shutil
+    backup_dir = PROJECT_ROOT / "data" / "backups"
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    backup_path = backup_dir / f"master_backup_{date_str}.xlsx"
+    if not backup_path.exists() and MASTER_PATH.exists():
+        try:
+            shutil.copy2(MASTER_PATH, backup_path)
+            logger.info(f"Backup saved: {backup_path}")
+            # Keep only last 14 days of backups
+            import glob
+            backups = sorted(glob.glob(str(backup_dir / "master_backup_*.xlsx")))
+            for old in backups[:-14]:
+                Path(old).unlink()
+        except Exception as e:
+            logger.warning(f"Backup failed: {e}")
+
+
 def main():
     logger.info("Starting dashboard data export...")
+    backup_master_spreadsheet()
     if export_csv():
         export_fx_rate()
         export_sm_balance()
