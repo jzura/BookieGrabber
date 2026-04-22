@@ -1031,33 +1031,19 @@ with tab9:
 
     @st.cache_data(ttl=600)
     def load_timeline_data():
-        """Load all odds timeline CSVs into one DataFrame."""
-        timeline_dir = Path(__file__).parent / "data" / "odds_timeline"
-        if not timeline_dir.exists():
+        """Load consolidated odds timeline summary from dashboard_data."""
+        summary_path = Path(__file__).parent / "dashboard_data" / "odds_timeline_summary.csv"
+        if not summary_path.exists():
             return pd.DataFrame()
-        import glob
-        files = glob.glob(str(timeline_dir / "*" / "*.csv"))
-        if not files:
+        try:
+            df = pd.read_csv(summary_path, on_bad_lines="skip")
+            num_cols = [c for c in df.columns if c.startswith(("b365_", "bf_", "vol_"))]
+            for c in num_cols:
+                df[c] = pd.to_numeric(df[c], errors="coerce")
+            df["target_hours_before"] = pd.to_numeric(df["target_hours_before"], errors="coerce")
+            return df
+        except Exception:
             return pd.DataFrame()
-        dfs = []
-        for f in files:
-            try:
-                d = pd.read_csv(f)
-                # Extract league from path
-                league = Path(f).parent.name
-                d["league"] = league
-                dfs.append(d)
-            except Exception:
-                continue
-        if not dfs:
-            return pd.DataFrame()
-        df = pd.concat(dfs, ignore_index=True)
-        # Ensure numeric types
-        num_cols = [c for c in df.columns if c.startswith(("b365_", "bf_", "vol_"))]
-        for c in num_cols:
-            df[c] = pd.to_numeric(df[c], errors="coerce")
-        df["target_hours_before"] = pd.to_numeric(df["target_hours_before"], errors="coerce")
-        return df
 
     tl = load_timeline_data()
 

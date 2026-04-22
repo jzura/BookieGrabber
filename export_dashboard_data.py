@@ -324,11 +324,44 @@ def export_sm_balance():
         logger.warning(f"SM balance export failed: {e}")
 
 
+def export_odds_timeline_summary():
+    """Consolidate all raw odds_timeline CSVs into a single summary CSV for the dashboard."""
+    import glob
+    timeline_dir = PROJECT_ROOT / "data" / "odds_timeline"
+    summary_path = DASHBOARD_DIR / "odds_timeline_summary.csv"
+
+    if not timeline_dir.exists():
+        return
+
+    files = glob.glob(str(timeline_dir / "*" / "*.csv"))
+    if not files:
+        return
+
+    dfs = []
+    for f in files:
+        try:
+            df = pd.read_csv(f, on_bad_lines="skip")
+            # Add league from directory name
+            league = Path(f).parent.name
+            df["league"] = league
+            dfs.append(df)
+        except Exception:
+            continue
+
+    if not dfs:
+        return
+
+    combined = pd.concat(dfs, ignore_index=True)
+    combined.to_csv(summary_path, index=False)
+    logger.info(f"Odds timeline summary: {len(combined)} snapshots from {len(files)} files")
+
+
 def main():
     logger.info("Starting dashboard data export...")
     if export_csv():
         export_fx_rate()
         export_sm_balance()
+        export_odds_timeline_summary()
         git_push()
     logger.info("Done")
 
