@@ -143,18 +143,30 @@ def _compute_stake_and_return(df):
             bf = float(row['BF'])
         except: continue
 
+        # Use SM matched odds when available (actual fill price), fall back to BF
+        sm_odds = row.get('SM_Odds')
+        try:
+            sm_odds = float(sm_odds) if pd.notna(sm_odds) and sm_odds else None
+        except (ValueError, TypeError):
+            sm_odds = None
+
         if fade:
             if result == 0:
-                from strategy_config import FADE_ODDS_HAIRCUT
-                opp = 1 / (1 - 1 / bf) * (1 - FADE_ODDS_HAIRCUT)
+                if sm_odds:
+                    # SM_Odds IS the actual matched opposite odds — use directly
+                    opp = sm_odds
+                else:
+                    from strategy_config import FADE_ODDS_HAIRCUT
+                    opp = 1 / (1 - 1 / bf) * (1 - FADE_ODDS_HAIRCUT)
                 c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
                 ret = stake * (1 + (opp - 1) * (1 - c))
             else:
                 ret = 0
         else:
+            odds = sm_odds if sm_odds else bf
             if result == 1:
-                c = 0.01 if bf <= 1.5 else 0.02 if bf <= 2.8 else 0.03 if bf <= 3.5 else 0.04
-                ret = stake * (1 + (bf - 1) * (1 - c))
+                c = 0.01 if odds <= 1.5 else 0.02 if odds <= 2.8 else 0.03 if odds <= 3.5 else 0.04
+                ret = stake * (1 + (odds - 1) * (1 - c))
             else:
                 ret = 0
 

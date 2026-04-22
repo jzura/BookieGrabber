@@ -419,7 +419,11 @@ def main():
 
         if isinstance(d, datetime):
             d = d.date()
-        if d is None or d >= date.today():
+        # Skip rows with no date, or matches more than 4 hours in the future
+        # (matches dated today but played hours ago should still be filled)
+        if d is None:
+            continue
+        if d > date.today():
             continue
 
         rows_to_fill.append((r, bt, d, home, away, pred, comp))
