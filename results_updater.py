@@ -362,6 +362,9 @@ def fetch_sm_results():
         from sportsmarket_api import fetch_all_orders, parse_order, normalize as sm_norm
         orders = fetch_all_orders(max_pages=20)
         for o in orders:
+            # Only use reconciled orders — 'done' status may have null/zero scores
+            if o.get("status") not in ("reconciled",):
+                continue
             ev = o.get("event_info", {})
             result = ev.get("result", {})
             if not result:
@@ -451,8 +454,13 @@ def main():
             if hg is None:
                 remaining.append((r, bt, d, home, away, pred, comp))
                 continue
-            ws.cell(row=r, column=14, value=hg)
-            ws.cell(row=r, column=15, value=ag)
+            # Validate: don't write results that are clearly wrong
+            # (negative goals, or suspiciously both zero for a match that should have goals)
+            if not isinstance(hg, (int, float)) or not isinstance(ag, (int, float)):
+                remaining.append((r, bt, d, home, away, pred, comp))
+                continue
+            ws.cell(row=r, column=14, value=int(hg))
+            ws.cell(row=r, column=15, value=int(ag))
             filled += 1
         return filled, remaining
 

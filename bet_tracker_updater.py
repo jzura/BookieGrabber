@@ -282,6 +282,7 @@ def send_stake_alerts(bets):
             "Serbian SuperLiga": "serbian_super_league",
             "Sweden - Allsvenskan": "swedish_allsvenskan",
             "Turkish Super Lig": "turkish_super_league",
+            "Netherlands Eredivisie": "dutch_eredivisie",
         }
         _comp_to_slug.update(_comp_aliases)
 
