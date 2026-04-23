@@ -287,8 +287,9 @@ def match_orders_to_sheet(orders_parsed, ws, last_row):
 
     Returns list of (row_number, avg_odds) tuples.
     """
+    from datetime import datetime as dt, timedelta
+
     # Build lookup from master sheet: (bt, date) -> [(row, home, away)]
-    from datetime import datetime as dt
     tgt = defaultdict(list)
     for r in range(2, last_row + 1):
         bt = ws.cell(row=r, column=1).value
@@ -310,33 +311,31 @@ def match_orders_to_sheet(orders_parsed, ws, last_row):
         if not o or not o['avg_odds'] or not o['date']:
             continue
 
-        key = (o['bet_type'], o['date'])
-        candidates = tgt.get(key, [])
+        # Collect candidates from exact date AND ±1 day
+        all_candidates = []
+        for offset in [0, -1, 1]:
+            key = (o['bet_type'], o['date'] + timedelta(days=offset))
+            all_candidates.extend(tgt.get(key, []))
 
-        # Try +/- 1 day for timezone
-        if not candidates:
-            from datetime import timedelta
-            for offset in [-1, 1]:
-                alt = (o['bet_type'], o['date'] + timedelta(days=offset))
-                candidates = tgt.get(alt, [])
-                if candidates:
-                    break
-
-        if not candidates:
+        if not all_candidates:
             unmatched.append(o)
             continue
 
+        # Score each candidate — require BOTH home AND away to match reasonably
         best = None
         best_score = 0
-        for c in candidates:
+        for c in all_candidates:
             h = match_score(o['home'], c['home'])
             a = match_score(o['away'], c['away'])
+            # Both teams must match independently (not just average)
+            if h < 0.4 or a < 0.4:
+                continue
             combined = (h + a) / 2
             if combined > best_score:
                 best_score = combined
                 best = c
 
-        if best_score < 0.5:
+        if best_score < 0.55:
             unmatched.append(o)
             continue
 
@@ -352,7 +351,7 @@ SCREENSHOT_DIR = PROJECT_ROOT / "debug_screenshots"
 
 # SM country/league URL prefixes — maps our config slug to SM's URL path
 SM_LEAGUE_PREFIXES = {
-    "english_premier_league": "GB/1",
+    "english_premier_league": "XE/1",
     "english_sky_bet_championship": "GB/2",
     "french_ligue_1": "FR/38",
     "german_bundesliga": "DE/12",

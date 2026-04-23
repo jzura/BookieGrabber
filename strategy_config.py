@@ -36,6 +36,26 @@ G15_FADE_RPD = 4.6     # 1.5G pred=1 with RPD >= this → fade to Under
 # actual odds average 3.6% below theoretical. Using 4% haircut for safety.
 FADE_ODDS_HAIRCUT = 0.04
 
+# ─── BF-to-SM odds discount tiers ───
+# When SM_Odds are not available, we estimate actual SM fill price by
+# discounting BF odds. Based on 148 actual BF vs SM comparisons.
+# Higher BF odds = wider spread = bigger discount.
+BF_SM_DISCOUNT_TIERS = [
+    (1.50, 0.002),   # BF <= 1.50: 0.2% discount
+    (1.80, 0.007),   # 1.50 < BF <= 1.80: 0.7% discount
+    (2.50, 0.011),   # 1.80 < BF <= 2.50: 1.1% discount
+    (3.50, 0.032),   # 2.50 < BF <= 3.50: 3.2% discount
+    (999,  0.042),   # BF > 3.50: 4.2% discount
+]
+
+
+def estimate_sm_odds(bf_odds):
+    """Estimate SM fill price from BF odds using tiered discount."""
+    for threshold, discount in BF_SM_DISCOUNT_TIERS:
+        if bf_odds <= threshold:
+            return bf_odds * (1 - discount)
+    return bf_odds * (1 - BF_SM_DISCOUNT_TIERS[-1][1])
+
 # ─── Double stake ───
 # Previous: 1.0, then 1.2
 DOUBLE_STAKE_RPD = 3.5       # RPD must be <= this to qualify for 2x
