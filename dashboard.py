@@ -957,8 +957,7 @@ with tab8:
                 bf = d['bf']
                 result = d['result']
                 sm = d['sm']
-                from strategy_config import estimate_sm_odds as _est_sm
-                odds = sm if sm else _est_sm(bf)
+                odds = sm if sm else bf
 
                 if is_fade:
                     if result == 0:

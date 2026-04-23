@@ -162,7 +162,7 @@ def _compute_stake_and_return(df):
             else:
                 ret = 0
         else:
-            odds = sm_odds if sm_odds else estimate_sm_odds(bf)
+            odds = sm_odds if sm_odds else bf
             if result == 1:
                 c = 0.01 if odds <= 1.5 else 0.02 if odds <= 2.8 else 0.03 if odds <= 3.5 else 0.04
                 ret = stake * (1 + (odds - 1) * (1 - c))
