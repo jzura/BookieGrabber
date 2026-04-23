@@ -109,6 +109,27 @@ col4.metric("Total Profit", f"{total_profit:.2f}", delta=f"{roi:.1f}% ROI")
 col5.metric("Avg SM Odds", f"{settled_f['SM_Odds'].mean():.2f}" if settled_f['SM_Odds'].notna().any() else "N/A")
 col6.metric("Results Pending", f"{n_pending:,}")
 
+# Bet Rate: % of matches we place a bet on
+_total_matches = len(df[df['Market'] == '3.5G'])  # one row per match per market, 3.5G = proxy for unique matches
+_bet_matches = len(staked_f.drop_duplicates(subset=['Date', 'Home', 'Away']))
+_overall_rate = _bet_matches / _total_matches * 100 if _total_matches else 0
+
+with st.expander("Bet Rate (% of matches with a qualifying bet)"):
+    _br_cols = st.columns(5)
+    _br_cols[0].metric("Overall", f"{_overall_rate:.1f}%", help=f"{_bet_matches} bets / {_total_matches} matches")
+    for i, mkt in enumerate(['1.5G', '3.5G', 'BTTS'], 1):
+        _mkt_total = len(df[df['Market'] == mkt])
+        _mkt_bets = len(staked_f[staked_f['Market'] == mkt])
+        _mkt_rate = _mkt_bets / _mkt_total * 100 if _mkt_total else 0
+        _br_cols[i].metric(mkt, f"{_mkt_rate:.1f}%", help=f"{_mkt_bets} / {_mkt_total}")
+    # Fade rate
+    _fade_bets = len(staked_f[
+        ((staked_f['Market'] == 'BTTS') & (staked_f['Prediction'] == 0) & (staked_f['RPD'] >= 5)) |
+        ((staked_f['Market'] == '1.5G') & (staked_f['Prediction'] == 1) & (staked_f['RPD'] >= 4.6))
+    ])
+    _fade_rate = _fade_bets / _total_matches * 100 if _total_matches else 0
+    _br_cols[4].metric("Fades", f"{_fade_rate:.1f}%", help=f"{_fade_bets} fade bets")
+
 # Recent performance
 from datetime import timedelta as _td
 now = pd.Timestamp.now()
