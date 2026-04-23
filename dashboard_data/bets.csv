@@ -1696,7 +1696,7 @@ BTTS,2025-09-23,Sevilla,Villarreal,Spanish La Liga,1,1.8,1.83,2600.0,1.653,3.0,1
 3.5G,2025-09-24,Novi Pazar,Radnički Kragujevac,Serbian SuperLiga,1,2.62,2.74,107.0,4.478,2.0,2.0,2.0,0.0,,,,2.7
 BTTS,2025-09-24,Novi Pazar,Radnički Kragujevac,Serbian SuperLiga,1,1.57,1.57,92.0,1.0,4.0,2.0,2.0,1.0,,,,
 3.5G,2025-09-24,Rakow Czestochowa,Lech Poznan,Polish Ekstraklasa,0,1.28,1.33,180.0,3.831,4.0,2.0,2.0,0.0,,,,
-3.5G,2025-09-24,Midtjylland FC,Sturm Graz,UEFA Europa League,0,1.72,1.76,493.0,2.299,2.0,2.0,0.0,1.0,1,1.7448,0.7448,1.76
+3.5G,2025-09-24,Midtjylland FC,Sturm Graz,UEFA Europa League,0,1.72,1.76,493.0,2.299,2.0,2.0,0.0,1.0,1,1.76,0.76,1.76
 3.5G,2025-09-24,PAOK Saloniki,Maccabi Tel Aviv,UEFA Europa League,1,3.4,3.5,82.0,2.899,0.0,0.0,0.0,0.0,,,,3.47
 BTTS,2025-09-24,Midtjylland FC,Sturm Graz,UEFA Europa League,1,1.5,1.57,383.0,4.56,2.0,2.0,0.0,0.0,,,,
 BTTS,2025-09-24,PAOK Saloniki,Maccabi Tel Aviv,UEFA Europa League,1,1.8,1.86,1006.0,3.279,0.0,0.0,0.0,0.0,,,,
@@ -1710,8 +1710,8 @@ BTTS,2025-09-24,Alkmaar AZ,Zwolle FC,Netherlands Eredivisie,0,2.05,2.1,1126.0,2.
 BTTS,2025-09-24,Club Brugge,Westerlo,Belgian First Division A,0,2.53,2.53,932.0,1.0,10.0,5.0,5.0,0.0,1,0,-1,
 3.5G,2025-09-24,Club Brugge,Westerlo,Belgian First Division A,1,1.8,1.9,1198.0,5.405,10.0,5.0,5.0,1.0,,,,
 3.5G,2025-09-24,Legia Warszawa,Jagiellonia Bialystok,Polish Ekstraklasa,0,1.44,1.52,206.0,5.405,0.0,0.0,0.0,1.0,,,,
-3.5G,2025-09-24,Braga,Feyenoord,UEFA Europa League,0,1.5,1.51,669.0,1.0,1.0,1.0,0.0,1.0,1,1.4554,0.4554,1.46
-3.5G,2025-09-24,Red Star Belgrade,Celtic Glasgow,UEFA Europa League,0,1.61,1.64,542.0,1.846,2.0,1.0,1.0,1.0,1,1.6076,0.6076,1.62
+3.5G,2025-09-24,Braga,Feyenoord,UEFA Europa League,0,1.5,1.51,669.0,1.0,1.0,1.0,0.0,1.0,1,1.46,0.46,1.46
+3.5G,2025-09-24,Red Star Belgrade,Celtic Glasgow,UEFA Europa League,0,1.61,1.64,542.0,1.846,2.0,1.0,1.0,1.0,1,1.62,0.62,1.62
 3.5G,2025-09-24,Dinamo Zagreb,Fenerbahce,UEFA Europa League,1,3.2,3.3,149.0,3.077,4.0,3.0,1.0,1.0,,,,3.29
 3.5G,2025-09-24,Freiburg,FC Basel,UEFA Europa League,1,2.3,2.36,187.0,2.575,3.0,2.0,1.0,0.0,,,,
 3.5G,2025-09-24,Malmö FF,Ludogorets Razgrad,UEFA Europa League,0,1.3,1.34,86.0,3.03,3.0,1.0,2.0,1.0,,,,1.34
@@ -1731,7 +1731,7 @@ BTTS,2025-09-24,Real Sociedad,Mallorca,Spanish La Liga,1,2.0,2.06,1601.0,2.956,1
 BTTS,2025-09-24,Atletico Madrid,Rayo Vallecano,Spanish La Liga,1,2.0,2.06,1070.0,2.956,5.0,3.0,2.0,1.0,,,,
 3.5G,2025-09-25,Lille,Brann Bergen,UEFA Europa League,0,1.57,1.63,1918.0,3.75,3.0,2.0,1.0,1.0,,,,1.616
 BTTS,2025-09-25,Go Ahead Eagles,FCSB,UEFA Europa League,1,1.61,1.68,423.0,4.255,1.0,0.0,1.0,0.0,,,,
-3.5G,2025-09-25,Go Ahead Eagles,FCSB,UEFA Europa League,0,1.5,1.54,481.0,2.632,1.0,0.0,1.0,1.0,1,1.5194,0.5194,1.53
+3.5G,2025-09-25,Go Ahead Eagles,FCSB,UEFA Europa League,0,1.5,1.54,481.0,2.632,1.0,0.0,1.0,1.0,1,1.53,0.53,1.53
 BTTS,2025-09-25,Lille,Brann Bergen,UEFA Europa League,1,1.7,1.78,694.0,4.598,3.0,2.0,1.0,1.0,,,,
 3.5G,2025-09-25,Osasuna,Elche FC,Spanish La Liga,0,1.22,1.24,468.0,1.626,2.0,1.0,1.0,1.0,,,,1.229
 BTTS,2025-09-25,Osasuna,Elche FC,Spanish La Liga,1,2.05,2.14,368.0,4.296,2.0,1.0,1.0,1.0,,,,
@@ -1739,8 +1739,8 @@ BTTS,2025-09-25,Osasuna,Elche FC,Spanish La Liga,1,2.05,2.14,368.0,4.296,2.0,1.0
 3.5G,2025-09-25,Ferencváros Budapest,Viktoria Plzeň,UEFA Europa League,0,1.4,1.43,172.0,2.12,2.0,1.0,1.0,1.0,,,,1.411
 3.5G,2025-09-25,Glasgow Rangers,KRC Genk,UEFA Europa League,1,3.0,3.1,426.0,3.279,1.0,0.0,1.0,0.0,,,,3.061
 3.5G,2025-09-25,RB Salzburg,FC Porto,UEFA Europa League,0,1.44,1.5,36.0,4.082,1.0,0.0,1.0,1.0,,,,
-3.5G,2025-09-25,Utrecht,Lyon,UEFA Europa League,0,1.44,1.46,135.0,1.379,1.0,0.0,1.0,1.0,1,1.4425,0.4425,1.447
-3.5G,2025-09-25,Stuttgart,Celta Vigo,UEFA Europa League,0,1.53,1.58,576.0,3.215,3.0,2.0,1.0,1.0,1,1.5586,0.5586,1.57
+3.5G,2025-09-25,Utrecht,Lyon,UEFA Europa League,0,1.44,1.46,135.0,1.379,1.0,0.0,1.0,1.0,1,1.447,0.447,1.447
+3.5G,2025-09-25,Stuttgart,Celta Vigo,UEFA Europa League,0,1.53,1.58,576.0,3.215,3.0,2.0,1.0,1.0,1,1.57,0.57,1.57
 3.5G,2025-09-25,Young Boys Bern,Panathinaikos Athens,UEFA Europa League,0,1.44,1.46,83.0,1.379,5.0,1.0,4.0,0.0,1,0,-1,1.45
 BTTS,2025-09-25,Aston Villa,Bologna,UEFA Europa League,1,1.95,2.02,533.0,3.526,1.0,1.0,0.0,0.0,,,,
 BTTS,2025-09-25,Ferencváros Budapest,Viktoria Plzeň,UEFA Europa League,1,1.66,1.73,242.0,4.13,2.0,1.0,1.0,1.0,,,,
@@ -1763,7 +1763,7 @@ BTTS,2025-09-26,Alanyaspor,Galatasaray,Turkish Super Lig,0,2.2,2.18,105.0,1.0,1.
 3.5G,2025-09-26,Bayern München,Werder Bremen,German Bundesliga I,1,1.5,1.51,3788.0,1.0,4.0,4.0,0.0,1.0,,,,1.512
 3.5G,2025-09-26,Wisla Plock,Katowice GKS,Polish Ekstraklasa,0,1.33,1.37,38.0,2.963,2.0,1.0,1.0,1.0,,,,
 BTTS,2025-09-26,Wisla Plock,Katowice GKS,Polish Ekstraklasa,1,1.8,1.78,59.0,1.0,2.0,1.0,1.0,1.0,,,,
-3.5G,2025-09-26,Strasbourg,Marseille,French Ligue 1,0,1.44,1.46,651.0,1.379,3.0,1.0,2.0,1.0,1,1.4455,0.4455,1.45
+3.5G,2025-09-26,Strasbourg,Marseille,French Ligue 1,0,1.44,1.46,651.0,1.379,3.0,1.0,2.0,1.0,1,1.45,0.45,1.45
 3.5G,2025-09-26,Oud Heverlee,Anderlecht,Belgian First Division A,0,1.3,1.34,820.0,3.03,2.0,1.0,1.0,1.0,,,,1.334
 3.5G,2025-09-26,West Bromwich Albion,Leicester City,English Championship League,0,1.25,1.29,2046.0,3.15,2.0,1.0,1.0,1.0,,,,
 3.5G,2025-09-26,Girona FC,Espaňol Barcelona,Spanish La Liga,0,1.3,1.34,1320.0,3.03,0.0,0.0,0.0,1.0,,,,1.341
@@ -1780,14 +1780,14 @@ BTTS,2025-09-26,Hermannstadt Sibiu,Arges Piesti,Romanian Liga I,1,2.25,2.26,39.0
 3.5G,2025-09-27,Servette Genf,Winterthur,Swiss Super League,1,2.25,2.25,259.0,1.0,4.0,4.0,0.0,1.0,,,,
 3.5G,2025-09-27,Sarpsborg 08,Viking Stavanger,Norwegian Eliteserien,1,2.0,2.1,1140.0,4.878,6.0,3.0,3.0,1.0,,,,
 3.5G,2025-09-27,Juventus,Atalanta Bergamo,Italian Serie A,0,1.33,1.35,555.0,1.493,2.0,1.0,1.0,1.0,,,,1.356
-3.5G,2025-09-27,Standard Liege,Club Brugge,Belgian First Division A,0,1.5,1.56,441.0,3.922,3.0,1.0,2.0,1.0,1,1.5233,0.5233,1.534
+3.5G,2025-09-27,Standard Liege,Club Brugge,Belgian First Division A,0,1.5,1.56,441.0,3.922,3.0,1.0,2.0,1.0,1,1.534,0.534,1.534
 3.5G,2025-09-27,Nottingham,Sunderland,English Premier League,0,1.3,1.33,369.0,2.281,1.0,0.0,1.0,1.0,,,,1.341
 3.5G,2025-09-27,Bělehrad OFK,Partizan Belgrade,Serbian SuperLiga,1,2.1,2.16,398.0,2.817,2.0,0.0,2.0,0.0,,,,
 3.5G,2025-09-27,Mallorca,Alavés,Spanish La Liga,0,1.12,1.16,3516.0,3.509,1.0,1.0,0.0,1.0,,,,
 3.5G,2025-09-27,Mönchengladbach,Eintracht Frankfurt,German Bundesliga I,0,1.57,1.64,393.0,4.361,10.0,4.0,6.0,0.0,,,,1.611
 3.5G,2025-09-27,Hajduk Split,Lokomotiva Zagreb,Croatian HNL,1,3.0,3.05,20.0,1.653,2.0,2.0,0.0,0.0,,,,
 3.5G,2025-09-27,Motherwell FC,Aberdeen FC,Scottish Premiership,0,1.36,1.38,0.0,1.46,2.0,2.0,0.0,1.0,,,,
-3.5G,2025-09-27,Volendam,Zwolle FC,Netherlands Eredivisie,0,1.5,1.56,351.0,3.922,3.0,2.0,1.0,1.0,1,1.5096,0.5096,1.52
+3.5G,2025-09-27,Volendam,Zwolle FC,Netherlands Eredivisie,0,1.5,1.56,351.0,3.922,3.0,2.0,1.0,1.0,1,1.52,0.52,1.52
 3.5G,2025-09-27,Amadora,AVS Vila das Aves,Portuguese Primeira Liga,0,1.16,1.21,24.0,4.219,3.0,1.0,0.0,1.0,,,,
 3.5G,2025-09-27,Fatih Karagümrük,Trabzonspor,Turkish Super Lig,0,1.36,1.4,174.0,2.899,7.0,3.0,4.0,0.0,,,,
 3.5G,2025-09-27,Toulouse,Nantes,French Ligue 1,0,1.3,1.32,66.0,1.527,4.0,2.0,2.0,0.0,,,,
@@ -1801,9 +1801,9 @@ BTTS,2025-09-26,Hermannstadt Sibiu,Arges Piesti,Romanian Liga I,1,2.25,2.26,39.0
 3.5G,2025-09-27,Villarreal,Bilbao,Spanish La Liga,0,1.28,1.33,4735.0,3.831,1.0,1.0,0.0,1.0,,,,
 3.5G,2025-09-27,Vojvodina Nový Sad,Železničar Pančevo,Serbian SuperLiga,0,1.4,1.42,60.0,1.418,2.0,0.0,0.0,1.0,,,,
 3.5G,2025-09-27,Tottenham,Wolverhampton,English Premier League,1,3.0,3.1,3970.0,3.279,2.0,1.0,1.0,0.0,,,,3.06
-3.5G,2025-09-27,Heracles Almelo,Sparta Rotterdam,Netherlands Eredivisie,0,1.5,1.55,121.0,3.279,3.0,3.0,0.0,1.0,1,1.5292,0.5292,1.54
+3.5G,2025-09-27,Heracles Almelo,Sparta Rotterdam,Netherlands Eredivisie,0,1.5,1.55,121.0,3.279,3.0,3.0,0.0,1.0,1,1.54,0.54,1.54
 3.5G,2025-09-27,PSG,Auxerre,French Ligue 1,0,1.9,1.98,2111.0,4.124,2.0,2.0,0.0,1.0,,,,
-3.5G,2025-09-27,Estoril,Sporting Lisabon,Portuguese Primeira Liga,0,1.66,1.7,113.0,2.381,1.0,0.0,1.0,1.0,1,1.6664,0.6664,1.68
+3.5G,2025-09-27,Estoril,Sporting Lisabon,Portuguese Primeira Liga,0,1.66,1.7,113.0,2.381,1.0,0.0,1.0,1.0,1,1.68,0.68,1.68
 3.5G,2025-09-27,Brentford,Manchester United,English Premier League,0,1.5,1.56,1381.0,3.922,4.0,3.0,1.0,0.0,,,,
 3.5G,2025-09-27,Coventry City,Birmingham,English Championship League,0,1.33,1.36,64.0,2.23,3.0,3.0,0.0,1.0,,,,
 3.5G,2025-09-27,Swansea,Millwall,English Championship League,0,1.22,1.26,314.0,3.226,2.0,1.0,1.0,1.0,,,,
@@ -1871,7 +1871,7 @@ BTTS,2025-09-26,Hermannstadt Sibiu,Arges Piesti,Romanian Liga I,1,2.25,2.26,39.0
 3.5G,2025-09-28,Panetolikos,Panathinaikos Athens,Greek Super League,0,1.28,1.3,87.0,1.55,3.0,1.0,2.0,1.0,,,,
 3.5G,2025-09-28,Brøndby IF,Odense,Danish Superligaen,0,1.5,1.57,346.0,4.56,6.0,5.0,1.0,0.0,,,,1.551
 3.5G,2025-09-28,AC Milan,Napoli,Italian Serie A,0,1.25,1.29,1008.0,3.15,3.0,2.0,1.0,1.0,,,,
-3.5G,2025-09-28,Rennes,Lens,French Ligue 1,0,1.5,1.53,521.0,1.98,0.0,0.0,0.0,1.0,1,1.5047,0.5047,1.515
+3.5G,2025-09-28,Rennes,Lens,French Ligue 1,0,1.5,1.53,521.0,1.98,0.0,0.0,0.0,1.0,1,1.515,0.515,1.515
 3.5G,2025-09-28,Betis Sevilla,Osasuna,Spanish La Liga,0,1.33,1.36,296.0,2.23,2.0,2.0,0.0,1.0,,,,1.352
 3.5G,2025-09-28,Famalicao,Rio Ave,Portuguese Primeira Liga,0,1.33,1.38,26.0,3.69,0.0,0.0,0.0,1.0,,,,
 3.5G,2025-09-28,Widzew Lódz,Rakow Czestochowa,Polish Ekstraklasa,1,3.75,3.85,61.0,2.632,1.0,0.0,1.0,0.0,,,,
@@ -1918,10 +1918,10 @@ BTTS,2025-09-26,Hermannstadt Sibiu,Arges Piesti,Romanian Liga I,1,2.25,2.26,39.0
 3.5G,2025-09-28,Spartak Subotica,Napredak Krusevac,Serbian SuperLiga,0,1.33,1.34,31.0,1.0,3.0,0.0,1.0,1.0,,,,
 3.5G,2025-09-28,Rapid Wien,Austria Wien,Austrian Bundesliga,0,1.36,1.4,12.0,2.899,4.0,1.0,3.0,0.0,,,,
 3.5G,2025-09-28,Metz,Le Havre,French Ligue 1,0,1.33,1.34,617.0,1.0,0.0,0.0,0.0,1.0,,,,1.341
-3.5G,2025-09-28,Lille,Lyon,French Ligue 1,0,1.44,1.48,354.0,2.74,1.0,0.0,1.0,1.0,1,1.4653,0.4653,1.47
+3.5G,2025-09-28,Lille,Lyon,French Ligue 1,0,1.44,1.48,354.0,2.74,1.0,0.0,1.0,1.0,1,1.47,0.47,1.47
 3.5G,2025-09-28,Angers,Brest,French Ligue 1,0,1.3,1.34,636.0,3.03,2.0,0.0,2.0,1.0,,,,1.33
 3.5G,2025-09-28,Legia Warszawa,Pogon Szczecin,Polish Ekstraklasa,0,1.57,1.63,158.0,3.75,1.0,1.0,0.0,1.0,1,1.6062,0.6062,
-3.5G,2025-09-28,Köln,Stuttgart,German Bundesliga I,0,1.66,1.71,257.0,2.967,3.0,1.0,2.0,1.0,1,1.6772,0.6772,1.691
+3.5G,2025-09-28,Köln,Stuttgart,German Bundesliga I,0,1.66,1.71,257.0,2.967,3.0,1.0,2.0,1.0,1,1.691,0.691,1.691
 3.5G,2025-09-28,Newcastle,Arsenal,English Premier League,0,1.28,1.31,1996.0,2.317,3.0,1.0,2.0,1.0,,,,1.309
 3.5G,2025-09-29,Zaglebie Lubin,Arka Gdynia,Polish Ekstraklasa,1,3.25,3.35,20.0,3.03,4.0,4.0,0.0,1.0,,,,
 BTTS,2025-09-29,Zaglebie Lubin,Arka Gdynia,Polish Ekstraklasa,1,1.75,1.74,50.0,1.0,4.0,4.0,0.0,0.0,,,,
@@ -1930,7 +1930,7 @@ BTTS,2025-09-29,Parma,Torino,Italian Serie A,1,1.95,1.97,1939.0,1.02,3.0,2.0,1.0
 3.5G,2025-09-29,Haugar Haugesund,Sandefjord,Norwegian Eliteserien,1,2.42,2.42,358.0,1.0,5.0,2.0,3.0,1.0,,,,
 BTTS,2025-09-29,IF Djurgarden,Sirius,Swedish Allsvenskan,1,1.61,1.69,380.0,4.848,10.0,8.0,2.0,1.0,,,,
 BTTS,2025-09-29,Besiktas,Kocaelispor Izmet,Turkish Super Lig,1,1.83,1.94,443.0,5.836,4.0,3.0,1.0,1.0,,,,
-3.5G,2025-09-29,Midtjylland FC,Randers Freja,Danish Superligaen,0,1.53,1.58,402.0,3.215,3.0,2.0,1.0,1.0,1,1.5586,0.5586,1.57
+3.5G,2025-09-29,Midtjylland FC,Randers Freja,Danish Superligaen,0,1.53,1.58,402.0,3.215,3.0,2.0,1.0,1.0,1,1.57,0.57,1.57
 BTTS,2025-09-29,Midtjylland FC,Randers Freja,Danish Superligaen,1,1.61,1.58,402.0,1.0,3.0,2.0,1.0,1.0,,,,
 3.5G,2025-09-29,Besiktas,Kocaelispor Izmet,Turkish Super Lig,0,1.5,1.53,90.0,1.98,4.0,3.0,1.0,0.0,1,0,-1,
 3.5G,2025-09-29,IF Djurgarden,Sirius,Swedish Allsvenskan,0,1.5,1.55,75.0,3.279,10.0,8.0,2.0,0.0,1,0,-1,
@@ -1972,7 +1972,7 @@ BTTS,2025-09-30,Blackburn Rovers,Swansea,English Championship League,1,1.9,1.97,
 3.5G,2025-09-30,Birmingham,Sheffield Wednesday,English Championship League,0,1.33,1.37,45.0,2.963,4.0,2.0,2.0,0.0,,,,
 BTTS,2025-09-30,Derby,Charlton Athletic,English Championship League,1,2.2,2.18,199.0,1.0,2.0,1.0,1.0,1.0,,,,
 3.5G,2025-09-30,Bodo Glimt,Tottenham,UEFA Champions League,0,1.57,1.61,752.0,2.516,4.0,2.0,2.0,0.0,1,0,-1,1.602
-3.5G,2025-09-30,Chelsea,Benfica Lisabon,UEFA Champions League,0,1.5,1.54,532.0,2.632,1.0,1.0,0.0,1.0,1,1.5233,0.5233,1.534
+3.5G,2025-09-30,Chelsea,Benfica Lisabon,UEFA Champions League,0,1.5,1.54,532.0,2.632,1.0,1.0,0.0,1.0,1,1.534,0.534,1.534
 3.5G,2025-09-30,Galatasaray,Liverpool,UEFA Champions League,0,1.9,1.94,2656.0,2.083,1.0,1.0,0.0,1.0,,,,1.913
 3.5G,2025-09-30,Inter Milano,Slavia Praha,UEFA Champions League,0,1.72,1.8,1404.0,4.545,3.0,3.0,0.0,1.0,,,,
 3.5G,2025-09-30,Marseille,Ajax Amsterdam,UEFA Champions League,0,1.57,1.63,1235.0,3.75,4.0,4.0,0.0,0.0,,,,1.617
@@ -2006,7 +2006,7 @@ BTTS,2025-10-01,Portsmouth,Watford,English Championship League,1,1.83,1.89,88.0,
 3.5G,2025-10-01,Napoli,Sporting Lisabon,UEFA Champions League,0,1.28,1.32,790.0,3.077,3.0,2.0,1.0,1.0,,,,1.311
 3.5G,2025-10-01,Monaco,Manchester City,UEFA Champions League,0,1.9,1.96,6270.0,3.109,4.0,2.0,2.0,0.0,,,,
 3.5G,2025-10-01,Borussia Dortmund,Bilbao,UEFA Champions League,0,1.36,1.41,383.0,3.61,5.0,4.0,1.0,0.0,,,,
-3.5G,2025-10-01,Leverkusen,PSV Eindhoven,UEFA Champions League,0,1.61,1.65,595.0,2.454,2.0,1.0,1.0,1.0,1,1.6292,0.6292,1.642
+3.5G,2025-10-01,Leverkusen,PSV Eindhoven,UEFA Champions League,0,1.61,1.65,595.0,2.454,2.0,1.0,1.0,1.0,1,1.642,0.642,1.642
 3.5G,2025-10-01,FC Barcelona,PSG,UEFA Champions League,0,1.9,1.97,15666.0,3.618,3.0,1.0,2.0,1.0,,,,
 3.5G,2025-10-01,Arsenal,Olympiakos Piraeus,UEFA Champions League,0,1.57,1.64,1254.0,4.361,2.0,2.0,0.0,1.0,,,,1.61
 3.5G,2025-10-01,Villarreal,Juventus,UEFA Champions League,0,1.36,1.41,1215.0,3.61,4.0,2.0,2.0,0.0,,,,
@@ -2019,7 +2019,7 @@ BTTS,2025-10-01,FC Barcelona,PSG,UEFA Champions League,1,1.4,1.46,12434.0,4.196,
 BTTS,2025-10-01,Arsenal,Olympiakos Piraeus,UEFA Champions League,0,1.5,1.54,1723.0,2.632,2.0,2.0,0.0,1.0,,,,
 3.5G,2025-10-02,Omonia Nikósia,Mainz,UEFA Conference League,0,1.44,1.47,0.0,2.062,1.0,0.0,1.0,1.0,,,,
 3.5G,2025-10-02,Zrinjski Mostar,Lincoln Red Imps,UEFA Conference League,0,1.5,1.58,0.0,5.195,5.0,5.0,0.0,0.0,,,,
-3.5G,2025-10-02,Rayo Vallecano,Shkendija 79 Tetovo,UEFA Conference League,0,1.53,1.56,157.0,1.942,2.0,2.0,0.0,1.0,1,1.685,0.685,1.699
+3.5G,2025-10-02,Rayo Vallecano,Shkendija 79 Tetovo,UEFA Conference League,0,1.53,1.56,157.0,1.942,2.0,2.0,0.0,1.0,1,1.699,0.699,1.699
 3.5G,2025-10-02,Noah,HNK Rijeka,UEFA Conference League,0,1.3,1.36,32.0,4.511,1.0,1.0,0.0,1.0,,,,
 BTTS,2025-10-02,FC Lausanne-Sport,Breidablik,UEFA Conference League,0,2.37,2.41,44.0,1.674,3.0,3.0,0.0,1.0,1,2.3558,1.3558,
 3.5G,2025-10-02,FC Lausanne-Sport,Breidablik,UEFA Conference League,0,1.83,1.95,2591.0,6.349,3.0,3.0,0.0,1.0,,,,
@@ -2031,7 +2031,7 @@ BTTS,2025-10-02,Dynamo Kyiv,Crystal Palace,UEFA Conference League,1,1.83,1.93,89
 3.5G,2025-10-02,Lech Poznan,Rapid Wien,UEFA Conference League,0,1.44,1.51,480.0,4.746,5.0,4.0,1.0,0.0,,,,1.49
 3.5G,2025-10-02,Bologna,Freiburg,UEFA Europa League,0,1.28,1.31,472.0,2.317,2.0,1.0,1.0,1.0,,,,1.296
 3.5G,2025-10-02,Brann Bergen,Utrecht,UEFA Europa League,0,1.4,1.44,100.0,2.817,1.0,1.0,0.0,1.0,,,,1.43
-3.5G,2025-10-02,Celtic Glasgow,Braga,UEFA Europa League,0,1.44,1.47,84.0,2.062,2.0,0.0,2.0,1.0,1,1.4554,0.4554,1.46
+3.5G,2025-10-02,Celtic Glasgow,Braga,UEFA Europa League,0,1.44,1.47,84.0,2.062,2.0,0.0,2.0,1.0,1,1.46,0.46,1.46
 BTTS,2025-10-02,Celtic Glasgow,Braga,UEFA Europa League,1,1.7,1.73,798.0,1.749,2.0,0.0,2.0,0.0,,,,1.72
 BTTS,2025-10-02,Brann Bergen,Utrecht,UEFA Europa League,1,1.7,1.74,708.0,2.326,1.0,1.0,0.0,0.0,,,,1.713
 BTTS,2025-10-02,Bologna,Freiburg,UEFA Europa League,1,1.9,1.96,591.0,3.109,2.0,1.0,1.0,1.0,,,,
@@ -2046,14 +2046,14 @@ BTTS,2025-10-02,KuPS Kuopio,Drita,UEFA Conference League,1,1.83,1.93,291.0,5.319
 BTTS,2025-10-02,Fenerbahce,Nice,UEFA Europa League,1,1.66,1.74,452.0,4.706,3.0,2.0,1.0,1.0,,,,1.71
 BTTS,2025-10-02,Panathinaikos Athens,Go Ahead Eagles,UEFA Europa League,1,1.66,1.73,427.0,4.13,3.0,1.0,2.0,1.0,,,,1.73
 3.5G,2025-10-02,FCSB,Young Boys Bern,UEFA Europa League,0,1.4,1.44,50.0,2.817,2.0,0.0,2.0,1.0,,,,
-3.5G,2025-10-02,Fenerbahce,Nice,UEFA Europa League,0,1.5,1.51,371.0,1.0,3.0,2.0,1.0,1.0,1,1.5116,0.5116,1.522
+3.5G,2025-10-02,Fenerbahce,Nice,UEFA Europa League,0,1.5,1.51,371.0,1.0,3.0,2.0,1.0,1.0,1,1.522,0.522,1.522
 3.5G,2025-10-02,Ludogrets Razgrad,Betis Sevilla,UEFA Europa League,0,1.36,1.4,61.0,2.899,2.0,0.0,2.0,1.0,,,,
-3.5G,2025-10-02,Panathinaikos Athens,Go Ahead Eagles,UEFA Europa League,0,1.53,1.58,181.0,3.215,3.0,1.0,2.0,1.0,1,1.5498,0.5498,1.561
+3.5G,2025-10-02,Panathinaikos Athens,Go Ahead Eagles,UEFA Europa League,0,1.53,1.58,181.0,3.215,3.0,1.0,2.0,1.0,1,1.561,0.561,1.561
 3.5G,2025-10-02,Viktoria Plzeň,Malmö FF,UEFA Europa League,0,1.4,1.43,34.0,2.12,3.0,3.0,0.0,1.0,,,,
 BTTS,2025-10-02,Ludogrets Razgrad,Betis Sevilla,UEFA Europa League,1,1.8,1.89,782.0,4.878,2.0,0.0,2.0,0.0,,,,
-BTTS,2025-10-02,Jagiellonia Bialystok,Hamrun Spartans,UEFA Conference League,0,1.66,1.71,457.0,2.967,1.0,1.0,0.0,1.0,1,1.7056,0.7056,1.72
+BTTS,2025-10-02,Jagiellonia Bialystok,Hamrun Spartans,UEFA Conference League,0,1.66,1.71,457.0,2.967,1.0,1.0,0.0,1.0,1,1.72,0.72,1.72
 BTTS,2025-10-02,Viktoria Plzeň,Malmö FF,UEFA Europa League,1,1.7,1.76,140.0,3.468,3.0,3.0,0.0,0.0,,,,1.77
-3.5G,2025-10-02,Fiorentina,SK Sigma Olomouc,UEFA Conference League,0,1.44,1.48,152.0,2.74,2.0,2.0,0.0,1.0,1,1.4772,0.4772,1.482
+3.5G,2025-10-02,Fiorentina,SK Sigma Olomouc,UEFA Conference League,0,1.44,1.48,152.0,2.74,2.0,2.0,0.0,1.0,1,1.482,0.482,1.482
 3.5G,2025-10-02,Legia Warszawa,Samsunspor,UEFA Conference League,0,1.36,1.42,161.0,4.317,1.0,0.0,1.0,1.0,,,,
 3.5G,2025-10-02,Rakow Czestochowa,Universitatea Craiova,UEFA Conference League,0,1.33,1.39,40.0,4.412,2.0,2.0,0.0,1.0,,,,
 3.5G,2025-10-02,Shelbourne United,BK Häcken,UEFA Conference League,0,1.36,1.41,131.0,3.61,0.0,0.0,0.0,1.0,,,,
@@ -2088,7 +2088,7 @@ BTTS,2025-10-02,FC Porto,Red Star Belgrade,UEFA Europa League,1,1.7,1.79,263.0,5
 BTTS,2025-10-02,Celta Vigo,PAOK Saloniki,UEFA Europa League,1,1.9,1.95,493.0,2.597,4.0,3.0,1.0,1.0,,,,
 BTTS,2025-10-02,FC Basel,Stuttgart,UEFA Europa League,1,1.5,1.56,1247.0,3.922,2.0,2.0,0.0,0.0,,,,1.584
 3.5G,2025-10-02,KRC Genk,Ferencváros Budapest,UEFA Europa League,0,1.53,1.59,68.0,3.846,1.0,0.0,1.0,1.0,1,1.5673,0.5673,
-3.5G,2025-10-02,Lyon,RB Salzburg,UEFA Europa League,0,1.5,1.54,86.0,2.632,2.0,2.0,0.0,1.0,1,1.5214,0.5214,1.532
+3.5G,2025-10-02,Lyon,RB Salzburg,UEFA Europa League,0,1.5,1.54,86.0,2.632,2.0,2.0,0.0,1.0,1,1.532,0.532,1.532
 3.5G,2025-10-03,Istra 1961 Pula,Varteks Varazdin,Croatian HNL,0,1.22,1.24,32.0,1.626,1.0,3.0,1.0,1.0,,,,
 BTTS,2025-10-03,Lechia Gdaňsk,Wisla Plock,Polish Ekstraklasa,1,1.8,1.79,467.0,1.0,2.0,1.0,1.0,1.0,,,,
 BTTS,2025-10-03,Radnički Niš,Radnik Surdulica,Serbian SuperLiga,1,1.9,1.91,46.0,1.0,2.0,1.0,1.0,1.0,,,,
@@ -2114,7 +2114,7 @@ BTTS,2025-10-03,Hellas Verona,Sassuolo,Italian Serie A,0,1.9,1.97,3079.0,3.618,1
 3.5G,2025-10-03,KAA Gent,Charleroi,Belgian First Division A,0,1.4,1.46,3194.0,4.196,3.0,2.0,1.0,1.0,,,,1.443
 BTTS,2025-10-03,KAA Gent,Charleroi,Belgian First Division A,1,1.66,1.69,315.0,1.791,3.0,2.0,1.0,1.0,,,,1.682
 3.5G,2025-10-03,Hellas Verona,Sassuolo,Italian Serie A,0,1.22,1.27,1301.0,4.016,1.0,0.0,1.0,1.0,,,,
-3.5G,2025-10-03,Paris FC,Lorient,French Ligue 1,0,1.44,1.49,163.0,3.413,2.0,2.0,0.0,1.0,1,1.4693,0.4693,1.474
+3.5G,2025-10-03,Paris FC,Lorient,French Ligue 1,0,1.44,1.49,163.0,3.413,2.0,2.0,0.0,1.0,1,1.474,0.474,1.474
 3.5G,2025-10-03,Bournemouth,Fulham,English Premier League,0,1.33,1.35,757.0,1.493,4.0,3.0,1.0,0.0,,,,1.341
 BTTS,2025-10-03,Bournemouth,Fulham,English Premier League,1,1.8,1.87,5046.0,3.815,4.0,3.0,1.0,1.0,,,,
 BTTS,2025-10-03,Wrexham,Birmingham,English Championship League,1,1.8,1.9,892.0,5.405,2.0,1.0,1.0,1.0,,,,
@@ -2293,7 +2293,7 @@ BTTS,2025-10-05,Rio Ave,Tondela,Portuguese Primeira Liga,1,1.75,1.8,0.0,2.817,3.
 3.5G,2025-10-05,Rio Ave,Tondela,Portuguese Primeira Liga,0,1.3,1.36,19.0,4.511,3.0,3.0,0.0,1.0,,,,
 BTTS,2025-10-05,Lokomotiva Zagreb,Dinamo Zagreb,Croatian HNL,1,1.9,1.97,64.0,3.618,1.0,1.0,0.0,1.0,,,,
 3.5G,2025-10-05,Lokomotiva Zagreb,Dinamo Zagreb,Croatian HNL,0,1.5,1.55,26.0,3.279,3.0,1.0,1.0,1.0,,,,
-3.5G,2025-10-05,Samsunspor,Fenerbahce,Turkish Super Lig,0,1.44,1.49,188.0,3.413,0.0,0.0,0.0,1.0,1,1.4158,0.4158,1.42
+3.5G,2025-10-05,Samsunspor,Fenerbahce,Turkish Super Lig,0,1.44,1.49,188.0,3.413,0.0,0.0,0.0,1.0,1,1.42,0.42,1.42
 BTTS,2025-10-05,Napredak Krusevac,Red Star Belgrade,Serbian SuperLiga,1,2.1,2.12,752.0,1.0,5.0,5.0,0.0,0.0,,,,
 3.5G,2025-10-05,Göztepe,Istanbul Büyüksehir,Turkish Super Lig,0,1.33,1.36,0.0,2.23,1.0,1.0,0.0,1.0,,,,
 3.5G,2025-10-05,Napredak Krusevac,Red Star Belgrade,Serbian SuperLiga,0,1.72,1.8,196.0,4.545,3.0,0.0,2.0,1.0,,,,
@@ -2320,7 +2320,7 @@ BTTS,2025-10-05,Panathinaikos Athens,Atromitos Athinon FC,Greek Super League,1,2
 3.5G,2025-10-05,Panathinaikos Athens,Atromitos Athinon FC,Greek Super League,0,1.4,1.43,0.0,2.12,1.0,1.0,0.0,1.0,,,,
 BTTS,2025-10-05,Lille,PSG,French Ligue 1,1,1.61,1.68,926.0,4.255,2.0,1.0,1.0,1.0,,,,1.674
 BTTS,2025-10-05,Juventus,AC Milan,Italian Serie A,1,1.8,1.83,2879.0,1.653,0.0,0.0,0.0,0.0,,,,1.841
-3.5G,2025-10-05,Lille,PSG,French Ligue 1,0,1.5,1.53,368.0,1.98,2.0,1.0,1.0,1.0,1,1.5027,0.5027,1.513
+3.5G,2025-10-05,Lille,PSG,French Ligue 1,0,1.5,1.53,368.0,1.98,2.0,1.0,1.0,1.0,1,1.513,0.513,1.513
 3.5G,2025-10-05,Juventus,AC Milan,Italian Serie A,0,1.3,1.33,318.0,2.281,0.0,0.0,0.0,1.0,,,,1.32
 BTTS,2025-10-05,Celta Vigo,Atletico Madrid,Spanish La Liga,1,1.8,1.86,12367.0,3.279,2.0,1.0,1.0,1.0,,,,
 3.5G,2025-10-05,Celta Vigo,Atletico Madrid,Spanish La Liga,1,3.4,3.45,881.0,1.46,2.0,1.0,1.0,0.0,,,,3.421
@@ -2592,7 +2592,7 @@ BTTS,2025-10-18,AS Roma,Inter Milano,Italian Serie A,1,1.8,1.9,1590.0,5.405,1.0,
 3.5G,2025-10-18,NAC Breda,Zwolle FC,Netherlands Eredivisie,0,1.36,1.43,584.0,5.018,4.0,2.0,2.0,0.0,,,,
 3.5G,2025-10-18,Ajax Amsterdam,Alkmaar AZ,Netherlands Eredivisie,1,2.37,2.5,50.0,5.339,2.0,0.0,2.0,0.0,,,,
 BTTS,2025-10-18,Atletico Madrid,Osasuna,Spanish La Liga,0,1.8,1.84,3102.0,2.198,1.0,1.0,0.0,1.0,,,,1.87
-3.5G,2025-10-18,Atletico Madrid,Osasuna,Spanish La Liga,0,1.44,1.49,493.0,3.413,1.0,1.0,0.0,1.0,1,1.495,0.495,1.5
+3.5G,2025-10-18,Atletico Madrid,Osasuna,Spanish La Liga,0,1.44,1.49,493.0,3.413,1.0,1.0,0.0,1.0,1,1.5,0.5,1.5
 2.5G,2025-10-18,Atletico Madrid,Osasuna,Spanish La Liga,0,2.2,2.26,751.0,2.691,1.0,1.0,0.0,1.0,,,,
 2.5G,2025-10-18,Ajax Amsterdam,Alkmaar AZ,Netherlands Eredivisie,1,1.57,1.61,1987.0,2.516,2.0,0.0,2.0,0.0,,,,
 BTTS,2025-10-18,NAC Breda,Zwolle FC,Netherlands Eredivisie,1,1.75,1.76,456.0,1.0,4.0,2.0,2.0,1.0,,,,1.74
@@ -2675,8 +2675,8 @@ BTTS,2025-10-18,Wolfsburg,Stuttgart,German Bundesliga I,1,1.5,1.57,78.0,4.56,3.0
 2.5G,2025-10-18,Mainz,Leverkusen,German Bundesliga I,0,2.1,2.18,241.0,3.738,7.0,3.0,4.0,0.0,,,,
 2.5G,2025-10-18,RB Leipzig,Hamburger SV,German Bundesliga I,0,3.2,3.25,300.0,1.55,3.0,2.0,1.0,0.0,,,,
 2.5G,2025-10-18,Wolfsburg,Stuttgart,German Bundesliga I,1,1.61,1.63,1826.0,1.235,3.0,0.0,3.0,1.0,,,,
-3.5G,2025-10-18,Wolfsburg,Stuttgart,German Bundesliga I,0,1.57,1.59,407.0,1.266,3.0,0.0,3.0,1.0,1,1.5684,0.5684,1.58
-3.5G,2025-10-18,Köln,Augsburg,German Bundesliga I,0,1.57,1.62,234.0,3.135,2.0,1.0,1.0,1.0,1,1.588,0.588,1.6
+3.5G,2025-10-18,Wolfsburg,Stuttgart,German Bundesliga I,0,1.57,1.59,407.0,1.266,3.0,0.0,3.0,1.0,1,1.58,0.58,1.58
+3.5G,2025-10-18,Köln,Augsburg,German Bundesliga I,0,1.57,1.62,234.0,3.135,2.0,1.0,1.0,1.0,1,1.6,0.6,1.6
 3.5G,2025-10-18,Heidenheim,Werder Bremen,German Bundesliga I,1,2.62,2.66,104.0,1.515,4.0,2.0,2.0,1.0,,,,
 3.5G,2025-10-18,Mainz,Leverkusen,German Bundesliga I,0,1.44,1.48,58.0,2.74,7.0,3.0,4.0,0.0,1,0,-1,
 3.5G,2025-10-18,RB Leipzig,Hamburger SV,German Bundesliga I,0,1.9,1.92,3281.0,1.047,3.0,2.0,1.0,1.0,,,,1.919
@@ -3177,7 +3177,7 @@ BTTS,2025-10-21,Arsenal,Atletico Madrid,UEFA Champions League,1,1.95,2.02,3938.0
 3.5G,2025-10-21,Union St-Gilloise,Inter Milano,UEFA Champions League,0,1.36,1.4,769.0,2.899,4.0,0.0,4.0,0.0,,,,1.39
 2.5G,2025-10-21,Leverkusen,PSG,UEFA Champions League,1,1.57,1.59,4431.0,1.266,9.0,2.0,0.0,1.0,,,,
 2.5G,2025-10-21,Arsenal,Atletico Madrid,UEFA Champions League,0,2.0,2.04,4614.0,1.98,4.0,4.0,0.0,0.0,,,,
-3.5G,2025-10-21,Villarreal,Manchester City,UEFA Champions League,0,1.57,1.6,244.0,1.893,2.0,0.0,2.0,1.0,1,1.5831,0.5831,1.595
+3.5G,2025-10-21,Villarreal,Manchester City,UEFA Champions League,0,1.57,1.6,244.0,1.893,2.0,0.0,2.0,1.0,1,1.595,0.595,1.595
 BTTS,2025-10-21,Leverkusen,PSG,UEFA Champions League,1,1.57,1.64,2620.0,4.361,4.0,3.0,1.0,1.0,,,,
 BTTS,2025-10-21,PSV Eindhoven,Napoli,UEFA Champions League,0,2.37,2.52,2894.0,6.135,8.0,6.0,2.0,0.0,,,,
 BTTS,2025-10-21,Newcastle,Benfica Lisabon,UEFA Champions League,0,2.0,2.08,1701.0,3.922,3.0,3.0,0.0,1.0,,,,
@@ -3236,7 +3236,7 @@ BTTS,2025-10-22,Bayern München,Club Brugge,UEFA Champions League,1,1.75,1.82,44
 3.5G,2025-10-22,Eintracht Frankfurt,Liverpool,UEFA Champions League,1,1.8,1.88,16272.0,4.348,6.0,1.0,5.0,1.0,,,,
 3.5G,2025-10-22,Monaco,Tottenham,UEFA Champions League,0,1.5,1.55,1728.0,3.279,0.0,0.0,0.0,1.0,,,,1.55
 3.5G,2025-10-22,Real Madrid,Juventus,UEFA Champions League,1,2.37,2.46,906.0,3.727,1.0,1.0,0.0,0.0,,,,
-3.5G,2025-10-22,Sporting Lisabon,Marseille,UEFA Champions League,0,1.57,1.59,1056.0,1.266,3.0,2.0,1.0,1.0,1,1.5968,0.5968,1.609
+3.5G,2025-10-22,Sporting Lisabon,Marseille,UEFA Champions League,0,1.57,1.59,1056.0,1.266,3.0,2.0,1.0,1.0,1,1.609,0.609,1.609
 2.5G,2025-10-22,Real Madrid,Juventus,UEFA Champions League,1,1.53,1.59,4059.0,3.846,1.0,1.0,0.0,0.0,,,,
 2.5G,2025-10-22,Eintracht Frankfurt,Liverpool,UEFA Champions League,1,1.3,1.36,4833.0,4.511,6.0,1.0,5.0,1.0,,,,
 2.5G,2025-10-22,Chelsea,Ajax Amsterdam,UEFA Champions League,1,1.4,1.45,12402.0,3.509,6.0,5.0,1.0,1.0,,,,
@@ -3288,7 +3288,7 @@ BTTS,2025-10-23,Brann Bergen,Glasgow Rangers,UEFA Europa League,0,2.2,2.32,3115.
 BTTS,2025-10-23,Braga,Red Star Belgrade,UEFA Europa League,1,1.7,1.75,116.0,2.899,2.0,2.0,0.0,0.0,,,,
 BTTS,2025-10-23,Go Ahead Eagles,Aston Villa,UEFA Europa League,1,1.7,1.8,367.0,5.714,3.0,2.0,1.0,1.0,,,,
 3.5G,2025-10-23,KRC Genk,Betis Sevilla,UEFA Europa League,1,2.75,2.68,68.0,1.0,0.0,0.0,0.0,0.0,,,,
-3.5G,2025-10-23,Breidablik,KuPS Kuopio,UEFA Conference League,0,1.5,1.54,193.0,2.632,0.0,0.0,0.0,1.0,1,1.5233,0.5233,1.534
+3.5G,2025-10-23,Breidablik,KuPS Kuopio,UEFA Conference League,0,1.5,1.54,193.0,2.632,0.0,0.0,0.0,1.0,1,1.534,0.534,1.534
 1.5G,2025-10-23,Strasbourg,Jagiellonia Bialystok,UEFA Conference League,1,1.16,1.2,75.0,3.39,2.0,1.0,1.0,1.0,,,,
 1.5G,2025-10-23,Shkendija 79 Tetovo,Shelbourne United,UEFA Conference League,1,1.36,1.42,351.0,4.317,1.0,1.0,0.0,0.0,,,,
 1.5G,2025-10-23,Shakhtar Donetsk,Legia Warszawa,UEFA Conference League,1,1.25,1.27,43.0,1.587,3.0,1.0,2.0,1.0,,,,
@@ -3309,7 +3309,7 @@ BTTS,2025-10-23,Go Ahead Eagles,Aston Villa,UEFA Europa League,1,1.7,1.8,367.0,5
 3.5G,2025-10-23,RB Salzburg,Ferencváros Budapest,UEFA Europa League,1,2.75,2.8,152.0,1.802,5.0,2.0,3.0,1.0,,,,2.72
 3.5G,2025-10-23,Lyon,FC Basel,UEFA Europa League,0,1.57,1.64,173.0,4.361,2.0,2.0,0.0,1.0,,,,
 3.5G,2025-10-23,Go Ahead Eagles,Aston Villa,UEFA Europa League,1,2.3,2.36,125.0,2.575,3.0,2.0,1.0,0.0,,,,
-3.5G,2025-10-23,Fenerbahce,Stuttgart,UEFA Europa League,0,1.57,1.51,197.0,1.0,1.0,1.0,0.0,1.0,1,1.4939,0.4939,1.504
+3.5G,2025-10-23,Fenerbahce,Stuttgart,UEFA Europa League,0,1.57,1.51,197.0,1.0,1.0,1.0,0.0,1.0,1,1.504,0.504,1.504
 3.5G,2025-10-23,FCSB,Bologna,UEFA Europa League,0,1.3,1.35,188.0,3.774,3.0,1.0,2.0,1.0,,,,
 3.5G,2025-10-23,Brann Bergen,Glasgow Rangers,UEFA Europa League,0,1.44,1.47,90.0,2.062,3.0,3.0,0.0,1.0,2,2.9248,0.9248,
 3.5G,2025-10-23,Braga,Red Star Belgrade,UEFA Europa League,0,1.4,1.41,25.0,1.0,2.0,2.0,0.0,1.0,,,,
@@ -3346,7 +3346,7 @@ BTTS,2025-10-23,Alkmaar AZ,Slovan Bratislava,UEFA Conference League,0,2.0,2.1,57
 2.5G,2025-10-23,Nottingham,FC Porto,UEFA Europa League,1,2.2,2.3,3478.0,4.444,2.0,2.0,0.0,0.0,,,,
 BTTS,2025-10-23,Maccabi Tel Aviv,Midtjylland FC,UEFA Europa League,1,1.57,1.62,374.0,3.135,3.0,0.0,3.0,0.0,,,,1.621
 BTTS,2025-10-23,Mainz,Zrinjski Mostar,UEFA Conference League,1,2.2,2.22,0.0,1.0,1.0,1.0,0.0,0.0,,,,
-BTTS,2025-10-23,Shamrock Rovers,NK Celje,UEFA Conference League,0,2.1,2.18,421.0,3.738,2.0,0.0,2.0,1.0,1,2.1731,1.1731,2.197
+BTTS,2025-10-23,Shamrock Rovers,NK Celje,UEFA Conference League,0,2.1,2.18,421.0,3.738,2.0,0.0,2.0,1.0,1,2.197,1.197,2.197
 BTTS,2025-10-23,Freiburg,Utrecht,UEFA Europa League,0,1.9,1.96,1352.0,3.109,2.0,2.0,0.0,1.0,,,,1.933
 BTTS,2025-10-23,Celtic Glasgow,Sturm Graz,UEFA Europa League,1,1.7,1.8,955.0,5.714,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-10-23,Celta Vigo,Nice,UEFA Europa League,1,1.7,1.77,1160.0,4.035,3.0,2.0,1.0,1.0,,,,
@@ -3380,14 +3380,14 @@ BTTS,2025-10-23,Lincoln Red Imps,Lech Poznan,UEFA Conference League,0,1.83,1.89,
 3.5G,2025-10-23,Shamrock Rovers,NK Celje,UEFA Conference League,0,1.36,1.4,4.0,2.899,2.0,0.0,2.0,1.0,,,,
 3.5G,2025-10-23,Samsunspor,Dynamo Kyiv,UEFA Conference League,0,1.33,1.35,294.0,1.493,3.0,3.0,0.0,1.0,,,,1.352
 3.5G,2025-10-23,Crystal Palace,Larnaca AEK,UEFA Conference League,0,2.25,2.4,1370.0,6.452,1.0,0.0,1.0,1.0,,,,
-3.5G,2025-10-23,Hamrun Spartans,FC Lausanne-Sport,UEFA Conference League,0,1.5,1.52,224.0,1.325,1.0,0.0,1.0,1.0,1,1.5008,0.5008,1.511
+3.5G,2025-10-23,Hamrun Spartans,FC Lausanne-Sport,UEFA Conference League,0,1.5,1.52,224.0,1.325,1.0,0.0,1.0,1.0,1,1.511,0.511,1.511
 3.5G,2025-10-23,Celtic Glasgow,Sturm Graz,UEFA Europa League,0,1.61,1.65,64.0,2.454,3.0,2.0,1.0,1.0,1,1.6257,0.6257,
 3.5G,2025-10-23,Freiburg,Utrecht,UEFA Europa League,0,1.44,1.42,946.0,1.0,2.0,2.0,0.0,1.0,,,,1.42
 3.5G,2025-10-23,Lille,PAOK Saloniki,UEFA Europa League,0,1.4,1.43,150.0,2.12,7.0,3.0,4.0,0.0,,,,
 3.5G,2025-10-23,Maccabi Tel Aviv,Midtjylland FC,UEFA Europa League,1,2.75,2.78,2203.0,1.085,3.0,0.0,3.0,0.0,,,,2.782
 3.5G,2025-10-23,Lincoln Red Imps,Lech Poznan,UEFA Conference League,1,2.25,2.25,952.0,1.0,3.0,2.0,1.0,0.0,,,,
 3.5G,2025-10-23,Young Boys Bern,Ludogorets Razgrad,UEFA Europa League,1,3.4,3.25,916.0,1.0,5.0,3.0,2.0,1.0,,,,3.244
-3.5G,2025-10-23,Mainz,Zrinjski Mostar,UEFA Conference League,0,1.53,1.55,537.0,1.299,1.0,1.0,0.0,1.0,1,1.4998,0.4998,1.51
+3.5G,2025-10-23,Mainz,Zrinjski Mostar,UEFA Conference League,0,1.53,1.55,537.0,1.299,1.0,1.0,0.0,1.0,1,1.51,0.51,1.51
 3.5G,2025-10-23,Nottingham,FC Porto,UEFA Europa League,0,1.25,1.28,1537.0,2.372,2.0,2.0,0.0,1.0,,,,1.27
 3.5G,2025-10-23,Malmö FF,Dinamo Zagreb,UEFA Europa League,0,1.25,1.3,142.0,3.922,2.0,1.0,1.0,1.0,,,,
 2.5G,2025-10-23,Feyenoord,Panathinaikos Athens,UEFA Europa League,1,1.66,1.71,143.0,2.967,4.0,3.0,1.0,1.0,,,,
@@ -3437,7 +3437,7 @@ BTTS,2025-10-24,AC Milan,Pisa SC,Italian Serie A,1,2.25,2.3,1290.0,2.198,4.0,2.0
 1.5G,2025-10-24,Paris FC,Nantes,French Ligue 1,0,4.33,4.5,133.0,3.851,3.0,1.0,2.0,0.0,1,0,-1,
 1.5G,2025-10-24,AC Milan,Pisa SC,Italian Serie A,1,1.25,1.27,898.0,1.587,4.0,2.0,2.0,1.0,,,,
 3.5G,2025-10-24,AC Milan,Pisa SC,Italian Serie A,1,3.2,3.2,1343.0,1.0,4.0,2.0,2.0,1.0,,,,3.2
-3.5G,2025-10-24,Paris FC,Nantes,French Ligue 1,0,1.44,1.46,666.0,1.379,3.0,1.0,2.0,1.0,2,2.891,0.891,1.45
+3.5G,2025-10-24,Paris FC,Nantes,French Ligue 1,0,1.44,1.46,666.0,1.379,3.0,1.0,2.0,1.0,2,2.9,0.9,1.45
 BTTS,2025-10-24,Preston,Sheffield United,English Championship League,1,1.9,1.97,1086.0,3.618,5.0,3.0,2.0,1.0,,,,1.959
 BTTS,2025-10-24,Leeds United,West Ham,English Premier League,0,1.9,1.96,10797.0,3.109,3.0,2.0,1.0,0.0,,,,1.959
 2.5G,2025-10-24,Leeds United,West Ham,English Premier League,0,1.8,1.85,20327.0,2.74,3.0,2.0,1.0,0.0,,,,
@@ -3520,8 +3520,8 @@ BTTS,2025-10-25,Panserraikos,Larissa AE,Greek Super League,0,1.95,1.96,0.0,1.0,2
 3.5G,2025-10-25,Manchester United,Brighton,English Premier League,0,1.61,1.68,2975.0,4.255,6.0,4.0,2.0,0.0,,,,1.672
 1.5G,2025-10-25,Sparta Rotterdam,Telstar,Netherlands Eredivisie,1,1.16,1.2,934.0,3.39,1.0,1.0,0.0,0.0,,,,
 2.5G,2025-10-25,Sparta Rotterdam,Telstar,Netherlands Eredivisie,1,1.53,1.62,1450.0,5.714,1.0,1.0,0.0,0.0,,,,
-BTTS,2025-10-25,Sparta Rotterdam,Telstar,Netherlands Eredivisie,0,2.5,2.52,1012.0,1.0,1.0,1.0,0.0,1.0,2,5.0909,3.0909,2.577
-3.5G,2025-10-25,Sparta Rotterdam,Telstar,Netherlands Eredivisie,0,1.57,1.63,256.0,3.75,1.0,1.0,0.0,1.0,1,1.6194,0.6194,1.632
+BTTS,2025-10-25,Sparta Rotterdam,Telstar,Netherlands Eredivisie,0,2.5,2.52,1012.0,1.0,1.0,1.0,0.0,1.0,2,5.154,3.154,2.577
+3.5G,2025-10-25,Sparta Rotterdam,Telstar,Netherlands Eredivisie,0,1.57,1.63,256.0,3.75,1.0,1.0,0.0,1.0,1,1.632,0.632,1.632
 1.5G,2025-10-25,Santa Clara,AVS Vila das Aves,Portuguese Primeira Liga,1,1.4,1.45,86.0,3.509,2.0,2.0,0.0,1.0,,,,
 3.5G,2025-10-25,Trabzonspor,Eyüp SK Istanbul,Turkish Super Lig,0,1.33,1.39,271.0,4.412,2.0,2.0,0.0,1.0,,,,
 1.5G,2025-10-25,OFI Crete,Atromitos Athinon FC,Greek Super League,0,3.4,3.55,39.0,4.317,4.0,1.0,3.0,0.0,,,,
@@ -3537,7 +3537,7 @@ BTTS,2025-10-25,OFI Crete,Atromitos Athinon FC,Greek Super League,1,1.8,1.83,0.0
 3.5G,2025-10-25,OFI Crete,Atromitos Athinon FC,Greek Super League,0,1.28,1.32,111.0,3.077,4.0,1.0,3.0,0.0,,,,
 BTTS,2025-10-25,Trabzonspor,Eyüp SK Istanbul,Turkish Super Lig,1,1.83,1.94,41.0,5.836,2.0,2.0,0.0,0.0,,,,
 3.5G,2025-10-25,Santa Clara,AVS Vila das Aves,Portuguese Primeira Liga,0,1.22,1.26,105.0,3.226,2.0,2.0,0.0,1.0,,,,
-3.5G,2025-10-25,Monaco,Toulouse,French Ligue 1,0,1.5,1.53,277.0,1.98,1.0,1.0,0.0,1.0,1,1.5096,0.5096,1.52
+3.5G,2025-10-25,Monaco,Toulouse,French Ligue 1,0,1.5,1.53,277.0,1.98,1.0,1.0,0.0,1.0,1,1.52,0.52,1.52
 1.5G,2025-10-25,CFR Cluj,Farul Constanta,Romanian Liga I,0,3.75,3.9,64.0,3.922,2.0,0.0,2.0,0.0,1,0,-1,
 1.5G,2025-10-25,Volendam,Heracles Almelo,Netherlands Eredivisie,1,1.18,1.23,754.0,4.149,3.0,3.0,0.0,1.0,,,,
 2.5G,2025-10-25,CFR Cluj,Farul Constanta,Romanian Liga I,1,1.85,1.9,82.0,2.667,2.0,0.0,2.0,0.0,,,,
@@ -3545,7 +3545,7 @@ BTTS,2025-10-25,Trabzonspor,Eyüp SK Istanbul,Turkish Super Lig,1,1.83,1.94,41.0
 3.5G,2025-10-25,CFR Cluj,Farul Constanta,Romanian Liga I,1,3.25,3.3,48.0,1.527,2.0,0.0,2.0,0.0,,,,
 BTTS,2025-10-25,CFR Cluj,Farul Constanta,Romanian Liga I,1,1.8,1.76,433.0,1.0,2.0,0.0,2.0,0.0,,,,
 BTTS,2025-10-25,Volendam,Heracles Almelo,Netherlands Eredivisie,1,1.57,1.61,408.0,2.516,3.0,3.0,0.0,0.0,,,,1.633
-3.5G,2025-10-25,Volendam,Heracles Almelo,Netherlands Eredivisie,0,1.5,1.56,352.0,3.922,3.0,3.0,0.0,1.0,1,1.4998,0.4998,1.51
+3.5G,2025-10-25,Volendam,Heracles Almelo,Netherlands Eredivisie,0,1.5,1.56,352.0,3.922,3.0,3.0,0.0,1.0,1,1.51,0.51,1.51
 1.5G,2025-10-25,Katowice GKS,Korona Kielce,Polish Ekstraklasa,0,4.1,4.1,0.0,1.0,1.0,1.0,0.0,1.0,,,,
 2.5G,2025-10-25,Katowice GKS,Korona Kielce,Polish Ekstraklasa,0,1.95,1.99,111.0,2.03,1.0,1.0,0.0,1.0,,,,
 BTTS,2025-10-25,Katowice GKS,Korona Kielce,Polish Ekstraklasa,1,1.7,1.73,5.0,1.749,1.0,1.0,0.0,0.0,,,,
@@ -3662,7 +3662,7 @@ BTTS,2025-10-25,Hamburger SV,Wolfsburg,German Bundesliga I,0,2.5,2.58,147.0,3.15
 BTTS,2025-10-25,Hoffenheim,Heidenheim,German Bundesliga I,1,1.57,1.65,1091.0,4.969,4.0,3.0,1.0,1.0,,,,
 3.5G,2025-10-25,Hoffenheim,Heidenheim,German Bundesliga I,1,2.3,2.34,40.0,1.724,4.0,3.0,1.0,1.0,,,,
 3.5G,2025-10-25,Hamburger SV,Wolfsburg,German Bundesliga I,1,2.62,2.72,158.0,3.745,1.0,0.0,1.0,0.0,,,,
-3.5G,2025-10-25,Eintracht Frankfurt,St. Pauli,German Bundesliga I,0,1.57,1.61,209.0,2.516,2.0,2.0,0.0,1.0,1,1.5782,0.5782,1.59
+3.5G,2025-10-25,Eintracht Frankfurt,St. Pauli,German Bundesliga I,0,1.57,1.61,209.0,2.516,2.0,2.0,0.0,1.0,1,1.59,0.59,1.59
 3.5G,2025-10-25,Augsburg,RB Leipzig,German Bundesliga I,0,1.72,1.78,7.0,3.429,6.0,0.0,6.0,0.0,,,,
 3.5G,2025-10-25,Mönchengladbach,Bayern München,German Bundesliga I,1,1.72,1.76,1443.0,2.299,3.0,0.0,3.0,0.0,,,,
 1.5G,2025-10-25,Lokomotiva Zagreb,Istra 1961 Pula,Croatian HNL,1,1.36,1.39,40.0,2.182,3.0,0.0,1.0,1.0,,,,
@@ -3815,7 +3815,7 @@ BTTS,2025-10-26,Stuttgart,Mainz,German Bundesliga I,1,1.57,1.63,1991.0,3.75,3.0,
 2.5G,2025-10-26,Górnik Zabrze,Jagiellonia Bialystok,Polish Ekstraklasa,1,1.75,1.83,93.0,4.469,3.0,2.0,1.0,1.0,,,,
 2.5G,2025-10-26,Everton,Tottenham,English Premier League,1,2.0,2.08,8063.0,3.922,3.0,0.0,3.0,1.0,,,,
 BTTS,2025-10-26,Górnik Zabrze,Jagiellonia Bialystok,Polish Ekstraklasa,0,2.25,2.32,14.0,3.063,3.0,2.0,1.0,0.0,,,,
-3.5G,2025-10-26,Stuttgart,Mainz,German Bundesliga I,0,1.57,1.61,691.0,2.516,3.0,2.0,1.0,1.0,1,1.588,0.588,1.6
+3.5G,2025-10-26,Stuttgart,Mainz,German Bundesliga I,0,1.57,1.61,691.0,2.516,3.0,2.0,1.0,1.0,1,1.6,0.6,1.6
 3.5G,2025-10-26,Górnik Zabrze,Jagiellonia Bialystok,Polish Ekstraklasa,0,1.4,1.46,12.0,4.196,3.0,2.0,1.0,1.0,,,,
 3.5G,2025-10-26,Everton,Tottenham,English Premier League,0,1.33,1.35,1470.0,1.493,3.0,0.0,3.0,1.0,,,,1.341
 1.5G,2025-10-26,Górnik Zabrze,Jagiellonia Bialystok,Polish Ekstraklasa,1,1.22,1.26,28.0,3.226,3.0,2.0,1.0,1.0,,,,
@@ -3847,7 +3847,7 @@ BTTS,2025-10-26,Osasuna,Celta Vigo,Spanish La Liga,1,1.9,1.95,355.0,2.597,5.0,2.
 1.5G,2025-10-26,PAOK Saloniki,Volos NFC,Greek Super League,1,1.18,1.22,12.0,3.333,3.0,3.0,0.0,1.0,,,,
 2.5G,2025-10-26,Tondela,Sporting Lisabon,Portuguese Primeira Liga,1,1.5,1.55,579.0,3.279,3.0,0.0,3.0,1.0,,,,
 BTTS,2025-10-26,Tondela,Sporting Lisabon,Portuguese Primeira Liga,0,1.75,1.83,14.0,4.469,3.0,0.0,3.0,1.0,,,,
-3.5G,2025-10-26,Tondela,Sporting Lisabon,Portuguese Primeira Liga,0,1.61,1.67,316.0,3.659,3.0,0.0,3.0,1.0,1,1.6409,0.6409,1.654
+3.5G,2025-10-26,Tondela,Sporting Lisabon,Portuguese Primeira Liga,0,1.61,1.67,316.0,3.659,3.0,0.0,3.0,1.0,1,1.654,0.654,1.654
 1.5G,2025-10-26,Tondela,Sporting Lisabon,Portuguese Primeira Liga,1,1.14,1.19,321.0,4.292,3.0,0.0,3.0,1.0,,,,
 2.5G,2025-10-26,Valerengen Oslo,Stromsgodset,Norwegian Eliteserien,1,1.4,1.44,1321.0,2.817,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-10-26,Union St-Gilloise,Sint Truidense,Belgian First Division A,1,1.8,1.83,2306.0,1.653,2.0,2.0,0.0,0.0,,,,1.828
@@ -4029,7 +4029,7 @@ BTTS,2025-10-26,Panathinaikos Athens,Asteras Tripolis,Greek Super League,0,1.66,
 2.5G,2025-10-26,Halmstad BK,IFK Göteborg,Swedish Allsvenskan,1,1.85,1.88,1013.0,1.609,3.0,0.0,3.0,1.0,,,,
 2.5G,2025-10-26,Servette Genf,FC Lugano,Swiss Super League,1,1.65,1.71,1026.0,3.571,3.0,2.0,1.0,1.0,,,,
 2.5G,2025-10-26,FC Lausanne-Sport,FC Basel,Swiss Super League,1,1.44,1.49,399.0,3.413,6.0,5.0,1.0,1.0,,,,
-BTTS,2025-10-26,Famalicao,Vitoria Guimaraes SC,Portuguese Primeira Liga,0,1.8,1.86,983.0,3.279,2.0,2.0,0.0,1.0,1,1.8212,0.8212,1.838
+BTTS,2025-10-26,Famalicao,Vitoria Guimaraes SC,Portuguese Primeira Liga,0,1.8,1.86,983.0,3.279,2.0,2.0,0.0,1.0,1,1.838,0.838,1.838
 BTTS,2025-10-26,Estoril,Nacional,Portuguese Primeira Liga,1,1.8,1.8,511.0,1.0,2.0,1.0,1.0,1.0,,,,1.803
 3.5G,2025-10-26,Panathinaikos Athens,Asteras Tripolis,Greek Super League,0,1.5,1.54,188.0,2.632,2.0,2.0,0.0,1.0,1,1.5186,0.5186,
 BTTS,2025-10-26,Servette Genf,FC Lugano,Swiss Super League,1,1.53,1.59,215.0,3.846,3.0,2.0,1.0,1.0,,,,
@@ -4133,8 +4133,8 @@ BTTS,2025-10-29,Nice,Lille,French Ligue 1,0,2.44,2.44,666.0,1.0,2.0,2.0,0.0,1.0,
 1.5G,2025-10-29,Le Havre,Brest,French Ligue 1,0,3.75,3.85,545.0,2.632,1.0,1.0,0.0,1.0,1,3.5808,2.5808,
 1.5G,2025-10-29,Brann Bergen,Bodo Glimt,Norwegian Eliteserien,1,1.11,1.14,387.0,2.667,3.0,1.0,2.0,1.0,,,,
 2.5G,2025-10-29,Brann Bergen,Bodo Glimt,Norwegian Eliteserien,1,1.4,1.47,1395.0,4.878,3.0,1.0,2.0,1.0,,,,
-3.5G,2025-10-29,Nice,Lille,French Ligue 1,0,1.44,1.48,267.0,2.74,2.0,2.0,0.0,1.0,1,1.4693,0.4693,1.474
-3.5G,2025-10-29,Metz,Lens,French Ligue 1,0,1.53,1.56,622.0,1.942,2.0,2.0,0.0,1.0,1,1.539,0.539,1.55
+3.5G,2025-10-29,Nice,Lille,French Ligue 1,0,1.44,1.48,267.0,2.74,2.0,2.0,0.0,1.0,1,1.474,0.474,1.474
+3.5G,2025-10-29,Metz,Lens,French Ligue 1,0,1.53,1.56,622.0,1.942,2.0,2.0,0.0,1.0,1,1.55,0.55,1.55
 3.5G,2025-10-29,Lorient,PSG,French Ligue 1,0,1.8,1.84,180.0,2.198,2.0,1.0,1.0,1.0,1,1.8034,0.8034,
 3.5G,2025-10-29,Le Havre,Brest,French Ligue 1,0,1.33,1.36,720.0,2.23,1.0,1.0,0.0,1.0,,,,1.35
 2.5G,2025-10-29,Le Havre,Brest,French Ligue 1,0,1.9,1.97,1789.0,3.618,1.0,1.0,0.0,1.0,,,,
@@ -4333,7 +4333,7 @@ BTTS,2025-11-01,Tottenham,Chelsea,English Premier League,1,1.61,1.69,4810.0,4.84
 2.5G,2025-11-01,Real Sociedad,Bilbao,Spanish La Liga,0,1.57,1.61,786.0,2.516,5.0,3.0,2.0,0.0,,,,
 2.5G,2025-11-01,Tottenham,Chelsea,English Premier League,1,1.8,1.86,11925.0,3.279,1.0,0.0,1.0,0.0,,,,
 BTTS,2025-11-01,NAC Breda,Go Ahead Eagles,Netherlands Eredivisie,1,1.57,1.59,437.0,1.266,1.0,1.0,0.0,0.0,,,,1.592
-3.5G,2025-11-01,NAC Breda,Go Ahead Eagles,Netherlands Eredivisie,0,1.5,1.54,418.0,2.632,1.0,1.0,0.0,1.0,1,1.5302,0.5302,1.541
+3.5G,2025-11-01,NAC Breda,Go Ahead Eagles,Netherlands Eredivisie,0,1.5,1.54,418.0,2.632,1.0,1.0,0.0,1.0,1,1.541,0.541,1.541
 BTTS,2025-11-01,Istra 1961 Pula,Vukovar'91,Croatian HNL,1,1.83,1.88,0.0,2.695,0.0,0.0,0.0,1.0,,,,
 1.5G,2025-11-01,NAC Breda,Go Ahead Eagles,Netherlands Eredivisie,1,1.18,1.23,394.0,4.149,1.0,1.0,0.0,0.0,,,,
 1.5G,2025-11-01,Istra 1961 Pula,Vukovar'91,Croatian HNL,1,1.25,1.27,66.0,1.587,2.0,0.0,1.0,1.0,,,,
@@ -4443,7 +4443,7 @@ BTTS,2025-11-01,Heidenheim,Eintracht Frankfurt,German Bundesliga I,1,1.5,1.53,13
 1.5G,2025-11-01,Mainz,Werder Bremen,German Bundesliga I,1,1.16,1.2,829.0,3.39,2.0,1.0,1.0,1.0,,,,
 1.5G,2025-11-01,Heidenheim,Eintracht Frankfurt,German Bundesliga I,1,1.14,1.17,68.0,2.597,2.0,1.0,1.0,1.0,,,,
 3.5G,2025-11-01,Heidenheim,Eintracht Frankfurt,German Bundesliga I,0,1.66,1.73,159.0,4.13,2.0,1.0,1.0,1.0,,,,
-3.5G,2025-11-01,Mainz,Werder Bremen,German Bundesliga I,0,1.57,1.61,627.0,2.516,2.0,1.0,1.0,1.0,1,1.639,0.639,1.652
+3.5G,2025-11-01,Mainz,Werder Bremen,German Bundesliga I,0,1.57,1.61,627.0,2.516,2.0,1.0,1.0,1.0,1,1.652,0.652,1.652
 3.5G,2025-11-01,RB Leipzig,Stuttgart,German Bundesliga I,1,2.1,2.18,628.0,3.738,4.0,3.0,1.0,1.0,,,,
 3.5G,2025-11-01,St. Pauli,Mönchengladbach,German Bundesliga I,0,1.36,1.4,20.0,2.899,4.0,0.0,4.0,0.0,,,,
 3.5G,2025-11-01,Union Berlin,Freiburg,German Bundesliga I,0,1.25,1.28,1227.0,2.372,0.0,0.0,0.0,1.0,,,,1.28
@@ -4493,7 +4493,7 @@ BTTS,2025-11-01,Southampton,Preston,English Championship League,1,1.83,1.94,4.0,
 1.5G,2025-11-01,Falkirk FC,Kilmarnock FC,Scottish Premiership,1,1.28,1.31,778.0,2.317,4.0,3.0,1.0,1.0,,,,
 1.5G,2025-11-01,Crystal Palace,Brentford,English Premier League,1,1.22,1.26,287.0,3.226,2.0,2.0,0.0,1.0,,,,
 1.5G,2025-11-01,Brighton,Leeds United,English Premier League,1,1.28,1.3,800.0,1.55,3.0,3.0,0.0,1.0,,,,
-3.5G,2025-11-01,Crystal Palace,Brentford,English Premier League,0,1.44,1.48,438.0,2.74,2.0,2.0,0.0,1.0,1,1.4475,0.4475,1.452
+3.5G,2025-11-01,Crystal Palace,Brentford,English Premier League,0,1.44,1.48,438.0,2.74,2.0,2.0,0.0,1.0,1,1.452,0.452,1.452
 3.5G,2025-11-01,Fulham,Wolverhampton,English Premier League,0,1.28,1.31,1114.0,2.317,3.0,3.0,0.0,1.0,,,,1.316
 3.5G,2025-11-01,Nottingham,Manchester United,English Premier League,0,1.44,1.46,278.0,1.379,4.0,2.0,2.0,0.0,1,0,-1,1.45
 3.5G,2025-11-01,Birmingham,Portsmouth,English Championship League,1,4.0,4.1,57.0,2.469,4.0,4.0,0.0,1.0,,,,
@@ -4533,7 +4533,7 @@ BTTS,2025-11-01,Zulte Waregem,Union St-Gilloise,Belgian First Division A,1,1.75,
 2.5G,2025-11-01,Southampton,Preston,English Championship League,0,1.9,1.96,352.0,3.109,2.0,0.0,2.0,1.0,,,,
 2.5G,2025-11-01,Burnley,Arsenal,English Premier League,0,2.1,2.2,10375.0,4.651,2.0,0.0,2.0,1.0,,,,
 BTTS,2025-11-01,Atletico Madrid,Sevilla,Spanish La Liga,0,1.8,1.9,691.0,5.405,3.0,3.0,0.0,1.0,1,0,-1,
-3.5G,2025-11-01,Atletico Madrid,Sevilla,Spanish La Liga,0,1.5,1.55,913.0,3.279,3.0,3.0,0.0,1.0,1,1.5194,0.5194,1.53
+3.5G,2025-11-01,Atletico Madrid,Sevilla,Spanish La Liga,0,1.5,1.55,913.0,3.279,3.0,3.0,0.0,1.0,1,1.53,0.53,1.53
 1.5G,2025-11-01,Atletico Madrid,Sevilla,Spanish La Liga,1,1.2,1.23,293.0,2.469,3.0,3.0,0.0,1.0,,,,
 2.5G,2025-11-01,Atletico Madrid,Sevilla,Spanish La Liga,1,1.61,1.69,624.0,4.848,3.0,3.0,0.0,1.0,,,,
 BTTS,2025-11-01,Unirea Slobozia,Arges Piesti,Romanian Liga I,1,2.2,2.12,0.0,1.0,1.0,0.0,1.0,0.0,,,,
@@ -4709,7 +4709,7 @@ BTTS,2025-11-02,Halmstad BK,Brommapojkarna,Swedish Allsvenskan,1,1.61,1.66,136.0
 BTTS,2025-11-02,Elfsborg Boras IF,AIK Stockholm,Swedish Allsvenskan,1,1.75,1.74,27.0,1.0,3.0,0.0,3.0,0.0,,,,
 BTTS,2025-11-02,Levante,Celta Vigo,Spanish La Liga,1,1.61,1.67,270.0,3.659,3.0,1.0,2.0,1.0,,,,
 BTTS,2025-11-02,Viborg FF,Randers Freja,Danish Superligaen,1,1.61,1.68,35.0,4.255,5.0,3.0,2.0,1.0,,,,
-3.5G,2025-11-02,Levante,Celta Vigo,Spanish La Liga,0,1.44,1.47,632.0,2.062,3.0,1.0,2.0,1.0,2,2.9088,0.9088,1.459
+3.5G,2025-11-02,Levante,Celta Vigo,Spanish La Liga,0,1.44,1.47,632.0,2.062,3.0,1.0,2.0,1.0,2,2.918,0.918,1.459
 1.5G,2025-11-02,Viborg FF,Randers Freja,Danish Superligaen,1,1.22,1.27,0.0,4.016,5.0,3.0,2.0,1.0,,,,
 3.5G,2025-11-02,Halmstad BK,Brommapojkarna,Swedish Allsvenskan,0,1.4,1.47,452.0,4.878,0.0,0.0,0.0,1.0,,,,
 3.5G,2025-11-02,Elfsborg Boras IF,AIK Stockholm,Swedish Allsvenskan,0,1.36,1.39,124.0,2.182,3.0,2.0,0.0,1.0,,,,
@@ -4913,7 +4913,7 @@ BTTS,2025-11-04,Slavia Praha,Arsenal,UEFA Champions League,1,2.44,2.44,4073.0,1.
 2.5G,2025-11-04,Napoli,Eintracht Frankfurt,UEFA Champions League,1,1.61,1.65,2823.0,2.454,0.0,0.0,0.0,0.0,,,,
 2.5G,2025-11-04,Slavia Praha,Arsenal,UEFA Champions League,1,1.72,1.8,9729.0,4.545,3.0,0.0,3.0,1.0,,,,
 3.5G,2025-11-04,Napoli,Eintracht Frankfurt,UEFA Champions League,1,2.5,2.62,1559.0,4.688,0.0,0.0,0.0,0.0,,,,
-3.5G,2025-11-04,Slavia Praha,Arsenal,UEFA Champions League,0,1.44,1.47,952.0,2.062,3.0,0.0,3.0,1.0,1,1.4653,0.4653,1.47
+3.5G,2025-11-04,Slavia Praha,Arsenal,UEFA Champions League,0,1.44,1.47,952.0,2.062,3.0,0.0,3.0,1.0,1,1.47,0.47,1.47
 1.5G,2025-11-04,Napoli,Eintracht Frankfurt,UEFA Champions League,1,1.16,1.2,1946.0,3.39,0.0,0.0,0.0,0.0,,,,
 1.5G,2025-11-04,Slavia Praha,Arsenal,UEFA Champions League,1,1.22,1.26,4852.0,3.226,3.0,0.0,3.0,1.0,,,,
 1.5G,2025-11-04,Charlton Athletic,West Bromwich Albion,English Championship League,1,1.53,1.57,1069.0,2.581,1.0,1.0,0.0,0.0,,,,
@@ -4948,7 +4948,7 @@ BTTS,2025-11-04,Oxford,Stoke City,English Championship League,1,1.83,1.9,582.0,3
 BTTS,2025-11-04,Coventry City,Sheffield United,English Championship League,0,2.26,2.26,166.0,1.0,4.0,3.0,1.0,0.0,2,0,-2,
 2.5G,2025-11-04,Tottenham,FC Copenhagen,UEFA Champions League,0,2.2,2.24,9482.0,1.802,4.0,4.0,0.0,0.0,,,,
 1.5G,2025-11-04,Coventry City,Sheffield United,English Championship League,1,1.2,1.23,940.0,2.469,4.0,3.0,1.0,1.0,,,,
-BTTS,2025-11-04,Bodo Glimt,Monaco,UEFA Champions League,0,3.25,3.35,476.0,3.03,1.0,0.0,1.0,1.0,1,3.425,2.425,3.5
+BTTS,2025-11-04,Bodo Glimt,Monaco,UEFA Champions League,0,3.25,3.35,476.0,3.03,1.0,0.0,1.0,1.0,1,3.5,2.5,3.5
 BTTS,2025-11-04,Juventus,Sporting Lisabon,UEFA Champions League,0,2.25,2.25,874.0,1.0,2.0,1.0,1.0,0.0,1,0,-1,
 BTTS,2025-11-04,Liverpool,Real Madrid,UEFA Champions League,1,1.4,1.47,5802.0,4.878,1.0,1.0,0.0,0.0,,,,
 BTTS,2025-11-04,Olympiakos Piraeus,PSV Eindhoven,UEFA Champions League,0,2.62,2.74,445.0,4.478,2.0,1.0,1.0,0.0,1,0,-1,
@@ -5032,7 +5032,7 @@ BTTS,2025-11-05,Portsmouth,Wrexham,English Championship League,1,1.83,1.92,760.0
 3.5G,2025-11-05,Club Brugge,FC Barcelona,UEFA Champions League,1,1.8,1.87,2059.0,3.815,6.0,3.0,3.0,1.0,,,,
 3.5G,2025-11-05,Benfica Lisabon,Leverkusen,UEFA Champions League,0,1.5,1.52,1387.0,1.325,1.0,0.0,1.0,1.0,,,,1.509
 3.5G,2025-11-05,Ajax Amsterdam,Galatasaray,UEFA Champions League,0,1.72,1.76,2966.0,2.299,3.0,0.0,3.0,1.0,,,,
-3.5G,2025-11-06,Red Star Belgrade,Lille,UEFA Europa League,0,1.5,1.51,294.0,1.0,1.0,1.0,0.0,1.0,1,1.5037,0.5037,1.514
+3.5G,2025-11-06,Red Star Belgrade,Lille,UEFA Europa League,0,1.5,1.51,294.0,1.0,1.0,1.0,0.0,1.0,1,1.514,0.514,1.514
 3.5G,2025-11-06,Dinamo Zagreb,Celta Vigo,UEFA Europa League,0,1.36,1.39,164.0,2.182,3.0,0.0,3.0,1.0,,,,
 3.5G,2025-11-06,Malmö FF,Panathinaikos Athens,UEFA Europa League,0,1.3,1.33,27.0,2.281,1.0,0.0,1.0,1.0,,,,
 3.5G,2025-11-06,Midtjylland FC,Celtic Glasgow,UEFA Europa League,0,1.53,1.57,5.0,2.581,4.0,3.0,1.0,0.0,,,,
@@ -5040,9 +5040,9 @@ BTTS,2025-11-05,Portsmouth,Wrexham,English Championship League,1,1.83,1.92,760.0
 3.5G,2025-11-06,FC Basel,FCSB,UEFA Europa League,1,2.62,2.72,100.0,3.745,4.0,3.0,1.0,1.0,,,,
 3.5G,2025-11-06,Sparta Praha,Rakow Czestochowa,UEFA Conference League,0,1.28,1.31,80.0,2.317,0.0,0.0,0.0,1.0,,,,
 3.5G,2025-11-06,RB Salzburg,Go Ahead Eagles,UEFA Europa League,0,1.61,1.66,63.0,3.058,2.0,2.0,0.0,1.0,1,1.6354,0.6354,
-3.5G,2025-11-06,Sturm Graz,Nottingham,UEFA Europa League,0,1.44,1.47,348.0,2.062,0.0,0.0,0.0,1.0,1,1.4554,0.4554,1.46
+3.5G,2025-11-06,Sturm Graz,Nottingham,UEFA Europa League,0,1.44,1.47,348.0,2.062,0.0,0.0,0.0,1.0,1,1.46,0.46,1.46
 3.5G,2025-11-06,Shakhtar Donetsk,Breidablik,UEFA Conference League,1,1.9,2.0,87.0,5.128,2.0,2.0,0.0,0.0,,,,
-3.5G,2025-11-06,Athens AEK,Shamrock Rovers,UEFA Conference League,0,1.66,1.72,758.0,3.55,2.0,1.0,1.0,1.0,1,1.6811,0.6811,1.695
+3.5G,2025-11-06,Athens AEK,Shamrock Rovers,UEFA Conference League,0,1.66,1.72,758.0,3.55,2.0,1.0,1.0,1.0,1,1.695,0.695,1.695
 3.5G,2025-11-06,Larnaca AEK,Aberdeen FC,UEFA Conference League,0,1.33,1.36,384.0,2.23,0.0,0.0,0.0,1.0,,,,1.324
 3.5G,2025-11-06,NK Celje,Legia Warszawa,UEFA Conference League,0,1.4,1.46,193.0,4.196,3.0,2.0,1.0,1.0,,,,1.441
 3.5G,2025-11-06,KuPS Kuopio,Slovan Bratislava,UEFA Conference League,0,1.44,1.47,20.0,2.062,4.0,3.0,1.0,0.0,,,,
@@ -5052,7 +5052,7 @@ BTTS,2025-11-05,Portsmouth,Wrexham,English Championship League,1,1.83,1.92,760.0
 3.5G,2025-11-06,Utrecht,FC Porto,UEFA Europa League,0,1.4,1.41,448.0,1.0,2.0,1.0,1.0,1.0,,,,1.415
 BTTS,2025-11-06,KuPS Kuopio,Slovan Bratislava,UEFA Conference League,1,1.61,1.69,179.0,4.848,4.0,3.0,1.0,1.0,,,,
 BTTS,2025-11-06,NK Celje,Legia Warszawa,UEFA Conference League,1,1.61,1.66,203.0,3.058,3.0,2.0,1.0,1.0,,,,1.67
-BTTS,2025-11-06,Larnaca AEK,Aberdeen FC,UEFA Conference League,0,1.8,1.83,334.0,1.653,0.0,0.0,0.0,1.0,1,1.93,0.93,1.949
+BTTS,2025-11-06,Larnaca AEK,Aberdeen FC,UEFA Conference League,0,1.8,1.83,334.0,1.653,0.0,0.0,0.0,1.0,1,1.949,0.949,1.949
 BTTS,2025-11-06,Athens AEK,Shamrock Rovers,UEFA Conference League,0,1.53,1.54,1354.0,1.0,2.0,1.0,1.0,0.0,,,,1.533
 1.5G,2025-11-06,Athens AEK,Shamrock Rovers,UEFA Conference League,1,1.14,1.17,209.0,2.597,2.0,1.0,1.0,1.0,,,,
 1.5G,2025-11-06,Larnaca AEK,Aberdeen FC,UEFA Conference League,1,1.28,1.33,134.0,3.831,0.0,0.0,0.0,0.0,,,,
@@ -5108,11 +5108,11 @@ BTTS,2025-11-06,Mainz,Fiorentina,UEFA Conference League,1,1.8,1.89,8.0,4.878,3.0
 3.5G,2025-11-06,Rayo Vallecano,Lech Poznan,UEFA Conference League,1,3.0,3.15,1657.0,4.878,5.0,3.0,2.0,1.0,,,,3.15
 3.5G,2025-11-06,Rapid Wien,Universitatea Craiova,UEFA Conference League,0,1.33,1.38,34.0,3.69,1.0,0.0,1.0,1.0,,,,
 3.5G,2025-11-06,Lincoln Red Imps,HNK Rijeka,UEFA Conference League,0,1.4,1.45,281.0,3.509,2.0,1.0,1.0,1.0,,,,1.45
-3.5G,2025-11-06,FC Lausanne-Sport,Omonia Nikósia,UEFA Conference League,0,1.5,1.52,336.0,1.325,2.0,1.0,1.0,1.0,1,1.5096,0.5096,1.52
+3.5G,2025-11-06,FC Lausanne-Sport,Omonia Nikósia,UEFA Conference League,0,1.5,1.52,336.0,1.325,2.0,1.0,1.0,1.0,1,1.52,0.52,1.52
 3.5G,2025-11-06,BK Häcken,Strasbourg,UEFA Conference League,0,1.53,1.61,236.0,5.096,3.0,1.0,2.0,1.0,,,,
 3.5G,2025-11-06,Dynamo Kyiv,Zrinjski Mostar,UEFA Conference League,0,1.28,1.33,8.0,3.831,6.0,6.0,0.0,0.0,,,,
 3.5G,2025-11-06,Shelbourne United,Drita,UEFA Conference League,0,1.3,1.33,24.0,2.281,1.0,0.0,1.0,1.0,,,,
-3.5G,2025-11-06,Aston Villa,Maccabi Tel Aviv,UEFA Europa League,0,1.66,1.7,275.0,2.381,2.0,2.0,0.0,1.0,1,1.6752,0.6752,1.689
+3.5G,2025-11-06,Aston Villa,Maccabi Tel Aviv,UEFA Europa League,0,1.66,1.7,275.0,2.381,2.0,2.0,0.0,1.0,1,1.689,0.689,1.689
 3.5G,2025-11-06,Stuttgart,Feyenoord,UEFA Europa League,1,2.62,2.7,60.0,3.008,2.0,2.0,0.0,0.0,,,,
 3.5G,2025-11-06,Glasgow Rangers,AS Roma,UEFA Europa League,0,1.36,1.39,426.0,2.182,2.0,0.0,2.0,1.0,,,,1.38
 3.5G,2025-11-06,Viktoria Plzeň,Fenerbahce,UEFA Europa League,0,1.4,1.43,226.0,2.12,0.0,0.0,0.0,1.0,,,,1.422
@@ -5122,7 +5122,7 @@ BTTS,2025-11-06,Mainz,Fiorentina,UEFA Conference League,1,1.8,1.89,8.0,4.878,3.0
 3.5G,2025-11-06,Bologna,Brann Bergen,UEFA Europa League,0,1.5,1.56,4.0,3.922,0.0,0.0,0.0,1.0,,,,
 3.5G,2025-11-06,Betis Sevilla,Lyon,UEFA Europa League,0,1.5,1.53,12.0,1.98,2.0,2.0,0.0,1.0,,,,
 3.5G,2025-11-06,Crystal Palace,Alkmaar AZ,UEFA Conference League,0,1.5,1.56,33.0,3.922,4.0,3.0,1.0,0.0,,,,
-BTTS,2025-11-06,Glasgow Rangers,AS Roma,UEFA Europa League,0,1.9,1.96,247.0,3.109,2.0,0.0,2.0,1.0,1,1.9398,0.9398,1.959
+BTTS,2025-11-06,Glasgow Rangers,AS Roma,UEFA Europa League,0,1.9,1.96,247.0,3.109,2.0,0.0,2.0,1.0,1,1.959,0.959,1.959
 BTTS,2025-11-06,Viktoria Plzeň,Fenerbahce,UEFA Europa League,1,1.66,1.72,3005.0,3.55,0.0,0.0,0.0,0.0,,,,1.703
 BTTS,2025-11-06,Stuttgart,Feyenoord,UEFA Europa League,1,1.61,1.69,4692.0,4.848,2.0,2.0,0.0,0.0,,,,
 2.5G,2025-11-06,Stuttgart,Feyenoord,UEFA Europa League,1,1.61,1.68,3003.0,4.255,2.0,2.0,0.0,0.0,,,,
@@ -5205,7 +5205,7 @@ BTTS,2025-11-07,Farul Constanta,FC Botosani,Romanian Liga I,1,1.8,1.78,0.0,1.0,2
 3.5G,2025-11-07,Twente Enschede,Telstar,Netherlands Eredivisie,0,1.57,1.66,3859.0,5.573,0.0,0.0,0.0,1.0,,,,
 2.5G,2025-11-07,Werder Bremen,Wolfsburg,German Bundesliga I,1,1.57,1.62,1989.0,3.135,3.0,2.0,1.0,1.0,,,,
 2.5G,2025-11-07,Zaglebie Lubin,Górnik Zabrze,Polish Ekstraklasa,0,1.95,2.0,826.0,2.532,2.0,2.0,0.0,1.0,,,,
-3.5G,2025-11-07,Werder Bremen,Wolfsburg,German Bundesliga I,0,1.57,1.62,714.0,3.135,3.0,2.0,1.0,1.0,1,1.6243,0.6243,1.637
+3.5G,2025-11-07,Werder Bremen,Wolfsburg,German Bundesliga I,0,1.57,1.62,714.0,3.135,3.0,2.0,1.0,1.0,1,1.637,0.637,1.637
 1.5G,2025-11-07,Werder Bremen,Wolfsburg,German Bundesliga I,1,1.16,1.2,152.0,3.39,3.0,2.0,1.0,1.0,,,,
 1.5G,2025-11-07,Zaglebie Lubin,Górnik Zabrze,Polish Ekstraklasa,0,4.1,4.1,354.0,1.0,2.0,2.0,0.0,0.0,1,0,-1,
 3.5G,2025-11-07,Zaglebie Lubin,Górnik Zabrze,Polish Ekstraklasa,1,3.25,3.35,425.0,3.03,2.0,2.0,0.0,0.0,,,,
@@ -5556,7 +5556,7 @@ BTTS,2025-11-09,Sturm Graz,RB Salzburg,Austrian Bundesliga,0,2.37,2.5,305.0,5.33
 BTTS,2025-11-09,Angers,Auxerre,French Ligue 1,1,2.0,2.06,381.0,2.956,2.0,2.0,0.0,0.0,,,,2.1
 BTTS,2025-11-09,Metz,Nice,French Ligue 1,1,1.57,1.64,50.0,4.361,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-11-09,Strasbourg,Lille,French Ligue 1,1,1.61,1.66,169.0,3.058,2.0,2.0,0.0,0.0,,,,
-3.5G,2025-11-09,Strasbourg,Lille,French Ligue 1,0,1.44,1.48,241.0,2.74,2.0,2.0,0.0,1.0,1,1.4969,0.4969,1.507
+3.5G,2025-11-09,Strasbourg,Lille,French Ligue 1,0,1.44,1.48,241.0,2.74,2.0,2.0,0.0,1.0,1,1.507,0.507,1.507
 3.5G,2025-11-09,Angers,Auxerre,French Ligue 1,1,5.0,5.2,713.0,3.922,2.0,2.0,0.0,0.0,,,,5.377
 3.5G,2025-11-09,Metz,Nice,French Ligue 1,1,2.75,2.86,67.0,3.922,3.0,2.0,1.0,0.0,,,,
 BTTS,2025-11-09,Pogon Szczecin,Jagiellonia Bialysto,Polish Ekstraklasa,1,1.5,1.54,79.0,2.632,3.0,1.0,2.0,1.0,,,,
@@ -5634,7 +5634,7 @@ BTTS,2025-11-09,Hermannstadt Sibiu,FCSB,Romanian Liga I,1,1.83,1.9,0.0,3.753,6.0
 2.5G,2025-11-09,Eintracht Frankfurt,Mainz,German Bundesliga I,1,1.57,1.61,609.0,2.516,1.0,1.0,0.0,0.0,,,,
 BTTS,2025-11-09,Eintracht Frankfurt,Mainz,German Bundesliga I,1,1.53,1.6,1025.0,4.473,1.0,1.0,0.0,0.0,,,,
 3.5G,2025-11-09,Hermannstadt Sibiu,FCSB,Romanian Liga I,0,1.3,1.34,131.0,3.03,6.0,3.0,3.0,0.0,,,,
-3.5G,2025-11-09,Eintracht Frankfurt,Mainz,German Bundesliga I,0,1.57,1.63,209.0,3.75,1.0,1.0,0.0,1.0,1,1.6007,0.6007,1.613
+3.5G,2025-11-09,Eintracht Frankfurt,Mainz,German Bundesliga I,0,1.57,1.63,209.0,3.75,1.0,1.0,0.0,1.0,1,1.613,0.613,1.613
 1.5G,2025-11-09,Brøndby IF,Nordsjalland FC,Danish Superligaen,1,1.18,1.23,430.0,4.149,2.0,2.0,0.0,1.0,,,,
 1.5G,2025-11-09,Panathinaikos Athens,PAOK Saloniki,Greek Super League,0,3.4,3.55,144.0,4.317,3.0,2.0,1.0,0.0,1,0,-1,
 1.5G,2025-11-09,Go Ahead Eagles,Feyenoord,Netherlands Eredivisie,1,1.14,1.17,87.0,2.597,3.0,2.0,1.0,1.0,,,,
@@ -5644,7 +5644,7 @@ BTTS,2025-11-09,Eintracht Frankfurt,Mainz,German Bundesliga I,1,1.53,1.6,1025.0,
 BTTS,2025-11-09,Go Ahead Eagles,Feyenoord,Netherlands Eredivisie,1,1.66,1.7,104.0,2.381,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-11-09,Brøndby IF,Nordsjalland FC,Danish Superligaen,1,1.57,1.62,153.0,3.135,2.0,2.0,0.0,0.0,,,,
 BTTS,2025-11-09,Panathinaikos Athens,PAOK Saloniki,Greek Super League,1,1.8,1.8,4.0,1.0,3.0,2.0,1.0,1.0,,,,
-3.5G,2025-11-09,Brøndby IF,Nordsjalland FC,Danish Superligaen,0,1.5,1.54,350.0,2.632,2.0,2.0,0.0,1.0,1,1.5223,0.5223,1.533
+3.5G,2025-11-09,Brøndby IF,Nordsjalland FC,Danish Superligaen,0,1.5,1.54,350.0,2.632,2.0,2.0,0.0,1.0,1,1.533,0.533,1.533
 3.5G,2025-11-09,Go Ahead Eagles,Feyenoord,Netherlands Eredivisie,1,2.2,2.32,66.0,5.31,3.0,2.0,1.0,0.0,,,,
 3.5G,2025-11-09,Panathinaikos Athens,PAOK Saloniki,Greek Super League,0,1.3,1.33,34.0,2.281,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-11-09,Arka Gdynia,Lech Poznan,Polish Ekstraklasa,1,1.75,1.76,0.0,1.0,4.0,3.0,1.0,1.0,,,,
@@ -5682,7 +5682,7 @@ BTTS,2025-11-09,Fatih Karagümrük,Konyaspor,Turkish Super Lig,1,1.61,1.67,16.0,
 BTTS,2025-11-09,Atalanta Bergamo,Sassuolo,Italian Serie A,1,1.9,1.94,1187.0,2.083,3.0,0.0,3.0,0.0,,,,1.285
 2.5G,2025-11-09,Fatih Karagümrük,Konyaspor,Turkish Super Lig,0,2.05,2.14,8811.0,4.296,2.0,2.0,0.0,1.0,,,,
 3.5G,2025-11-09,Fatih Karagümrük,Konyaspor,Turkish Super Lig,0,1.4,1.45,3951.0,3.509,2.0,2.0,0.0,1.0,,,,1.365
-3.5G,2025-11-09,Atalanta Bergamo,Sassuolo,Italian Serie A,0,1.44,1.49,768.0,3.413,3.0,0.0,3.0,1.0,1,1.4831,0.4831,1.488
+3.5G,2025-11-09,Atalanta Bergamo,Sassuolo,Italian Serie A,0,1.44,1.49,768.0,3.413,3.0,0.0,3.0,1.0,1,1.488,0.488,1.488
 1.5G,2025-11-09,Slovan Liberec,Karviná FC,Czech First League,1,1.22,1.27,24.0,4.016,6.0,1.0,1.0,1.0,,,,
 2.5G,2025-11-09,Slovan Liberec,Karviná FC,Czech First League,0,2.05,2.08,33.0,1.453,6.0,1.0,1.0,0.0,,,,
 BTTS,2025-11-09,Slovan Liberec,Karviná FC,Czech First League,1,1.66,1.72,0.0,3.55,4.0,3.0,1.0,0.0,,,,
@@ -5858,7 +5858,7 @@ BTTS,2025-11-09,Sint Truidense,Standard Liege,Belgian First Division A,1,1.66,1.
 BTTS,2025-11-09,Rayo Vallecano,Real Madrid,Spanish La Liga,1,1.75,1.8,530.0,2.817,0.0,0.0,0.0,0.0,,,,1.764
 1.5G,2025-11-09,Rayo Vallecano,Real Madrid,Spanish La Liga,1,1.16,1.2,692.0,3.39,0.0,0.0,0.0,0.0,,,,
 2.5G,2025-11-09,Rayo Vallecano,Real Madrid,Spanish La Liga,1,1.57,1.61,3897.0,2.516,0.0,0.0,0.0,0.0,,,,
-3.5G,2025-11-09,Rayo Vallecano,Real Madrid,Spanish La Liga,0,1.57,1.62,386.0,3.135,0.0,0.0,0.0,1.0,1,1.6154,0.6154,1.628
+3.5G,2025-11-09,Rayo Vallecano,Real Madrid,Spanish La Liga,0,1.57,1.62,386.0,3.135,0.0,0.0,0.0,1.0,1,1.628,0.628,1.628
 BTTS,2025-11-09,St. Gallen,Young Boys Bern,Swiss Super League,0,2.8,2.8,548.0,1.0,5.0,1.0,4.0,0.0,1,0,-1,
 BTTS,2025-11-09,FC Lausanne-Sport,FC Sion,Swiss Super League,1,1.53,1.59,386.0,3.846,4.0,2.0,2.0,1.0,,,,
 BTTS,2025-11-09,AVS Vila das Aves,Gil Vicente,Portuguese Primeira Liga,0,1.66,1.73,259.0,4.13,2.0,1.0,1.0,0.0,,,,
@@ -5926,7 +5926,7 @@ BTTS,2025-11-23,SS Lazio,Lecce,Italian Serie A,0,1.7,1.76,1671.0,3.468,2.0,2.0,0
 3.5G,2025-11-23,PAOK Saloniki,Kifisia,Greek Super League,0,1.53,1.61,854.0,5.096,3.0,3.0,0.0,1.0,,,,
 3.5G,2025-11-23,SS Lazio,Lecce,Italian Serie A,0,1.2,1.24,682.0,3.279,2.0,2.0,0.0,1.0,,,,
 1.5G,2025-11-23,Caykur Rizespor,Fenerbahce,Turkish Super Lig,1,1.22,1.27,386.0,4.016,7.0,2.0,5.0,1.0,,,,
-3.5G,2025-11-23,Sonderjyll,Midtjylland FC,Danish Superligaen,0,1.66,1.7,531.0,2.381,3.0,2.0,1.0,1.0,1,1.637,0.637,1.65
+3.5G,2025-11-23,Sonderjyll,Midtjylland FC,Danish Superligaen,0,1.66,1.7,531.0,2.381,3.0,2.0,1.0,1.0,1,1.65,0.65,1.65
 BTTS,2025-11-23,Caykur Rizespor,Fenerbahce,Turkish Super Lig,1,1.8,1.84,48.0,2.198,7.0,2.0,5.0,1.0,,,,
 1.5G,2025-11-23,Sonderjyll,Midtjylland FC,Danish Superligaen,1,1.14,1.18,20.0,3.448,3.0,2.0,1.0,1.0,,,,
 1.5G,2025-11-23,SS Lazio,Lecce,Italian Serie A,1,1.44,1.48,2819.0,2.74,2.0,2.0,0.0,1.0,,,,
@@ -6036,7 +6036,7 @@ BTTS,2025-11-23,Bryne IL,Sarpsborg 08,Norwegian Eliteserien,1,1.53,1.57,304.0,2.
 BTTS,2025-11-23,Telstar,Utrecht,Netherlands Eredivisie,1,1.61,1.67,1186.0,3.659,2.0,1.0,1.0,1.0,,,,
 BTTS,2025-11-23,Feyenoord,NEC Nijmegen,Netherlands Eredivisie,1,1.57,1.64,248.0,4.361,6.0,2.0,4.0,1.0,,,,
 3.5G,2025-11-23,Feyenoord,NEC Nijmegen,Netherlands Eredivisie,0,1.8,1.9,4.0,5.405,6.0,2.0,4.0,0.0,,,,
-3.5G,2025-11-23,Telstar,Utrecht,Netherlands Eredivisie,0,1.44,1.48,416.0,2.74,2.0,1.0,1.0,1.0,1,1.4693,0.4693,1.474
+3.5G,2025-11-23,Telstar,Utrecht,Netherlands Eredivisie,0,1.44,1.48,416.0,2.74,2.0,1.0,1.0,1.0,1,1.474,0.474,1.474
 3.5G,2025-11-23,Bryne IL,Sarpsborg 08,Norwegian Eliteserien,0,1.5,1.55,189.0,3.279,3.0,0.0,3.0,1.0,1,1.5284,0.5284,
 3.5G,2025-11-23,Hamar Kam,Haugar Haugesund,Norwegian Eliteserien,0,1.7,1.8,431.0,5.714,5.0,5.0,0.0,0.0,,,,
 3.5G,2025-11-23,RB Salzburg,Wattens,Austrian Bundesliga,1,2.62,2.76,5022.0,5.204,5.0,2.0,3.0,1.0,,,,
@@ -6301,11 +6301,11 @@ BTTS,2025-11-26,PSG,Tottenham,UEFA Champions League,0,1.95,2.04,1528.0,4.511,5.0
 BTTS,2025-11-26,Sporting Lisabon,Club Brugge,UEFA Champions League,0,2.36,2.36,3549.0,1.0,3.0,3.0,0.0,1.0,,,,
 BTTS,2025-11-27,Aston Villa,Young Boys Bern,UEFA Europa League,0,1.9,1.95,388.0,2.597,3.0,2.0,1.0,0.0,1,0,-1,1.94
 3.5G,2025-11-27,Viktoria Plzeň,Freiburg,UEFA Europa League,0,1.33,1.36,35.0,2.23,0.0,0.0,0.0,1.0,,,,
-3.5G,2025-11-27,PAOK Saloniki,Brann Bergen,UEFA Europa League,0,1.5,1.54,423.0,2.632,2.0,1.0,1.0,1.0,1,1.5165,0.5165,1.527
+3.5G,2025-11-27,PAOK Saloniki,Brann Bergen,UEFA Europa League,0,1.5,1.54,423.0,2.632,2.0,1.0,1.0,1.0,1,1.527,0.527,1.527
 3.5G,2025-11-27,Ludogorets Razgrad,Celta Vigo,UEFA Europa League,0,1.33,1.35,123.0,1.493,5.0,3.0,2.0,0.0,,,,
 3.5G,2025-11-27,Lille,Dinamo Zagreb,UEFA Europa League,0,1.5,1.55,701.0,3.279,4.0,4.0,0.0,0.0,1,0,-1,1.531
 3.5G,2025-11-27,Feyenoord,Celtic Glasgow,UEFA Europa League,0,1.57,1.63,467.0,3.75,4.0,1.0,3.0,0.0,1,0,-1,1.62
-3.5G,2025-11-27,FC Porto,Nice,UEFA Europa League,0,1.44,1.47,707.0,2.062,3.0,3.0,0.0,1.0,1,1.4514,0.4514,1.456
+3.5G,2025-11-27,FC Porto,Nice,UEFA Europa League,0,1.44,1.47,707.0,2.062,3.0,3.0,0.0,1.0,1,1.456,0.456,1.456
 3.5G,2025-11-27,Aston Villa,Young Boys Bern,UEFA Europa League,1,2.0,2.06,620.0,2.956,3.0,2.0,1.0,0.0,,,,
 3.5G,2025-11-27,AS Roma,Midtjylland FC,UEFA Europa League,0,1.5,1.52,3195.0,1.325,3.0,2.0,1.0,1.0,,,,1.513
 3.5G,2025-11-27,Fenerbahce,Ferencváros Budapest,UEFA Europa League,0,1.5,1.55,5401.0,3.279,2.0,1.0,1.0,1.0,,,,1.547
@@ -6374,7 +6374,7 @@ BTTS,2025-11-27,Rakow Czestochowa,Rapid Wien,UEFA Conference League,0,1.9,1.98,0
 3.5G,2025-11-27,Maccabi Tel Aviv,Lyon,UEFA Europa League,0,1.36,1.4,106.0,2.899,6.0,0.0,6.0,0.0,,,,
 3.5G,2025-11-27,KRC Genk,FC Basel,UEFA Europa League,1,2.5,2.6,81.0,3.922,3.0,2.0,1.0,0.0,,,,
 3.5G,2025-11-27,Go Ahead Eagles,Stuttgart,UEFA Europa League,0,1.72,1.78,1083.0,3.429,4.0,0.0,4.0,0.0,1,0,-1,1.801
-3.5G,2025-11-27,Red Star Belgrade,FCSB,UEFA Europa League,0,1.57,1.63,571.0,3.75,1.0,1.0,0.0,1.0,1,1.6233,0.6233,1.636
+3.5G,2025-11-27,Red Star Belgrade,FCSB,UEFA Europa League,0,1.57,1.63,571.0,3.75,1.0,1.0,0.0,1.0,1,1.636,0.636,1.636
 3.5G,2025-11-27,Bologna,RB Salzburg,UEFA Europa League,0,1.5,1.53,507.0,1.98,5.0,4.0,1.0,0.0,1,0,-1,1.531
 3.5G,2025-11-27,Betis Sevilla,Utrecht,UEFA Europa League,1,2.75,2.88,324.0,4.618,3.0,2.0,1.0,0.0,,,,2.767
 3.5G,2025-11-27,Nottingham,Malmö FF,UEFA Europa League,0,1.5,1.56,1484.0,3.922,3.0,3.0,0.0,1.0,,,,1.537
@@ -6437,7 +6437,7 @@ BTTS,2025-11-27,Strasbourg,Crystal Palace,UEFA Conference League,1,1.8,1.89,971.
 BTTS,2025-11-27,Shamrock Rovers,Shakhtar Donetsk,UEFA Conference League,1,2.1,2.18,4541.0,3.738,3.0,1.0,2.0,1.0,,,,2.136
 BTTS,2025-11-27,HNK Rijeka,Larnaca AEK,UEFA Conference League,1,1.9,1.99,230.0,4.627,0.0,0.0,0.0,0.0,,,,
 BTTS,2025-11-27,Legia Warszawa,Sparta Praha,UEFA Conference League,1,2.1,2.2,52.0,4.651,1.0,0.0,1.0,0.0,,,,
-BTTS,2025-11-27,Jagiellonia Bialystok,KuPS Kuopio,UEFA Conference League,0,2.0,2.08,963.0,3.922,1.0,1.0,0.0,1.0,1,1.9967,0.9967,2.017
+BTTS,2025-11-27,Jagiellonia Bialystok,KuPS Kuopio,UEFA Conference League,0,2.0,2.08,963.0,3.922,1.0,1.0,0.0,1.0,1,2.017,1.017,2.017
 BTTS,2025-11-27,Fiorentina,Athens AEK,UEFA Conference League,1,1.8,1.84,224.0,2.198,1.0,0.0,1.0,0.0,,,,
 BTTS,2025-11-27,Drita,Shkendija 79 Tetovo,UEFA Conference League,1,1.83,1.94,92.0,5.836,1.0,1.0,0.0,0.0,,,,
 BTTS,2025-11-27,Breidablik,Samsunspor,UEFA Conference League,1,1.66,1.72,131.0,3.55,4.0,2.0,2.0,1.0,,,,
@@ -6467,7 +6467,7 @@ BTTS,2025-11-28,Sonderjyll,Viborg FF,Danish Superligaen,1,1.61,1.67,204.0,3.659,
 1.5G,2025-11-28,Rapid Bucharest,Csikszereda,Romanian Liga I,1,1.2,1.23,209.0,2.469,5.0,4.0,1.0,1.0,,,,
 BTTS,2025-11-28,Rapid Bucharest,Csikszereda,Romanian Liga I,0,1.83,1.93,26.0,5.319,5.0,4.0,1.0,0.0,,,,
 2.5G,2025-11-28,Rapid Bucharest,Csikszereda,Romanian Liga I,1,1.65,1.7,374.0,2.985,5.0,4.0,1.0,1.0,,,,
-3.5G,2025-11-28,Zwolle FC,Heerenveen,Netherlands Eredivisie,0,1.61,1.67,346.0,3.659,3.0,2.0,1.0,1.0,1,1.6409,0.6409,1.654
+3.5G,2025-11-28,Zwolle FC,Heerenveen,Netherlands Eredivisie,0,1.61,1.67,346.0,3.659,3.0,2.0,1.0,1.0,1,1.654,0.654,1.654
 1.5G,2025-11-28,Zwolle FC,Heerenveen,Netherlands Eredivisie,1,1.14,1.18,191.0,3.448,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-11-28,Zwolle FC,Heerenveen,Netherlands Eredivisie,1,1.5,1.57,406.0,4.56,3.0,2.0,1.0,1.0,,,,
 2.5G,2025-11-28,Zwolle FC,Heerenveen,Netherlands Eredivisie,1,1.53,1.57,549.0,2.581,3.0,2.0,1.0,1.0,,,,
@@ -6580,7 +6580,7 @@ BTTS,2025-11-29,AC Milan,SS Lazio,Italian Serie A,0,1.8,1.88,2141.0,4.348,1.0,1.
 2.5G,2025-11-29,NEC Nijmegen,Sparta Rotterdam,Netherlands Eredivisie,1,1.72,1.8,1956.0,4.545,4.0,3.0,1.0,1.0,,,,
 2.5G,2025-11-29,Atletico Madrid,Oviedo,Spanish La Liga,1,1.61,1.69,23416.0,4.848,2.0,2.0,0.0,0.0,,,,
 2.5G,2025-11-29,Tottenham,Fulham,English Premier League,0,1.9,1.98,43719.0,4.124,3.0,1.0,2.0,0.0,,,,
-3.5G,2025-11-29,Atletico Madrid,Oviedo,Spanish La Liga,0,1.53,1.57,667.0,2.581,2.0,2.0,0.0,1.0,1,1.5586,0.5586,1.57
+3.5G,2025-11-29,Atletico Madrid,Oviedo,Spanish La Liga,0,1.53,1.57,667.0,2.581,2.0,2.0,0.0,1.0,1,1.57,0.57,1.57
 BTTS,2025-11-29,Atletico Madrid,Oviedo,Spanish La Liga,0,1.66,1.69,8425.0,1.791,2.0,2.0,0.0,1.0,,,,1.68
 BTTS,2025-11-29,NEC Nijmegen,Sparta Rotterdam,Netherlands Eredivisie,1,1.61,1.67,490.0,3.659,4.0,3.0,1.0,1.0,,,,
 BTTS,2025-11-29,Tottenham,Fulham,English Premier League,1,1.7,1.79,3191.0,5.158,3.0,1.0,2.0,1.0,,,,
@@ -6647,7 +6647,7 @@ BTTS,2025-11-29,Zlín,Karviná FC,Czech First League,1,1.66,1.69,80.0,1.791,4.0,
 3.5G,2025-11-29,Gaziantepspor,Eyüp SK Istanbul,Turkish Super Lig,0,1.4,1.46,120.0,4.196,1.0,1.0,2.0,1.0,,,,
 1.5G,2025-11-29,Parma,Udinese,Italian Serie A,0,3.0,3.05,2385.0,1.653,2.0,0.0,2.0,0.0,,,,
 1.5G,2025-11-29,Genoa,Hellas Verona,Italian Serie A,1,1.57,1.61,586.0,2.516,3.0,2.0,1.0,1.0,,,,
-3.5G,2025-11-29,Werder Bremen,Köln,German Bundesliga I,0,1.61,1.65,206.0,2.454,2.0,1.0,1.0,1.0,2,3.2446,1.2446,1.635
+3.5G,2025-11-29,Werder Bremen,Köln,German Bundesliga I,0,1.61,1.65,206.0,2.454,2.0,1.0,1.0,1.0,2,3.27,1.27,1.635
 3.5G,2025-11-29,Bayern München,St. Pauli,German Bundesliga I,1,1.8,1.83,1343.0,1.653,4.0,3.0,1.0,1.0,,,,1.862
 3.5G,2025-11-29,Hoffenheim,Augsburg,German Bundesliga I,0,1.57,1.64,204.0,4.361,3.0,3.0,0.0,1.0,,,,1.626
 3.5G,2025-11-29,Union Berlin,Heidenheim,German Bundesliga I,1,3.4,3.4,201.0,1.0,3.0,1.0,2.0,0.0,,,,3.238
@@ -6794,7 +6794,7 @@ BTTS,2025-11-30,Levad Levadia,PAOK Saloniki,Greek Super League,1,1.7,1.74,81.0,2
 1.5G,2025-11-30,Belehrad OFK,Red Star Belgrade,Serbian SuperLiga,1,1.07,1.09,113.0,1.852,7.0,0.0,0.0,1.0,,,,
 BTTS,2025-11-30,Sparta Praha,Pardubice FK,Czech First League,1,2.2,2.28,312.0,3.571,1.0,0.0,1.0,1.0,,,,2.248
 BTTS,2025-11-30,Anderlecht,Union St-Gilloise,Belgian First Division A,1,1.7,1.78,106.0,4.598,1.0,1.0,0.0,0.0,,,,
-BTTS,2025-11-30,Celta Vigo,Espanol Barcelona,Spanish La Liga,0,2.2,2.18,496.0,1.0,1.0,0.0,1.0,1.0,1,2.1878,1.1878,2.212
+BTTS,2025-11-30,Celta Vigo,Espanol Barcelona,Spanish La Liga,0,2.2,2.18,496.0,1.0,1.0,0.0,1.0,1.0,1,2.212,1.212,2.212
 BTTS,2025-11-30,Belehrad OFK,Red Star Belgrade,Serbian SuperLiga,0,2.1,2.1,496.0,1.0,5.0,2.0,3.0,0.0,1,0,-1,
 2.5G,2025-11-30,Celta Vigo,Espanol Barcelona,Spanish La Liga,0,2.0,2.0,3025.0,1.0,1.0,0.0,1.0,1.0,,,,
 2.5G,2025-11-30,Belehrad OFK,Red Star Belgrade,Serbian SuperLiga,1,1.3,1.29,31.0,1.0,7.0,0.0,1.0,1.0,,,,
@@ -6923,14 +6923,14 @@ BTTS,2025-11-30,Aston Villa,Wolverhamton,English Premier League,1,1.95,2.06,563.
 2.5G,2025-11-30,Hamburger SV,Stuttgart,German Bundesliga I,1,1.57,1.59,164.0,1.266,3.0,2.0,1.0,1.0,,,,
 2.5G,2025-11-30,Viktoria Plzeň,Mladá Boleslav,Czech First League,1,1.4,1.43,189.0,2.12,3.0,0.0,0.0,1.0,,,,
 2.5G,2025-11-30,Slovan Liberec,SK Sigma Olomouc,Czech First League,1,2.15,2.28,41.0,5.869,1.0,4.0,4.0,0.0,,,,
-3.5G,2025-11-30,Hamburger SV,Stuttgart,German Bundesliga I,0,1.61,1.65,242.0,2.454,3.0,2.0,1.0,1.0,1,1.6252,0.6252,1.638
+3.5G,2025-11-30,Hamburger SV,Stuttgart,German Bundesliga I,0,1.61,1.65,242.0,2.454,3.0,2.0,1.0,1.0,1,1.638,0.638,1.638
 1.5G,2025-11-30,Hamburger SV,Stuttgart,German Bundesliga I,1,1.16,1.19,285.0,2.553,3.0,2.0,1.0,1.0,,,,
 1.5G,2025-11-30,Viktoria Plzeň,Mladá Boleslav,Czech First League,1,1.11,1.14,11.0,2.667,3.0,0.0,2.0,1.0,,,,
 1.5G,2025-11-30,Slovan Liberec,SK Sigma Olomouc,Czech First League,1,1.36,1.42,96.0,4.317,1.0,2.0,3.0,0.0,,,,
 BTTS,2025-11-30,Hamburger SV,Stuttgart,German Bundesliga I,1,1.5,1.53,297.0,1.98,3.0,2.0,1.0,1.0,,,,1.535
 BTTS,2025-11-30,Viktoria Plzeň,Mladá Boleslav,Czech First League,1,1.66,1.72,456.0,3.55,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-11-30,Slovan Liberec,SK Sigma Olomouc,Czech First League,1,1.95,2.0,7.0,2.532,1.0,0.0,1.0,0.0,,,,
-3.5G,2025-11-30,KRC Genk,Oud Heverlee,Belgian First Division A,0,1.44,1.47,340.0,2.062,3.0,2.0,1.0,1.0,1,1.4227,0.4227,1.427
+3.5G,2025-11-30,KRC Genk,Oud Heverlee,Belgian First Division A,0,1.44,1.47,340.0,2.062,3.0,2.0,1.0,1.0,1,1.427,0.427,1.427
 2.5G,2025-11-30,KRC Genk,Oud Heverlee,Belgian First Division A,1,1.7,1.78,50.0,4.598,3.0,2.0,1.0,1.0,,,,
 2.5G,2025-11-30,Midtjylland FC,Nordsjalland FC,Danish Superligaen,1,1.5,1.53,117.0,1.98,6.0,6.0,0.0,1.0,,,,
 3.5G,2025-11-30,Midtjylland FC,Nordsjalland FC,Danish Superligaen,1,2.2,2.32,11.0,5.31,6.0,6.0,0.0,1.0,,,,
@@ -6945,7 +6945,7 @@ BTTS,2025-11-30,Slovan Liberec,SK Sigma Olomouc,Czech First League,1,1.95,2.0,7.
 1.5G,2025-11-30,Backa Belgrade,Radnik Surdulica,Serbian SuperLiga,0,3.4,3.5,0.0,2.899,2.0,0.0,2.0,0.0,,,,
 1.5G,2025-11-30,Livingston,Aberdeen FC,Scottish Premiership,0,3.2,3.2,62.0,1.0,1.0,0.0,1.0,1.0,1,3.0347,2.0347,
 1.5G,2025-11-30,Atromitos Athinon FC,Asteras Tripolis,Greek Super League,0,3.0,3.15,232.0,4.878,1.0,0.0,1.0,1.0,1,2.9877,1.9877,
-BTTS,2025-11-30,Midtjylland FC,Nordsjalland FC,Danish Superligaen,0,2.5,2.6,499.0,3.922,6.0,6.0,0.0,1.0,1,2.5709,1.5709,2.603
+BTTS,2025-11-30,Midtjylland FC,Nordsjalland FC,Danish Superligaen,0,2.5,2.6,499.0,3.922,6.0,6.0,0.0,1.0,1,2.603,1.603,2.603
 BTTS,2025-11-30,KRC Genk,Oud Heverlee,Belgian First Division A,1,1.8,1.85,376.0,2.74,3.0,2.0,1.0,1.0,,,,1.898
 BTTS,2025-11-30,Atromitos Athinon FC,Asteras Tripolis,Greek Super League,1,1.92,1.95,74.0,1.55,1.0,0.0,1.0,0.0,,,,
 BTTS,2025-11-30,Backa Belgrade,Radnik Surdulica,Serbian SuperLiga,1,1.83,1.8,0.0,1.0,2.0,0.0,2.0,0.0,,,,
@@ -7100,7 +7100,7 @@ BTTS,2025-12-04,Wisla Plock,Cracovia Kraków,Polish Ekstraklasa,1,1.95,1.94,40.0
 2.5G,2025-12-04,Wisla Plock,Cracovia Kraków,Polish Ekstraklasa,1,2.3,2.38,290.0,3.419,0.0,0.0,0.0,0.0,,,,
 2.5G,2025-12-04,Red Star Belgrade,FK Čukarički Belgrade,Serbian SuperLiga,1,1.33,1.33,565.0,1.0,3.0,1.0,1.0,1.0,,,,
 3.5G,2025-12-04,Red Star Belgrade,FK Čukarički Belgrade,Serbian SuperLiga,1,1.8,1.86,105.0,3.279,3.0,1.0,1.0,0.0,,,,
-BTTS,2025-12-04,Red Star Belgrade,FK Čukarički Belgrade,Serbian SuperLiga,0,1.9,1.93,351.0,1.567,3.0,3.0,0.0,1.0,1,1.8898,0.8898,1.908
+BTTS,2025-12-04,Red Star Belgrade,FK Čukarički Belgrade,Serbian SuperLiga,0,1.9,1.93,351.0,1.567,3.0,3.0,0.0,1.0,1,1.908,0.908,1.908
 1.5G,2025-12-04,Red Star Belgrade,FK Čukarički Belgrade,Serbian SuperLiga,1,1.08,1.1,219.0,1.835,3.0,0.0,0.0,1.0,,,,
 2.5G,2025-12-04,Manchester United,West Ham,English Premier League,1,1.53,1.59,26539.0,3.846,2.0,1.0,1.0,0.0,,,,
 3.5G,2025-12-04,Manchester United,West Ham,English Premier League,0,1.61,1.67,11999.0,3.659,2.0,1.0,1.0,1.0,,,,1.658
@@ -7124,7 +7124,7 @@ BTTS,2025-12-05,Brest,Monaco,French Ligue 1,1,1.5,1.56,1751.0,3.922,1.0,1.0,0.0,
 2.5G,2025-12-05,Fredericia,Odense,Danish Superligaen,0,2.2,2.3,752.0,4.444,4.0,1.0,3.0,0.0,,,,
 2.5G,2025-12-05,Brest,Monaco,French Ligue 1,1,1.53,1.6,2278.0,4.473,1.0,1.0,0.0,0.0,,,,
 BTTS,2025-12-05,Fredericia,Odense,Danish Superligaen,1,1.61,1.69,821.0,4.848,4.0,1.0,3.0,1.0,,,,
-3.5G,2025-12-05,Brest,Monaco,French Ligue 1,0,1.61,1.65,924.0,2.454,1.0,1.0,0.0,1.0,1,1.6703,0.6703,1.684
+3.5G,2025-12-05,Brest,Monaco,French Ligue 1,0,1.61,1.65,924.0,2.454,1.0,1.0,0.0,1.0,1,1.684,0.684,1.684
 3.5G,2025-12-05,Fredericia,Odense,Danish Superligaen,0,1.44,1.51,398.0,4.746,4.0,1.0,3.0,0.0,,,,1.647
 BTTS,2025-12-05,Otelul Galati,Unirea Slobozia,Romanian Liga I,1,2.1,2.12,309.0,1.0,3.0,3.0,0.0,0.0,,,,
 1.5G,2025-12-05,Otelul Galati,Unirea Slobozia,Romanian Liga I,0,3.25,3.35,119.0,3.03,3.0,3.0,0.0,0.0,1,0,-1,
@@ -7473,7 +7473,7 @@ BTTS,2025-12-07,Rakow Czestochowa,Katowice GKS,Polish Ekstraklasa,1,1.9,1.89,72.
 3.5G,2025-12-07,SS Lazio,Bologna,Italian Serie A,0,1.2,1.24,708.0,3.279,2.0,1.0,1.0,1.0,,,,
 BTTS,2025-12-07,Göztepe,Trabzonspor,Turkish Super Lig,0,2.0,2.12,448.0,5.825,3.0,1.0,2.0,0.0,1,1.8008,0.8008,
 1.5G,2025-12-07,Göztepe,Trabzonspor,Turkish Super Lig,1,1.3,1.36,463.0,4.511,3.0,1.0,2.0,1.0,,,,
-3.5G,2025-12-07,FC Copenhagen,Sonderjyll,Danish Superligaen,0,1.44,1.48,663.0,2.74,2.0,0.0,2.0,1.0,1,1.4574,0.4574,1.462
+3.5G,2025-12-07,FC Copenhagen,Sonderjyll,Danish Superligaen,0,1.44,1.48,663.0,2.74,2.0,0.0,2.0,1.0,1,1.462,0.462,1.462
 BTTS,2025-12-07,FC Copenhagen,Sonderjyll,Danish Superligaen,1,1.75,1.78,1248.0,1.7,2.0,0.0,2.0,0.0,,,,1.765
 3.5G,2025-12-07,Göztepe,Trabzonspor,Turkish Super Lig,0,1.3,1.33,108.0,2.281,3.0,1.0,2.0,1.0,,,,
 BTTS,2025-12-07,SS Lazio,Bologna,Italian Serie A,1,1.95,2.02,865.0,3.526,2.0,1.0,1.0,1.0,,,,1.946
@@ -7786,7 +7786,7 @@ BTTS,2025-12-09,Union St-Gilloise,Marseille,UEFA Champions League,1,1.61,1.67,63
 3.5G,2025-12-09,Atalanta Bergamo,Chelsea,UEFA Champions League,1,3.0,3.1,978.0,3.279,3.0,2.0,1.0,0.0,,,,3.031
 3.5G,2025-12-09,QPR,Birmingham,English Championship League,0,1.33,1.38,486.0,3.69,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-12-09,Tottenham,Slavia Praha,UEFA Champions League,0,1.9,1.98,1672.0,4.124,3.0,3.0,0.0,1.0,,,,1.968
-3.5G,2025-12-09,Inter Milano,Liverpool,UEFA Champions League,0,1.5,1.54,419.0,2.632,1.0,0.0,1.0,1.0,1,1.538,0.538,1.549
+3.5G,2025-12-09,Inter Milano,Liverpool,UEFA Champions League,0,1.5,1.54,419.0,2.632,1.0,0.0,1.0,1.0,1,1.549,0.549,1.549
 BTTS,2025-12-09,QPR,Birmingham,English Championship League,0,2.1,2.2,1570.0,4.651,3.0,2.0,1.0,0.0,,,,
 BTTS,2025-12-09,Atalanta Bergamo,Chelsea,UEFA Champions League,1,1.61,1.67,4255.0,3.659,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-12-09,FC Barcelona,Eintracht Frankfurt,UEFA Champions League,0,2.44,2.44,4369.0,1.0,3.0,2.0,1.0,0.0,,,,
@@ -7803,7 +7803,7 @@ BTTS,2025-12-09,PSV Eindhoven,Atletico Madrid,UEFA Champions League,0,2.8,2.8,14
 2.5G,2025-12-09,PSV Eindhoven,Atletico Madrid,UEFA Champions League,1,1.53,1.58,1206.0,3.215,5.0,2.0,3.0,1.0,,,,
 2.5G,2025-12-09,Union St-Gilloise,Marseille,UEFA Champions League,1,1.72,1.8,4449.0,4.545,5.0,2.0,3.0,1.0,,,,
 2.5G,2025-12-09,Atalanta Bergamo,Chelsea,UEFA Champions League,1,1.8,1.83,2447.0,1.653,3.0,2.0,1.0,1.0,,,,
-3.5G,2025-12-09,Tottenham,Slavia Praha,UEFA Champions League,0,1.44,1.49,298.0,3.413,3.0,3.0,0.0,1.0,1,1.492,0.492,1.497
+3.5G,2025-12-09,Tottenham,Slavia Praha,UEFA Champions League,0,1.44,1.49,298.0,3.413,3.0,3.0,0.0,1.0,1,1.497,0.497,1.497
 2.5G,2025-12-09,Tottenham,Slavia Praha,UEFA Champions League,1,1.72,1.77,2415.0,2.865,3.0,3.0,0.0,1.0,,,,
 1.5G,2025-12-09,Kairat Almaty,Olympiakos Piraeus,UEFA Champions League,1,1.22,1.26,1197.0,3.226,1.0,0.0,1.0,0.0,,,,
 BTTS,2025-12-09,Kairat Almaty,Olympiakos Piraeus,UEFA Champions League,1,1.9,1.94,1012.0,2.083,1.0,0.0,1.0,0.0,,,,1.925
@@ -7903,16 +7903,16 @@ BTTS,2025-12-11,Jagiellonia Bialystok,Rayo Vallecano,UEFA Conference League,0,2.
 3.5G,2025-12-11,Jagiellonia Bialystok,Rayo Vallecano,UEFA Conference League,0,1.36,1.4,6.0,2.899,3.0,1.0,2.0,1.0,,,,
 3.5G,2025-12-11,BK Häcken,Larnaca AEK,UEFA Conference League,1,3.25,3.35,159.0,3.03,2.0,1.0,1.0,0.0,,,,3.201
 3.5G,2025-12-11,Fiorentina,Dynamo Kyiv,UEFA Conference League,0,1.44,1.52,46.0,5.405,3.0,2.0,1.0,1.0,,,,
-3.5G,2025-12-11,Drita,Alkmaar AZ,UEFA Conference League,0,1.53,1.58,278.0,3.215,3.0,0.0,3.0,1.0,1,1.539,0.539,1.55
+3.5G,2025-12-11,Drita,Alkmaar AZ,UEFA Conference League,0,1.53,1.58,278.0,3.215,3.0,0.0,3.0,1.0,1,1.55,0.55,1.55
 3.5G,2025-12-11,Breidablik,Shamrock Rovers,UEFA Conference League,1,3.25,3.3,125.0,1.527,4.0,3.0,1.0,1.0,,,,3.122
 3.5G,2025-12-11,Dinamo Zagreb,Betis Sevilla,UEFA Europa League,0,1.4,1.42,173.0,1.418,4.0,1.0,3.0,0.0,,,,
 3.5G,2025-12-11,Ferencváros Budapest,Glasgow Rangers,UEFA Europa League,0,1.44,1.48,113.0,2.74,3.0,2.0,1.0,1.0,1,1.4723,0.4723,
 3.5G,2025-12-11,Young Boys Bern,Lille,UEFA Europa League,0,1.57,1.61,74.0,2.516,1.0,1.0,0.0,1.0,1,1.5868,0.5868,
 3.5G,2025-12-11,Stuttgart,Maccabi Tel Aviv,UEFA Europa League,1,2.0,2.08,696.0,3.922,5.0,4.0,1.0,1.0,,,,
 3.5G,2025-12-11,Utrecht,Nottingham,UEFA Europa League,0,1.33,1.36,252.0,2.23,3.0,1.0,2.0,1.0,,,,1.365
-3.5G,2025-12-11,Sturm Graz,Red Star Belgrade,UEFA Europa League,0,1.57,1.59,235.0,1.266,1.0,0.0,1.0,1.0,1,1.5802,0.5802,1.592
+3.5G,2025-12-11,Sturm Graz,Red Star Belgrade,UEFA Europa League,0,1.57,1.59,235.0,1.266,1.0,0.0,1.0,1.0,1,1.592,0.592,1.592
 3.5G,2025-12-11,Nice,Braga,UEFA Europa League,1,3.2,3.25,953.0,1.55,1.0,0.0,1.0,0.0,,,,3.123
-3.5G,2025-12-11,Midtjylland FC,KRC Genk,UEFA Europa League,0,1.57,1.63,221.0,3.75,1.0,1.0,0.0,1.0,1,1.5792,0.5792,1.591
+3.5G,2025-12-11,Midtjylland FC,KRC Genk,UEFA Europa League,0,1.57,1.63,221.0,3.75,1.0,1.0,0.0,1.0,1,1.591,0.591,1.591
 3.5G,2025-12-11,Ludogorets Razgrad,PAOK Saloniki,UEFA Europa League,0,1.33,1.35,7.0,1.493,6.0,3.0,3.0,0.0,,,,
 2.5G,2025-12-11,Breidablik,Shamrock Rovers,UEFA Conference League,1,1.85,1.89,737.0,2.139,4.0,3.0,1.0,1.0,,,,
 3.5G,2025-12-11,Shkendija 79 Tetovo,Slovan Bratislava,UEFA Conference League,0,1.36,1.39,42.0,2.182,2.0,2.0,0.0,1.0,,,,
@@ -7974,7 +7974,7 @@ BTTS,2025-12-11,Aberdeen FC,Strasbourg,UEFA Conference League,1,1.8,1.84,686.0,2
 3.5G,2025-12-11,Lech Poznan,Mainz,UEFA Conference League,0,1.53,1.56,173.0,1.942,2.0,1.0,1.0,1.0,2,3.0762,1.0762,
 3.5G,2025-12-11,KuPS Kuopio,FC Lausanne-Sport,UEFA Conference League,1,3.25,3.3,416.0,1.527,0.0,0.0,0.0,0.0,,,,3.176
 3.5G,2025-12-11,Hamrun Spartans,Shakhtar Donetsk,UEFA Conference League,0,1.44,1.47,132.0,2.062,2.0,0.0,2.0,1.0,1,1.4624,0.4624,
-3.5G,2025-12-11,Aberdeen FC,Strasbourg,UEFA Conference League,0,1.44,1.47,274.0,2.062,1.0,0.0,1.0,1.0,1,1.4604,0.4604,1.465
+3.5G,2025-12-11,Aberdeen FC,Strasbourg,UEFA Conference League,0,1.44,1.47,274.0,2.062,1.0,0.0,1.0,1.0,1,1.465,0.465,1.465
 3.5G,2025-12-11,HNK Rijeka,NK Celje,UEFA Conference League,1,3.25,3.3,93.0,1.527,3.0,3.0,0.0,0.0,,,,3.147
 2.5G,2025-12-11,Lincoln Red Imps,SK Sigma Olomouc,UEFA Conference League,1,1.8,1.81,292.0,1.0,3.0,2.0,1.0,1.0,,,,
 3.5G,2025-12-11,Shelbourne United,Crystal Palace,UEFA Conference League,0,1.53,1.58,1996.0,3.215,3.0,0.0,3.0,1.0,,,,1.56
@@ -7982,12 +7982,12 @@ BTTS,2025-12-11,Aberdeen FC,Strasbourg,UEFA Conference League,1,1.8,1.84,686.0,2
 3.5G,2025-12-11,Lyon,Go Ahead Eagles,UEFA Europa League,0,1.66,1.73,947.0,4.13,3.0,2.0,1.0,1.0,,,,1.721
 3.5G,2025-12-11,Freiburg,RB Salzburg,UEFA Europa League,1,2.62,2.66,1239.0,1.515,1.0,1.0,0.0,0.0,,,,2.653
 3.5G,2025-12-11,FCSB,Feyenoord,UEFA Europa League,0,1.53,1.57,590.0,2.581,7.0,4.0,3.0,0.0,1,0,-1,1.565
-3.5G,2025-12-11,FC Porto,Malmö FF,UEFA Europa League,0,1.5,1.54,577.0,2.632,3.0,2.0,1.0,1.0,1,1.5047,0.5047,1.515
+3.5G,2025-12-11,FC Porto,Malmö FF,UEFA Europa League,0,1.5,1.54,577.0,2.632,3.0,2.0,1.0,1.0,1,1.515,0.515,1.515
 BTTS,2025-12-11,Lincoln Red Imps,SK Sigma Olomouc,UEFA Conference League,1,1.83,1.87,37.0,2.162,3.0,2.0,1.0,1.0,,,,
 3.5G,2025-12-11,Celtic Glasgow,AS Roma,UEFA Europa League,0,1.36,1.38,205.0,1.46,3.0,0.0,3.0,1.0,,,,1.363
 3.5G,2025-12-11,Celta Vigo,Bologna,UEFA Europa League,0,1.33,1.37,209.0,2.963,3.0,1.0,2.0,1.0,,,,1.359
 3.5G,2025-12-11,Brann Bergen,Fenerbahce,UEFA Europa League,0,1.4,1.43,341.0,2.12,4.0,0.0,4.0,0.0,,,,1.425
-3.5G,2025-12-11,FC Basel,Aston Villa,UEFA Europa League,0,1.57,1.6,542.0,1.893,3.0,1.0,2.0,1.0,1,1.5762,0.5762,1.588
+3.5G,2025-12-11,FC Basel,Aston Villa,UEFA Europa League,0,1.57,1.6,542.0,1.893,3.0,1.0,2.0,1.0,1,1.588,0.588,1.588
 BTTS,2025-12-11,Lech Poznan,Mainz,UEFA Conference League,0,2.5,2.52,1222.0,1.0,2.0,1.0,1.0,0.0,,,,2.54
 BTTS,2025-12-11,FC Porto,Malmö FF,UEFA Europa League,0,1.57,1.63,1474.0,3.75,3.0,2.0,1.0,0.0,,,,
 BTTS,2025-12-11,Celtic Glasgow,AS Roma,UEFA Europa League,1,1.7,1.79,1002.0,5.158,3.0,0.0,3.0,1.0,,,,
@@ -8341,7 +8341,7 @@ BTTS,2025-12-14,Moreirense,Benfica Lisabon,Portuguese Primeira Liga,0,1.66,1.67,
 BTTS,2025-12-14,Aris Saloniki,Olympiakos Piraeus,Greek Super League,0,1.7,1.75,1434.0,2.899,0.0,0.0,0.0,1.0,,,,
 1.5G,2025-12-14,Aris Saloniki,Olympiakos Piraeus,Greek Super League,0,3.4,3.4,347.0,1.0,0.0,0.0,0.0,1.0,1,3.2225,2.2225,
 1.5G,2025-12-14,Moreirense,Benfica Lisabon,Portuguese Primeira Liga,1,1.28,1.32,798.0,3.077,4.0,0.0,4.0,1.0,,,,
-3.5G,2025-12-14,KRC Genk,Westerlo,Belgian First Division A,0,1.57,1.63,345.0,3.75,2.0,1.0,1.0,1.0,1,1.5968,0.5968,1.609
+3.5G,2025-12-14,KRC Genk,Westerlo,Belgian First Division A,0,1.57,1.63,345.0,3.75,2.0,1.0,1.0,1.0,1,1.609,0.609,1.609
 BTTS,2025-12-14,KRC Genk,Westerlo,Belgian First Division A,0,2.37,2.46,343.0,3.727,2.0,1.0,1.0,0.0,1,0,-1,
 2.5G,2025-12-14,KRC Genk,Westerlo,Belgian First Division A,1,1.53,1.6,114.0,4.473,2.0,1.0,1.0,0.0,,,,
 1.5G,2025-12-14,KRC Genk,Westerlo,Belgian First Division A,1,1.16,1.19,626.0,2.553,2.0,1.0,1.0,1.0,,,,
@@ -8361,7 +8361,7 @@ BTTS,2025-12-14,Panathinaikos Athens,Volos NFC,Greek Super League,0,1.7,1.75,99.
 2.5G,2025-12-14,Legia Warszawa,Piast Gliwice,Polish Ekstraklasa,1,2.07,2.14,595.0,3.325,1.0,0.0,1.0,0.0,,,,
 BTTS,2025-12-14,Legia Warszawa,Piast Gliwice,Polish Ekstraklasa,0,1.95,2.0,27.0,2.532,1.0,0.0,1.0,1.0,,,,
 1.5G,2025-12-14,Legia Warszawa,Piast Gliwice,Polish Ekstraklasa,1,1.33,1.38,60.0,3.69,1.0,0.0,1.0,0.0,,,,
-3.5G,2025-12-14,Marseille,Monaco,French Ligue 1,0,1.61,1.65,269.0,2.454,1.0,1.0,0.0,1.0,1,1.6203,0.6203,1.633
+3.5G,2025-12-14,Marseille,Monaco,French Ligue 1,0,1.61,1.65,269.0,2.454,1.0,1.0,0.0,1.0,1,1.633,0.633,1.633
 3.5G,2025-12-14,Bologna,Juventus,Italian Serie A,0,1.33,1.33,2245.0,1.0,1.0,0.0,1.0,1.0,,,,1.336
 2.5G,2025-12-14,Marseille,Monaco,French Ligue 1,1,1.57,1.6,1152.0,1.893,1.0,1.0,0.0,0.0,,,,
 2.5G,2025-12-14,Bologna,Juventus,Italian Serie A,0,1.8,1.88,28922.0,4.348,1.0,0.0,1.0,1.0,,,,
@@ -8375,9 +8375,9 @@ BTTS,2025-12-14,Alavés,Real Madrid,Spanish La Liga,1,1.8,1.89,6161.0,4.878,3.0,
 1.5G,2025-12-14,Alavés,Real Madrid,Spanish La Liga,1,1.25,1.29,748.0,3.15,3.0,1.0,2.0,1.0,,,,
 3.5G,2025-12-14,FC Arouca,Alverca,Portuguese Primeira Liga,0,1.22,1.25,33.0,2.429,1.0,1.0,0.0,1.0,,,,
 2.5G,2025-12-14,FC Arouca,Alverca,Portuguese Primeira Liga,0,1.65,1.68,3144.0,1.802,1.0,1.0,0.0,1.0,,,,
-BTTS,2025-12-14,FC Arouca,Alverca,Portuguese Primeira Liga,0,1.9,1.93,341.0,1.567,1.0,1.0,0.0,1.0,1,1.8947,0.8947,1.913
+BTTS,2025-12-14,FC Arouca,Alverca,Portuguese Primeira Liga,0,1.9,1.93,341.0,1.567,1.0,1.0,0.0,1.0,1,1.913,0.913,1.913
 1.5G,2025-12-14,FC Arouca,Alverca,Portuguese Primeira Liga,0,3.0,3.1,1532.0,3.279,1.0,1.0,0.0,1.0,,,,
-3.5G,2025-12-14,Sparta Rotterdam,Heerenveen,Netherlands Eredivisie,0,1.57,1.63,297.0,3.75,3.0,0.0,3.0,1.0,1,1.6115,0.6115,1.624
+3.5G,2025-12-14,Sparta Rotterdam,Heerenveen,Netherlands Eredivisie,0,1.57,1.63,297.0,3.75,3.0,0.0,3.0,1.0,1,1.624,0.624,1.624
 2.5G,2025-12-14,Sparta Rotterdam,Heerenveen,Netherlands Eredivisie,1,1.53,1.61,905.0,5.096,3.0,0.0,3.0,1.0,,,,
 BTTS,2025-12-14,Sparta Rotterdam,Heerenveen,Netherlands Eredivisie,1,1.5,1.55,361.0,3.279,3.0,0.0,3.0,0.0,,,,
 1.5G,2025-12-14,Sparta Rotterdam,Heerenveen,Netherlands Eredivisie,0,5.82,5.82,148.0,1.0,3.0,0.0,3.0,0.0,2,0,-2,
@@ -8409,7 +8409,7 @@ BTTS,2025-12-14,Sevilla,Oviedo,Spanish La Liga,1,2.0,2.04,807.0,1.98,4.0,4.0,0.0
 BTTS,2025-12-14,Young Boys Bern,FC Luzern,Swiss Super League,1,1.44,1.5,64.0,4.082,2.0,2.0,0.0,0.0,,,,
 1.5G,2025-12-14,Young Boys Bern,FC Luzern,Swiss Super League,1,1.12,1.14,62.0,1.77,2.0,2.0,0.0,1.0,,,,
 1.5G,2025-12-14,Sevilla,Oviedo,Spanish La Liga,0,3.0,3.1,290.0,3.279,4.0,4.0,0.0,0.0,1,0,-1,
-3.5G,2025-12-14,RB Salzburg,Wolfsberger AC,Austrian Bundesliga,0,1.61,1.66,374.0,3.058,3.0,2.0,1.0,1.0,1,1.638,0.638,1.651
+3.5G,2025-12-14,RB Salzburg,Wolfsberger AC,Austrian Bundesliga,0,1.61,1.66,374.0,3.058,3.0,2.0,1.0,1.0,1,1.651,0.651,1.651
 3.5G,2025-12-14,Blau-Weiss Linz,Rapid Wien,Austrian Bundesliga,0,1.28,1.33,1399.0,3.831,2.0,1.0,1.0,1.0,,,,
 3.5G,2025-12-14,Petrolul Ploiesti,Universitatea Cluj,Romanian Liga I,0,1.12,1.15,795.0,2.643,1.0,0.0,1.0,1.0,,,,
 3.5G,2025-12-14,Twente Enschede,Go Ahead Eagles,Netherlands Eredivisie,1,2.2,2.3,79.0,4.444,2.0,2.0,0.0,0.0,,,,
@@ -8527,7 +8527,7 @@ BTTS,2025-12-15,Nacional,Tondela,Portuguese Primeira Liga,1,1.8,1.88,436.0,4.348
 1.5G,2025-12-15,Nacional,Tondela,Portuguese Primeira Liga,0,3.25,3.4,329.0,4.511,4.0,3.0,1.0,0.0,1,0,-1,
 3.5G,2025-12-15,Unirea Slobozia,FCSB,Romanian Liga I,0,1.28,1.32,74.0,3.077,2.0,0.0,2.0,1.0,,,,
 3.5G,2025-12-15,Bačka Topola,Red Star Belgrade,Serbian SuperLiga,0,1.61,1.68,147.0,4.255,0.0,3.0,1.0,1.0,,,,
-BTTS,2025-12-15,Bačka Topola,Red Star Belgrade,Serbian SuperLiga,0,2.0,2.04,257.0,1.98,2.0,1.0,1.0,1.0,1,1.9584,0.9584,1.978
+BTTS,2025-12-15,Bačka Topola,Red Star Belgrade,Serbian SuperLiga,0,2.0,2.04,257.0,1.98,2.0,1.0,1.0,1.0,1,1.978,0.978,1.978
 BTTS,2025-12-15,Unirea Slobozia,FCSB,Romanian Liga I,1,2.0,2.06,184.0,2.956,2.0,0.0,2.0,0.0,,,,
 2.5G,2025-12-15,Bačka Topola,Red Star Belgrade,Serbian SuperLiga,1,1.5,1.53,594.0,1.98,0.0,1.0,0.0,0.0,,,,
 2.5G,2025-12-15,Unirea Slobozia,FCSB,Romanian Liga I,0,1.8,1.86,156.0,3.279,2.0,0.0,2.0,1.0,,,,
@@ -8637,7 +8637,7 @@ BTTS,2025-12-18,Crystal Palace,KuPS Kuopio,UEFA Conference League,0,1.72,1.82,55
 2.5G,2025-12-18,Alkmaar AZ,Jagiellonia Bialystok,UEFA Conference League,1,1.4,1.44,2478.0,2.817,0.0,0.0,0.0,0.0,,,,
 BTTS,2025-12-18,Alkmaar AZ,Jagiellonia Bialystok,UEFA Conference League,0,2.25,2.38,1200.0,5.616,0.0,0.0,0.0,1.0,,,,
 3.5G,2025-12-18,Alkmaar AZ,Jagiellonia Bialystok,UEFA Conference League,0,1.8,1.86,1744.0,3.279,0.0,0.0,0.0,1.0,,,,1.882
-3.5G,2025-12-18,NK Celje,Shelbourne United,UEFA Conference League,0,1.53,1.59,461.0,3.846,0.0,0.0,0.0,1.0,1,1.5557,0.5557,1.567
+3.5G,2025-12-18,NK Celje,Shelbourne United,UEFA Conference League,0,1.53,1.59,461.0,3.846,0.0,0.0,0.0,1.0,1,1.567,0.567,1.567
 3.5G,2025-12-18,Crystal Palace,KuPS Kuopio,UEFA Conference League,0,1.66,1.74,5741.0,4.706,4.0,2.0,2.0,0.0,,,,1.721
 3.5G,2025-12-18,Dynamo Kyiv,Noah,UEFA Conference League,1,2.8,2.8,3641.0,1.0,2.0,2.0,0.0,0.0,,,,
 3.5G,2025-12-18,FC Lausanne-Sport,Fiorentina,UEFA Conference League,0,1.44,1.52,1507.0,5.405,1.0,1.0,0.0,1.0,,,,
@@ -8660,7 +8660,7 @@ BTTS,2025-12-18,NK Celje,Shelbourne United,UEFA Conference League,0,1.83,1.92,10
 2.5G,2025-12-18,Sparta Praha,Aberdeen FC,UEFA Conference League,1,1.44,1.49,10031.0,3.413,3.0,3.0,0.0,1.0,,,,
 2.5G,2025-12-18,Strasbourg,Breidablik,UEFA Conference League,1,1.33,1.36,368.0,2.23,4.0,3.0,1.0,1.0,,,,
 2.5G,2025-12-18,Zrinjski Mostar,Rapid Wien,UEFA Conference League,0,1.7,1.79,1303.0,5.158,2.0,1.0,1.0,1.0,,,,
-3.5G,2025-12-18,Slovan Bratislava,BK Häcken,UEFA Conference League,0,1.5,1.55,316.0,3.279,1.0,1.0,0.0,1.0,1,1.5096,0.5096,1.52
+3.5G,2025-12-18,Slovan Bratislava,BK Häcken,UEFA Conference League,0,1.5,1.55,316.0,3.279,1.0,1.0,0.0,1.0,1,1.52,0.52,1.52
 3.5G,2025-12-18,Athens AEK,Universitatea Craiova,UEFA Conference League,0,1.33,1.38,402.0,3.69,5.0,3.0,2.0,0.0,,,,
 3.5G,2025-12-18,Larnaca AEK,Shkendija 79 Tetovo,UEFA Conference League,0,1.4,1.43,1068.0,2.12,1.0,1.0,0.0,1.0,,,,1.404
 BTTS,2025-12-18,Larnaca AEK,Shkendija 79 Tetovo,UEFA Conference League,1,1.9,1.99,735.0,4.627,1.0,1.0,0.0,0.0,,,,1.997
@@ -8736,7 +8736,7 @@ BTTS,2025-12-20,Osasuna,Alavés,Spanish La Liga,1,2.2,2.32,573.0,5.31,3.0,3.0,0.
 1.5G,2025-12-20,Excelsior,Zwolle FC,Netherlands Eredivisie,1,1.18,1.23,83.0,4.149,3.0,2.0,1.0,1.0,,,,
 2.5G,2025-12-20,Excelsior,Zwolle FC,Netherlands Eredivisie,1,1.65,1.69,163.0,2.395,3.0,2.0,1.0,1.0,,,,
 BTTS,2025-12-20,Excelsior,Zwolle FC,Netherlands Eredivisie,0,2.37,2.48,205.0,4.536,3.0,2.0,1.0,1.0,,,,
-3.5G,2025-12-20,Excelsior,Zwolle FC,Netherlands Eredivisie,0,1.5,1.56,264.0,3.922,3.0,2.0,1.0,1.0,1,1.5272,0.5272,1.538
+3.5G,2025-12-20,Excelsior,Zwolle FC,Netherlands Eredivisie,0,1.5,1.56,264.0,3.922,3.0,2.0,1.0,1.0,1,1.538,0.538,1.538
 2.5G,2025-12-20,Arad UT,Dinamo Bucharest,Romanian Liga I,0,1.7,1.77,285.0,4.035,2.0,2.0,0.0,1.0,,,,
 2.5G,2025-12-20,Gil Vicente,Rio Ave,Portuguese Primeira Liga,0,1.66,1.73,145.0,4.13,4.0,2.0,2.0,0.0,,,,
 1.5G,2025-12-20,Arad UT,Dinamo Bucharest,Romanian Liga I,0,3.25,3.25,124.0,1.0,2.0,2.0,0.0,0.0,1,0,-1,
@@ -8820,7 +8820,7 @@ BTTS,2025-12-20,FC Metaloglobus București,Unirea Slobozia,Romanian Liga I,1,1.8
 3.5G,2025-12-20,Javor Ivanjica,Vojvodina Nový Sad,Serbian SuperLiga,0,1.28,1.31,16.0,2.317,3.0,0.0,0.0,1.0,,,,
 3.5G,2025-12-20,Oviedo,Celta Vigo,Spanish La Liga,0,1.25,1.26,74.0,1.0,0.0,0.0,0.0,1.0,,,,
 BTTS,2025-12-20,Javor Ivanjica,Vojvodina Nový Sad,Serbian SuperLiga,1,1.8,1.05,0.0,1.0,2.0,2.0,0.0,1.0,,,,
-BTTS,2025-12-20,Oviedo,Celta Vigo,Spanish La Liga,0,1.95,2.0,1000.0,2.532,0.0,0.0,0.0,1.0,1,1.8732,0.8732,1.891
+BTTS,2025-12-20,Oviedo,Celta Vigo,Spanish La Liga,0,1.95,2.0,1000.0,2.532,0.0,0.0,0.0,1.0,1,1.891,0.891,1.891
 1.5G,2025-12-20,Eyüp SK Istanbul,Fenerbahce,Turkish Super Lig,1,1.18,1.22,1958.0,3.333,3.0,0.0,3.0,1.0,,,,
 2.5G,2025-12-20,Eyüp SK Istanbul,Fenerbahce,Turkish Super Lig,1,1.61,1.7,76.0,5.438,3.0,0.0,3.0,1.0,,,,
 1.5G,2025-12-20,Asteras Tripolis,Aris Saloniki,Greek Super League,0,2.84,2.84,1916.0,1.0,1.0,0.0,1.0,1.0,,,,
@@ -8830,7 +8830,7 @@ BTTS,2025-12-20,Oviedo,Celta Vigo,Spanish La Liga,0,1.95,2.0,1000.0,2.532,0.0,0.
 BTTS,2025-12-20,NK Osijek,Slaven Belupo,Croatian HNL,0,1.83,1.92,93.0,4.8,4.0,2.0,2.0,1.0,,,,
 3.5G,2025-12-20,NK Osijek,Slaven Belupo,Croatian HNL,0,1.22,1.26,80.0,3.226,0.0,0.0,0.0,1.0,,,,
 BTTS,2025-12-20,Asteras Tripolis,Aris Saloniki,Greek Super League,1,2.0,2.02,83.0,1.0,1.0,0.0,1.0,0.0,,,,
-3.5G,2025-12-20,Eyüp SK Istanbul,Fenerbahce,Turkish Super Lig,0,1.5,1.56,996.0,3.922,3.0,0.0,3.0,1.0,1,1.5263,0.5263,1.537
+3.5G,2025-12-20,Eyüp SK Istanbul,Fenerbahce,Turkish Super Lig,0,1.5,1.56,996.0,3.922,3.0,0.0,3.0,1.0,1,1.537,0.537,1.537
 3.5G,2025-12-20,Asteras Tripolis,Aris Saloniki,Greek Super League,0,1.18,1.21,8.0,2.51,1.0,0.0,1.0,1.0,,,,
 BTTS,2025-12-20,Eyüp SK Istanbul,Fenerbahce,Turkish Super Lig,1,1.83,1.94,224.0,5.836,3.0,0.0,3.0,0.0,,,,
 2.5G,2025-12-20,Red Star Belgrade,Mladost Lučani,Serbian SuperLiga,1,1.2,1.22,6.0,1.653,4.0,0.0,1.0,1.0,,,,
@@ -8846,7 +8846,7 @@ BTTS,2025-12-20,Eyüp SK Istanbul,Fenerbahce,Turkish Super Lig,1,1.83,1.94,224.0
 2.5G,2025-12-20,Augsburg,Werder Bremen,German Bundesliga I,0,2.1,2.19,210.0,4.196,0.0,0.0,0.0,1.0,,,,
 2.5G,2025-12-20,Köln,Union Berlin,German Bundesliga I,0,1.9,1.94,1244.0,2.083,1.0,0.0,1.0,1.0,,,,
 3.5G,2025-12-20,Augsburg,Werder Bremen,German Bundesliga I,1,3.0,3.1,345.0,3.279,0.0,0.0,0.0,0.0,,,,2.989
-3.5G,2025-12-20,Hamburger SV,Eintracht Frankfurt,German Bundesliga I,0,1.44,1.49,712.0,3.413,2.0,1.0,1.0,1.0,1,1.4604,0.4604,1.465
+3.5G,2025-12-20,Hamburger SV,Eintracht Frankfurt,German Bundesliga I,0,1.44,1.49,712.0,3.413,2.0,1.0,1.0,1.0,1,1.465,0.465,1.465
 BTTS,2025-12-20,Stuttgart,Hoffenheim,German Bundesliga I,1,1.44,1.51,2738.0,4.746,0.0,0.0,0.0,0.0,,,,
 BTTS,2025-12-20,Hamburger SV,Eintracht Frankfurt,German Bundesliga I,1,1.57,1.64,1497.0,4.361,2.0,1.0,1.0,1.0,,,,
 BTTS,2025-12-20,Augsburg,Werder Bremen,German Bundesliga I,1,1.61,1.68,596.0,4.255,0.0,0.0,0.0,0.0,,,,
@@ -8854,7 +8854,7 @@ BTTS,2025-12-20,Köln,Union Berlin,German Bundesliga I,1,1.7,1.8,680.0,5.714,1.0
 BTTS,2025-12-20,Wolfsburg,Freiburg,German Bundesliga I,1,1.66,1.71,338.0,2.967,7.0,3.0,4.0,1.0,,,,1.686
 3.5G,2025-12-20,Red Star Belgrade,Mladost Lučani,Serbian SuperLiga,1,1.53,1.6,153.0,4.473,4.0,1.0,0.0,1.0,,,,
 3.5G,2025-12-20,Köln,Union Berlin,German Bundesliga I,0,1.33,1.36,42.0,2.23,1.0,0.0,1.0,1.0,,,,
-3.5G,2025-12-20,Stuttgart,Hoffenheim,German Bundesliga I,0,1.72,1.76,225.0,2.299,0.0,0.0,0.0,1.0,1,1.736,0.736,1.751
+3.5G,2025-12-20,Stuttgart,Hoffenheim,German Bundesliga I,0,1.72,1.76,225.0,2.299,0.0,0.0,0.0,1.0,1,1.751,0.751,1.751
 3.5G,2025-12-20,Wolfsburg,Freiburg,German Bundesliga I,1,3.2,3.25,36.0,1.55,7.0,3.0,4.0,1.0,,,,
 BTTS,2025-12-20,Red Star Belgrade,Mladost Lučani,Serbian SuperLiga,0,1.61,1.63,0.0,1.235,0.0,0.0,0.0,1.0,,,,
 2.5G,2025-12-20,St. Mirren,Livingston,Scottish Premiership,0,1.9,1.97,27.0,3.618,1.0,1.0,0.0,1.0,,,,
@@ -8899,7 +8899,7 @@ BTTS,2025-12-20,Brighton,Sunderland,English Premier League,1,1.8,1.89,659.0,4.87
 BTTS,2025-12-20,Bournemouth,Burnley,English Premier League,0,2.0,2.12,1892.0,5.825,2.0,1.0,1.0,0.0,,,,
 BTTS,2025-12-20,FC Dender,Standard Liege,Belgian First Division A,1,1.8,1.84,8.0,2.198,1.0,0.0,1.0,0.0,,,,
 3.5G,2025-12-20,FC Dender,Standard Liege,Belgian First Division A,0,1.28,1.32,37.0,3.077,1.0,0.0,1.0,1.0,,,,
-3.5G,2025-12-20,Bournemouth,Burnley,English Premier League,0,1.5,1.53,730.0,1.98,2.0,1.0,1.0,1.0,1,1.5116,0.5116,1.522
+3.5G,2025-12-20,Bournemouth,Burnley,English Premier League,0,1.5,1.53,730.0,1.98,2.0,1.0,1.0,1.0,1,1.522,0.522,1.522
 BTTS,2025-12-20,Bristol City,Middlesbrough,English Championship League,1,1.61,1.68,112.0,4.255,2.0,2.0,0.0,0.0,,,,
 BTTS,2025-12-20,Charlton Athletic,Oxford,English Championship League,1,1.9,2.0,223.0,5.128,1.0,1.0,0.0,0.0,,,,
 3.5G,2025-12-20,Brighton,Sunderland,English Premier League,1,3.2,3.3,212.0,3.077,0.0,0.0,0.0,0.0,,,,3.22
@@ -8935,7 +8935,7 @@ BTTS,2025-12-20,Kilmarnock FC,Falkirk FC,Scottish Premiership,1,1.75,1.8,312.0,2
 BTTS,2025-12-20,Levante,Real Sociedad,Spanish La Liga,1,1.9,1.96,775.0,3.109,2.0,1.0,1.0,1.0,,,,1.891
 1.5G,2025-12-20,Heracles Almelo,Heerenveen,Netherlands Eredivisie,1,1.12,1.17,1059.0,4.367,3.0,0.0,3.0,1.0,,,,
 2.5G,2025-12-20,Heracles Almelo,Heerenveen,Netherlands Eredivisie,0,2.7,2.82,1443.0,4.348,3.0,0.0,3.0,0.0,,,,
-BTTS,2025-12-20,Heracles Almelo,Heerenveen,Netherlands Eredivisie,0,2.75,2.82,246.0,2.513,3.0,0.0,3.0,1.0,1,2.5347,1.5347,2.566
+BTTS,2025-12-20,Heracles Almelo,Heerenveen,Netherlands Eredivisie,0,2.75,2.82,246.0,2.513,3.0,0.0,3.0,1.0,1,2.566,1.566,2.566
 3.5G,2025-12-20,Heracles Almelo,Heerenveen,Netherlands Eredivisie,1,2.25,2.25,307.0,1.0,3.0,0.0,3.0,0.0,,,,
 1.5G,2025-12-21,Radnik Surdulica,Novi Pazar,Serbian SuperLiga,1,1.4,1.46,0.0,4.196,1.0,0.0,1.0,0.0,,,,
 3.5G,2025-12-21,Radnik Surdulica,Novi Pazar,Serbian SuperLiga,0,1.2,1.22,0.0,1.653,1.0,4.0,3.0,1.0,,,,
@@ -9099,7 +9099,7 @@ BTTS,2025-12-21,AVS Vila das Aves,Nacional,Portuguese Primeira Liga,1,1.9,1.92,3
 BTTS,2025-12-21,Larissa AE,Atromitos Athinon FC,Greek Super League,1,1.95,1.96,30.0,1.0,0.0,0.0,0.0,0.0,,,,
 1.5G,2025-12-21,Volendam,Sparta Rotterdam,Netherlands Eredivisie,1,1.18,1.22,149.0,3.333,1.0,0.0,1.0,0.0,,,,
 1.5G,2025-12-21,Fortuna Sittard,Alkmaar AZ,Netherlands Eredivisie,1,1.16,1.21,76.0,4.219,7.0,4.0,3.0,1.0,,,,
-3.5G,2025-12-21,Volendam,Sparta Rotterdam,Netherlands Eredivisie,0,1.5,1.56,496.0,3.922,1.0,0.0,1.0,1.0,1,1.5243,0.5243,1.535
+3.5G,2025-12-21,Volendam,Sparta Rotterdam,Netherlands Eredivisie,0,1.5,1.56,496.0,3.922,1.0,0.0,1.0,1.0,1,1.535,0.535,1.535
 2.5G,2025-12-21,Fortuna Sittard,Alkmaar AZ,Netherlands Eredivisie,1,1.57,1.63,115.0,3.75,7.0,4.0,3.0,1.0,,,,
 2.5G,2025-12-21,Volendam,Sparta Rotterdam,Netherlands Eredivisie,1,1.61,1.68,1182.0,4.255,1.0,0.0,1.0,0.0,,,,
 3.5G,2025-12-21,Fortuna Sittard,Alkmaar AZ,Netherlands Eredivisie,0,1.53,1.61,0.0,5.096,7.0,4.0,3.0,0.0,,,,
@@ -9436,13 +9436,13 @@ BTTS,2026-01-01,QPR,Norwich,English Championship League,1,1.72,1.77,2109.0,2.865
 3.5G,2026-01-01,Preston,Sheffield Wednesday,English Championship League,0,1.33,1.35,357.0,1.493,3.0,3.0,0.0,1.0,,,,1.336
 3.5G,2026-01-01,Ipswich,Oxford United,English Championship League,0,1.4,1.44,462.0,2.817,3.0,2.0,1.0,1.0,,,,
 3.5G,2026-01-01,Bristol City,Portsmouth,English Championship League,0,1.33,1.37,22.0,2.963,5.0,5.0,0.0,0.0,,,,
-3.5G,2026-01-01,Southampton,Millwall,English Championship League,0,1.44,1.46,142.0,1.379,0.0,0.0,0.0,1.0,1,1.4514,0.4514,1.456
+3.5G,2026-01-01,Southampton,Millwall,English Championship League,0,1.44,1.46,142.0,1.379,0.0,0.0,0.0,1.0,1,1.456,0.456,1.456
 3.5G,2026-01-01,Watford,Birmingham,English Championship League,0,1.33,1.34,44.0,1.0,3.0,3.0,0.0,1.0,,,,
 BTTS,2026-01-01,Watford,Birmingham,English Championship League,1,1.72,1.81,468.0,5.099,3.0,3.0,0.0,0.0,,,,
 BTTS,2026-01-01,Southampton,Millwall,English Championship League,0,2.25,2.25,237.0,1.0,0.0,0.0,0.0,1.0,2,4.4015,2.4015,
 BTTS,2026-01-01,Bristol City,Portsmouth,English Championship League,1,1.83,1.92,181.0,4.8,5.0,5.0,0.0,0.0,,,,
 BTTS,2026-01-01,Ipswich,Oxford United,English Championship League,1,2.1,2.2,1658.0,4.651,3.0,2.0,1.0,1.0,,,,
-BTTS,2026-01-01,Preston,Sheffield Wednesday,English Championship League,0,1.8,1.85,396.0,2.74,3.0,3.0,0.0,1.0,1,1.7713,0.7713,1.787
+BTTS,2026-01-01,Preston,Sheffield Wednesday,English Championship League,0,1.8,1.85,396.0,2.74,3.0,3.0,0.0,1.0,1,1.787,0.787,1.787
 BTTS,2026-01-01,Hull City,Stoke City,English Championship League,1,1.83,1.89,451.0,3.226,1.0,0.0,1.0,0.0,,,,1.861
 BTTS,2026-01-01,Derby,Middlesbrough,English Championship League,1,1.83,1.93,374.0,5.319,1.0,1.0,0.0,0.0,,,,
 3.5G,2026-01-01,Hull City,Stoke City,English Championship League,0,1.28,1.3,347.0,1.55,1.0,0.0,1.0,1.0,,,,1.3
@@ -9902,7 +9902,7 @@ BTTS,2026-01-10,Villarreal,Alaves,Spanish La Liga,1,1.95,2.04,890.0,4.511,4.0,3.
 2.5G,2026-01-10,AZ Alkmaar,FC Volendam,Netherlands Eredivisie,1,1.3,1.34,41.0,3.03,1.0,1.0,0.0,0.0,,,,
 1.5G,2026-01-10,AZ Alkmaar,FC Volendam,Netherlands Eredivisie,1,1.083,1.11,69.0,2.462,1.0,1.0,0.0,0.0,,,,
 3.5G,2026-01-10,AZ Alkmaar,FC Volendam,Netherlands Eredivisie,1,1.8,1.87,112.0,3.815,1.0,1.0,0.0,0.0,,,,
-BTTS,2026-01-10,AZ Alkmaar,FC Volendam,Netherlands Eredivisie,0,1.95,2.02,295.0,3.526,1.0,1.0,0.0,1.0,1,1.9418,0.9418,1.961
+BTTS,2026-01-10,AZ Alkmaar,FC Volendam,Netherlands Eredivisie,0,1.95,2.02,295.0,3.526,1.0,1.0,0.0,1.0,1,1.961,0.961,1.961
 1.5G,2026-01-11,Bayern München,VfL Wolfsburg,German Bundesliga I,1,1.062,1.07,2411.0,1.0,9.0,8.0,1.0,1.0,,,,
 BTTS,2026-01-11,Aberdeen,Rangers,Scottish Premiership,1,1.7,1.78,342.0,4.598,2.0,0.0,2.0,0.0,,,,
 BTTS,2026-01-11,Bayern München,VfL Wolfsburg,German Bundesliga I,0,1.95,2.06,3382.0,5.486,9.0,8.0,1.0,0.0,,,,
@@ -9981,7 +9981,7 @@ BTTS,2026-01-11,Nacional,Santa Clara,Portuguese Primeira Liga,1,2.1,2.22,411.0,5
 2.5G,2026-01-11,OFI,Asteras Tripolis,Greek Super League,1,2.2,2.28,590.0,3.571,4.0,4.0,0.0,1.0,,,,2.282
 BTTS,2026-01-11,Sparta Rotterdam,Heracles,Netherlands Eredivisie,1,1.61,1.68,760.0,4.255,2.0,2.0,0.0,0.0,,,,
 1.5G,2026-01-11,Sparta Rotterdam,Heracles,Netherlands Eredivisie,1,1.18,1.23,154.0,4.149,2.0,2.0,0.0,1.0,,,,
-3.5G,2026-01-11,Sparta Rotterdam,Heracles,Netherlands Eredivisie,0,1.5,1.54,217.0,2.632,2.0,2.0,0.0,1.0,1,1.5302,0.5302,1.541
+3.5G,2026-01-11,Sparta Rotterdam,Heracles,Netherlands Eredivisie,0,1.5,1.54,217.0,2.632,2.0,2.0,0.0,1.0,1,1.541,0.541,1.541
 2.5G,2026-01-11,Sparta Rotterdam,Heracles,Netherlands Eredivisie,1,1.65,1.7,821.0,2.985,2.0,2.0,0.0,0.0,,,,1.694
 1.5G,2026-01-12,Genoa,Cagliari,Italian Serie A,1,1.5,1.55,4031.0,3.279,3.0,3.0,0.0,1.0,,,,
 2.5G,2026-01-12,Genoa,Cagliari,Italian Serie A,1,2.62,2.68,2222.0,2.264,3.0,3.0,0.0,1.0,,,,2.65
@@ -10000,8 +10000,8 @@ BTTS,2026-01-12,Sevilla,Celta Vigo,Spanish La Liga,0,1.95,2.04,9047.0,4.511,1.0,
 BTTS,2026-01-13,VfB Stuttgart,Eintracht Frankfurt,German Bundesliga I,1,1.5,1.56,1807.0,3.922,5.0,3.0,2.0,1.0,,,,
 2.5G,2026-01-13,VfB Stuttgart,Eintracht Frankfurt,German Bundesliga I,1,1.5,1.52,5772.0,1.325,5.0,3.0,2.0,1.0,,,,
 1.5G,2026-01-13,FSV Mainz 05,1. FC Heidenheim,German Bundesliga I,1,1.22,1.26,2495.0,3.226,3.0,2.0,1.0,1.0,,,,
-3.5G,2026-01-13,FSV Mainz 05,1. FC Heidenheim,German Bundesliga I,0,1.45,1.48,609.0,2.048,3.0,2.0,1.0,1.0,1,1.492,0.492,1.502
-3.5G,2026-01-13,Borussia Dortmund,Werder Bremen,German Bundesliga I,0,1.7,1.76,432.0,3.468,3.0,3.0,0.0,1.0,1,1.7232,0.7232,1.738
+3.5G,2026-01-13,FSV Mainz 05,1. FC Heidenheim,German Bundesliga I,0,1.45,1.48,609.0,2.048,3.0,2.0,1.0,1.0,1,1.502,0.502,1.502
+3.5G,2026-01-13,Borussia Dortmund,Werder Bremen,German Bundesliga I,0,1.7,1.76,432.0,3.468,3.0,3.0,0.0,1.0,1,1.738,0.738,1.738
 1.5G,2026-01-13,Borussia Dortmund,Werder Bremen,German Bundesliga I,1,1.13,1.16,1149.0,2.62,3.0,3.0,0.0,1.0,,,,
 2.5G,2026-01-13,FSV Mainz 05,1. FC Heidenheim,German Bundesliga I,1,1.727,1.81,6051.0,4.693,3.0,2.0,1.0,1.0,,,,
 2.5G,2026-01-13,Borussia Dortmund,Werder Bremen,German Bundesliga I,1,1.444,1.5,3538.0,3.804,3.0,3.0,0.0,1.0,,,,
@@ -10026,7 +10026,7 @@ BTTS,2026-01-14,Napoli,Parma,Italian Serie A,0,1.61,1.67,1296.0,3.659,0.0,0.0,0.
 BTTS,2026-01-14,1899 Hoffenheim,Borussia Mönchengladbach,German Bundesliga I,1,1.53,1.6,3009.0,4.473,6.0,5.0,1.0,1.0,,,,
 1.5G,2026-01-14,RB Leipzig,SC Freiburg,German Bundesliga I,1,1.22,1.25,7076.0,2.429,2.0,2.0,0.0,1.0,,,,
 BTTS,2026-01-14,Servette,Lausanne Sport,Swiss Super League,1,1.61,1.66,441.0,3.058,1.0,0.0,1.0,0.0,,,,
-BTTS,2026-01-14,FC Sion,FC Winterthur,Swiss Super League,0,2.1,2.18,980.0,3.738,2.0,2.0,0.0,1.0,1,2.1495,1.1495,2.173
+BTTS,2026-01-14,FC Sion,FC Winterthur,Swiss Super League,0,2.1,2.18,980.0,3.738,2.0,2.0,0.0,1.0,1,2.173,1.173,2.173
 BTTS,2026-01-14,RB Leipzig,SC Freiburg,German Bundesliga I,1,1.66,1.72,3623.0,3.55,2.0,2.0,0.0,0.0,,,,
 BTTS,2026-01-14,1. FC Köln,Bayern München,German Bundesliga I,0,2.2,2.34,2697.0,6.167,4.0,1.0,3.0,0.0,,,,
 1.5G,2026-01-14,1899 Hoffenheim,Borussia Mönchengladbach,German Bundesliga I,1,1.16,1.21,4921.0,4.219,6.0,5.0,1.0,1.0,,,,
@@ -10113,7 +10113,7 @@ BTTS,2026-01-17,Napoli,Sassuolo,Italian Serie A,1,2.2,2.3,894.0,4.444,1.0,1.0,0.
 BTTS,2026-01-17,FC Luzern,FC Lugano,Swiss Super League,1,1.53,1.61,7.0,5.096,7.0,2.0,5.0,1.0,,,,
 BTTS,2026-01-17,Winterthur,St. Gallen,Swiss Super League,0,2.5,2.6,287.0,3.922,4.0,2.0,2.0,0.0,1,0,-1,2.608
 BTTS,2026-01-17,Galatasaray,Gaziantepspor,Turkish Super Lig,0,1.9,1.97,919.0,3.618,2.0,1.0,1.0,0.0,1,0,-1,1.953
-3.5G,2026-01-17,KVC Westerlo,Cercle Brugge,Belgian First Division A,0,1.57,1.63,332.0,3.75,2.0,0.0,2.0,1.0,1,1.6086,0.6086,1.621
+3.5G,2026-01-17,KVC Westerlo,Cercle Brugge,Belgian First Division A,0,1.57,1.63,332.0,3.75,2.0,0.0,2.0,1.0,1,1.621,0.621,1.621
 2.5G,2026-01-17,KVC Westerlo,Cercle Brugge,Belgian First Division A,0,2.4,2.52,1112.0,4.878,2.0,0.0,2.0,1.0,,,,
 BTTS,2026-01-17,KVC Westerlo,Cercle Brugge,Belgian First Division A,1,1.5,1.56,302.0,3.922,2.0,0.0,2.0,0.0,,,,
 1.5G,2026-01-17,KVC Westerlo,Cercle Brugge,Belgian First Division A,1,1.16,1.2,525.0,3.39,2.0,0.0,2.0,1.0,,,,
@@ -10148,7 +10148,7 @@ BTTS,2026-01-17,PEC Zwolle,AZ Alkmaar,Netherlands Eredivisie,1,1.66,1.73,617.0,4
 BTTS,2026-01-17,Alverca,Moreirense,Portuguese Primeira Liga,1,2.1,2.2,1343.0,4.651,3.0,2.0,1.0,1.0,,,,
 BTTS,2026-01-17,AVS,Arouca,Portuguese Primeira Liga,1,1.95,1.98,284.0,1.527,1.0,0.0,1.0,0.0,,,,1.956
 BTTS,2026-01-17,Toulouse,Nice,French Ligue 1,1,1.75,1.83,165.0,4.469,6.0,5.0,1.0,1.0,,,,
-BTTS,2026-01-17,Rapid Bucharest,FC Metaloglobus București,Romanian Liga I,0,1.8,1.83,342.0,1.653,1.0,1.0,0.0,1.0,1,1.7399,0.7399,1.755
+BTTS,2026-01-17,Rapid Bucharest,FC Metaloglobus București,Romanian Liga I,0,1.8,1.83,342.0,1.653,1.0,1.0,0.0,1.0,1,1.755,0.755,1.755
 3.5G,2026-01-17,Excelsior,Telstar,Netherlands Eredivisie,0,1.44,1.48,355.0,2.74,4.0,2.0,2.0,0.0,1,0,-1,1.47
 3.5G,2026-01-17,Fortuna Sittard,PSV Eindhoven,Netherlands Eredivisie,1,2.23,2.23,553.0,1.0,3.0,1.0,2.0,0.0,,,,1.75
 1.5G,2026-01-17,Excelsior,Telstar,Netherlands Eredivisie,0,4.7,4.7,257.0,1.0,4.0,2.0,2.0,0.0,2,0,-2,
@@ -10213,7 +10213,7 @@ BTTS,2026-01-17,Real Madrid,Levante,Spanish La Liga,0,1.95,2.04,4060.0,4.511,2.0
 1.5G,2026-01-17,Panserraikos,Kifisia,Greek Super League,0,3.25,3.3,172.0,1.527,3.0,2.0,1.0,0.0,2,0,-2,
 2.5G,2026-01-17,Panserraikos,Kifisia,Greek Super League,0,1.7,1.77,363.0,4.035,3.0,2.0,1.0,0.0,,,,1.71
 BTTS,2026-01-17,Panserraikos,Kifisia,Greek Super League,0,1.9,1.93,585.0,1.567,3.0,2.0,1.0,0.0,1,0,-1,1.815
-3.5G,2026-01-17,Istanbul Büyüksehir,Fatih Karagümrük,Turkish Super Lig,0,1.53,1.59,313.0,3.846,3.0,2.0,1.0,1.0,1,1.5282,0.5282,1.539
+3.5G,2026-01-17,Istanbul Büyüksehir,Fatih Karagümrük,Turkish Super Lig,0,1.53,1.59,313.0,3.846,3.0,2.0,1.0,1.0,1,1.539,0.539,1.539
 3.5G,2026-01-17,Udinese,Inter,Italian Serie A,1,3.0,3.05,488.0,1.653,1.0,0.0,1.0,0.0,,,,2.984
 1.5G,2026-01-17,Udinese,Inter,Italian Serie A,1,1.25,1.27,422.0,1.587,1.0,0.0,1.0,0.0,,,,
 1.5G,2026-01-17,Istanbul Büyüksehir,Fatih Karagümrük,Turkish Super Lig,1,1.16,1.21,687.0,4.219,3.0,2.0,1.0,1.0,,,,
@@ -10338,7 +10338,7 @@ BTTS,2026-01-18,Aston Villa,Everton,English Premier League,1,1.8,1.92,4617.0,6.4
 1.5G,2026-01-18,PAOK Saloniki,OFI Crete,Greek Super League,1,1.1,1.12,64.0,1.802,3.0,3.0,0.0,1.0,,,,
 1.5G,2026-01-18,Torino,AS Roma,Italian Serie A,0,3.4,3.45,2508.0,1.46,2.0,0.0,2.0,0.0,,,,
 BTTS,2026-01-18,Alanyaspor,Fenerbahçe,Turkish Super Lig,1,1.9,2.02,198.0,6.122,5.0,2.0,3.0,1.0,,,,
-BTTS,2026-01-18,PAOK Saloniki,OFI Crete,Greek Super League,0,1.75,1.77,576.0,1.136,3.0,3.0,0.0,1.0,1,1.6752,0.6752,1.689
+BTTS,2026-01-18,PAOK Saloniki,OFI Crete,Greek Super League,0,1.75,1.77,576.0,1.136,3.0,3.0,0.0,1.0,1,1.689,0.689,1.689
 BTTS,2026-01-18,Torino,AS Roma,Italian Serie A,1,1.9,1.92,377.0,1.047,2.0,0.0,2.0,0.0,,,,1.899
 1.5G,2026-01-18,Alanyaspor,Fenerbahçe,Turkish Super Lig,1,1.28,1.32,275.0,3.077,5.0,2.0,3.0,1.0,,,,
 3.5G,2026-01-18,Celta Vigo,Rayo Vallecano,Spanish La Liga,0,1.25,1.28,362.0,2.372,3.0,3.0,0.0,1.0,,,,1.282
@@ -10364,7 +10364,7 @@ BTTS,2026-01-18,Dinamo Bucharest,Universitatea Cluj,Romanian Liga I,1,2.2,2.08,7
 3.5G,2026-01-18,Athens AEK,Panathinaikos Athens,Greek Super League,0,1.28,1.29,227.0,1.0,4.0,4.0,0.0,0.0,,,,1.275
 2.5G,2026-01-18,Athens AEK,Panathinaikos Athens,Greek Super League,0,1.8,1.76,15517.0,1.0,4.0,4.0,0.0,0.0,,,,
 1.5G,2026-01-18,Athens AEK,Panathinaikos Athens,Greek Super League,0,3.4,3.3,973.0,1.0,4.0,4.0,0.0,0.0,2,0,-2,
-BTTS,2026-01-18,Athens AEK,Panathinaikos Athens,Greek Super League,0,1.95,1.93,737.0,1.0,4.0,4.0,0.0,1.0,1,1.8702,0.8702,1.888
+BTTS,2026-01-18,Athens AEK,Panathinaikos Athens,Greek Super League,0,1.95,1.93,737.0,1.0,4.0,4.0,0.0,1.0,1,1.888,0.888,1.888
 3.5G,2026-01-18,AC Milan,Lecce,Italian Serie A,0,1.36,1.41,646.0,3.61,1.0,1.0,0.0,1.0,,,,
 3.5G,2026-01-18,Lyon,Stade Brestois 29,French Ligue 1,0,1.4,1.42,202.0,1.418,3.0,2.0,1.0,1.0,,,,1.421
 2.5G,2026-01-18,Lyon,Stade Brestois 29,French Ligue 1,1,1.8,1.88,3429.0,4.348,3.0,2.0,1.0,1.0,,,,
@@ -10405,7 +10405,7 @@ BTTS,2026-01-18,KAA Gent,Anderlecht,Belgian First Division A,1,1.66,1.72,52.0,3.
 BTTS,2026-01-18,Servette Genf,FC Zürich,Swiss Super League,1,1.61,1.68,95.0,4.255,2.0,1.0,1.0,1.0,,,,
 BTTS,2026-01-18,Getafe,Valencia,Spanish La Liga,1,2.5,2.58,933.0,3.15,1.0,0.0,1.0,0.0,,,,2.579
 1.5G,2026-01-18,Servette Genf,FC Zürich,Swiss Super League,1,1.2,1.23,325.0,2.469,2.0,1.0,1.0,1.0,,,,
-3.5G,2026-01-18,Heracles,Twente,Netherlands Eredivisie,0,1.5,1.56,705.0,3.922,2.0,0.0,2.0,1.0,1,1.5292,0.5292,1.54
+3.5G,2026-01-18,Heracles,Twente,Netherlands Eredivisie,0,1.5,1.56,705.0,3.922,2.0,0.0,2.0,1.0,1,1.54,0.54,1.54
 3.5G,2026-01-18,FC Volendam,Utrecht,Netherlands Eredivisie,0,1.44,1.48,18.0,2.74,3.0,2.0,1.0,1.0,,,,
 3.5G,2026-01-18,Csikszereda,FC Botosani,Romanian Liga I,0,1.25,1.29,48.0,3.15,1.0,1.0,0.0,1.0,,,,
 2.5G,2026-01-18,Csikszereda,FC Botosani,Romanian Liga I,1,2.15,2.22,3299.0,3.204,1.0,1.0,0.0,0.0,,,,2.157
@@ -10419,7 +10419,7 @@ BTTS,2026-01-18,Heracles,Twente,Netherlands Eredivisie,1,1.7,1.79,1436.0,5.158,2
 BTTS,2026-01-18,Csikszereda,FC Botosani,Romanian Liga I,1,2.0,2.0,8.0,1.0,1.0,1.0,0.0,0.0,,,,
 3.5G,2026-01-18,Bologna,Fiorentina,Italian Serie A,0,1.4,1.4,2790.0,1.0,3.0,1.0,2.0,1.0,,,,1.39
 3.5G,2026-01-18,Wolves,Newcastle,English Premier League,1,2.75,2.88,928.0,4.618,0.0,0.0,0.0,0.0,,,,2.797
-3.5G,2026-01-18,Strasbourg,Metz,French Ligue 1,0,1.5,1.56,476.0,3.922,3.0,2.0,1.0,1.0,1,1.5282,0.5282,1.539
+3.5G,2026-01-18,Strasbourg,Metz,French Ligue 1,0,1.5,1.56,476.0,3.922,3.0,2.0,1.0,1.0,1,1.539,0.539,1.539
 2.5G,2026-01-18,Strasbourg,Metz,French Ligue 1,1,1.61,1.69,1188.0,4.848,3.0,2.0,1.0,1.0,,,,
 2.5G,2026-01-18,Genclerbirligi,Samsunspor,Turkish Super Lig,0,1.66,1.7,637.0,2.381,2.0,1.0,1.0,1.0,,,,1.665
 2.5G,2026-01-18,Kocaelispor,Trabzonspor,Turkish Super Lig,1,2.05,2.12,105.0,3.357,3.0,1.0,2.0,1.0,,,,1.863
@@ -10437,7 +10437,7 @@ BTTS,2026-01-18,Bologna,Fiorentina,Italian Serie A,1,1.66,1.74,1295.0,4.706,3.0,
 1.5G,2026-01-18,Genclerbirligi,Samsunspor,Turkish Super Lig,0,3.0,3.15,1090.0,4.878,2.0,1.0,1.0,0.0,1,0,-1,
 1.5G,2026-01-18,Kocaelispor,Trabzonspor,Turkish Super Lig,1,1.33,1.37,315.0,2.963,3.0,1.0,2.0,1.0,,,,
 3.5G,2026-01-18,Kocaelispor,Trabzonspor,Turkish Super Lig,0,1.28,1.32,37.0,3.077,3.0,1.0,2.0,1.0,,,,
-3.5G,2026-01-18,VfB Stuttgart,Union Berlin,German Bundesliga I,0,1.44,1.48,199.0,2.74,2.0,1.0,1.0,1.0,1,1.4604,0.4604,1.465
+3.5G,2026-01-18,VfB Stuttgart,Union Berlin,German Bundesliga I,0,1.44,1.48,199.0,2.74,2.0,1.0,1.0,1.0,1,1.465,0.465,1.465
 2.5G,2026-01-18,VfB Stuttgart,Union Berlin,German Bundesliga I,1,1.72,1.8,3737.0,4.545,2.0,1.0,1.0,0.0,,,,
 1.5G,2026-01-18,VfB Stuttgart,Union Berlin,German Bundesliga I,1,1.22,1.26,1588.0,3.226,2.0,1.0,1.0,1.0,,,,
 BTTS,2026-01-18,VfB Stuttgart,Union Berlin,German Bundesliga I,1,1.75,1.83,682.0,4.469,2.0,1.0,1.0,1.0,,,,
@@ -10561,7 +10561,7 @@ BTTS,2026-01-20,Coventry,Millwall,English Championship League,1,1.8,1.82,115.0,1
 2.5G,2026-01-20,Sporting CP,Paris Saint Germain,UEFA Champions League,1,1.53,1.58,2242.0,3.215,3.0,2.0,1.0,1.0,,,,1.539
 2.5G,2026-01-20,Tottenham,Borussia Dortmund,UEFA Champions League,1,1.72,1.79,4548.0,3.989,2.0,2.0,0.0,0.0,,,,
 2.5G,2026-01-20,Wrexham,Leicester,English Championship League,1,1.9,1.92,5278.0,1.047,2.0,1.0,1.0,0.0,,,,
-3.5G,2026-01-20,Olympiakos Piraeus,Bayer Leverkusen,UEFA Champions League,0,1.44,1.48,711.0,2.74,2.0,2.0,0.0,1.0,1,1.4594,0.4594,1.464
+3.5G,2026-01-20,Olympiakos Piraeus,Bayer Leverkusen,UEFA Champions League,0,1.44,1.48,711.0,2.74,2.0,2.0,0.0,1.0,1,1.464,0.464,1.464
 2.5G,2026-01-20,Inter,Arsenal,UEFA Champions League,1,2.2,2.3,11569.0,4.444,4.0,1.0,3.0,1.0,,,,
 2.5G,2026-01-20,Villarreal,Ajax,UEFA Champions League,1,1.4,1.41,5594.0,1.0,3.0,1.0,2.0,1.0,,,,
 2.5G,2026-01-20,Olympiakos Piraeus,Bayer Leverkusen,UEFA Champions League,1,1.72,1.8,478.0,4.545,2.0,2.0,0.0,0.0,,,,
@@ -10575,7 +10575,7 @@ BTTS,2026-01-20,Coventry,Millwall,English Championship League,1,1.8,1.82,115.0,1
 2.5G,2026-01-20,Real Madrid,Monaco,UEFA Champions League,1,1.36,1.4,840.0,2.899,7.0,6.0,1.0,1.0,,,,1.395
 1.5G,2026-01-20,Wrexham,Leicester,English Championship League,1,1.28,1.31,2160.0,2.317,2.0,1.0,1.0,1.0,,,,
 3.5G,2026-01-20,Wrexham,Leicester,English Championship League,0,1.36,1.4,376.0,2.899,2.0,1.0,1.0,1.0,,,,1.388
-3.5G,2026-01-20,Tottenham,Borussia Dortmund,UEFA Champions League,0,1.44,1.48,533.0,2.74,2.0,2.0,0.0,1.0,1,1.4811,0.4811,1.486
+3.5G,2026-01-20,Tottenham,Borussia Dortmund,UEFA Champions League,0,1.44,1.48,533.0,2.74,2.0,2.0,0.0,1.0,1,1.486,0.486,1.486
 3.5G,2026-01-20,Sporting CP,Paris Saint Germain,UEFA Champions League,0,1.61,1.66,1270.0,3.058,3.0,2.0,1.0,1.0,,,,1.686
 3.5G,2026-01-20,FC Copenhagen,Napoli,UEFA Champions League,1,4.33,4.5,1676.0,3.851,2.0,1.0,1.0,0.0,,,,4.438
 3.5G,2026-01-20,Inter,Arsenal,UEFA Champions League,0,1.25,1.28,475.0,2.372,4.0,1.0,3.0,0.0,,,,1.267
@@ -10608,7 +10608,7 @@ BTTS,2026-01-21,AZ Alkmaar,Excelsior,Netherlands Eredivisie,0,2.0,2.1,1802.0,4.8
 1.5G,2026-01-21,Southampton,Sheffield Utd,English Championship League,1,1.22,1.26,992.0,3.226,1.0,1.0,0.0,0.0,,,,
 1.5G,2026-01-21,Watford,Portsmouth,English Championship League,1,1.3,1.35,1619.0,3.774,2.0,1.0,1.0,1.0,,,,
 3.5G,2026-01-21,Watford,Portsmouth,English Championship League,0,1.33,1.34,160.0,1.0,2.0,1.0,1.0,1.0,,,,
-3.5G,2026-01-21,Southampton,Sheffield Utd,English Championship League,0,1.44,1.47,493.0,2.062,1.0,1.0,0.0,1.0,1,1.4712,0.4712,1.476
+3.5G,2026-01-21,Southampton,Sheffield Utd,English Championship League,0,1.44,1.47,493.0,2.062,1.0,1.0,0.0,1.0,1,1.476,0.476,1.476
 BTTS,2026-01-21,Watford,Portsmouth,English Championship League,1,1.83,1.94,331.0,5.836,2.0,1.0,1.0,1.0,,,,
 2.5G,2026-01-21,Southampton,Sheffield Utd,English Championship League,1,1.72,1.8,852.0,4.545,1.0,1.0,0.0,0.0,,,,
 2.5G,2026-01-21,Watford,Portsmouth,English Championship League,0,1.9,1.94,1656.0,2.083,2.0,1.0,1.0,1.0,,,,1.904
@@ -10666,7 +10666,7 @@ BTTS,2026-01-22,BSC Young Boys,Lyon,UEFA Europa League,1,1.75,1.78,1223.0,1.7,1.
 3.5G,2026-01-22,BSC Young Boys,Lyon,UEFA Europa League,1,3.0,2.98,1444.0,1.0,1.0,0.0,1.0,0.0,,,,3.018
 3.5G,2026-01-22,PAOK,Real Betis,UEFA Europa League,0,1.4,1.45,3465.0,3.509,2.0,2.0,0.0,1.0,,,,1.397
 3.5G,2026-01-22,SC Freiburg,Maccabi Tel Aviv,UEFA Europa League,0,1.61,1.68,375.0,4.255,1.0,1.0,0.0,1.0,,,,1.597
-3.5G,2026-01-22,Feyenoord,Sturm Graz,UEFA Europa League,0,1.8,1.84,692.0,2.198,3.0,3.0,0.0,1.0,1,1.8036,0.8036,1.82
+3.5G,2026-01-22,Feyenoord,Sturm Graz,UEFA Europa League,0,1.8,1.84,692.0,2.198,3.0,3.0,0.0,1.0,1,1.82,0.82,1.82
 3.5G,2026-01-22,Malmo FF,FK Crvena Zvezda,UEFA Europa League,1,3.0,3.05,658.0,1.653,1.0,0.0,1.0,0.0,,,,2.955
 3.5G,2026-01-22,Bologna,Celtic,UEFA Europa League,1,3.2,3.25,1141.0,1.55,4.0,2.0,2.0,1.0,,,,3.192
 3.5G,2026-01-22,Plzen,FC Porto,UEFA Europa League,0,1.25,1.3,1787.0,3.922,2.0,1.0,1.0,1.0,,,,
@@ -10725,7 +10725,7 @@ BTTS,2026-01-23,Trabzonspor,Kasimpasa SK,Turkish Super Lig,1,1.727,1.8,525.0,4.1
 1.5G,2026-01-23,Hermannstadt Sibiu,Dinamo Bucharest,Romanian Liga I,1,1.4,1.45,524.0,3.509,3.0,1.0,2.0,1.0,,,,
 3.5G,2026-01-23,Hermannstadt Sibiu,Dinamo Bucharest,Romanian Liga I,1,4.33,4.5,413.0,3.851,3.0,1.0,2.0,0.0,,,,4.465
 BTTS,2026-01-23,Hermannstadt Sibiu,Dinamo Bucharest,Romanian Liga I,1,2.1,2.08,14.0,1.0,3.0,1.0,2.0,1.0,,,,
-3.5G,2026-01-23,Auxerre,Paris Saint Germain,French Ligue 1,0,1.57,1.63,709.0,3.75,1.0,0.0,1.0,1.0,1,1.6017,0.6017,1.614
+3.5G,2026-01-23,Auxerre,Paris Saint Germain,French Ligue 1,0,1.57,1.63,709.0,3.75,1.0,0.0,1.0,1.0,1,1.614,0.614,1.614
 2.5G,2026-01-23,Auxerre,Paris Saint Germain,French Ligue 1,1,1.57,1.61,651.0,2.516,1.0,0.0,1.0,0.0,,,,1.613
 1.5G,2026-01-23,Auxerre,Paris Saint Germain,French Ligue 1,1,1.16,1.2,2818.0,3.39,1.0,0.0,1.0,0.0,,,,
 BTTS,2026-01-23,Auxerre,Paris Saint Germain,French Ligue 1,1,1.95,2.04,721.0,4.511,1.0,0.0,1.0,0.0,,,,2.061
@@ -10758,7 +10758,7 @@ BTTS,2026-01-23,Casa Pia,AVS,Portuguese Primeira Liga,0,1.75,1.85,481.0,5.556,6.
 3.5G,2026-01-23,FC Metaloglobus București,Arges Piesti,Romanian Liga I,0,1.2,1.25,9.0,4.082,2.0,0.0,2.0,1.0,,,,
 BTTS,2026-01-23,FC Metaloglobus București,Arges Piesti,Romanian Liga I,1,2.1,2.16,320.0,2.817,2.0,0.0,2.0,0.0,,,,2.123
 BTTS,2026-01-24,Rennes,Lorient,French Ligue 1,1,1.7,1.78,213.0,4.598,2.0,0.0,2.0,0.0,,,,
-3.5G,2026-01-24,Rennes,Lorient,French Ligue 1,0,1.44,1.48,516.0,2.74,2.0,0.0,2.0,1.0,1,1.4554,0.4554,1.46
+3.5G,2026-01-24,Rennes,Lorient,French Ligue 1,0,1.44,1.48,516.0,2.74,2.0,0.0,2.0,1.0,1,1.46,0.46,1.46
 2.5G,2026-01-24,Rennes,Lorient,French Ligue 1,1,1.72,1.79,840.0,3.989,2.0,0.0,2.0,0.0,,,,1.784
 1.5G,2026-01-24,Rennes,Lorient,French Ligue 1,1,1.22,1.26,501.0,3.226,2.0,0.0,2.0,1.0,,,,
 BTTS,2026-01-24,HNK Rijeka,Slaven Belupo,Croatian HNL,1,2.0,2.06,207.0,2.956,5.0,3.0,2.0,1.0,,,,
@@ -10876,7 +10876,7 @@ BTTS,2026-01-24,Rayo Vallecano,Osasuna,Spanish La Liga,0,1.8,1.89,2507.0,4.878,4
 BTTS,2026-01-24,Lokomotiva Zagreb,Vukovar'91,Croatian HNL,1,1.8,1.76,204.0,1.0,4.0,2.0,2.0,1.0,,,,
 BTTS,2026-01-24,Samsunspor,Kocaelispor Izmet,Turkish Super Lig,1,2.0,2.12,626.0,5.825,0.0,0.0,0.0,0.0,,,,
 3.5G,2026-01-24,Lokomotiva Zagreb,Vukovar'91,Croatian HNL,1,3.25,3.3,0.0,1.527,3.0,1.0,0.0,0.0,,,,
-BTTS,2026-01-24,Como,Torino,Italian Serie A,0,1.9,1.92,248.0,1.047,6.0,6.0,0.0,1.0,1,1.883,0.883,1.901
+BTTS,2026-01-24,Como,Torino,Italian Serie A,0,1.9,1.92,248.0,1.047,6.0,6.0,0.0,1.0,1,1.901,0.901,1.901
 3.5G,2026-01-24,Samsunspor,Kocaelispor Izmet,Turkish Super Lig,0,1.2,1.23,137.0,2.469,0.0,0.0,0.0,1.0,,,,
 3.5G,2026-01-24,Como,Torino,Italian Serie A,0,1.33,1.36,665.0,2.23,6.0,6.0,0.0,0.0,,,,1.356
 2.5G,2026-01-24,Samsunspor,Kocaelispor Izmet,Turkish Super Lig,0,1.6,1.63,2856.0,1.858,0.0,0.0,0.0,1.0,,,,1.607
@@ -10927,7 +10927,7 @@ BTTS,2026-01-24,Hull City,Swansea,English Championship League,1,1.8,1.9,160.0,5.
 3.5G,2026-01-24,Bristol City,Sheffield Wednesday,English Championship League,1,2.62,2.6,349.0,1.0,2.0,2.0,0.0,0.0,,,,2.511
 3.5G,2026-01-24,Birmingham,Stoke City,English Championship League,0,1.28,1.32,47.0,3.077,2.0,1.0,1.0,1.0,,,,
 3.5G,2026-01-24,Leicester,Oxford United,English Championship League,0,1.25,1.28,67.0,2.372,3.0,1.0,2.0,1.0,,,,
-BTTS,2026-01-24,Olympiakos Piraeus,Volos NFC,Greek Super League,0,1.7,1.7,330.0,1.0,1.0,1.0,0.0,1.0,1,1.5655,0.5655,1.577
+BTTS,2026-01-24,Olympiakos Piraeus,Volos NFC,Greek Super League,0,1.7,1.7,330.0,1.0,1.0,1.0,0.0,1.0,1,1.577,0.577,1.577
 BTTS,2026-01-24,Universitatea Cluj,Unirea Slobozia,Romanian Liga I,1,2.37,2.34,151.0,1.0,1.0,1.0,0.0,0.0,,,,
 3.5G,2026-01-24,Manchester City,Wolves,English Premier League,0,1.66,1.72,11439.0,3.55,2.0,2.0,0.0,1.0,,,,
 3.5G,2026-01-24,Universitatea Cluj,Unirea Slobozia,Romanian Liga I,0,1.25,1.27,23.0,1.587,1.0,1.0,0.0,1.0,,,,
@@ -10980,7 +10980,7 @@ BTTS,2026-01-24,Ajax,FC Volendam,Netherlands Eredivisie,1,1.7,1.78,1028.0,4.598,
 3.5G,2026-01-25,Stade Brestois 29,Toulouse,French Ligue 1,0,1.25,1.28,562.0,2.372,2.0,0.0,2.0,1.0,,,,1.268
 3.5G,2026-01-25,Paris FC,Angers,French Ligue 1,0,1.25,1.27,327.0,1.587,0.0,0.0,0.0,1.0,,,,1.251
 3.5G,2026-01-25,Metz,Lyon,French Ligue 1,0,1.44,1.45,622.0,1.0,7.0,2.0,5.0,0.0,,,,1.427
-BTTS,2026-01-25,Stade Brestois 29,Toulouse,French Ligue 1,0,1.95,2.02,293.0,3.526,2.0,0.0,2.0,1.0,1,1.9947,0.9947,2.015
+BTTS,2026-01-25,Stade Brestois 29,Toulouse,French Ligue 1,0,1.95,2.02,293.0,3.526,2.0,0.0,2.0,1.0,1,2.015,1.015,2.015
 BTTS,2026-01-25,Paris FC,Angers,French Ligue 1,0,1.8,1.9,1017.0,5.405,0.0,0.0,0.0,1.0,1,0,-1,
 BTTS,2026-01-25,Metz,Lyon,French Ligue 1,0,2.05,2.12,220.0,3.357,7.0,2.0,5.0,0.0,1,0,-1,
 2.5G,2026-01-25,Paris FC,Angers,French Ligue 1,0,1.72,1.74,1990.0,1.156,0.0,0.0,0.0,1.0,,,,1.692
@@ -11019,7 +11019,7 @@ BTTS,2026-01-25,Anderlecht,FC Dender,Belgian First Division A,1,1.9,1.93,288.0,1
 1.5G,2026-01-25,Anderlecht,FC Dender,Belgian First Division A,1,1.25,1.29,354.0,3.15,0.0,0.0,0.0,0.0,,,,
 BTTS,2026-01-25,FCSB,CFR Cluj,Romanian Liga I,1,2.0,2.02,26.0,1.0,5.0,1.0,4.0,1.0,,,,
 BTTS,2026-01-25,Famalicao,Tondela,Portuguese Primeira Liga,1,1.95,1.97,2567.0,1.02,3.0,3.0,0.0,0.0,,,,1.979
-BTTS,2026-01-25,Benfica,Estrela,Portuguese Primeira Liga,0,1.57,1.6,481.0,1.893,4.0,4.0,0.0,1.0,1,1.6086,0.6086,1.621
+BTTS,2026-01-25,Benfica,Estrela,Portuguese Primeira Liga,0,1.57,1.6,481.0,1.893,4.0,4.0,0.0,1.0,1,1.621,0.621,1.621
 3.5G,2026-01-25,Famalicao,Tondela,Portuguese Primeira Liga,1,3.25,3.4,1595.0,4.511,3.0,3.0,0.0,0.0,,,,3.441
 2.5G,2026-01-25,Benfica,Estrela,Portuguese Primeira Liga,1,1.53,1.6,5285.0,4.473,4.0,4.0,0.0,1.0,,,,
 3.5G,2026-01-25,Benfica,Estrela,Portuguese Primeira Liga,1,2.37,2.52,3850.0,6.135,4.0,4.0,0.0,1.0,,,,
@@ -11142,7 +11142,7 @@ BTTS,2026-01-25,FC Zürich,FC Basel,Swiss Super League,1,1.66,1.72,583.0,3.55,7.
 BTTS,2026-01-25,St. Gallen,Servette Genf,Swiss Super League,1,1.61,1.66,28.0,3.058,6.0,2.0,4.0,1.0,,,,
 BTTS,2026-01-25,Nacional,Rio Ave,Portuguese Primeira Liga,1,1.75,1.78,632.0,1.7,4.0,4.0,0.0,0.0,,,,1.745
 3.5G,2026-01-25,Nacional,Rio Ave,Portuguese Primeira Liga,0,1.36,1.4,328.0,2.899,4.0,4.0,0.0,0.0,,,,1.395
-BTTS,2026-01-25,OFI Crete,Panetolikos,Greek Super League,0,1.95,2.02,349.0,3.526,1.0,1.0,0.0,1.0,1,1.8869,0.8869,1.905
+BTTS,2026-01-25,OFI Crete,Panetolikos,Greek Super League,0,1.95,2.02,349.0,3.526,1.0,1.0,0.0,1.0,1,1.905,0.905,1.905
 2.5G,2026-01-25,Nacional,Rio Ave,Portuguese Primeira Liga,1,1.85,1.93,9505.0,4.233,4.0,4.0,0.0,1.0,,,,
 2.5G,2026-01-25,OFI Crete,Panetolikos,Greek Super League,0,1.75,1.82,58.0,3.922,1.0,1.0,0.0,1.0,,,,
 3.5G,2026-01-25,St. Gallen,Servette Genf,Swiss Super League,0,1.4,1.48,57.0,5.556,6.0,2.0,4.0,0.0,,,,
@@ -11219,8 +11219,8 @@ BTTS,2026-01-27,St. Pauli,RB Leipzig,German Bundesliga I,1,1.9,1.98,1980.0,4.124
 3.5G,2026-01-28,Ajax,Olympiakos Piraeus,UEFA Champions League,0,1.5,1.53,1371.0,1.98,3.0,1.0,2.0,1.0,,,,1.523
 3.5G,2026-01-28,Eintracht Frankfurt,Tottenham,UEFA Champions League,0,1.53,1.6,779.0,4.473,2.0,0.0,2.0,1.0,,,,1.613
 3.5G,2026-01-28,Bayer Leverkusen,Villarreal,UEFA Champions League,0,1.66,1.71,1791.0,2.967,3.0,3.0,0.0,1.0,,,,1.721
-3.5G,2026-01-28,Borussia Dortmund,Inter,UEFA Champions League,0,1.5,1.54,451.0,2.632,2.0,0.0,2.0,1.0,1,1.5135,0.5135,1.524
-3.5G,2026-01-28,Monaco,Juventus,UEFA Champions League,0,1.53,1.58,1038.0,3.215,0.0,0.0,0.0,1.0,1,1.5517,0.5517,1.563
+3.5G,2026-01-28,Borussia Dortmund,Inter,UEFA Champions League,0,1.5,1.54,451.0,2.632,2.0,0.0,2.0,1.0,1,1.524,0.524,1.524
+3.5G,2026-01-28,Monaco,Juventus,UEFA Champions League,0,1.53,1.58,1038.0,3.215,0.0,0.0,0.0,1.0,1,1.563,0.563,1.563
 3.5G,2026-01-28,Paris Saint Germain,Newcastle,UEFA Champions League,0,1.9,1.9,24895.0,1.0,2.0,1.0,1.0,1.0,,,,
 3.5G,2026-01-28,Manchester City,Galatasaray,UEFA Champions League,0,2.1,2.2,1984.0,4.651,2.0,2.0,0.0,1.0,,,,
 3.5G,2026-01-28,Arsenal,Kairat Almaty,UEFA Champions League,1,1.44,1.49,4746.0,3.413,5.0,3.0,2.0,1.0,,,,1.462
@@ -11258,7 +11258,7 @@ BTTS,2026-01-28,Pafos,Slavia Praha,UEFA Champions League,1,1.61,1.69,758.0,4.848
 BTTS,2026-01-28,Union St. Gilloise,Atalanta,UEFA Champions League,1,1.57,1.64,915.0,4.361,1.0,1.0,0.0,0.0,,,,
 BTTS,2026-01-28,Club Brugge KV,Marseille,UEFA Champions League,0,2.84,2.84,1410.0,1.0,3.0,3.0,0.0,1.0,,,,
 BTTS,2026-01-28,Athletic Club,Sporting CP,UEFA Champions League,1,1.66,1.73,1639.0,4.13,5.0,2.0,3.0,1.0,,,,
-3.5G,2026-01-28,Union St. Gilloise,Atalanta,UEFA Champions League,0,1.5,1.54,358.0,2.632,1.0,1.0,0.0,1.0,1,1.5174,0.5174,1.528
+3.5G,2026-01-28,Union St. Gilloise,Atalanta,UEFA Champions League,0,1.5,1.54,358.0,2.632,1.0,1.0,0.0,1.0,1,1.528,0.528,1.528
 BTTS,2026-01-28,Barcelona,FC Copenhagen,UEFA Champions League,1,1.75,1.84,6265.0,5.014,5.0,4.0,1.0,1.0,,,,
 1.5G,2026-01-28,Ajax,Olympiakos Piraeus,UEFA Champions League,1,1.2,1.24,565.0,3.279,3.0,1.0,2.0,1.0,,,,
 BTTS,2026-01-28,Napoli,Chelsea,UEFA Champions League,1,1.66,1.7,2097.0,2.381,5.0,2.0,3.0,1.0,,,,1.733
@@ -11311,7 +11311,7 @@ BTTS,2026-01-29,Panathinaikos,AS Roma,UEFA Europa League,1,2.0,2.1,2831.0,4.878,
 1.5G,2026-01-29,Sturm Graz,Brann,UEFA Europa League,1,1.25,1.26,457.0,1.0,1.0,1.0,0.0,0.0,,,,
 1.5G,2026-01-29,Genk,Malmo FF,UEFA Europa League,1,1.16,1.19,1684.0,2.553,3.0,2.0,1.0,1.0,,,,
 1.5G,2026-01-29,Real Betis,Feyenoord,UEFA Europa League,1,1.14,1.17,1230.0,2.597,3.0,2.0,1.0,1.0,,,,
-3.5G,2026-01-29,FK Crvena Zvezda,Celta Vigo,UEFA Europa League,0,1.44,1.47,763.0,2.062,2.0,1.0,1.0,1.0,1,1.5076,0.5076,1.518
+3.5G,2026-01-29,FK Crvena Zvezda,Celta Vigo,UEFA Europa League,0,1.44,1.47,763.0,2.062,2.0,1.0,1.0,1.0,1,1.518,0.518,1.518
 BTTS,2026-01-29,Genk,Malmo FF,UEFA Europa League,0,1.9,1.99,349.0,4.627,3.0,2.0,1.0,0.0,,,,
 3.5G,2026-01-29,Genk,Malmo FF,UEFA Europa League,0,1.57,1.64,3577.0,4.361,3.0,2.0,1.0,1.0,,,,1.729
 3.5G,2026-01-29,Sturm Graz,Brann,UEFA Europa League,1,3.0,3.1,604.0,3.279,1.0,1.0,0.0,0.0,,,,3.263
@@ -11320,7 +11320,7 @@ BTTS,2026-01-29,Genk,Malmo FF,UEFA Europa League,0,1.9,1.99,349.0,4.627,3.0,2.0,
 BTTS,2026-01-29,Maccabi Tel Aviv,Bologna,UEFA Europa League,1,1.9,1.94,338.0,2.083,3.0,0.0,3.0,0.0,,,,1.999
 3.5G,2026-01-29,Ludogorets,Nice,UEFA Europa League,1,3.2,3.3,1232.0,3.077,1.0,1.0,0.0,0.0,,,,2.85
 3.5G,2026-01-29,FCSB,Fenerbahçe,UEFA Europa League,1,2.75,2.84,1275.0,3.22,2.0,1.0,1.0,0.0,,,,2.762
-3.5G,2026-01-29,FC Basel 1893,Plzen,UEFA Europa League,0,1.5,1.51,744.0,1.0,1.0,0.0,1.0,1.0,1,1.5429,0.5429,1.554
+3.5G,2026-01-29,FC Basel 1893,Plzen,UEFA Europa League,0,1.5,1.51,744.0,1.0,1.0,0.0,1.0,1.0,1,1.554,0.554,1.554
 3.5G,2026-01-29,Real Betis,Feyenoord,UEFA Europa League,0,1.66,1.73,829.0,4.13,3.0,2.0,1.0,1.0,,,,1.847
 3.5G,2026-01-29,GO Ahead Eagles,SC Braga,UEFA Europa League,0,1.44,1.5,872.0,4.082,0.0,0.0,0.0,1.0,,,,1.496
 3.5G,2026-01-29,Midtjylland,Dinamo Zagreb,UEFA Europa League,0,1.44,1.5,292.0,4.082,2.0,2.0,0.0,1.0,,,,1.464
@@ -11452,7 +11452,7 @@ BTTS,2026-01-31,Levante,Atletico Madrid,Spanish La Liga,1,1.7,1.79,214.0,5.158,0
 BTTS,2026-01-31,Hamburger SV,Bayern München,German Bundesliga I,1,1.75,1.78,6618.0,1.7,4.0,2.0,2.0,1.0,,,,1.78
 BTTS,2026-01-31,Chelsea,West Ham,English Premier League,0,2.25,2.42,1641.0,7.281,5.0,3.0,2.0,0.0,,,,
 3.5G,2026-01-31,Hamburger SV,Bayern München,German Bundesliga I,1,2.0,2.06,6410.0,2.956,4.0,2.0,2.0,1.0,,,,
-3.5G,2026-01-31,Levante,Atletico Madrid,Spanish La Liga,0,1.5,1.53,688.0,1.98,0.0,0.0,0.0,1.0,1,1.5321,0.5321,1.543
+3.5G,2026-01-31,Levante,Atletico Madrid,Spanish La Liga,0,1.5,1.53,688.0,1.98,0.0,0.0,0.0,1.0,1,1.543,0.543,1.543
 3.5G,2026-01-31,Chelsea,West Ham,English Premier League,0,1.66,1.71,2568.0,2.967,5.0,3.0,2.0,0.0,,,,1.693
 1.5G,2026-01-31,Levante,Atletico Madrid,Spanish La Liga,1,1.2,1.25,1599.0,4.082,0.0,0.0,0.0,0.0,,,,
 1.5G,2026-01-31,Hamburger SV,Bayern München,German Bundesliga I,1,1.11,1.13,859.0,1.786,4.0,2.0,2.0,1.0,,,,
@@ -11594,7 +11594,7 @@ BTTS,2026-01-31,Werder Bremen,Borussia Mönchengladbach,German Bundesliga I,1,1.
 3.5G,2026-01-31,FC Augsburg,FC St. Pauli,German Bundesliga I,0,1.16,1.21,259.0,4.219,3.0,2.0,1.0,1.0,,,,
 3.5G,2026-01-31,Eintracht Frankfurt,Bayer Leverkusen,German Bundesliga I,0,1.57,1.64,807.0,4.361,4.0,1.0,3.0,0.0,,,,1.627
 3.5G,2026-01-31,1899 Hoffenheim,Union Berlin,German Bundesliga I,1,3.4,3.45,482.0,1.46,4.0,3.0,1.0,1.0,,,,3.388
-3.5G,2026-01-31,Werder Bremen,Borussia Mönchengladbach,German Bundesliga I,0,1.44,1.48,829.0,2.74,2.0,1.0,1.0,1.0,1,1.4633,0.4633,1.468
+3.5G,2026-01-31,Werder Bremen,Borussia Mönchengladbach,German Bundesliga I,0,1.44,1.48,829.0,2.74,2.0,1.0,1.0,1.0,1,1.468,0.468,1.468
 3.5G,2026-01-31,RB Leipzig,FSV Mainz 05,German Bundesliga I,0,1.57,1.61,1402.0,2.516,3.0,1.0,2.0,1.0,,,,1.597
 1.5G,2026-01-31,RB Leipzig,FSV Mainz 05,German Bundesliga I,1,1.16,1.21,2212.0,4.219,3.0,1.0,2.0,1.0,,,,
 1.5G,2026-01-31,FC Augsburg,FC St. Pauli,German Bundesliga I,1,1.5,1.55,2662.0,3.279,3.0,2.0,1.0,1.0,,,,
@@ -11714,7 +11714,7 @@ BTTS,2026-02-01,Pardubice FK,Slavia Praha,Czech First League,0,1.4,1.45,26.0,3.5
 BTTS,2026-02-01,Galatasaray,Kayserispor,Turkish Super Lig,0,2.0,2.1,1499.0,4.878,4.0,4.0,0.0,1.0,,,,
 2.5G,2026-02-01,Pardubice FK,Slavia Praha,Czech First League,1,1.22,1.27,100.0,4.016,2.0,3.0,0.0,0.0,,,,
 2.5G,2026-02-01,Cremonese,Inter,Italian Serie A,1,1.61,1.69,1671.0,4.848,2.0,0.0,2.0,0.0,,,,
-3.5G,2026-02-01,Cremonese,Inter,Italian Serie A,0,1.53,1.55,681.0,1.299,2.0,0.0,2.0,1.0,1,1.5096,0.5096,1.52
+3.5G,2026-02-01,Cremonese,Inter,Italian Serie A,0,1.53,1.55,681.0,1.299,2.0,0.0,2.0,1.0,1,1.52,0.52,1.52
 3.5G,2026-02-01,Pardubice FK,Slavia Praha,Czech First League,1,1.75,1.82,105.0,3.922,2.0,1.0,1.0,0.0,,,,
 3.5G,2026-02-01,Galatasaray,Kayserispor,Turkish Super Lig,0,1.8,1.89,1848.0,4.878,4.0,4.0,0.0,0.0,,,,1.936
 1.5G,2026-02-01,Union St. Gilloise,Club Brugge KV,Belgian First Division A,0,4.1,4.1,2244.0,1.0,1.0,1.0,0.0,1.0,,,,
@@ -11732,7 +11732,7 @@ BTTS,2026-02-01,Getafe,Celta Vigo,Spanish La Liga,1,2.37,2.5,2453.0,5.339,0.0,0.
 1.5G,2026-02-01,Sporting CP,Nacional,Portuguese Primeira Liga,1,1.083,1.12,269.0,3.359,3.0,2.0,1.0,1.0,,,,
 1.5G,2026-02-01,FCSB,Csikszereda,Romanian Liga I,1,1.2,1.24,132.0,3.279,1.0,1.0,0.0,0.0,,,,
 2.5G,2026-02-01,FCSB,Csikszereda,Romanian Liga I,1,1.66,1.71,151.0,2.967,1.0,1.0,0.0,0.0,,,,
-BTTS,2026-02-01,FCSB,Csikszereda,Romanian Liga I,0,1.61,1.58,768.0,1.0,1.0,1.0,0.0,1.0,1,1.5694,0.5694,1.581
+BTTS,2026-02-01,FCSB,Csikszereda,Romanian Liga I,0,1.61,1.58,768.0,1.0,1.0,1.0,0.0,1.0,1,1.581,0.581,1.581
 2.5G,2026-02-01,Sporting CP,Nacional,Portuguese Primeira Liga,1,1.33,1.38,1342.0,3.69,3.0,2.0,1.0,1.0,,,,1.355
 BTTS,2026-02-01,Sporting CP,Nacional,Portuguese Primeira Liga,0,1.7,1.77,1210.0,4.035,3.0,2.0,1.0,0.0,,,,
 3.5G,2026-02-01,Sporting CP,Nacional,Portuguese Primeira Liga,0,1.9,2.02,1245.0,6.122,3.0,2.0,1.0,1.0,,,,
@@ -12223,7 +12223,7 @@ BTTS,2026-02-07,NEC Nijmegen,Heracles,Netherlands Eredivisie,1,1.61,1.69,609.0,4
 1.5G,2026-02-07,NEC Nijmegen,Heracles,Netherlands Eredivisie,1,1.12,1.16,844.0,3.509,5.0,4.0,1.0,1.0,,,,
 3.5G,2026-02-08,Sturm Graz,SV Ried,Austrian Bundesliga,0,1.33,1.34,1116.0,1.0,1.0,1.0,0.0,1.0,,,,
 2.5G,2026-02-08,Sturm Graz,SV Ried,Austrian Bundesliga,0,1.85,1.9,1283.0,2.667,1.0,1.0,0.0,1.0,,,,1.855
-BTTS,2026-02-08,Sturm Graz,SV Ried,Austrian Bundesliga,0,2.05,2.1,307.0,2.41,1.0,1.0,0.0,1.0,2,4.1325,2.1325,2.088
+BTTS,2026-02-08,Sturm Graz,SV Ried,Austrian Bundesliga,0,2.05,2.1,307.0,2.41,1.0,1.0,0.0,1.0,2,4.176,2.176,2.088
 1.5G,2026-02-08,Sturm Graz,SV Ried,Austrian Bundesliga,0,3.5,3.65,370.0,4.196,1.0,1.0,0.0,1.0,1,3.4218,2.4218,
 3.5G,2026-02-08,Angers,Toulouse,French Ligue 1,0,1.2,1.23,0.0,2.469,1.0,1.0,0.0,1.0,,,,
 3.5G,2026-02-08,Auxerre,Paris FC,French Ligue 1,1,4.0,4.1,38.0,2.469,0.0,0.0,0.0,0.0,,,,
@@ -12547,7 +12547,7 @@ BTTS,2026-02-10,Heart Of Midlothian,Hibernian,Scottish Premiership,0,1.95,2.04,7
 BTTS,2026-02-10,Birmingham,West Brom,English Championship League,0,1.83,1.98,416.0,7.874,0.0,0.0,0.0,1.0,1,0,-1,
 2.5G,2026-02-10,Birmingham,West Brom,English Championship League,1,2.1,2.18,852.0,3.738,0.0,0.0,0.0,0.0,,,,2.158
 2.5G,2026-02-10,Heart Of Midlothian,Hibernian,Scottish Premiership,1,2.0,2.06,586.0,2.956,1.0,1.0,0.0,0.0,,,,2.045
-1.5G,2026-02-10,Birmingham,West Brom,English Championship League,0,3.4,3.45,660.0,1.46,0.0,0.0,0.0,1.0,1,3.2931,2.2931,3.364
+1.5G,2026-02-10,Birmingham,West Brom,English Championship League,0,3.4,3.45,660.0,1.46,0.0,0.0,0.0,1.0,1,3.364,2.364,3.364
 1.5G,2026-02-10,Heart Of Midlothian,Hibernian,Scottish Premiership,1,1.3,1.34,544.0,3.03,1.0,1.0,0.0,0.0,,,,
 BTTS,2026-02-10,West Ham,Manchester United,English Premier League,1,1.5,1.55,3695.0,3.279,2.0,1.0,1.0,1.0,,,,
 2.5G,2026-02-10,West Ham,Manchester United,English Premier League,1,1.44,1.51,3347.0,4.746,2.0,1.0,1.0,0.0,,,,
@@ -12593,14 +12593,14 @@ BTTS,2026-02-11,Kilmarnock,ST Mirren,Scottish Premiership,1,1.8,1.88,950.0,4.348
 BTTS,2026-02-11,Celtic,Livingston,Scottish Premiership,1,2.05,2.16,2378.0,5.226,3.0,2.0,1.0,1.0,,,,
 1.5G,2026-02-11,Charlton,Stoke City,English Championship League,0,2.75,2.88,801.0,4.618,1.0,1.0,0.0,1.0,1,2.7521,1.7521,
 1.5G,2026-02-11,Kilmarnock,ST Mirren,Scottish Premiership,1,1.36,1.39,79.0,2.182,7.0,4.0,3.0,1.0,,,,
-1.5G,2026-02-11,Falkirk,Dundee,Scottish Premiership,0,3.75,3.85,408.0,2.632,1.0,1.0,0.0,1.0,2,7.161,5.161,3.688
+1.5G,2026-02-11,Falkirk,Dundee,Scottish Premiership,0,3.75,3.85,408.0,2.632,1.0,1.0,0.0,1.0,2,7.376,5.376,3.688
 3.5G,2026-02-11,Charlton,Stoke City,English Championship League,0,1.2,1.23,292.0,2.469,1.0,1.0,0.0,1.0,,,,
 1.5G,2026-02-11,Celtic,Livingston,Scottish Premiership,1,1.1,1.12,1572.0,1.802,3.0,2.0,1.0,1.0,,,,
 3.5G,2026-02-11,Celtic,Livingston,Scottish Premiership,1,1.9,1.99,3874.0,4.627,3.0,2.0,1.0,0.0,,,,1.937
 2.5G,2026-02-11,Charlton,Stoke City,English Championship League,0,1.57,1.63,1574.0,3.75,1.0,1.0,0.0,1.0,,,,
 3.5G,2026-02-11,Falkirk,Dundee,Scottish Premiership,0,1.33,1.36,10.0,2.23,1.0,1.0,0.0,1.0,,,,
 3.5G,2026-02-11,Kilmarnock,ST Mirren,Scottish Premiership,1,4.0,4.1,47.0,2.469,7.0,4.0,3.0,1.0,,,,
-BTTS,2026-02-11,Falkirk,Dundee,Scottish Premiership,0,1.9,1.95,704.0,2.597,1.0,1.0,0.0,1.0,1,1.9271,0.9271,1.946
+BTTS,2026-02-11,Falkirk,Dundee,Scottish Premiership,0,1.9,1.95,704.0,2.597,1.0,1.0,0.0,1.0,1,1.946,0.946,1.946
 2.5G,2026-02-11,Motherwell,Rangers,Scottish Premiership,0,1.9,1.96,3212.0,3.109,2.0,1.0,1.0,1.0,,,,
 2.5G,2026-02-11,NEC Nijmegen,Utrecht,Netherlands Eredivisie,1,1.67,1.75,4275.0,4.678,4.0,1.0,3.0,1.0,,,,
 BTTS,2026-02-11,NEC Nijmegen,Utrecht,Netherlands Eredivisie,1,1.666,1.71,1747.0,2.607,4.0,1.0,3.0,1.0,,,,
@@ -12720,7 +12720,7 @@ BTTS,2026-02-14,Marseille,Strasbourg,French Ligue 1,1,1.61,1.65,504.0,2.454,4.0,
 3.5G,2026-02-14,HNK Rijeka,Varteks Varazdin,Croatian HNL,0,1.25,1.27,0.0,1.587,4.0,4.0,1.0,0.0,,,,
 2.5G,2026-02-14,HNK Rijeka,Varteks Varazdin,Croatian HNL,0,1.666,1.73,60.0,3.769,4.0,1.0,1.0,0.0,,,,
 BTTS,2026-02-14,HNK Rijeka,Varteks Varazdin,Croatian HNL,1,2.0,2.06,0.0,2.956,3.0,2.0,1.0,0.0,,,,
-1.5G,2026-02-14,Zaglebie Lubin,Rakow Czestochowa,Polish Ekstraklasa,0,3.0,3.0,466.0,1.0,0.0,0.0,0.0,1.0,1,2.8265,1.8265,2.883
+1.5G,2026-02-14,Zaglebie Lubin,Rakow Czestochowa,Polish Ekstraklasa,0,3.0,3.0,466.0,1.0,0.0,0.0,0.0,1.0,1,2.883,1.883,2.883
 3.5G,2026-02-14,Zaglebie Lubin,Rakow Czestochowa,Polish Ekstraklasa,0,1.23,1.24,76.0,1.0,0.0,0.0,0.0,1.0,,,,
 2.5G,2026-02-14,Zaglebie Lubin,Rakow Czestochowa,Polish Ekstraklasa,0,1.6,1.67,138.0,4.281,0.0,0.0,0.0,1.0,,,,
 BTTS,2026-02-14,Zaglebie Lubin,Rakow Czestochowa,Polish Ekstraklasa,1,1.95,1.98,31.0,1.527,0.0,0.0,0.0,0.0,,,,
@@ -12972,12 +12972,12 @@ BTTS,2026-02-15,Levante,Valencia FC,Spanish La Liga,1,1.8,1.88,604.0,4.348,2.0,0
 1.5G,2026-02-15,Levante,Valencia FC,Spanish La Liga,1,1.36,1.39,507.0,2.182,2.0,0.0,2.0,1.0,,,,
 1.5G,2026-02-15,Anderlecht,RAAL La Louvière,Belgian First Division A,1,1.36,1.4,593.0,2.899,0.0,0.0,0.0,0.0,,,,
 1.5G,2026-02-15,Sparta Praha,Hradec Kralove,Czech First League,1,1.25,1.28,68.0,2.372,2.0,1.0,0.0,1.0,,,,
-1.5G,2026-02-15,PAOK Saloniki,Athens AEK,Greek Super League,0,3.4,3.2,894.0,1.0,0.0,0.0,0.0,1.0,2,6.0992,4.0992,3.113
+1.5G,2026-02-15,PAOK Saloniki,Athens AEK,Greek Super League,0,3.4,3.2,894.0,1.0,0.0,0.0,0.0,1.0,2,6.226,4.226,3.113
 2.5G,2026-02-15,Sparta Praha,Hradec Kralove,Czech First League,1,1.8,1.87,11.0,3.815,2.0,2.0,0.0,0.0,,,,
 2.5G,2026-02-15,Anderlecht,RAAL La Louvière,Belgian First Division A,0,1.7,1.78,362.0,4.598,0.0,0.0,0.0,1.0,,,,
 2.5G,2026-02-15,PAOK Saloniki,Athens AEK,Greek Super League,0,1.8,1.75,680.0,1.0,0.0,0.0,0.0,1.0,,,,1.674
 2.5G,2026-02-15,Levante,Valencia FC,Spanish La Liga,1,2.1,2.2,5280.0,4.651,2.0,0.0,2.0,0.0,,,,
-BTTS,2026-02-15,PAOK Saloniki,Athens AEK,Greek Super League,0,2.0,2.02,286.0,1.0,0.0,0.0,0.0,1.0,1,1.9996,0.9996,2.02
+BTTS,2026-02-15,PAOK Saloniki,Athens AEK,Greek Super League,0,2.0,2.02,286.0,1.0,0.0,0.0,0.0,1.0,1,2.02,1.02,2.02
 BTTS,2026-02-15,Sparta Praha,Hradec Kralove,Czech First League,0,1.7,1.78,434.0,4.598,4.0,2.0,2.0,1.0,,,,
 BTTS,2026-02-15,Anderlecht,RAAL La Louvière,Belgian First Division A,1,2.0,2.02,14.0,1.0,0.0,0.0,0.0,0.0,,,,
 3.5G,2026-02-15,PAOK Saloniki,Athens AEK,Greek Super League,0,1.3,1.28,292.0,1.0,0.0,0.0,0.0,1.0,,,,
@@ -13104,7 +13104,7 @@ BTTS,2026-02-15,Parma,Hellas Verona,Italian Serie A,1,2.05,2.14,105.0,4.296,3.0,
 3.5G,2026-02-15,Cremonese,Genoa,Italian Serie A,0,1.16,1.2,488.0,3.39,0.0,0.0,0.0,1.0,,,,
 3.5G,2026-02-15,Kilmarnock,Celtic,Scottish Premiership,0,1.66,1.7,457.0,2.381,5.0,2.0,3.0,0.0,1,0,-1,
 3.5G,2026-02-15,Le Havre,Toulouse,French Ligue 1,0,1.25,1.27,19.0,1.587,3.0,2.0,1.0,1.0,,,,
-1.5G,2026-02-15,Slovan Liberec,Banik Ostrava,Czech First League,0,3.75,3.95,86.0,5.195,1.0,1.0,0.0,1.0,1,3.832,2.832,3.95
+1.5G,2026-02-15,Slovan Liberec,Banik Ostrava,Czech First League,0,3.75,3.95,86.0,5.195,1.0,1.0,0.0,1.0,1,3.95,2.95,3.95
 1.5G,2026-02-15,Mlada Boleslav,Teplice,Czech First League,1,1.3,1.36,12.0,4.511,0.0,4.0,2.0,0.0,,,,
 1.5G,2026-02-15,FC Augsburg,1. FC Heidenheim,German Bundesliga I,1,1.22,1.27,331.0,4.016,1.0,1.0,0.0,0.0,,,,
 2.5G,2026-02-15,FC Augsburg,1. FC Heidenheim,German Bundesliga I,1,1.72,1.8,1475.0,4.545,1.0,1.0,0.0,0.0,,,,
@@ -13186,7 +13186,7 @@ BTTS,2026-02-16,Rio Ave,Moreirense,Portuguese Primeira Liga,1,1.95,1.97,404.0,1.
 1.5G,2026-02-16,Rio Ave,Moreirense,Portuguese Primeira Liga,1,1.4,1.45,905.0,3.509,3.0,1.0,2.0,1.0,,,,
 BTTS,2026-02-16,Hermannstadt Sibiu,CFR Cluj,Romanian Liga I,1,2.0,2.08,6.0,3.922,1.0,0.0,1.0,0.0,,,,
 2.5G,2026-02-16,Hermannstadt Sibiu,CFR Cluj,Romanian Liga I,1,2.25,2.36,150.0,4.772,1.0,0.0,1.0,0.0,,,,
-1.5G,2026-02-16,Hermannstadt Sibiu,CFR Cluj,Romanian Liga I,0,3.0,3.1,145.0,3.279,1.0,0.0,1.0,1.0,1,2.876,1.876,2.934
+1.5G,2026-02-16,Hermannstadt Sibiu,CFR Cluj,Romanian Liga I,0,3.0,3.1,145.0,3.279,1.0,0.0,1.0,1.0,1,2.934,1.934,2.934
 3.5G,2026-02-16,Hermannstadt Sibiu,CFR Cluj,Romanian Liga I,0,1.22,1.25,88.0,2.429,1.0,0.0,1.0,1.0,,,,
 2.5G,2026-02-17,Galatasaray,Juventus,UEFA Champions League,1,1.8,1.86,12448.0,3.279,7.0,5.0,2.0,1.0,,,,
 1.5G,2026-02-17,Galatasaray,Juventus,UEFA Champions League,1,1.25,1.27,3621.0,1.587,7.0,5.0,2.0,1.0,,,,
@@ -13220,7 +13220,7 @@ BTTS,2026-02-18,Winterthur,St. Gallen,Swiss Super League,1,1.57,1.59,2477.0,1.26
 2.5G,2026-02-18,Winterthur,St. Gallen,Swiss Super League,1,1.57,1.57,2666.0,1.0,6.0,1.0,5.0,1.0,,,,
 3.5G,2026-02-18,Winterthur,St. Gallen,Swiss Super League,1,2.37,2.38,771.0,1.0,6.0,1.0,5.0,1.0,,,,2.326
 1.5G,2026-02-18,Winterthur,St. Gallen,Swiss Super League,1,1.16,1.17,5385.0,1.0,6.0,1.0,5.0,1.0,,,,
-BTTS,2026-02-18,Levante,Villarreal,Spanish La Liga,0,2.26,2.26,879.0,1.0,1.0,0.0,1.0,1.0,1,2.2211,1.2211,2.246
+BTTS,2026-02-18,Levante,Villarreal,Spanish La Liga,0,2.26,2.26,879.0,1.0,1.0,0.0,1.0,1.0,1,2.246,1.246,2.246
 3.5G,2026-02-18,Levante,Villarreal,Spanish La Liga,0,1.4,1.45,664.0,3.509,1.0,0.0,1.0,1.0,,,,
 2.5G,2026-02-18,Levante,Villarreal,Spanish La Liga,1,1.8,1.86,3012.0,3.279,1.0,0.0,1.0,0.0,,,,
 1.5G,2026-02-18,Levante,Villarreal,Spanish La Liga,1,1.25,1.27,1483.0,1.587,1.0,0.0,1.0,0.0,,,,
@@ -13256,7 +13256,7 @@ BTTS,2026-02-18,Olympiakos Piraeus,Leverkusen,UEFA Champions League,0,2.1,2.2,50
 3.5G,2026-02-19,Dinamo Zagreb,KRC Genk,UEFA Europa League,0,1.33,1.36,319.0,2.23,4.0,1.0,3.0,0.0,,,,
 BTTS,2026-02-19,Zrinjski Mostar,Crystal Palace,UEFA Conference League,1,2.2,2.2,200.0,1.0,2.0,1.0,1.0,1.0,,,,
 BTTS,2026-02-19,SK Sigma Olomouc,FC Lausanne-Sport,UEFA Conference League,0,2.1,2.18,524.0,3.738,2.0,1.0,1.0,0.0,1,0,-1,2.154
-BTTS,2026-02-19,Noah,Alkmaar AZ,UEFA Conference League,0,2.44,2.44,258.0,1.0,1.0,1.0,0.0,1.0,2,4.7264,2.7264,2.391
+BTTS,2026-02-19,Noah,Alkmaar AZ,UEFA Conference League,0,2.44,2.44,258.0,1.0,1.0,1.0,0.0,1.0,2,4.782,2.782,2.391
 BTTS,2026-02-19,KuPS Kuopio,Lech Poznan,UEFA Conference League,1,1.83,1.89,521.0,3.226,2.0,0.0,2.0,0.0,,,,
 3.5G,2026-02-19,Fenerbahçe,Nottingham,UEFA Europa League,0,1.33,1.37,454.0,2.963,3.0,0.0,3.0,1.0,,,,
 3.5G,2026-02-19,Noah,Alkmaar AZ,UEFA Conference League,0,1.5,1.52,52.0,1.325,1.0,1.0,0.0,1.0,1,1.4992,0.4992,
@@ -13335,7 +13335,7 @@ BTTS,2026-02-20,Fortuna Sittard,Excelsior,Netherlands Eredivisie,1,1.66,1.69,171
 3.5G,2026-02-20,Widzew Lodz,Cracovia Krakow,Polish Ekstraklasa,0,1.2,1.24,133.0,3.279,0.0,0.0,0.0,1.0,,,,
 3.5G,2026-02-20,FSV Mainz 05,Hamburger SV,German Bundesliga I,0,1.4,1.42,566.0,1.418,2.0,1.0,1.0,1.0,,,,
 BTTS,2026-02-20,FSV Mainz 05,Hamburger SV,German Bundesliga I,1,1.7,1.74,1136.0,2.326,2.0,1.0,1.0,1.0,,,,
-1.5G,2026-02-20,Widzew Lodz,Cracovia Krakow,Polish Ekstraklasa,0,3.0,3.0,306.0,1.0,0.0,0.0,0.0,1.0,1,2.8314,1.8314,2.888
+1.5G,2026-02-20,Widzew Lodz,Cracovia Krakow,Polish Ekstraklasa,0,3.0,3.0,306.0,1.0,0.0,0.0,0.0,1.0,1,2.888,1.888,2.888
 1.5G,2026-02-20,FSV Mainz 05,Hamburger SV,German Bundesliga I,1,1.25,1.3,1768.0,3.922,2.0,1.0,1.0,1.0,,,,
 2.5G,2026-02-20,Widzew Lodz,Cracovia Krakow,Polish Ekstraklasa,0,1.6,1.66,1238.0,3.681,0.0,0.0,0.0,1.0,,,,
 2.5G,2026-02-20,FSV Mainz 05,Hamburger SV,German Bundesliga I,0,2.0,2.08,3696.0,3.922,2.0,1.0,1.0,1.0,,,,
@@ -13697,7 +13697,7 @@ BTTS,2026-02-22,FC Porto,Rio Ave,Portuguese Primeira Liga,0,1.444,1.52,1127.0,5.
 3.5G,2026-02-22,FC Porto,Rio Ave,Portuguese Primeira Liga,0,1.65,1.7,526.0,2.985,1.0,1.0,0.0,1.0,1,1.6743,0.6743,
 2.5G,2026-02-22,Kayserispor,Antalyaspor,Turkish Super Lig,1,2.075,2.16,143.0,4.014,1.0,1.0,0.0,0.0,,,,
 BTTS,2026-02-22,Kayserispor,Antalyaspor,Turkish Super Lig,1,1.833,1.9,11.0,3.59,1.0,1.0,0.0,0.0,,,,
-1.5G,2026-02-22,Kayserispor,Antalyaspor,Turkish Super Lig,0,3.3,3.4,167.0,2.985,1.0,1.0,0.0,1.0,1,3.0089,2.0089,3.071
+1.5G,2026-02-22,Kayserispor,Antalyaspor,Turkish Super Lig,0,3.3,3.4,167.0,2.985,1.0,1.0,0.0,1.0,1,3.071,2.071,3.071
 3.5G,2026-02-22,Kayserispor,Antalyaspor,Turkish Super Lig,0,1.275,1.31,14.0,2.708,1.0,1.0,0.0,1.0,,,,
 2.5G,2026-02-22,Arka Gdynia,Katowice GKS,Polish Ekstraklasa,0,1.7,1.76,60.0,3.468,3.0,2.0,1.0,0.0,,,,
 2.5G,2026-02-22,Twente,Groningen,Netherlands Eredivisie,1,1.571,1.59,2417.0,1.202,3.0,2.0,1.0,1.0,,,,
@@ -14001,7 +14001,7 @@ BTTS,2026-02-26,Lech Poznan,KuPS Kuopio,UEFA Conference League,1,2.0,2.08,458.0,
 3.5G,2026-02-27,Trabzonspor,Fatih Karagumruk,Turkish Super Lig,1,3.15,3.15,184.0,1.0,4.0,3.0,1.0,1.0,,,,3.064
 3.5G,2026-02-27,Cracovia Krakow,Piast Gliwice,Polish Ekstraklasa,0,1.18,1.23,74.0,4.149,5.0,2.0,3.0,0.0,,,,
 2.5G,2026-02-27,Slaven Belupo,Istra 1961 Pula,Croatian HNL,1,2.0,2.04,451.0,1.98,1.0,2.0,0.0,0.0,,,,1.984
-BTTS,2026-02-27,Istanbul Buyuksehir,Konyaspor,Turkish Super Lig,0,2.24,2.24,1003.0,1.0,2.0,2.0,0.0,1.0,2,4.3716,2.3716,2.21
+BTTS,2026-02-27,Istanbul Buyuksehir,Konyaspor,Turkish Super Lig,0,2.24,2.24,1003.0,1.0,2.0,2.0,0.0,1.0,2,4.42,2.42,2.21
 BTTS,2026-02-27,Cracovia Krakow,Piast Gliwice,Polish Ekstraklasa,1,2.05,2.02,8.0,1.0,5.0,2.0,3.0,1.0,,,,
 BTTS,2026-02-27,Trabzonspor,Fatih Karagumruk,Turkish Super Lig,1,2.0,2.04,258.0,1.98,4.0,3.0,1.0,1.0,,,,2.02
 BTTS,2026-02-27,FK Dukla Praha,Slavia Praha,Czech First League,0,1.44,1.52,101.0,5.405,2.0,1.0,1.0,0.0,1,2.752,1.752,
@@ -14092,7 +14092,7 @@ BTTS,2026-02-28,Verona,Napoli,Italian Serie A,0,1.615,1.69,5334.0,4.539,3.0,1.0,
 BTTS,2026-02-28,Sparta Praha,Banik Ostrava,Czech First League,0,1.909,1.82,19.0,1.0,2.0,1.0,1.0,0.0,,,,
 1.5G,2026-02-28,FC Thun,FC Luzern,Swiss Super League,1,1.14,1.15,41.0,1.0,3.0,2.0,1.0,1.0,,,,
 1.5G,2026-02-28,St. Gallen,Winterthur,Swiss Super League,1,1.105,1.11,447.0,1.0,3.0,2.0,1.0,1.0,,,,
-BTTS,2026-02-28,Goztepe,Eyup SK Istanbul,Turkish Super Lig,0,1.833,1.85,738.0,1.0,0.0,0.0,0.0,1.0,2,3.5308,1.5308,1.781
+BTTS,2026-02-28,Goztepe,Eyup SK Istanbul,Turkish Super Lig,0,1.833,1.85,738.0,1.0,0.0,0.0,0.0,1.0,2,3.562,1.562,1.781
 BTTS,2026-02-28,Galatasaray,Alanyaspor,Turkish Super Lig,1,1.8,1.85,919.0,2.74,4.0,3.0,1.0,1.0,,,,1.83
 2.5G,2026-02-28,St. Gallen,Winterthur,Swiss Super League,1,1.363,1.37,610.0,1.0,3.0,2.0,1.0,1.0,,,,
 2.5G,2026-02-28,FC Thun,FC Luzern,Swiss Super League,1,1.444,1.48,92.0,2.462,3.0,2.0,1.0,1.0,,,,
@@ -14184,7 +14184,7 @@ BTTS,2026-02-28,Novi Pazar,Backa Topola,Serbian SuperLiga,1,1.727,1.73,0.0,1.0,3
 BTTS,2026-02-28,Bournemouth,Sunderland,English Premier League,1,1.75,1.78,864.0,1.7,2.0,1.0,1.0,1.0,,,,
 BTTS,2026-02-28,Portsmouth,Hull City,English Championship League,1,1.83,1.9,217.0,3.753,1.0,0.0,1.0,0.0,,,,
 BTTS,2026-02-28,Derby,Blackburn,English Championship League,1,1.9,1.98,126.0,4.124,4.0,3.0,1.0,1.0,,,,
-BTTS,2026-02-28,Leicester,Norwich,English Championship League,0,2.34,2.34,1061.0,1.0,2.0,0.0,2.0,1.0,1,2.2897,1.2897,2.316
+BTTS,2026-02-28,Leicester,Norwich,English Championship League,0,2.34,2.34,1061.0,1.0,2.0,0.0,2.0,1.0,1,2.316,1.316,2.316
 2.5G,2026-02-28,Leicester,Norwich,English Championship League,0,2.0,2.06,3795.0,2.956,2.0,0.0,2.0,1.0,,,,
 2.5G,2026-02-28,Derby,Blackburn,English Championship League,0,1.66,1.72,6622.0,3.55,4.0,3.0,1.0,0.0,,,,
 2.5G,2026-02-28,Portsmouth,Hull City,English Championship League,0,1.8,1.87,2296.0,3.815,1.0,0.0,1.0,1.0,,,,1.979
@@ -14216,7 +14216,7 @@ BTTS,2026-02-28,Pogon Szczecin,Widzew Lodz,Polish Ekstraklasa,1,1.615,1.68,87.0,
 3.5G,2026-02-28,Como,Lecce,Italian Serie A,0,1.3,1.31,100.0,1.0,4.0,3.0,1.0,0.0,,,,
 BTTS,2026-02-28,Como,Lecce,Italian Serie A,1,2.5,2.54,3423.0,1.587,4.0,3.0,1.0,1.0,,,,2.498
 BTTS,2026-02-28,Mlada Boleslav,Jablonec,Czech First League,1,1.666,1.72,175.0,3.19,1.0,0.0,1.0,0.0,,,,
-BTTS,2026-02-28,Slovan Liberec,Hradec Kralove,Czech First League,0,1.909,1.91,264.0,1.0,3.0,3.0,0.0,1.0,1,1.8595,0.8595,1.877
+BTTS,2026-02-28,Slovan Liberec,Hradec Kralove,Czech First League,0,1.909,1.91,264.0,1.0,3.0,3.0,0.0,1.0,1,1.877,0.877,1.877
 BTTS,2026-02-28,Pardubice FK,Teplice,Czech First League,1,1.95,1.96,0.0,1.0,1.0,1.0,0.0,1.0,,,,
 2.5G,2026-02-28,como,Lecce,Italian Serie A,1,2.1,2.16,21779.0,2.817,4.0,3.0,1.0,1.0,,,,
 2.5G,2026-02-28,Pardubice FK,Teplice,Czech First League,0,1.666,1.69,5.0,1.43,2.0,1.0,0.0,1.0,,,,
@@ -14226,7 +14226,7 @@ BTTS,2026-02-28,Pardubice FK,Teplice,Czech First League,1,1.95,1.96,0.0,1.0,1.0,
 3.5G,2026-02-28,Pardubice FK,Teplice,Czech First League,0,1.25,1.25,0.0,1.0,2.0,1.0,0.0,1.0,,,,
 3.5G,2026-02-28,Slovan Liberec,Hradec Kralove,Czech First League,0,1.275,1.3,0.0,1.942,1.0,2.0,1.0,1.0,,,,
 3.5G,2026-02-28,Mlada Boleslav,Jablonec,Czech First League,0,1.375,1.43,148.0,3.922,3.0,1.0,1.0,1.0,,,,
-1.5G,2026-02-28,Slovan Liberec,Hradec Kralove,Czech First League,0,3.3,3.4,205.0,2.985,1.0,2.0,3.0,1.0,2,6.1303,4.1303,3.129
+1.5G,2026-02-28,Slovan Liberec,Hradec Kralove,Czech First League,0,3.3,3.4,205.0,2.985,1.0,2.0,3.0,1.0,2,6.258,4.258,3.129
 1.5G,2026-02-28,Mlada Boleslav,Jablonec,Czech First League,1,1.25,1.27,5224.0,1.587,3.0,5.0,2.0,1.0,,,,
 1.5G,2026-02-28,Como,Lecce,Italian Serie A,0,3.45,3.55,3785.0,2.857,4.0,3.0,1.0,0.0,,,,3.519
 3.5G,2026-02-28,1899 Hoffenheim,FC St. Pauli,German Bundesliga I,0,1.4,1.46,601.0,4.196,1.0,0.0,1.0,1.0,,,,
@@ -14259,7 +14259,7 @@ BTTS,2026-02-28,OFI Crete,Larissa AE,Greek Super League,1,1.95,1.94,11.0,1.0,3.0
 BTTS,2026-02-28,Ipswich,Swansea,English Championship League,1,1.83,1.94,77.0,5.836,3.0,3.0,0.0,0.0,,,,
 BTTS,2026-02-28,KV Mechelen,Zulte Waregem,Belgian First Division A,1,1.571,1.63,19.0,3.686,3.0,2.0,1.0,1.0,,,,
 1.5G,2026-02-28,Zeleznicar Pancevo,Vojvodina Novy Sad,Serbian SuperLiga,0,3.55,3.35,178.0,1.0,2.0,0.0,2.0,0.0,1,0,-1,
-BTTS,2026-02-28,QPR,Sheffield Utd,English Championship League,0,2.2,2.2,583.0,1.0,2.0,0.0,2.0,1.0,1,2.1525,1.1525,2.176
+BTTS,2026-02-28,QPR,Sheffield Utd,English Championship League,0,2.2,2.2,583.0,1.0,2.0,0.0,2.0,1.0,1,2.176,1.176,2.176
 2.5G,2026-02-28,Zeleznicar Pancevo,Vojvodina Novy Sad,Serbian SuperLiga,0,1.9,1.79,320.0,1.0,2.0,1.0,3.0,1.0,,,,
 2.5G,2026-02-28,OFI Crete,Larissa AE,Greek Super League,0,1.615,1.67,89.0,3.349,3.0,3.0,0.0,0.0,,,,
 2.5G,2026-02-28,Ipswich,Swansea,English Championship League,1,1.9,1.95,303.0,2.597,3.0,3.0,0.0,1.0,,,,1.934
@@ -14355,7 +14355,7 @@ BTTS,2026-03-01,Dinamo Bucharest,Arges Piesti,Romanian Liga I,1,2.2,2.16,11.0,1.
 1.5G,2026-03-01,Lorient,Auxerre,French Ligue 1,1,1.4,1.46,116.0,4.196,4.0,2.0,2.0,1.0,,,,
 BTTS,2026-03-01,Metz,Stade Brestois 29,French Ligue 1,1,1.75,1.84,498.0,5.014,1.0,0.0,1.0,0.0,,,,
 BTTS,2026-03-01,Lorient,Auxerre,French Ligue 1,1,1.95,2.04,973.0,4.511,4.0,2.0,2.0,1.0,,,,2.049
-BTTS,2026-03-01,Lille,Nantes,French Ligue 1,0,1.909,1.96,577.0,2.636,1.0,1.0,0.0,1.0,1,1.9388,0.9388,1.958
+BTTS,2026-03-01,Lille,Nantes,French Ligue 1,0,1.909,1.96,577.0,2.636,1.0,1.0,0.0,1.0,1,1.958,0.958,1.958
 BTTS,2026-03-01,Dinamo Zagreb,ND Gorica,Croatian HNL,0,1.666,1.69,252.0,1.43,2.0,2.0,0.0,0.0,1,0,-1,
 3.5G,2026-03-01,Lille,Nantes,French Ligue 1,0,1.4,1.42,15.0,1.418,1.0,1.0,0.0,1.0,,,,
 3.5G,2026-03-01,Lorient,Auxerre,French Ligue 1,0,1.23,1.25,49.0,1.613,4.0,2.0,2.0,0.0,,,,
@@ -14368,7 +14368,7 @@ BTTS,2026-03-01,Dinamo Zagreb,ND Gorica,Croatian HNL,0,1.666,1.69,252.0,1.43,2.0
 1.5G,2026-03-01,Arsenal,Chelsea,English Premier League,1,1.22,1.26,1444.0,3.226,3.0,2.0,1.0,1.0,,,,
 1.5G,2026-03-01,Lech Poznan,Rakow Czestochowa,Polish Ekstraklasa,1,1.23,1.25,386.0,1.613,7.0,4.0,3.0,1.0,,,,
 1.5G,2026-03-01,Eintracht Frankfurt,SC Freiburg,German Bundesliga I,0,4.1,4.2,1449.0,2.41,2.0,2.0,0.0,0.0,,,,4.167
-BTTS,2026-03-01,Eintracht Frankfurt,SC Freiburg,German Bundesliga I,0,2.2,2.28,790.0,3.571,2.0,2.0,0.0,1.0,1,2.2681,1.2681,2.294
+BTTS,2026-03-01,Eintracht Frankfurt,SC Freiburg,German Bundesliga I,0,2.2,2.28,790.0,3.571,2.0,2.0,0.0,1.0,1,2.294,1.294,2.294
 BTTS,2026-03-01,Arsenal,Chelsea,English Premier League,1,1.8,1.87,2763.0,3.815,3.0,2.0,1.0,1.0,,,,
 BTTS,2026-03-01,Lech Poznan,Rakow Czestochowa,Polish Ekstraklasa,1,1.615,1.64,400.0,1.536,7.0,4.0,3.0,1.0,,,,
 3.5G,2026-03-01,Lech Poznan,Rakow Czestochowa,Polish Ekstraklasa,1,2.75,2.84,737.0,3.22,7.0,4.0,3.0,1.0,,,,
@@ -14420,7 +14420,7 @@ BTTS,2026-03-01,Hamburger SV,RB Leipzig,German Bundesliga I,1,1.5,1.57,1181.0,4.
 1.5G,2026-03-01,Arad UT,FCSB,Romanian Liga I,1,1.3,1.34,46.0,3.03,6.0,2.0,4.0,1.0,,,,
 1.5G,2026-03-01,Excelsior,GO Ahead Eagles,Netherlands Eredivisie,1,1.22,1.27,417.0,4.016,1.0,0.0,1.0,0.0,,,,
 BTTS,2026-03-01,Arad UT,FCSB,Romanian Liga I,1,1.833,1.88,76.0,2.532,6.0,2.0,4.0,1.0,,,,
-BTTS,2026-03-01,Excelsior,GO Ahead Eagles,Netherlands Eredivisie,0,2.46,2.46,333.0,1.0,1.0,0.0,1.0,1.0,1,2.3583,1.3583,2.386
+BTTS,2026-03-01,Excelsior,GO Ahead Eagles,Netherlands Eredivisie,0,2.46,2.46,333.0,1.0,1.0,0.0,1.0,1.0,1,2.386,1.386,2.386
 3.5G,2026-03-01,Arad UT,FCSB,Romanian Liga I,0,1.3,1.33,15.0,2.281,6.0,2.0,4.0,0.0,,,,
 3.5G,2026-03-01,Excelsior,GO Ahead Eagles,Netherlands Eredivisie,0,1.45,1.47,32.0,1.37,1.0,0.0,1.0,1.0,,,,
 2.5G,2026-03-01,Arad UT,FCSB,Romanian Liga I,1,2.0,2.04,26.0,1.98,6.0,2.0,4.0,1.0,,,,2.01
@@ -14437,7 +14437,7 @@ BTTS,2026-03-01,AS Roma,Juventus,Italian Serie A,1,1.95,2.0,6613.0,2.532,6.0,3.0
 BTTS,2026-03-01,Girona,Celta Vigo,Spanish La Liga,1,1.75,1.8,850.0,2.817,3.0,1.0,2.0,1.0,,,,1.89
 2.5G,2026-03-01,Girona,Celta Vigo,Spanish La Liga,1,2.0,2.02,539.0,1.0,3.0,1.0,2.0,1.0,,,,2.0
 3.5G,2026-03-01,Girona,Celta Vigo,Spanish La Liga,0,1.325,1.36,225.0,2.607,3.0,1.0,2.0,1.0,,,,
-1.5G,2026-03-01,Rio Ave,Famalicao,Portuguese Primeira Liga,0,4.0,4.0,135.0,1.0,1.0,0.0,0.0,1.0,1,3.7936,2.7936,3.91
+1.5G,2026-03-01,Rio Ave,Famalicao,Portuguese Primeira Liga,0,4.0,4.0,135.0,1.0,1.0,0.0,0.0,1.0,1,3.91,2.91,3.91
 BTTS,2026-03-01,Rio Ave,Famalicao,Portuguese Primeira Liga,1,1.75,1.81,150.0,3.371,0.0,0.0,0.0,0.0,,,,
 3.5G,2026-03-01,Rio Ave,Famalicao,Portuguese Primeira Liga,0,1.33,1.39,146.0,4.412,1.0,0.0,0.0,1.0,,,,
 2.5G,2026-03-01,Rio Ave,Famalicao,Portuguese Primeira Liga,1,1.9,1.94,938.0,2.083,1.0,0.0,0.0,0.0,,,,1.926
@@ -14553,7 +14553,7 @@ BTTS,2026-03-01,Tondela,Santa Clara,Portuguese Primeira Liga,1,2.1,2.12,106.0,1.
 3.5G,2026-03-01,Young Boys Bern,FC Zürich,Swiss Super League,1,2.1,2.2,2335.0,4.651,3.0,3.0,0.0,0.0,,,,
 3.5G,2026-03-01,Grasshoppers Zürich,FC Lugano,Swiss Super League,0,1.35,1.4,430.0,3.636,1.0,1.0,0.0,1.0,,,,
 1.5G,2026-03-01,Utrecht,AZ Alkmaar,Netherlands Eredivisie,1,1.24,1.29,284.0,3.953,2.0,2.0,0.0,1.0,,,,
-BTTS,2026-03-01,Utrecht,AZ Alkmaar,Netherlands Eredivisie,0,2.36,2.36,46.0,1.0,2.0,2.0,0.0,1.0,1,2.2299,1.2299,2.255
+BTTS,2026-03-01,Utrecht,AZ Alkmaar,Netherlands Eredivisie,0,2.36,2.36,46.0,1.0,2.0,2.0,0.0,1.0,1,2.255,1.255,2.255
 3.5G,2026-03-01,Utrecht,AZ Alkmaar,Netherlands Eredivisie,0,1.4,1.45,8.0,3.509,2.0,2.0,0.0,1.0,,,,
 2.5G,2026-03-01,Utrecht,AZ Alkmaar,Netherlands Eredivisie,1,1.8,1.87,453.0,3.815,2.0,2.0,0.0,0.0,,,,1.869
 BTTS,2026-03-02,Novi Beograd IMT,Radnik Surdulica,Serbian SuperLiga,1,1.9,1.89,40.0,1.0,3.0,1.0,2.0,0.0,,,,
@@ -14634,12 +14634,12 @@ BTTS,2026-03-04,Rayo Vallecano,Oviedo,Spanish La Liga,1,2.05,2.1,703.0,2.41,3.0,
 1.5G,2026-03-04,Aston Villa,Chelsea,English Premier League,1,1.2,1.25,5690.0,4.082,5.0,1.0,4.0,1.0,,,,
 1.5G,2026-03-04,Hamburger SV,Bayer Leverkusen,German Bundesliga I,0,4.33,4.5,1301.0,3.851,1.0,0.0,1.0,1.0,,,,
 2.5G,2026-03-04,Manchester City,Nottingham Forest,English Premier League,0,2.37,2.44,3990.0,2.911,4.0,2.0,2.0,0.0,,,,
-BTTS,2026-03-04,Hamburger SV,Bayer Leverkusen,German Bundesliga I,0,2.36,2.36,605.0,1.0,1.0,0.0,1.0,1.0,2,4.5833,2.5833,2.318
+BTTS,2026-03-04,Hamburger SV,Bayer Leverkusen,German Bundesliga I,0,2.36,2.36,605.0,1.0,1.0,0.0,1.0,1.0,2,4.636,2.636,2.318
 BTTS,2026-03-04,Aston Villa,Chelsea,English Premier League,1,1.57,1.63,1973.0,3.75,5.0,1.0,4.0,1.0,,,,
 BTTS,2026-03-04,Brighton,Arsenal,English Premier League,1,1.95,1.97,4758.0,1.02,1.0,0.0,1.0,0.0,,,,1.947
 BTTS,2026-03-04,Manchester City,Nottingham Forest,English Premier League,0,2.0,2.08,1809.0,3.922,4.0,2.0,2.0,0.0,,,,2.047
 2.5G,2026-03-04,Fulham,West Ham,English Premier League,1,1.72,1.73,12478.0,1.0,1.0,0.0,1.0,0.0,,,,
-BTTS,2026-03-04,Fulham,West Ham,English Premier League,0,2.5,2.5,755.0,1.0,1.0,0.0,1.0,1.0,1,2.4524,1.4524,2.482
+BTTS,2026-03-04,Fulham,West Ham,English Premier League,0,2.5,2.5,755.0,1.0,1.0,0.0,1.0,1.0,1,2.482,1.482,2.482
 3.5G,2026-03-04,Fulham,West Ham,English Premier League,0,1.5,1.54,2321.0,2.632,1.0,0.0,1.0,1.0,,,,
 3.5G,2026-03-04,Manchester City,Nottingham Forest,English Premier League,0,1.57,1.56,8947.0,1.0,4.0,2.0,2.0,0.0,,,,
 3.5G,2026-03-04,FC Zurich,FC Lausanne-Sport,Swiss Super League,1,2.98,2.98,1331.0,1.0,3.0,1.0,2.0,0.0,,,,2.854
@@ -14669,7 +14669,7 @@ BTTS,2026-03-04,Newcastle,Manchester United,English Premier League,0,2.84,2.84,3
 3.5G,2026-03-04,Newcastle,Manchester United,English Premier League,0,1.61,1.67,1337.0,3.659,3.0,2.0,1.0,1.0,,,,
 2.5G,2026-03-04,Newcastle,Manchester United,English Premier League,1,1.53,1.6,5064.0,4.473,3.0,2.0,1.0,1.0,,,,
 BTTS,2026-03-05,FC Thun,St. Gallen,Swiss Super League,1,1.5,1.54,2604.0,2.632,4.0,2.0,2.0,1.0,,,,
-BTTS,2026-03-05,FC Basel,Grasshoppers Zurich,Swiss Super League,0,2.32,2.32,368.0,1.0,1.0,1.0,0.0,1.0,2,4.5421,2.5421,2.297
+BTTS,2026-03-05,FC Basel,Grasshoppers Zurich,Swiss Super League,0,2.32,2.32,368.0,1.0,1.0,1.0,0.0,1.0,2,4.594,2.594,2.297
 BTTS,2026-03-05,Radomiak Radom,Arka Gdynia,Polish Ekstraklasa,0,2.05,2.14,128.0,4.296,4.0,3.0,1.0,0.0,,,,
 3.5G,2026-03-05,FC Thun,St. Gallen,Swiss Super League,0,1.57,1.66,1561.0,5.573,4.0,2.0,2.0,0.0,,,,
 3.5G,2026-03-05,Radomiak Radom,Arka Gdynia,Polish Ekstraklasa,0,1.36,1.41,584.0,3.61,4.0,3.0,1.0,0.0,,,,
@@ -14725,13 +14725,13 @@ BTTS,2026-03-06,Celta Vigo,Real Madrid,Spanish La Liga,1,1.66,1.75,5487.0,5.279,
 3.5G,2026-03-06,Celta Vigo,Real Madrid,Spanish La Liga,0,1.36,1.4,2805.0,2.899,3.0,1.0,2.0,1.0,,,,
 BTTS,2026-03-06,Preston,Oxford United,English Championship League,1,1.9,2.0,481.0,5.128,4.0,1.0,3.0,1.0,,,,
 1.5G,2026-03-06,Famalicao,FC Arouca,Portuguese Primeira Liga,1,1.3,1.35,720.0,3.774,1.0,1.0,0.0,0.0,,,,
-BTTS,2026-03-06,Famalicao,FC Arouca,Portuguese Primeira Liga,0,1.95,2.02,612.0,3.526,1.0,1.0,0.0,1.0,1,2.0172,1.0172,2.038
+BTTS,2026-03-06,Famalicao,FC Arouca,Portuguese Primeira Liga,0,1.95,2.02,612.0,3.526,1.0,1.0,0.0,1.0,1,2.038,1.038,2.038
 2.5G,2026-03-06,Famalicao,FC Arouca,Portuguese Primeira Liga,1,2.0,2.06,1233.0,2.956,1.0,1.0,0.0,0.0,,,,1.977
 3.5G,2026-03-06,Famalicao,FC Arouca,Portuguese Primeira Liga,0,1.28,1.34,1017.0,4.58,1.0,1.0,0.0,1.0,,,,
 BTTS,2026-03-07,Nantes,Angers,French Ligue 1,0,1.8,1.81,1494.0,1.0,1.0,0.0,1.0,1.0,,,,1.782
 3.5G,2026-03-07,Nantes,Angers,French Ligue 1,0,1.2,1.21,373.0,1.0,1.0,0.0,1.0,1.0,,,,
 2.5G,2026-03-07,Nantes,Angers,French Ligue 1,0,1.571,1.59,2714.0,1.202,1.0,0.0,1.0,1.0,,,,
-1.5G,2026-03-07,Nantes,Angers,French Ligue 1,0,2.75,2.76,931.0,1.0,1.0,0.0,1.0,1.0,1,2.6101,1.6101,2.643
+1.5G,2026-03-07,Nantes,Angers,French Ligue 1,0,2.75,2.76,931.0,1.0,1.0,0.0,1.0,1.0,1,2.643,1.643,2.643
 2.5G,2026-03-07,Lokomotiva Zagreb,Varteks Varazdin,Croatian HNL,1,2.1,2.18,30.0,3.738,2.0,2.0,1.0,0.0,,,,2.092
 BTTS,2026-03-07,Lokomotiva Zagreb,Varteks Varazdin,Croatian HNL,1,1.83,1.89,26.0,3.226,4.0,1.0,3.0,1.0,,,,
 3.5G,2026-03-07,Lokomotiva Zagreb,Varteks Varazdin,Croatian HNL,0,1.26,1.29,706.0,2.353,2.0,2.0,1.0,1.0,,,,
@@ -15144,7 +15144,7 @@ BTTS,2026-03-09,Panetolikos,Kifisia,Greek Super League,1,1.95,1.97,123.0,1.02,3.
 1.5G,2026-03-09,Mladost Lucani,Novi Pazar,Serbian SuperLiga,1,1.425,1.45,3.0,1.739,2.0,0.0,1.0,1.0,,,,
 1.5G,2026-03-09,Alanyaspor,Genclerbirligi,Turkish Super Lig,1,1.33,1.37,301.0,2.963,0.0,0.0,0.0,0.0,,,,
 1.5G,2026-03-09,Kayerispor,Trabzonspor,Turkish Super Lig,0,4.3,4.3,568.0,1.0,4.0,1.0,3.0,0.0,1,0,-1,4.103
-1.5G,2026-03-09,Belehrad OFK,Radnicki Kragujevac,Serbian SuperLiga,0,3.8,3.7,222.0,1.0,0.0,2.0,1.0,1.0,1,3.2882,2.2882,3.359
+1.5G,2026-03-09,Belehrad OFK,Radnicki Kragujevac,Serbian SuperLiga,0,3.8,3.7,222.0,1.0,0.0,2.0,1.0,1.0,1,3.359,2.359,3.359
 BTTS,2026-03-09,Kayerispor,Trabzonspor,Turkish Super Lig,1,1.66,1.74,660.0,4.706,4.0,1.0,3.0,1.0,,,,
 3.5G,2026-03-09,Mladost Lucani,Novi Pazar,Serbian SuperLiga,0,1.21,1.24,68.0,2.449,2.0,0.0,2.0,1.0,,,,
 3.5G,2026-03-09,Belehrad OFK,Radnicki Kragujevac,Serbian SuperLiga,0,1.4,1.35,217.0,1.0,0.0,0.0,3.0,1.0,,,,
@@ -15350,7 +15350,7 @@ BTTS,2026-03-13,LASK Linz,TSV Hartberg,Austrian Bundesliga,0,2.0,2.04,31.0,1.98,
 3.5G,2026-03-13,LASK Linz,TSV Hartberg,Austrian Bundesliga,1,3.25,3.3,496.0,1.527,0.0,0.0,0.0,0.0,,,,3.193
 BTTS,2026-03-13,Universitatea Craiova,Arges Piesti,Romanian Liga I,1,2.25,2.3,111.0,2.198,1.0,0.0,1.0,0.0,,,,
 3.5G,2026-03-13,Universitatea Craiova,Arges Piesti,Romanian Liga I,0,1.22,1.26,131.0,3.226,1.0,0.0,1.0,1.0,,,,
-1.5G,2026-03-13,Universitatea Craiova,Arges Piesti,Romanian Liga I,0,3.15,3.15,617.0,1.0,1.0,0.0,1.0,1.0,1,2.7581,1.7581,2.794
+1.5G,2026-03-13,Universitatea Craiova,Arges Piesti,Romanian Liga I,0,3.15,3.15,617.0,1.0,1.0,0.0,1.0,1.0,1,2.794,1.794,2.794
 BTTS,2026-03-13,Zwolle FC,Groningen,Netherlands Eredivisie,1,1.57,1.61,652.0,2.516,2.0,1.0,1.0,1.0,,,,
 2.5G,2026-03-13,Zwolle FC,Groningen,Netherlands Eredivisie,1,1.66,1.73,3622.0,4.13,2.0,1.0,1.0,0.0,,,,
 3.5G,2026-03-13,Zwolle FC,Groningen,Netherlands Eredivisie,1,2.8,2.8,5941.0,1.0,2.0,1.0,1.0,0.0,,,,
@@ -15910,7 +15910,7 @@ BTTS,2026-03-17,Arsenal,Leverkusen,UEFA Champions League,1,2.25,2.34,3116.0,3.92
 3.5G,2026-03-17,Arsenal,Leverkusen,UEFA Champions League,0,1.44,1.51,1746.0,4.746,2.0,2.0,0.0,1.0,,,,
 1.5G,2026-03-18,Istanbul Buyuksehir,Antalyaspor,Turkish Super Lig,1,1.21,1.26,920.0,4.049,0.0,0.0,0.0,0.0,,,,
 2.5G,2026-03-18,Istanbul Buyuksehir,Antalyaspor,Turkish Super Lig,0,2.15,2.26,1017.0,4.989,0.0,0.0,0.0,1.0,,,,
-1.5G,2026-03-18,Eyup SK Istanbul,Trabzonspor,Turkish Super Lig,0,4.44,4.44,578.0,1.0,1.0,0.0,1.0,1.0,1,4.072,3.072,4.2
+1.5G,2026-03-18,Eyup SK Istanbul,Trabzonspor,Turkish Super Lig,0,4.44,4.44,578.0,1.0,1.0,0.0,1.0,1.0,1,4.2,3.2,4.2
 2.5G,2026-03-18,Eyup SK Istanbul,Trabzonspor,Turkish Super Lig,0,2.1,2.16,426.0,2.817,1.0,0.0,1.0,1.0,,,,2.121
 3.5G,2026-03-18,Eyup SK Istanbul,Trabzonspor,Turkish Super Lig,0,1.45,1.45,512.0,1.0,1.0,0.0,1.0,1.0,,,,
 3.5G,2026-03-18,Istanbul Buyuksehir,Antalyaspor,Turkish Super Lig,0,1.45,1.47,50.0,1.37,0.0,0.0,0.0,1.0,1,1.4624,0.4624,
@@ -16083,7 +16083,7 @@ BTTS,2026-03-20,Genoa,Udinese,Italian Serie A,1,2.05,2.14,634.0763,4.296,2.0,0.0
 2.5G,2026-03-21,Toulouse,Lorient,French Ligue 1,0,1.727,1.77,188.0596,2.459,1.0,1.0,0.0,1.0,,,,
 1.5G,2026-03-21,Toulouse,Lorient,French Ligue 1,1,1.35,1.41,789.850383,4.348,1.0,1.0,0.0,0.0,,,,
 3.5G,2026-03-21,Toulouse,Lorient,French Ligue 1,0,1.26,1.29,5.6787,2.353,1.0,1.0,0.0,1.0,,,,
-BTTS,2026-03-21,Toulouse,Lorient,French Ligue 1,0,1.909,1.94,432.2626,1.611,1.0,1.0,0.0,1.0,1,1.8996,0.8996,1.918
+BTTS,2026-03-21,Toulouse,Lorient,French Ligue 1,0,1.909,1.94,432.2626,1.611,1.0,1.0,0.0,1.0,1,1.918,0.918,1.918
 3.5G,2026-03-21,Lok. Zagreb,Dinamo Zagreb,Croatian HNL,0,1.45,1.48,163.6461,2.048,5.0,6.0,1.0,0.0,1,0,-1,
 2.5G,2026-03-21,Lok. Zagreb,Dinamo Zagreb,Croatian HNL,0,2.15,2.24,0.0,4.1,5.0,3.0,1.0,0.0,,,,
 1.5G,2026-03-21,Lok. Zagreb,Dinamo Zagreb,Croatian HNL,1,1.21,1.24,156.398595,2.449,5.0,0.0,1.0,1.0,,,,
@@ -16412,7 +16412,7 @@ BTTS,2026-03-22,Aris,OFI Crete,Greek Super League,1,2.05,2.04,0.0,1.0,2.0,0.0,2.
 2.5G,2026-03-22,Aris,OFI Crete,Greek Super League,0,1.7,1.77,100.3994,4.035,2.0,0.0,2.0,1.0,,,,
 2.5G,2026-03-22,TSC Backa Topola,Radnicki 1923,Serbian SuperLiga,1,2.0,2.05,0.0,2.469,0.0,2.0,2.0,0.0,,,,
 2.5G,2026-03-22,Barcelona,Rayo Vallecano,Spanish La Liga,1,1.333,1.36,1433.361,2.005,1.0,1.0,0.0,0.0,,,,
-BTTS,2026-03-22,Winterthur,Basel,Swiss Super League,0,2.625,2.68,349.9215,2.074,2.0,0.0,2.0,1.0,2,4.6891,2.6891,2.372
+BTTS,2026-03-22,Winterthur,Basel,Swiss Super League,0,2.625,2.68,349.9215,2.074,2.0,0.0,2.0,1.0,2,4.744,2.744,2.372
 BTTS,2026-03-22,Hartberg,Austria Vienna,Austrian Bundesliga,0,1.95,2.0,63.41215,2.532,1.0,0.0,1.0,1.0,1,1.9584,0.9584,
 BTTS,2026-03-22,Feyenoord,Ajax,Netherlands Eredivisie,1,1.5,1.53,280.5846,1.98,2.0,1.0,1.0,1.0,,,,
 BTTS,2026-03-22,FC Utrecht,Go Ahead Eagles,Netherlands Eredivisie,0,2.2,2.3,582.1425,4.444,2.0,2.0,0.0,1.0,,,,
@@ -16936,7 +16936,7 @@ BTTS,2026-04-06,Bristol City,Sheffield United,English Championship League,1,1.61
 BTTS,2026-04-06,Derby County,Stoke City,English Championship League,1,1.8,1.87,177.53,3.815,2.0,2.0,0.0,0.0,,,,
 BTTS,2026-04-06,Ipswich Town,Birmingham City,English Championship League,1,1.833,1.94,294.02,5.672,3.0,2.0,1.0,1.0,,,,1.975
 BTTS,2026-04-06,Preston North End,Queens Park Rangers,English Championship League,1,1.833,1.86,470.38,1.462,2.0,1.0,1.0,1.0,,,,
-BTTS,2026-04-06,Sheffield Wednesday,Leicester City,English Championship League,0,1.833,1.96,314.76,6.697,2.0,1.0,1.0,0.0,1,1.9467,0.9467,1.966
+BTTS,2026-04-06,Sheffield Wednesday,Leicester City,English Championship League,0,1.833,1.96,314.76,6.697,2.0,1.0,1.0,0.0,1,1.966,0.966,1.966
 BTTS,2026-04-06,Watford FC,Charlton Athletic,English Championship League,1,1.833,1.94,451.36,5.672,2.0,1.0,1.0,1.0,,,,1.997
 1.5G,2026-04-06,RAAL La Louviere,FCV Dender EH,Belgian First Division A,1,1.35,1.36,392.02,1.0,1.0,0.0,1.0,0.0,,,,
 2.5G,2026-04-06,RAAL La Louviere,FCV Dender EH,Belgian First Division A,1,2.075,2.09,111.37,1.0,1.0,0.0,1.0,0.0,,,,
@@ -17037,7 +17037,7 @@ BTTS,2026-04-08,MKS Arka Gdynia,Zaglebie Lubin,Polish Ekstraklasa,1,1.95,1.89,14
 2.5G,2026-04-08,Aalesunds FK,Fredrikstad FK,Norwegian Eliteserien,1,1.75,1.81,530.8,3.371,5.0,2.0,3.0,1.0,,,,
 2.5G,2026-04-08,KFUM Oslo,Sandefjord Fotball,Norwegian Eliteserien,0,2.1,2.17,2358.92,3.279,3.0,1.0,2.0,0.0,,,,
 3.5G,2026-04-08,Aalesunds FK,Fredrikstad FK,Norwegian Eliteserien,0,1.4,1.45,324.35,3.509,5.0,2.0,3.0,0.0,,,,
-3.5G,2026-04-08,KFUM Oslo,Sandefjord Fotball,Norwegian Eliteserien,0,1.425,1.46,323.57,2.426,3.0,1.0,2.0,1.0,1,1.4594,0.4594,1.464
+3.5G,2026-04-08,KFUM Oslo,Sandefjord Fotball,Norwegian Eliteserien,0,1.425,1.46,323.57,2.426,3.0,1.0,2.0,1.0,1,1.464,0.464,1.464
 BTTS,2026-04-08,Aalesunds FK,Fredrikstad FK,Norwegian Eliteserien,1,1.615,1.67,7.64,3.349,5.0,2.0,3.0,1.0,,,,
 BTTS,2026-04-08,KFUM Oslo,Sandefjord Fotball,Norwegian Eliteserien,1,1.615,1.69,25.99,4.539,3.0,1.0,2.0,1.0,,,,
 1.5G,2026-04-08,Real Madrid,Bayern Munich,UEFA Champions League,1,1.11,1.11,20524.73,1.0,3.0,1.0,2.0,1.0,,,,
@@ -17106,7 +17106,7 @@ BTTS,2026-04-10,Caykur Rizespor,Samsunspor,Turkish Super Lig,1,1.666,1.75,45.62,
 3.5G,2026-04-10,FK Cukaricki Belgrade,FK Radnicki 1923 Kragujevac,Serbian SuperLiga,0,1.4,1.37,323.74,1.0,0.0,0.0,0.0,1.0,,,,1.388
 3.5G,2026-04-10,OFK Beograd,FK Radnik Surdulica,Serbian SuperLiga,0,1.275,1.32,398.07,3.468,0.0,0.0,0.0,1.0,,,,
 3.5G,2026-04-10,FK Crvena Zvezda Belgrade,FK Spartak Subotica,Serbian SuperLiga,1,1.475,1.52,12.29,3.005,5.0,3.0,2.0,1.0,,,,
-BTTS,2026-04-10,FK Cukaricki Belgrade,FK Radnicki 1923 Kragujevac,Serbian SuperLiga,0,2.1,2.12,105.13,1.0,0.0,0.0,0.0,1.0,2,4.2873,2.2873,2.167
+BTTS,2026-04-10,FK Cukaricki Belgrade,FK Radnicki 1923 Kragujevac,Serbian SuperLiga,0,2.1,2.12,105.13,1.0,0.0,0.0,0.0,1.0,2,4.334,2.334,2.167
 BTTS,2026-04-10,OFK Beograd,FK Radnik Surdulica,Serbian SuperLiga,1,1.8,1.88,399.21,4.348,0.0,0.0,0.0,0.0,,,,
 BTTS,2026-04-10,FK Crvena Zvezda Belgrade,FK Spartak Subotica,Serbian SuperLiga,1,2.25,2.24,189.9,1.0,5.0,3.0,2.0,1.0,,,,
 2.5G,2026-04-11,Wisla Plock,KS Lechia Gdansk,Polish Ekstraklasa,0,2.0,2.08,338.11,3.922,1.0,1.0,0.0,1.0,,,,
@@ -17182,7 +17182,7 @@ BTTS,2026-04-11,Arsenal FC,AFC Bournemouth,English Premier League,1,1.8,1.89,581
 2.5G,2026-04-11,Queens Park Rangers,Bristol City,English Championship League,1,1.909,1.98,1055.92,3.651,0.0,0.0,0.0,0.0,,,,
 3.5G,2026-04-11,Norwich City,Ipswich Town,English Championship League,0,1.35,1.39,59.76,2.92,2.0,0.0,2.0,1.0,,,,
 3.5G,2026-04-11,Queens Park Rangers,Bristol City,English Championship League,0,1.325,1.37,88.44,3.34,0.0,0.0,0.0,1.0,,,,
-BTTS,2026-04-11,Coventry City,Sheffield Wednesday,English Championship League,0,1.666,1.67,112.51,1.0,0.0,0.0,0.0,1.0,1,1.6713,0.6713,1.685
+BTTS,2026-04-11,Coventry City,Sheffield Wednesday,English Championship League,0,1.666,1.67,112.51,1.0,0.0,0.0,0.0,1.0,1,1.685,0.685,1.685
 BTTS,2026-04-11,Norwich City,Ipswich Town,English Championship League,1,1.666,1.76,818.07,5.487,2.0,0.0,2.0,0.0,,,,
 BTTS,2026-04-11,Queens Park Rangers,Bristol City,English Championship League,1,1.727,1.79,522.84,3.583,0.0,0.0,0.0,0.0,,,,
 1.5G,2026-04-11,Istanbul Basaksehir,Genclerbirligi SK,Turkish Super Lig,1,1.225,1.26,6.1,2.817,3.0,3.0,0.0,1.0,,,,
@@ -17278,7 +17278,7 @@ BTTS,2026-04-11,Alanyaspor,Trabzonspor,Turkish Super Lig,1,1.666,1.74,165.44,4.3
 1.5G,2026-04-11,Tromsoe IL,Kristiansund BK,Norwegian Eliteserien,1,1.14,1.18,561.56,3.448,2.0,2.0,0.0,1.0,,,,
 2.5G,2026-04-11,Tromsoe IL,Kristiansund BK,Norwegian Eliteserien,1,1.571,1.54,6673.76,1.0,2.0,2.0,0.0,0.0,,,,
 3.5G,2026-04-11,Tromsoe IL,Kristiansund BK,Norwegian Eliteserien,0,1.675,1.69,2959.81,1.0,2.0,2.0,0.0,1.0,,,,
-BTTS,2026-04-11,Tromsoe IL,Kristiansund BK,Norwegian Eliteserien,0,1.909,1.93,590.28,1.094,2.0,2.0,0.0,1.0,1,1.8653,0.8653,1.883
+BTTS,2026-04-11,Tromsoe IL,Kristiansund BK,Norwegian Eliteserien,0,1.909,1.93,590.28,1.094,2.0,2.0,0.0,1.0,1,1.883,0.883,1.883
 1.5G,2026-04-11,NK Lokomotiva Zagreb,NK Istra 1961,Croatian HNL,1,1.275,1.3,75.12,1.942,2.0,2.0,0.0,1.0,,,,
 3.5G,2026-04-11,NK Lokomotiva Zagreb,NK Istra 1961,Croatian HNL,1,3.3,3.43,12.26,3.863,2.0,2.0,0.0,0.0,,,,
 BTTS,2026-04-11,NK Lokomotiva Zagreb,NK Istra 1961,Croatian HNL,1,1.727,1.73,0.0,1.0,2.0,2.0,0.0,0.0,,,,
@@ -17411,7 +17411,7 @@ BTTS,2026-04-12,Stade Rennais FC,Angers SCO,French Ligue 1,1,1.95,2.04,508.13,4.
 1.5G,2026-04-12,Estrela Amadora,Sporting CP,Portuguese Primeira Liga,1,1.15,1.17,35.63,1.724,1.0,0.0,1.0,0.0,,,,
 2.5G,2026-04-12,Estrela Amadora,Sporting CP,Portuguese Primeira Liga,1,1.5,1.54,831.45,2.632,1.0,0.0,1.0,0.0,,,,
 3.5G,2026-04-12,Estrela Amadora,Sporting CP,Portuguese Primeira Liga,0,1.625,1.7,708.44,4.511,1.0,0.0,1.0,1.0,,,,
-BTTS,2026-04-12,Estrela Amadora,Sporting CP,Portuguese Primeira Liga,0,1.8,1.84,593.88,2.198,1.0,0.0,1.0,1.0,1,1.7938,0.7938,1.81
+BTTS,2026-04-12,Estrela Amadora,Sporting CP,Portuguese Primeira Liga,0,1.8,1.84,593.88,2.198,1.0,0.0,1.0,1.0,1,1.81,0.81,1.81
 1.5G,2026-04-12,Fortuna Sittard,NAC Breda,Netherlands Eredivisie,1,1.21,1.24,896.81,2.449,2.0,1.0,1.0,1.0,,,,
 2.5G,2026-04-12,Fortuna Sittard,NAC Breda,Netherlands Eredivisie,1,1.7,1.74,80.49,2.326,2.0,1.0,1.0,0.0,,,,
 3.5G,2026-04-12,Fortuna Sittard,NAC Breda,Netherlands Eredivisie,0,1.475,1.51,3.81,2.345,2.0,1.0,1.0,1.0,,,,
@@ -17582,7 +17582,7 @@ BTTS,2026-04-14,Caykur Rizespor,Gaziantep FK,Turkish Super Lig,1,1.615,1.69,597.
 BTTS,2026-04-14,FC Fredericia,Vejle BK,Danish Superligaen,1,1.571,1.58,206.68,1.0,4.0,2.0,2.0,1.0,,,,
 1.5G,2026-04-14,Eyupspor,Samsunspor,Turkish Super Lig,1,1.3,1.33,1141.17,2.281,3.0,1.0,2.0,1.0,,,,
 3.5G,2026-04-14,Eyupspor,Samsunspor,Turkish Super Lig,0,1.325,1.37,317.09,3.34,3.0,1.0,2.0,1.0,,,,
-3.5G,2026-04-14,Caykur Rizespor,Gaziantep FK,Turkish Super Lig,0,1.475,1.51,479.34,2.345,3.0,2.0,1.0,1.0,1,1.4861,0.4861,1.491
+3.5G,2026-04-14,Caykur Rizespor,Gaziantep FK,Turkish Super Lig,0,1.475,1.51,479.34,2.345,3.0,2.0,1.0,1.0,1,1.491,0.491,1.491
 1.5G,2026-04-14,GKS Piast Gliwice,Pogon Szczecin,Polish Ekstraklasa,1,1.25,1.3,1205.0,3.922,2.0,0.0,2.0,1.0,,,,
 3.5G,2026-04-14,GKS Piast Gliwice,Pogon Szczecin,Polish Ekstraklasa,0,1.375,1.41,3648.27,2.513,2.0,0.0,2.0,1.0,,,,
 1.5G,2026-04-14,ACF Fiorentina,Lazio Rome,Italian Serie A,1,1.375,1.42,783.18,3.22,1.0,1.0,0.0,0.0,,,,
@@ -17615,7 +17615,7 @@ BTTS,2026-04-15,Southampton FC,Blackburn Rovers,English Championship League,1,1.
 BTTS,2026-04-15,Portsmouth FC,Ipswich Town,English Championship League,1,1.909,2.02,312.21,5.65,2.0,2.0,0.0,0.0,,,,
 1.5G,2026-04-16,Tromsoe IL,Lillestroem SK,Norwegian Eliteserien,0,4.25,4.5,1290.77,5.714,0.0,0.0,0.0,1.0,,,,
 2.5G,2026-04-16,Tromsoe IL,Lillestroem SK,Norwegian Eliteserien,0,2.15,2.2,3477.27,2.299,0.0,0.0,0.0,1.0,,,,
-3.5G,2026-04-16,Tromsoe IL,Lillestroem SK,Norwegian Eliteserien,0,1.45,1.47,663.75,1.37,0.0,0.0,0.0,1.0,1,1.4544,0.4544,1.459
+3.5G,2026-04-16,Tromsoe IL,Lillestroem SK,Norwegian Eliteserien,0,1.45,1.47,663.75,1.37,0.0,0.0,0.0,1.0,1,1.459,0.459,1.459
 BTTS,2026-04-16,Tromsoe IL,Lillestroem SK,Norwegian Eliteserien,1,1.666,1.75,485.83,4.918,0.0,0.0,0.0,0.0,,,,
 2.5G,2026-04-16,Sarpsborg 08,Bodoe/Glimt,Norwegian Eliteserien,1,1.3,1.31,5365.99,1.0,2.0,1.0,1.0,0.0,,,,
 3.5G,2026-04-16,Sarpsborg 08,Bodoe/Glimt,Norwegian Eliteserien,0,2.075,2.16,3726.84,4.014,2.0,1.0,1.0,1.0,,,,
@@ -17670,7 +17670,7 @@ BTTS,2026-04-18,Broendby IF,Soenderjyske,Danish Superligaen,1,1.571,1.64,610.36,
 2.5G,2026-04-18,Degerfors IF,IF Elfsborg,Sweden - Allsvenskan,0,1.65,1.65,2455.41,1.0,1.0,0.0,1.0,1.0,,,,
 3.5G,2026-04-18,Djurgardens IF,Malmo FF,Sweden - Allsvenskan,0,1.35,1.41,394.54,4.348,1.0,0.0,1.0,1.0,,,,
 BTTS,2026-04-18,Djurgardens IF,Malmo FF,Sweden - Allsvenskan,1,1.7,1.74,139.01,2.326,1.0,0.0,1.0,0.0,,,,
-BTTS,2026-04-18,Degerfors IF,IF Elfsborg,Sweden - Allsvenskan,0,1.909,1.93,918.8,1.094,1.0,0.0,1.0,1.0,1,1.9584,0.9584,1.978
+BTTS,2026-04-18,Degerfors IF,IF Elfsborg,Sweden - Allsvenskan,0,1.909,1.93,918.8,1.094,1.0,0.0,1.0,1.0,1,1.978,0.978,1.978
 1.5G,2026-04-18,Degerfors IF,IF Elfsborg,Sweden - Allsvenskan,0,2.85,3.04,5028.39,6.452,1.0,0.0,1.0,1.0,,,,
 3.5G,2026-04-18,Degerfors IF,IF Elfsborg,Sweden - Allsvenskan,0,1.225,1.25,72.42,2.02,1.0,0.0,1.0,1.0,,,,
 2.5G,2026-04-18,ACS Champions FC Arges,FC CFR 1907 Cluj,Romanian Liga I,0,1.475,1.54,12.93,4.312,1.0,0.0,1.0,1.0,,,,
@@ -17688,7 +17688,7 @@ BTTS,2026-04-18,FC St. Pauli,1. FC Cologne,German Bundesliga I,1,1.75,1.85,2105.
 1.5G,2026-04-18,Legia Warszawa,Zaglebie Lubin,Polish Ekstraklasa,1,1.35,1.39,193.38,2.92,1.0,1.0,0.0,0.0,,,,
 2.5G,2026-04-18,Legia Warszawa,Zaglebie Lubin,Polish Ekstraklasa,0,1.85,1.83,4707.44,1.0,1.0,1.0,0.0,1.0,,,,
 3.5G,2026-04-18,Legia Warszawa,Zaglebie Lubin,Polish Ekstraklasa,0,1.25,1.3,377.17,3.922,1.0,1.0,0.0,1.0,,,,
-BTTS,2026-04-18,Legia Warszawa,Zaglebie Lubin,Polish Ekstraklasa,0,1.8,1.83,54.03,1.653,1.0,1.0,0.0,1.0,1,1.8036,0.8036,1.82
+BTTS,2026-04-18,Legia Warszawa,Zaglebie Lubin,Polish Ekstraklasa,0,1.8,1.83,54.03,1.653,1.0,1.0,0.0,1.0,1,1.82,0.82,1.82
 2.5G,2026-04-18,Racing Club De Lens,Toulouse FC,French Ligue 1,1,1.666,1.71,756.02,2.607,5.0,3.0,2.0,1.0,,,,
 3.5G,2026-04-18,Racing Club De Lens,Toulouse FC,French Ligue 1,1,2.675,2.82,517.61,5.278,5.0,3.0,2.0,1.0,,,,
 BTTS,2026-04-18,Racing Club De Lens,Toulouse FC,French Ligue 1,1,1.8,1.88,659.95,4.348,5.0,3.0,2.0,1.0,,,,
@@ -17724,7 +17724,7 @@ BTTS,2026-04-18,Derby County,Oxford United,English Championship League,1,1.833,1
 1.5G,2026-04-18,Fatih Karagumruk Istanbul,Eyupspor,Turkish Super Lig,0,3.3,3.4,11.69,2.985,3.0,1.0,2.0,0.0,,,,
 2.5G,2026-04-18,Fatih Karagumruk Istanbul,Eyupspor,Turkish Super Lig,1,2.05,2.11,944.62,2.885,3.0,1.0,2.0,1.0,,,,
 3.5G,2026-04-18,Fatih Karagumruk Istanbul,Eyupspor,Turkish Super Lig,0,1.275,1.3,0.0,1.942,3.0,1.0,2.0,1.0,,,,
-BTTS,2026-04-18,Fatih Karagumruk Istanbul,Eyupspor,Turkish Super Lig,0,1.833,1.96,371.31,6.697,3.0,1.0,2.0,0.0,1,1.9722,0.9722,1.992
+BTTS,2026-04-18,Fatih Karagumruk Istanbul,Eyupspor,Turkish Super Lig,0,1.833,1.96,371.31,6.697,3.0,1.0,2.0,0.0,1,1.992,0.992,1.992
 1.5G,2026-04-18,AFK Csikszereda Miercurea Ciuc,FC Unirea 2004 Slobozia,Romanian Liga I,0,3.3,3.35,0.0,1.504,5.0,3.0,2.0,0.0,,,,
 2.5G,2026-04-18,AFK Csikszereda Miercurea Ciuc,FC Unirea 2004 Slobozia,Romanian Liga I,0,1.8,1.83,0.9,1.653,5.0,3.0,2.0,0.0,,,,
 3.5G,2026-04-18,AFK Csikszereda Miercurea Ciuc,FC Unirea 2004 Slobozia,Romanian Liga I,0,1.3,1.29,0.0,1.0,5.0,3.0,2.0,0.0,,,,
@@ -17751,7 +17751,7 @@ BTTS,2026-04-18,Udinese Calcio,Parma Calcio,Italian Serie A,1,1.95,2.02,322.04,3
 3.5G,2026-04-18,FC Banik Ostrava,Bohemians Prague 1905,Czech First League,0,1.4,1.43,68.95,2.12,4.0,3.0,1.0,0.0,,,,
 3.5G,2026-04-18,FC Zlin,FK Teplice,Czech First League,0,1.17,1.2,0.09,2.532,3.0,1.0,2.0,1.0,,,,
 3.5G,2026-04-18,Dukla Prague,MFK Karvina,Czech First League,0,1.325,1.27,0.0,1.0,3.0,2.0,1.0,1.0,,,,
-3.5G,2026-04-18,FC Slovan Liberec,FK Mlada Boleslav,Czech First League,0,1.45,1.46,81.91,1.0,3.0,3.0,0.0,1.0,1,1.4544,0.4544,1.459
+3.5G,2026-04-18,FC Slovan Liberec,FK Mlada Boleslav,Czech First League,0,1.45,1.46,81.91,1.0,3.0,3.0,0.0,1.0,1,1.459,0.459,1.459
 BTTS,2026-04-18,FC Banik Ostrava,Bohemians Prague 1905,Czech First League,1,1.666,1.69,0.0,1.43,3.0,1.0,2.0,1.0,,,,
 BTTS,2026-04-18,FC Zlin,FK Teplice,Czech First League,1,2.05,2.02,0.0,1.0,3.0,3.0,0.0,0.0,,,,
 BTTS,2026-04-18,Dukla Prague,MFK Karvina,Czech First League,0,2.05,2.02,36.66,1.0,3.0,1.0,2.0,0.0,,,,
@@ -17845,7 +17845,7 @@ BTTS,2026-04-18,Atromitos Athinon,AE Larissa FC,Greek Super League,1,2.2,2.32,0.
 BTTS,2026-04-18,GNK Dinamo Zagreb,HNK Rijeka,Croatian HNL,0,1.8,1.84,45.26,2.198,4.0,2.0,2.0,0.0,1,0,-1,1.833
 1.5G,2026-04-18,Sandefjord Fotball,Rosenborg BK,Norwegian Eliteserien,1,1.19,1.22,849.28,2.49,0.0,0.0,0.0,0.0,,,,
 2.5G,2026-04-18,Sandefjord Fotball,Rosenborg BK,Norwegian Eliteserien,1,1.65,1.67,8.86,1.205,0.0,0.0,0.0,0.0,,,,
-3.5G,2026-04-18,Sandefjord Fotball,Rosenborg BK,Norwegian Eliteserien,0,1.525,1.55,48.65,1.626,0.0,0.0,0.0,1.0,1,1.538,0.538,1.549
+3.5G,2026-04-18,Sandefjord Fotball,Rosenborg BK,Norwegian Eliteserien,0,1.525,1.55,48.65,1.626,0.0,0.0,0.0,1.0,1,1.549,0.549,1.549
 BTTS,2026-04-18,Sandefjord Fotball,Rosenborg BK,Norwegian Eliteserien,1,1.571,1.61,48.88,2.452,0.0,0.0,0.0,0.0,,,,
 1.5G,2026-04-18,Nacional da Madeira,FC Alverca SAD,Portuguese Primeira Liga,1,1.275,1.31,0.0,2.708,1.0,1.0,0.0,0.0,,,,
 2.5G,2026-04-18,Nacional da Madeira,FC Alverca SAD,Portuguese Primeira Liga,0,1.95,1.99,349.03,2.03,1.0,1.0,0.0,1.0,,,,
@@ -17897,7 +17897,7 @@ BTTS,2026-04-19,Viking FK,SK Brann,Norwegian Eliteserien,0,2.5,2.6,881.47,3.922,
 2.5G,2026-04-19,Royal Charleroi SC,Standard Liege,Belgian First Division A,0,1.85,1.9,259.68,2.667,3.0,1.0,2.0,0.0,,,,
 3.5G,2026-04-19,KVC Westerlo,KRC Genk,Belgian First Division A,0,1.525,1.49,137.39,1.0,3.0,1.0,2.0,1.0,1,1.4821,0.4821,
 3.5G,2026-04-19,Royal Charleroi SC,Standard Liege,Belgian First Division A,0,1.325,1.35,4.3,1.869,3.0,1.0,2.0,1.0,,,,
-BTTS,2026-04-19,KVC Westerlo,KRC Genk,Belgian First Division A,0,2.375,2.5,105.66,5.128,3.0,1.0,2.0,0.0,1,1.6252,0.6252,1.638
+BTTS,2026-04-19,KVC Westerlo,KRC Genk,Belgian First Division A,0,2.375,2.5,105.66,5.128,3.0,1.0,2.0,0.0,1,1.638,0.638,1.638
 BTTS,2026-04-19,Royal Charleroi SC,Standard Liege,Belgian First Division A,1,1.909,1.9,0.0,1.0,3.0,1.0,2.0,1.0,,,,
 1.5G,2026-04-19,Tottenham Hotspur,Brighton & Hove Albion,English Premier League,1,1.22,1.25,2054.96,2.429,4.0,2.0,2.0,1.0,,,,
 2.5G,2026-04-19,Tottenham Hotspur,Brighton & Hove Albion,English Premier League,1,1.727,1.75,1505.14,1.323,4.0,2.0,2.0,1.0,,,,
@@ -17921,7 +17921,7 @@ BTTS,2026-04-19,NK Istra 1961,HNK Vukovar 1991,Croatian HNL,1,1.727,1.76,0.0,1.8
 BTTS,2026-04-19,Casa Pia Lisbon,Santa Clara Azores,Portuguese Primeira Liga,1,2.05,2.16,140.09,5.226,0.0,0.0,0.0,0.0,,,,
 1.5G,2026-04-19,Genclerbirligi SK,Galatasaray Istanbul,Turkish Super Lig,0,5.25,5.3,503.78,1.0,3.0,1.0,2.0,0.0,2,0,-2,5.107
 2.5G,2026-04-19,Genclerbirligi SK,Galatasaray Istanbul,Turkish Super Lig,1,1.571,1.63,99.45,3.686,3.0,1.0,2.0,1.0,,,,
-3.5G,2026-04-19,Genclerbirligi SK,Galatasaray Istanbul,Turkish Super Lig,0,1.6,1.56,96.17,1.0,3.0,1.0,2.0,1.0,1,1.5547,0.5547,1.566
+3.5G,2026-04-19,Genclerbirligi SK,Galatasaray Istanbul,Turkish Super Lig,0,1.6,1.56,96.17,1.0,3.0,1.0,2.0,1.0,1,1.566,0.566,1.566
 BTTS,2026-04-19,Genclerbirligi SK,Galatasaray Istanbul,Turkish Super Lig,1,1.8,1.91,74.75,5.93,3.0,1.0,2.0,1.0,,,,
 1.5G,2026-04-19,Panaitolikos Agrinio,Panserraikos FC,Greek Super League,1,1.45,1.42,7.69,1.0,5.0,2.0,3.0,1.0,,,,2.776
 2.5G,2026-04-19,Panaitolikos Agrinio,Panserraikos FC,Greek Super League,1,2.4,2.26,72.49,1.0,5.0,2.0,3.0,1.0,,,,
@@ -17930,7 +17930,7 @@ BTTS,2026-04-19,Panaitolikos Agrinio,Panserraikos FC,Greek Super League,1,2.1,2.
 1.5G,2026-04-19,Angers SCO,Le Havre AC,French Ligue 1,0,2.75,2.9,738.69,5.31,2.0,1.0,1.0,0.0,1,0,-1,
 2.5G,2026-04-19,Angers SCO,Le Havre AC,French Ligue 1,0,1.571,1.63,3652.29,3.686,2.0,1.0,1.0,1.0,,,,
 3.5G,2026-04-19,Angers SCO,Le Havre AC,French Ligue 1,0,1.2,1.22,0.0,1.653,2.0,1.0,1.0,1.0,,,,
-BTTS,2026-04-19,Angers SCO,Le Havre AC,French Ligue 1,0,1.8,1.9,348.2,5.405,2.0,1.0,1.0,0.0,1,2.0202,1.0202,2.041
+BTTS,2026-04-19,Angers SCO,Le Havre AC,French Ligue 1,0,1.8,1.9,348.2,5.405,2.0,1.0,1.0,0.0,1,2.041,1.041,2.041
 1.5G,2026-04-19,FC Dinamo Bucuresti 1948,FC Universitatea Cluj,Romanian Liga I,1,1.325,1.35,0.0,1.869,3.0,2.0,1.0,1.0,,,,
 2.5G,2026-04-19,FC Dinamo Bucuresti 1948,FC Universitatea Cluj,Romanian Liga I,0,1.8,1.87,36.77,3.815,3.0,2.0,1.0,0.0,,,,
 3.5G,2026-04-19,FC Dinamo Bucuresti 1948,FC Universitatea Cluj,Romanian Liga I,0,1.3,1.33,11.54,2.281,3.0,2.0,1.0,1.0,,,,
@@ -18077,7 +18077,7 @@ BTTS,2026-04-19,LASK Linz,SK Sturm Graz,Austrian Bundesliga,1,1.571,1.64,2.79,4.
 3.5G,2026-04-19,Kristiansund BK,Fredrikstad FK,Norwegian Eliteserien,0,1.55,1.52,3737.75,1.0,2.0,2.0,0.0,1.0,,,,
 3.5G,2026-04-19,Sarpsborg 08,Tromsoe IL,Norwegian Eliteserien,0,1.375,1.42,696.08,3.22,1.0,0.0,1.0,1.0,,,,
 BTTS,2026-04-19,HamKam,KFUM Oslo,Norwegian Eliteserien,1,1.615,1.71,2.79,5.714,4.0,4.0,0.0,0.0,,,,
-BTTS,2026-04-19,Kristiansund BK,Fredrikstad FK,Norwegian Eliteserien,0,2.5,2.52,253.66,1.0,2.0,2.0,0.0,1.0,1,2.5112,1.5112,2.542
+BTTS,2026-04-19,Kristiansund BK,Fredrikstad FK,Norwegian Eliteserien,0,2.5,2.52,253.66,1.0,2.0,2.0,0.0,1.0,1,2.542,1.542,2.542
 BTTS,2026-04-19,Sarpsborg 08,Tromsoe IL,Norwegian Eliteserien,1,1.666,1.74,7.24,4.345,1.0,0.0,1.0,0.0,,,,
 1.5G,2026-04-19,Strasbourg Alsace,Stade Rennais FC,French Ligue 1,1,1.21,1.24,524.35,2.449,3.0,0.0,3.0,1.0,,,,
 1.5G,2026-04-19,FC Metz,Paris FC,French Ligue 1,1,1.275,1.3,36.64,1.942,4.0,1.0,3.0,1.0,,,,
@@ -18212,12 +18212,12 @@ BTTS,2026-04-21,NK Lokomotiva Zagreb,NK Slaven Belupo,Croatian HNL,1,1.8,1.81,65
 3.5G,2026-04-22,NK Varazdin,HNK Rijeka,Croatian HNL,0,1.25,1.27,4.41,1.587,,,,,,,,
 BTTS,2026-04-22,NK Varazdin,HNK Rijeka,Croatian HNL,1,1.833,1.9,7.54,3.59,,,,,,,,
 1.5G,2026-04-22,Blau-Weiss Linz,Wolfsberger AC,Austrian Bundesliga,0,3.8,4.03,388.95,5.875,3.0,3.0,0.0,0.0,1,0,-1,3.906
-1.5G,2026-04-22,SCR Altach,WSG Tirol,Austrian Bundesliga,0,2.85,2.98,829.78,4.46,0.0,0.0,0.0,1.0,1,2.8469,1.8469,2.904
+1.5G,2026-04-22,SCR Altach,WSG Tirol,Austrian Bundesliga,0,2.85,2.98,829.78,4.46,0.0,0.0,0.0,1.0,1,2.904,1.904,2.904
 2.5G,2026-04-22,Blau-Weiss Linz,Wolfsberger AC,Austrian Bundesliga,0,2.0,2.01,731.07,1.0,3.0,3.0,0.0,0.0,,,,
 2.5G,2026-04-22,SCR Altach,WSG Tirol,Austrian Bundesliga,0,1.615,1.63,687.74,1.0,0.0,0.0,0.0,1.0,,,,
 3.5G,2026-04-22,Blau-Weiss Linz,Wolfsberger AC,Austrian Bundesliga,0,1.375,1.39,269.84,1.085,3.0,3.0,0.0,1.0,,,,
 3.5G,2026-04-22,SCR Altach,WSG Tirol,Austrian Bundesliga,0,1.225,1.24,26.36,1.217,0.0,0.0,0.0,1.0,,,,
-BTTS,2026-04-22,Blau-Weiss Linz,Wolfsberger AC,Austrian Bundesliga,0,2.1,2.18,104.57,3.738,3.0,3.0,0.0,1.0,1,2.1329,1.1329,2.156
+BTTS,2026-04-22,Blau-Weiss Linz,Wolfsberger AC,Austrian Bundesliga,0,2.1,2.18,104.57,3.738,3.0,3.0,0.0,1.0,1,2.156,1.156,2.156
 BTTS,2026-04-22,SCR Altach,WSG Tirol,Austrian Bundesliga,1,1.95,2.02,0.0,3.526,0.0,0.0,0.0,0.0,,,,
 1.5G,2026-04-22,HNK Hajduk Split,NK Osijek,Croatian HNL,1,1.24,1.26,73.53,1.6,,,,,,,,
 2.5G,2026-04-22,HNK Hajduk Split,NK Osijek,Croatian HNL,1,1.75,1.79,130.12,2.26,,,,,,,,
@@ -18243,7 +18243,7 @@ BTTS,2026-04-22,SV Ried,Grazer AK 1902,Austrian Bundesliga,1,1.909,1.95,67.97,2.
 3.5G,2026-04-22,KRC Genk,Royal Charleroi SC,Belgian First Division A,0,1.35,1.37,1006.6,1.471,2.0,1.0,1.0,1.0,,,,
 3.5G,2026-04-22,Oud-Heverlee Leuven,KVC Westerlo,Belgian First Division A,1,2.675,2.72,211.49,1.668,2.0,0.0,2.0,0.0,,,,
 3.5G,2026-04-22,Standard Liege,Royal Antwerp FC,Belgian First Division A,0,1.25,1.28,119.94,2.372,3.0,1.0,2.0,1.0,,,,
-BTTS,2026-04-22,KRC Genk,Royal Charleroi SC,Belgian First Division A,0,2.05,2.16,87.77,5.226,2.0,1.0,1.0,0.0,1,1.785,0.785,1.801
+BTTS,2026-04-22,KRC Genk,Royal Charleroi SC,Belgian First Division A,0,2.05,2.16,87.77,5.226,2.0,1.0,1.0,0.0,1,1.801,0.801,1.801
 BTTS,2026-04-22,Oud-Heverlee Leuven,KVC Westerlo,Belgian First Division A,1,1.571,1.64,26.38,4.298,2.0,0.0,2.0,0.0,,,,
 BTTS,2026-04-22,Standard Liege,Royal Antwerp FC,Belgian First Division A,1,1.909,1.92,176.73,1.0,3.0,1.0,2.0,1.0,,,,
 1.5G,2026-04-22,Oud-Heverlee Leuven,KVC Westerlo,Belgian First Division A,1,1.2,1.25,462.43,4.082,2.0,0.0,2.0,1.0,,,,
@@ -18281,7 +18281,7 @@ BTTS,2026-04-22,West Bromwich Albion,Watford FC,English Championship League,1,1.
 BTTS,2026-04-22,Leicester City,Hull City,English Championship League,0,2.2,2.3,87.43,4.444,4.0,2.0,2.0,0.0,,,,
 1.5G,2026-04-22,Brighton & Hove Albion,Chelsea FC,English Premier League,1,1.19,1.22,6384.19,2.49,3.0,3.0,0.0,1.0,,,,
 2.5G,2026-04-22,Brighton & Hove Albion,Chelsea FC,English Premier League,1,1.666,1.69,1130.48,1.43,3.0,3.0,0.0,1.0,,,,
-3.5G,2026-04-22,Brighton & Hove Albion,Chelsea FC,English Premier League,0,1.5,1.56,311.68,3.922,3.0,3.0,0.0,1.0,1,1.5331,0.5331,1.544
+3.5G,2026-04-22,Brighton & Hove Albion,Chelsea FC,English Premier League,0,1.5,1.56,311.68,3.922,3.0,3.0,0.0,1.0,1,1.544,0.544,1.544
 BTTS,2026-04-22,Brighton & Hove Albion,Chelsea FC,English Premier League,1,1.533,1.6,521.95,4.277,3.0,3.0,0.0,0.0,,,,1.593
 1.5G,2026-04-22,Real Madrid,Deportivo Alaves,Spanish La Liga,1,1.125,1.14,3652.43,1.325,3.0,2.0,1.0,1.0,,,,
 1.5G,2026-04-22,Girona FC,Real Betis Seville,Spanish La Liga,1,1.26,1.3,956.7,3.125,5.0,2.0,3.0,1.0,,,,
@@ -18310,7 +18310,7 @@ BTTS,2026-04-22,AE Larissa FC,AE Kifisia FC,Greek Super League,1,1.95,1.96,209.5
 3.5G,2026-04-22,FK Vojvodina Novi Sad,FK Partizan Belgrade,Serbian SuperLiga,0,1.4,1.43,25.61,2.12,,,,,,,,
 3.5G,2026-04-22,FK Radnik Surdulica,FK Novi Pazar,Serbian SuperLiga,0,1.26,1.23,91.91,1.0,2.0,2.0,0.0,1.0,,,,
 BTTS,2026-04-22,FK Vojvodina Novi Sad,FK Partizan Belgrade,Serbian SuperLiga,1,1.666,1.64,3.77,1.0,,,,,,,,
-BTTS,2026-04-22,FK Radnik Surdulica,FK Novi Pazar,Serbian SuperLiga,0,1.8,1.81,278.56,1.0,2.0,2.0,0.0,1.0,1,1.785,0.785,1.801
+BTTS,2026-04-22,FK Radnik Surdulica,FK Novi Pazar,Serbian SuperLiga,0,1.8,1.81,278.56,1.0,2.0,2.0,0.0,1.0,1,1.801,0.801,1.801
 1.5G,2026-04-23,FC Copenhagen,Odense Boldklub,Danish Superligaen,1,1.15,1.19,87.13,3.419,3.0,2.0,1.0,1.0,,,,
 2.5G,2026-04-23,FC Copenhagen,Odense Boldklub,Danish Superligaen,1,1.5,1.57,728.28,4.56,3.0,2.0,1.0,1.0,,,,
 2.5G,2026-04-23,Vejle BK,Silkeborg IF,Danish Superligaen,1,1.615,1.67,527.48,3.349,3.0,1.0,2.0,1.0,,,,
@@ -18318,7 +18318,7 @@ BTTS,2026-04-22,FK Radnik Surdulica,FK Novi Pazar,Serbian SuperLiga,0,1.8,1.81,2
 BTTS,2026-04-23,FC Copenhagen,Odense Boldklub,Danish Superligaen,0,2.375,2.48,124.17,4.325,3.0,2.0,1.0,0.0,,,,
 BTTS,2026-04-23,Vejle BK,Silkeborg IF,Danish Superligaen,1,1.533,1.57,0.0,2.385,3.0,1.0,2.0,1.0,,,,
 1.5G,2026-04-23,Vejle BK,Silkeborg IF,Danish Superligaen,1,1.19,1.22,41.23,2.49,3.0,1.0,2.0,1.0,,,,
-3.5G,2026-04-23,Vejle BK,Silkeborg IF,Danish Superligaen,0,1.525,1.57,176.3,2.908,3.0,1.0,2.0,1.0,1,1.5429,0.5429,1.554
+3.5G,2026-04-23,Vejle BK,Silkeborg IF,Danish Superligaen,0,1.525,1.57,176.3,2.908,3.0,1.0,2.0,1.0,1,1.554,0.554,1.554
 2.5G,2026-04-23,OFK Beograd,FK Cukaricki Belgrade,Serbian SuperLiga,1,1.9,1.93,63.96,1.567,,,,,,,,
 BTTS,2026-04-23,OFK Beograd,FK Cukaricki Belgrade,Serbian SuperLiga,1,1.8,1.74,0.0,1.0,,,,,,,,
 2.5G,2026-04-23,SK Rapid,TSV Hartberg,Austrian Bundesliga,1,1.9,1.96,51.72,3.109,2.0,0.0,2.0,0.0,,,,
@@ -18369,7 +18369,7 @@ BTTS,2026-04-23,Real Sociedad San Sebastian,Getafe CF,Spanish La Liga,1,2.05,2.1
 BTTS,2026-04-23,SC Telstar,Sparta Rotterdam,Netherlands Eredivisie,1,1.5,1.56,927.66,3.922,5.0,4.0,1.0,1.0,,,,
 1.5G,2026-04-23,Viborg FF,Broendby IF,Danish Superligaen,1,1.19,1.23,132.11,3.306,1.0,0.0,1.0,0.0,,,,
 2.5G,2026-04-23,Viborg FF,Broendby IF,Danish Superligaen,0,2.25,2.36,136.59,4.772,1.0,0.0,1.0,1.0,,,,
-3.5G,2026-04-23,Viborg FF,Broendby IF,Danish Superligaen,0,1.5,1.54,291.08,2.632,1.0,0.0,1.0,1.0,1,1.5145,0.5145,1.525
+3.5G,2026-04-23,Viborg FF,Broendby IF,Danish Superligaen,0,1.5,1.54,291.08,2.632,1.0,0.0,1.0,1.0,1,1.525,0.525,1.525
 BTTS,2026-04-23,Viborg FF,Broendby IF,Danish Superligaen,1,1.533,1.61,675.66,4.9,1.0,0.0,1.0,0.0,,,,
 3.5G,2026-04-23,SC Telstar,Sparta Rotterdam,Netherlands Eredivisie,0,1.575,1.6,51.49,1.575,5.0,4.0,1.0,0.0,1,0,-1,1.588
 1.5G,2026-04-23,NK Istra 1961,GNK Dinamo Zagreb,Croatian HNL,1,1.14,1.16,142.09,1.739,,,,,,,,
@@ -18380,16 +18380,16 @@ BTTS,2026-04-23,NK Istra 1961,GNK Dinamo Zagreb,Croatian HNL,1,2.0,1.94,0.0,1.0,
 2.5G,2026-04-23,Union Saint-Gilloise,KAA Gent,Belgian First Division A,0,1.9,1.94,1095.95,2.083,0.0,0.0,0.0,1.0,,,,
 2.5G,2026-04-23,Club Brugge,Yellow-Red KV Mechelen,Belgian First Division A,1,1.363,1.42,667.66,4.096,7.0,6.0,1.0,1.0,,,,
 3.5G,2026-04-23,Union Saint-Gilloise,KAA Gent,Belgian First Division A,0,1.375,1.36,386.34,1.0,0.0,0.0,0.0,1.0,,,,
-BTTS,2026-04-23,Union Saint-Gilloise,KAA Gent,Belgian First Division A,0,1.666,1.69,161.34,1.43,0.0,0.0,0.0,1.0,1,1.6654,0.6654,1.679
+BTTS,2026-04-23,Union Saint-Gilloise,KAA Gent,Belgian First Division A,0,1.666,1.69,161.34,1.43,0.0,0.0,0.0,1.0,1,1.679,0.679,1.679
 BTTS,2026-04-23,Club Brugge,Yellow-Red KV Mechelen,Belgian First Division A,0,2.0,2.04,206.13,1.98,7.0,6.0,1.0,0.0,1,0,-1,2.016
 1.5G,2026-04-23,SK Sturm Graz,LASK Linz,Austrian Bundesliga,1,1.21,1.25,250.55,3.252,2.0,1.0,1.0,1.0,,,,
 2.5G,2026-04-23,SK Sturm Graz,LASK Linz,Austrian Bundesliga,1,1.7,1.74,185.74,2.326,2.0,1.0,1.0,0.0,,,,
 3.5G,2026-04-23,SK Sturm Graz,LASK Linz,Austrian Bundesliga,0,1.475,1.5,230.2,1.681,2.0,1.0,1.0,1.0,1,1.492,0.492,
 BTTS,2026-04-23,SK Sturm Graz,LASK Linz,Austrian Bundesliga,1,1.571,1.63,76.66,3.686,2.0,1.0,1.0,1.0,,,,
-1.5G,2026-04-23,Union Saint-Gilloise,KAA Gent,Belgian First Division A,0,3.55,3.65,598.79,2.778,0.0,0.0,0.0,1.0,2,7.1936,5.1936,3.705
+1.5G,2026-04-23,Union Saint-Gilloise,KAA Gent,Belgian First Division A,0,3.55,3.65,598.79,2.778,0.0,0.0,0.0,1.0,2,7.41,5.41,3.705
 1.5G,2026-04-23,Sheffield United,Blackburn Rovers,English Championship League,1,1.275,1.32,52.12,3.468,4.0,1.0,3.0,1.0,,,,
 2.5G,2026-04-23,Sheffield United,Blackburn Rovers,English Championship League,1,1.909,1.97,86.8,3.145,4.0,1.0,3.0,1.0,,,,
-BTTS,2026-04-23,Middlesbrough FC,Sheffield Wednesday,English Championship League,0,1.833,1.85,631.82,1.0,1.0,1.0,0.0,1.0,1,1.8046,0.8046,1.821
+BTTS,2026-04-23,Middlesbrough FC,Sheffield Wednesday,English Championship League,0,1.833,1.85,631.82,1.0,1.0,1.0,0.0,1.0,1,1.821,0.821,1.821
 BTTS,2026-04-23,Sheffield United,Blackburn Rovers,English Championship League,1,1.8,1.86,114.31,3.279,4.0,1.0,3.0,1.0,,,,
 2.5G,2026-04-23,Middlesbrough FC,Sheffield Wednesday,English Championship League,1,1.35,1.39,1904.84,2.92,1.0,1.0,0.0,0.0,,,,
 1.5G,2026-04-23,Middlesbrough FC,Sheffield Wednesday,English Championship League,1,1.1,1.12,751.32,1.802,1.0,1.0,0.0,0.0,,,,
