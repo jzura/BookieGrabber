@@ -961,15 +961,23 @@ with tab8:
 
                 if is_fade:
                     if result == 0:
-                        opp = sm if sm else 1 / (1 - 1 / bf) * (1 - 0.04)
-                        c = _commission(opp)
-                        ret = stake * (1 + (opp - 1) * (1 - c))
+                        if sm:
+                            ret = stake * sm
+                        else:
+                            opp = 1 / (1 - 1 / bf) * (1 - 0.04)
+                            c = _commission(opp)
+                            ret = stake * (1 + (opp - 1) * (1 - c))
                     else:
                         ret = 0
                 else:
                     if result == 1:
-                        c = _commission(odds)
-                        ret = stake * (1 + (odds - 1) * (1 - c))
+                        if sm:
+                            ret = stake * sm
+                        else:
+                            from strategy_config import estimate_sm_odds as _est
+                            est_odds = _est(bf)
+                            c = _commission(est_odds)
+                            ret = stake * (1 + (est_odds - 1) * (1 - c))
                     else:
                         ret = 0
 

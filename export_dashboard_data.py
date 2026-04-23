@@ -154,18 +154,23 @@ def _compute_stake_and_return(df):
         if fade:
             if result == 0:
                 if sm_odds:
-                    opp = sm_odds
+                    # SM_Odds already includes commission — use directly
+                    ret = stake * sm_odds
                 else:
                     opp = 1 / (1 - 1 / bf) * (1 - FADE_ODDS_HAIRCUT)
-                c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
-                ret = stake * (1 + (opp - 1) * (1 - c))
+                    c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
+                    ret = stake * (1 + (opp - 1) * (1 - c))
             else:
                 ret = 0
         else:
-            odds = sm_odds if sm_odds else estimate_sm_odds(bf)
             if result == 1:
-                c = 0.01 if odds <= 1.5 else 0.02 if odds <= 2.8 else 0.03 if odds <= 3.5 else 0.04
-                ret = stake * (1 + (odds - 1) * (1 - c))
+                if sm_odds:
+                    # SM_Odds already includes commission — use directly
+                    ret = stake * sm_odds
+                else:
+                    odds = estimate_sm_odds(bf)
+                    c = 0.01 if odds <= 1.5 else 0.02 if odds <= 2.8 else 0.03 if odds <= 3.5 else 0.04
+                    ret = stake * (1 + (odds - 1) * (1 - c))
             else:
                 ret = 0
 
