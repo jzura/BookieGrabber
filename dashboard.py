@@ -1148,8 +1148,9 @@ with tab9:
         st.markdown("---")
 
         # ─── 2. Odds Drift ───
-        st.subheader("2. Average BF Odds by Interval")
-        st.caption("How Betfair Exchange odds change as kickoff approaches")
+        st.subheader("2. Odds Drift Between Intervals")
+        st.caption("Average change in odds for the SAME match between each interval and the "
+                   "closest-to-KO snapshot (5h). Negative = odds shortened closer to kickoff.")
 
         market_select = st.selectbox("Market", ["Under 2.5G", "Under 1.5G", "Under 3.5G", "BTTS No"],
                                      key="tl_market")
@@ -1162,38 +1163,56 @@ with tab9:
         bf_col, b365_col = col_map[market_select]
 
         if bf_col in tl.columns and b365_col in tl.columns:
-            drift = tl.groupby("target_hours_before").agg(
-                BF_Avg=(bf_col, "mean"),
-                B365_Avg=(b365_col, "mean"),
-                Count=(bf_col, "count"),
-            ).reset_index().sort_values("target_hours_before")
+            # For each event, find the 5h snapshot as baseline
+            tl_valid = tl[tl[bf_col].notna() & (tl[bf_col] > 0)].copy()
+            baseline = tl_valid[tl_valid["target_hours_before"] == 5][
+                ["event_id", bf_col, b365_col]
+            ].rename(columns={bf_col: "bf_5h", b365_col: "b365_5h"})
 
-            # Only show intervals with enough data
-            drift = drift[drift["Count"] >= 3]
+            if not baseline.empty:
+                merged_drift = tl_valid.merge(baseline, on="event_id", how="inner")
+                merged_drift["bf_change"] = merged_drift[bf_col] - merged_drift["bf_5h"]
+                merged_drift["b365_change"] = merged_drift[b365_col] - merged_drift["b365_5h"]
 
-            if not drift.empty:
-                fig_drift = go.Figure()
-                fig_drift.add_trace(go.Scatter(
-                    x=drift["target_hours_before"], y=drift["BF_Avg"],
-                    mode="lines+markers", name="BF Exchange",
-                    line=dict(color="#2196F3", width=2),
-                    hovertemplate="%{x}h: BF avg %{y:.3f}<extra></extra>",
-                ))
-                fig_drift.add_trace(go.Scatter(
-                    x=drift["target_hours_before"], y=drift["B365_Avg"],
-                    mode="lines+markers", name="Bet365",
-                    line=dict(color="#FF9800", width=2),
-                    hovertemplate="%{x}h: B365 avg %{y:.3f}<extra></extra>",
-                ))
-                fig_drift.update_layout(
-                    height=400, margin=dict(l=40, r=20, t=10, b=40),
-                    xaxis_title="Hours Before Kickoff", yaxis_title="Average Odds",
-                    xaxis=dict(autorange="reversed"),
-                    legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
-                )
-                st.plotly_chart(fig_drift, use_container_width=True)
+                drift = merged_drift[merged_drift["target_hours_before"] != 5].groupby(
+                    "target_hours_before"
+                ).agg(
+                    BF_Drift=("bf_change", "mean"),
+                    B365_Drift=("b365_change", "mean"),
+                    Matches=("event_id", "nunique"),
+                ).reset_index().sort_values("target_hours_before")
+
+                drift = drift[drift["Matches"] >= 3]
+
+                if not drift.empty:
+                    fig_drift = go.Figure()
+                    fig_drift.add_trace(go.Scatter(
+                        x=drift["target_hours_before"], y=drift["BF_Drift"],
+                        mode="lines+markers", name="BF Exchange",
+                        line=dict(color="#2196F3", width=2),
+                        hovertemplate="%{x}h: BF %{y:+.3f} vs 5h (%{customdata} matches)<extra></extra>",
+                        customdata=drift["Matches"],
+                    ))
+                    fig_drift.add_trace(go.Scatter(
+                        x=drift["target_hours_before"], y=drift["B365_Drift"],
+                        mode="lines+markers", name="Bet365",
+                        line=dict(color="#FF9800", width=2),
+                        hovertemplate="%{x}h: B365 %{y:+.3f} vs 5h (%{customdata} matches)<extra></extra>",
+                        customdata=drift["Matches"],
+                    ))
+                    fig_drift.add_hline(y=0, line_dash="dash", line_color="gray")
+                    fig_drift.update_layout(
+                        height=400, margin=dict(l=40, r=20, t=10, b=40),
+                        xaxis_title="Hours Before Kickoff",
+                        yaxis_title="Avg Odds Change vs 5h Snapshot",
+                        xaxis=dict(autorange="reversed"),
+                        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+                    )
+                    st.plotly_chart(fig_drift, use_container_width=True)
+                else:
+                    st.info("Not enough matched events yet (need events captured at multiple intervals)")
             else:
-                st.info("Not enough data points yet (need 3+ per interval)")
+                st.info("No 5h baseline snapshots yet — need more data")
         else:
             st.warning(f"Columns {bf_col}/{b365_col} not found in timeline data")
 
