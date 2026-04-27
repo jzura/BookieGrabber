@@ -1438,6 +1438,134 @@ with tab9:
             st.caption("Note: ROI is calculated using estimated SM fill prices from BF odds. "
                        "Double-stake logic is not applied. Sample size is limited — "
                        "results become more reliable as more timeline data is collected.")
+
+            # --- High vs Low volume split ---
+            st.markdown("#### High vs Low Volume Leagues")
+            st.caption("Leagues split at median average volume. High-volume markets correct faster, "
+                       "so closer-to-KO odds may perform better. Low-volume markets stay inefficient longer.")
+
+            @st.cache_data(ttl=600)
+            def compute_volume_split_roi(tl_df, bets_df):
+                from strategy_config import (is_core_qualifying, is_btts_fade,
+                                             estimate_sm_odds, FADE_ODDS_HAIRCUT)
+                import numpy as np
+
+                tl_df = tl_df.copy()
+                bets_df = bets_df.copy()
+                bets_df["Date"] = pd.to_datetime(bets_df["Date"]).dt.date
+                tl_df["match_date"] = pd.to_datetime(tl_df["match_time"]).dt.date
+
+                merged = tl_df.merge(
+                    bets_df[["Date", "Home", "Away", "Market", "Result"]].drop_duplicates(),
+                    left_on=["match_date", "home_team", "away_team"],
+                    right_on=["Date", "Home", "Away"], how="inner"
+                )
+                settled = merged[merged["Result"].notna()]
+
+                def _rpd(o365, bf):
+                    try:
+                        a, b = float(o365), float(bf)
+                        if a > b: return 1.0
+                        pct = abs(a - b) / ((a + b) / 2) * 100
+                        return 1.0 if pct < 1 else round(pct, 3)
+                    except: return None
+
+                market_cols = {
+                    "1.5G": {"bf": "bf_under_1_5", "b365": "b365_under_1_5", "vol": "vol_1_5", "pred": 0},
+                    "3.5G": {"bf": "bf_under_3_5", "b365": "b365_under_3_5", "vol": "vol_3_5", "pred": 0},
+                    "BTTS": {"bf": "bf_btts_no", "b365": "b365_btts_no", "vol": "vol_btts", "pred": 0},
+                }
+
+                # Compute per league per timeslice
+                league_data = []
+                for (league, target_h), subset in settled.groupby(["league", "target_hours_before"]):
+                    total_stake = total_return = n_bets = 0
+                    volumes = []
+                    for _, row in subset.iterrows():
+                        mkt = row.get("Market")
+                        if mkt not in market_cols: continue
+                        mc = market_cols[mkt]
+                        try:
+                            bf = float(row[mc["bf"]]); b365 = float(row[mc["b365"]]); vol = float(row[mc["vol"]])
+                        except: continue
+                        if not (bf > 1 and b365 > 0 and vol >= 0): continue
+                        rpd = _rpd(b365, bf); result = int(row["Result"])
+                        is_core = is_core_qualifying(mkt, 0, bf, vol, rpd)
+                        is_fade = is_btts_fade(mkt, 0, rpd, vol) if mkt == "BTTS" else False
+                        if not is_core and not is_fade: continue
+                        n_bets += 1; total_stake += 1; volumes.append(vol)
+                        if is_fade:
+                            if result == 0:
+                                opp = 1/(1-1/bf)*(1-FADE_ODDS_HAIRCUT)
+                                c = 0.01 if opp<=1.5 else 0.02 if opp<=2.8 else 0.03 if opp<=3.5 else 0.04
+                                total_return += 1*(1+(opp-1)*(1-c))
+                        elif result == 1:
+                            odds = estimate_sm_odds(bf)
+                            c = 0.01 if odds<=1.5 else 0.02 if odds<=2.8 else 0.03 if odds<=3.5 else 0.04
+                            total_return += 1*(1+(odds-1)*(1-c))
+                    if n_bets >= 3:
+                        league_data.append({
+                            "league": league, "hours": int(target_h), "bets": n_bets,
+                            "roi": (total_return - total_stake) / total_stake * 100,
+                            "avg_vol": np.mean(volumes),
+                        })
+
+                if not league_data:
+                    return pd.DataFrame(), pd.DataFrame()
+
+                ldf = pd.DataFrame(league_data)
+                league_avg_vol = ldf.groupby("league")["avg_vol"].mean()
+                median_vol = league_avg_vol.median()
+                high_vol = set(league_avg_vol[league_avg_vol >= median_vol].index)
+                low_vol = set(league_avg_vol[league_avg_vol < median_vol].index)
+
+                rows = []
+                for h in sorted(ldf["hours"].unique()):
+                    for tier, leagues in [("High Volume", high_vol), ("Low Volume", low_vol)]:
+                        tier_data = ldf[(ldf["hours"] == h) & (ldf["league"].isin(leagues))]
+                        total_bets = tier_data["bets"].sum()
+                        if total_bets > 0:
+                            weighted_roi = (tier_data["roi"] * tier_data["bets"]).sum() / total_bets
+                        else:
+                            weighted_roi = None
+                        rows.append({
+                            "Hours": int(h), "Tier": tier,
+                            "Bets": total_bets, "ROI %": weighted_roi,
+                        })
+
+                split_df = pd.DataFrame(rows)
+                split_df = split_df[split_df["Bets"] > 0]
+                return split_df, pd.DataFrame({
+                    "League": league_avg_vol.index,
+                    "Avg Volume": league_avg_vol.values.round(0),
+                    "Tier": ["High" if l in high_vol else "Low" for l in league_avg_vol.index],
+                }).sort_values("Avg Volume", ascending=False)
+
+            split_roi, league_tiers = compute_volume_split_roi(tl, df)
+
+            if not split_roi.empty:
+                fig_split = go.Figure()
+                for tier, color in [("High Volume", "#2196F3"), ("Low Volume", "#FF9800")]:
+                    tier_data = split_roi[split_roi["Tier"] == tier]
+                    if tier_data.empty:
+                        continue
+                    fig_split.add_trace(go.Scatter(
+                        x=tier_data["Hours"], y=tier_data["ROI %"],
+                        mode="lines+markers", name=tier,
+                        line=dict(color=color, width=2),
+                        hovertemplate="%{x}h: %{y:+.1f}% ROI<extra>" + tier + "</extra>",
+                    ))
+                fig_split.add_hline(y=0, line_dash="dash", line_color="gray")
+                fig_split.update_layout(
+                    height=400, margin=dict(l=40, r=20, t=10, b=40),
+                    xaxis_title="Hours Before Kickoff", yaxis_title="ROI %",
+                    xaxis=dict(autorange="reversed"),
+                    legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+                )
+                st.plotly_chart(fig_split, use_container_width=True)
+
+                with st.expander("League volume tiers"):
+                    st.dataframe(league_tiers, use_container_width=True, hide_index=True)
         else:
             st.info("Not enough settled matches with timeline data to compute ROI by timeslice yet.")
 
