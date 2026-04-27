@@ -1231,8 +1231,7 @@ with tab9:
             # Sort columns descending (48h → 5h)
             rpd_pivot = rpd_pivot[sorted(rpd_pivot.columns, reverse=True)]
 
-            st.dataframe(rpd_pivot.style.format("{:.2f}").background_gradient(
-                cmap="RdYlGn_r", axis=None), use_container_width=True)
+            st.dataframe(rpd_pivot.style.format("{:.2f}"), use_container_width=True)
         else:
             st.info("Not enough data for RPD heatmap yet")
 
@@ -1277,8 +1276,175 @@ with tab9:
 
         st.markdown("---")
 
-        # ─── 5. League Breakdown ───
-        st.subheader("5. Coverage by League")
+        # ─── 5. ROI by Timeslice ───
+        st.subheader("5. ROI by Odds Collection Time")
+        st.caption("Simulates our strategy at each time interval using actual results. "
+                   "Shows what ROI we'd achieve if odds were always collected at that specific hour mark.")
+
+        @st.cache_data(ttl=600)
+        def compute_timeslice_roi(tl_df, bets_df):
+            """For each target_hours_before, re-qualify all bets using timeline odds and compute ROI."""
+            from strategy_config import (is_core_qualifying, is_btts_fade, is_15g_fade,
+                                         estimate_sm_odds, FADE_ODDS_HAIRCUT,
+                                         VOL_MIN, VOL_MAX, BF_MIN)
+
+            tl_df = tl_df.copy()
+            bets_df = bets_df.copy()
+            bets_df["Date"] = pd.to_datetime(bets_df["Date"]).dt.date
+            tl_df["match_date"] = pd.to_datetime(tl_df["match_time"]).dt.date
+
+            # Merge timeline with actual results
+            merged = tl_df.merge(
+                bets_df[["Date", "Home", "Away", "Market", "Result", "HG", "AG"]].drop_duplicates(),
+                left_on=["match_date", "home_team", "away_team"],
+                right_on=["Date", "Home", "Away"],
+                how="inner"
+            )
+            settled = merged[merged["Result"].notna()].copy()
+
+            # Map market columns
+            market_cols = {
+                "1.5G": {"bf": "bf_under_1_5", "b365": "b365_under_1_5", "vol": "vol_1_5", "pred": 0},
+                "2.5G": {"bf": "bf_under_2_5", "b365": "b365_under_2_5", "vol": "vol_2_5", "pred": 0},  # not in strategy
+                "3.5G": {"bf": "bf_under_3_5", "b365": "b365_under_3_5", "vol": "vol_3_5", "pred": 0},
+                "BTTS": {"bf": "bf_btts_no", "b365": "b365_btts_no", "vol": "vol_btts", "pred": 0},
+            }
+
+            def _rpd(o365, bf):
+                try:
+                    a, b = float(o365), float(bf)
+                    if a > b: return 1.0
+                    pct = abs(a - b) / ((a + b) / 2) * 100
+                    return 1.0 if pct < 1 else round(pct, 3)
+                except: return None
+
+            rows = []
+            for target_h in sorted(settled["target_hours_before"].dropna().unique()):
+                subset = settled[settled["target_hours_before"] == target_h]
+                total_stake = 0
+                total_return = 0
+                n_bets = 0
+
+                for _, row in subset.iterrows():
+                    mkt = row.get("Market")
+                    if mkt not in market_cols:
+                        continue
+                    mc = market_cols[mkt]
+                    bf_col, b365_col, vol_col, pred = mc["bf"], mc["b365"], mc["vol"], mc["pred"]
+
+                    try:
+                        bf = float(row[bf_col])
+                        b365 = float(row[b365_col])
+                        vol = float(row[vol_col])
+                    except (ValueError, TypeError):
+                        continue
+
+                    if not (bf > 1 and b365 > 0 and vol >= 0):
+                        continue
+
+                    rpd = _rpd(b365, bf)
+                    result = int(row["Result"])
+
+                    # Check core qualification
+                    is_core = is_core_qualifying(mkt, pred, bf, vol, rpd)
+                    is_fade_btts = is_btts_fade(mkt, pred, rpd, vol) if mkt == "BTTS" else False
+
+                    # Check 1.5G fade (pred=1 side)
+                    is_fade_15g = False
+                    if mkt == "1.5G":
+                        bf_over = row.get("bf_over_1_5")
+                        b365_over = row.get("b365_over_1_5")
+                        try:
+                            rpd_over = _rpd(float(b365_over), float(bf_over))
+                            is_fade_15g = is_15g_fade(mkt, 1, rpd_over, vol)
+                        except (ValueError, TypeError):
+                            pass
+
+                    if not is_core and not is_fade_btts and not is_fade_15g:
+                        continue
+
+                    stake = 1
+                    n_bets += 1
+                    total_stake += stake
+
+                    if is_fade_btts:
+                        # Fade: bet Yes, win if result=0 (original No lost)
+                        if result == 0:
+                            opp = 1 / (1 - 1/bf) * (1 - FADE_ODDS_HAIRCUT)
+                            c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
+                            total_return += stake * (1 + (opp - 1) * (1 - c))
+                    elif is_fade_15g:
+                        # 1.5G fade: bet Under, win if result=0 (Over lost)
+                        if result == 0:
+                            try:
+                                bf_over_f = float(row.get("bf_over_1_5", 0))
+                                opp = 1 / (1 - 1/bf_over_f) * (1 - FADE_ODDS_HAIRCUT)
+                                c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
+                                total_return += stake * (1 + (opp - 1) * (1 - c))
+                            except: pass
+                    else:
+                        # Core: win if result=1
+                        if result == 1:
+                            odds = estimate_sm_odds(bf)
+                            c = 0.01 if odds <= 1.5 else 0.02 if odds <= 2.8 else 0.03 if odds <= 3.5 else 0.04
+                            total_return += stake * (1 + (odds - 1) * (1 - c))
+
+                profit = total_return - total_stake
+                roi = (profit / total_stake * 100) if total_stake > 0 else 0
+
+                rows.append({
+                    "Hours Before KO": int(target_h),
+                    "Bets": n_bets,
+                    "Staked": round(total_stake, 1),
+                    "Profit": round(profit, 2),
+                    "ROI %": round(roi, 1),
+                })
+
+            return pd.DataFrame(rows)
+
+        roi_df = compute_timeslice_roi(tl, df)
+
+        if not roi_df.empty:
+            col_tbl, col_chart = st.columns([2, 3])
+
+            with col_tbl:
+                styled = roi_df.style.format({
+                    "Profit": "{:+.2f}",
+                    "ROI %": "{:+.1f}%",
+                }).applymap(
+                    lambda v: "color: green" if isinstance(v, (int, float)) and v > 0 else
+                              "color: red" if isinstance(v, (int, float)) and v < 0 else "",
+                    subset=["Profit", "ROI %"]
+                )
+                st.dataframe(styled, use_container_width=True, hide_index=True)
+
+            with col_chart:
+                colors = ["#4CAF50" if v >= 0 else "#F44336" for v in roi_df["ROI %"]]
+                fig_roi = go.Figure()
+                fig_roi.add_trace(go.Bar(
+                    x=roi_df["Hours Before KO"].astype(str) + "h",
+                    y=roi_df["ROI %"],
+                    marker_color=colors,
+                    hovertemplate="%{x}: %{y:+.1f}% ROI (%{customdata} bets)<extra></extra>",
+                    customdata=roi_df["Bets"],
+                ))
+                fig_roi.add_hline(y=0, line_dash="dash", line_color="gray")
+                fig_roi.update_layout(
+                    height=350, margin=dict(l=40, r=20, t=10, b=40),
+                    xaxis_title="Hours Before Kickoff", yaxis_title="ROI %",
+                )
+                st.plotly_chart(fig_roi, use_container_width=True)
+
+            st.caption("Note: ROI is calculated using estimated SM fill prices from BF odds. "
+                       "Double-stake logic is not applied. Sample size is limited — "
+                       "results become more reliable as more timeline data is collected.")
+        else:
+            st.info("Not enough settled matches with timeline data to compute ROI by timeslice yet.")
+
+        st.markdown("---")
+
+        # ─── 6. League Breakdown ───
+        st.subheader("6. Coverage by League")
 
         league_cov = tl.groupby("league").agg(
             Snapshots=("event_id", "count"),
