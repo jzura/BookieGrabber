@@ -9,6 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import numpy as np
+from strategy_config import compute_rpd as _rpd_scalar
 from pathlib import Path
 from datetime import datetime
 
@@ -1310,13 +1311,7 @@ with tab9:
                 "BTTS": {"bf": "bf_btts_no", "b365": "b365_btts_no", "vol": "vol_btts", "pred": 0},
             }
 
-            def _rpd(o365, bf):
-                try:
-                    a, b = float(o365), float(bf)
-                    if a > b: return 1.0
-                    pct = abs(a - b) / ((a + b) / 2) * 100
-                    return 1.0 if pct < 1 else round(pct, 3)
-                except: return None
+            _rpd = _rpd_scalar
 
             rows = []
             for target_h in sorted(settled["target_hours_before"].dropna().unique()):
@@ -1381,7 +1376,8 @@ with tab9:
                                 opp = 1 / (1 - 1/bf_over_f) * (1 - FADE_ODDS_HAIRCUT)
                                 c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
                                 total_return += stake * (1 + (opp - 1) * (1 - c))
-                            except: pass
+                            except Exception:
+pass
                     else:
                         # Core: win if result=1
                         if result == 1:
@@ -1411,7 +1407,7 @@ with tab9:
                 styled = roi_df.style.format({
                     "Profit": "{:+.2f}",
                     "ROI %": "{:+.1f}%",
-                }).applymap(
+                }).map(
                     lambda v: "color: green" if isinstance(v, (int, float)) and v > 0 else
                               "color: red" if isinstance(v, (int, float)) and v < 0 else "",
                     subset=["Profit", "ROI %"]
@@ -1462,13 +1458,7 @@ with tab9:
                 )
                 settled = merged[merged["Result"].notna()]
 
-                def _rpd(o365, bf):
-                    try:
-                        a, b = float(o365), float(bf)
-                        if a > b: return 1.0
-                        pct = abs(a - b) / ((a + b) / 2) * 100
-                        return 1.0 if pct < 1 else round(pct, 3)
-                    except: return None
+                _rpd = _rpd_scalar
 
                 market_cols = {
                     "1.5G": {"bf": "bf_under_1_5", "b365": "b365_under_1_5", "vol": "vol_1_5", "pred": 0},
@@ -1487,7 +1477,8 @@ with tab9:
                         mc = market_cols[mkt]
                         try:
                             bf = float(row[mc["bf"]]); b365 = float(row[mc["b365"]]); vol = float(row[mc["vol"]])
-                        except: continue
+                        except Exception:
+continue
                         if not (bf > 1 and b365 > 0 and vol >= 0): continue
                         rpd = _rpd(b365, bf); result = int(row["Result"])
                         is_core = is_core_qualifying(mkt, 0, bf, vol, rpd)
