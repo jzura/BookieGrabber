@@ -1377,7 +1377,7 @@ with tab9:
                                 c = 0.01 if opp <= 1.5 else 0.02 if opp <= 2.8 else 0.03 if opp <= 3.5 else 0.04
                                 total_return += stake * (1 + (opp - 1) * (1 - c))
                             except Exception:
-pass
+                                pass
                     else:
                         # Core: win if result=1
                         if result == 1:
@@ -1478,7 +1478,7 @@ pass
                         try:
                             bf = float(row[mc["bf"]]); b365 = float(row[mc["b365"]]); vol = float(row[mc["vol"]])
                         except Exception:
-continue
+                            continue
                         if not (bf > 1 and b365 > 0 and vol >= 0): continue
                         rpd = _rpd(b365, bf); result = int(row["Result"])
                         is_core = is_core_qualifying(mkt, 0, bf, vol, rpd)
