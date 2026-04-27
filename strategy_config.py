@@ -28,7 +28,7 @@ RPD_TIER2 = 6.0   # max RPD when BF > BF_TIER1
 
 # ─── Fade thresholds ───
 BTTS_FADE_RPD = 5.0    # BTTS pred=0 with RPD >= this → fade to Yes
-G15_FADE_RPD = 4.6     # 1.5G pred=1 with RPD >= this → fade to Under
+G15_FADE_RPD = 4.5     # 1.5G pred=1 with RPD >= this → fade to Under
 
 # ─── Fade odds haircut ───
 # Theoretical opposite odds = 1/(1-1/BF). Real SM fills are lower due to
@@ -47,6 +47,19 @@ BF_SM_DISCOUNT_TIERS = [
     (3.50, 0.032),   # 2.50 < BF <= 3.50: 3.2% discount
     (999,  0.042),   # BF > 3.50: 4.2% discount
 ]
+
+
+def compute_rpd(o365, bf):
+    """Compute Relative Price Difference between Bet365 and Betfair odds.
+    Returns 1.0 when B365 > BF, percentage otherwise, or None on error."""
+    try:
+        a, b = float(o365), float(bf)
+        if a > b:
+            return 1.0
+        pct = abs(a - b) / ((a + b) / 2) * 100
+        return 1.0 if pct < 1 else round(pct, 3)
+    except Exception:
+        return None
 
 
 def estimate_sm_odds(bf_odds):
