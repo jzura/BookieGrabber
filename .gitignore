@@ -222,3 +222,16 @@ logs/
 # Cache
 __pycache__/
 *.pyc
+
+# BookieGrabber operational state (mutates at runtime, not source-of-truth)
+processed_cache.json
+failed_master_writes.json
+pending_retries.json
+telegram_pending_bets.json
+debug_screenshots/
+
+# Local Claude Code memory + session artifacts
+.claude/
+
+# Stray tmp files
+tmp[a-zA-Z0-9_]*
