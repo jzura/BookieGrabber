@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import numpy as np
-from strategy_config import compute_rpd as _rpd_scalar
+from strategy_config import compute_rpd as _rpd_scalar, G15_FADE_RPD
 from pathlib import Path
 from datetime import datetime
 
@@ -126,7 +126,7 @@ with st.expander("Bet Rate (% of matches with a qualifying bet)"):
     # Fade rate
     _fade_bets = len(staked_f[
         ((staked_f['Market'] == 'BTTS') & (staked_f['Prediction'] == 0) & (staked_f['RPD'] >= 5)) |
-        ((staked_f['Market'] == '1.5G') & (staked_f['Prediction'] == 1) & (staked_f['RPD'] >= 4.6))
+        ((staked_f['Market'] == '1.5G') & (staked_f['Prediction'] == 1) & (staked_f['RPD'] >= G15_FADE_RPD))
     ])
     _fade_rate = _fade_bets / _total_matches * 100 if _total_matches else 0
     _br_cols[4].metric("Fades", f"{_fade_rate:.1f}%", help=f"{_fade_bets} fade bets")
@@ -649,7 +649,7 @@ with tab6:
         else:
             if row['Market'] == '1.5G' and row['Prediction'] == 1:
                 rpd = row.get('RPD')
-                if pd.notna(rpd) and rpd >= 4.6:
+                if pd.notna(rpd) and rpd >= G15_FADE_RPD:
                     return 'Under (fade)'
             return 'Under' if row['Prediction'] == 0 else 'Over'
     recent['Bet'] = recent.apply(describe_bet, axis=1)
@@ -819,7 +819,7 @@ with tab7:
             return 'BTTS Core (No)'
         elif row['Market'] == '1.5G' and row['Prediction'] == 1:
             rpd = row.get('RPD')
-            if rpd is not None and not pd.isna(rpd) and rpd >= 4.6:
+            if rpd is not None and not pd.isna(rpd) and rpd >= G15_FADE_RPD:
                 return '1.5G Fade (Under)'
             return '1.5G Core (Under)'
         elif row['Market'] == '1.5G' and row['Prediction'] == 0:
@@ -1028,7 +1028,7 @@ with tab8:
             ("BTTS Fade RPD Threshold", "btts_fade_rpd", BTTS_FADE_RPD,
              [3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 10.0]),
             ("1.5G Fade RPD Threshold", "g15_fade_rpd", G15_FADE_RPD,
-             [2.0, 2.5, 3.0, 3.5, 4.0, 4.6, 5.0, 5.5, 6.0, 7.0, 8.0, 10.0]),
+             [2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 10.0]),
             ("Double Stake RPD Threshold", "dbl_rpd", DOUBLE_STAKE_RPD,
              [1.0, 1.1, 1.2, 1.3, 1.5, 1.8, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0]),
         ]
