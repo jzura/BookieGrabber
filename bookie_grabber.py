@@ -799,13 +799,13 @@ def process_league(api_key: str, league_cfg: dict, limit=200):
         # Skip events outside the collection window
         match_time = row["match_time"]
         now = datetime.now(PERTH)
-        hours_until_ko = float("inf")
-        if match_time is not None:
-            if match_time < now:
-                continue  # already started
-            hours_until_ko = (match_time - now).total_seconds() / 3600.0
-            if hours_until_ko > target_hours:
-                continue  # too far away
+        if match_time is None or pd.isna(match_time):
+            continue  # no kickoff time — cannot determine window
+        if match_time < now:
+            continue  # already started
+        hours_until_ko = (match_time - now).total_seconds() / 3600.0
+        if hours_until_ko > target_hours:
+            continue  # too far away
 
         # Skip events already locked (in-window odds already recorded)
         if event_id in locked_event_ids:

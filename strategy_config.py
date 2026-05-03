@@ -78,7 +78,20 @@ DOUBLE_STAKE_MIN_COUNT = 2   # min core bets on same match for 2x
 CORE_BET_TYPES = ("1.5G", "3.5G", "BTTS")
 
 # ─── Stake per unit (EUR) ───
-STAKE_PER_UNIT = 250.0
+STAKE_PER_UNIT_WEEKEND = 250.0   # Saturday, Sunday
+STAKE_PER_UNIT_MIDWEEK = 500.0   # Monday–Friday
+
+
+def get_stake_per_unit(match_date=None):
+    """Return stake per unit based on day of week."""
+    if match_date is None:
+        from datetime import date
+        match_date = date.today()
+    if hasattr(match_date, 'weekday'):
+        if match_date.weekday() in (5, 6):  # Saturday=5, Sunday=6
+            return STAKE_PER_UNIT_WEEKEND
+        return STAKE_PER_UNIT_MIDWEEK
+    return STAKE_PER_UNIT_MIDWEEK
 
 
 def is_core_qualifying(bet_type, prediction, bf, vol, rpd):

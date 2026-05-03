@@ -23,7 +23,7 @@ logger = logging.getLogger("sportsmarket_api")
 
 SM_USERNAME = os.getenv("SM_USERNAME", "joelbrown95")
 SM_BASE = "https://pro.sportmarket.com/v1"
-PROJECT_ROOT = Path(__file__).resolve().parent
+from constants import PROJECT_ROOT
 SM_COOKIE_FILE = PROJECT_ROOT / ".sm_cookie"
 
 def _load_sm_session():
@@ -56,12 +56,59 @@ def _test_session(token):
         return False
 
 
+def _auto_login_worker():
+    """Worker function for auto_login — runs Playwright sync API.
+    Must run in a thread without a running asyncio event loop.
+    """
+    from playwright.sync_api import sync_playwright
+    username = SM_USERNAME
+    password = os.getenv("SM_PASSWORD", "")
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+
+        page.goto("https://pro.sportmarket.com/login", timeout=30000)
+        page.wait_for_selector('input[type="text"]', timeout=10000)
+
+        # Fill login form
+        page.fill('input[type="text"]', username)
+        page.fill('input[type="password"]', password)
+        page.get_by_role("button", name="log In").click()
+
+        # Wait for redirect (successful login navigates away from /login)
+        page.wait_for_url(lambda url: "/sportsbook" in url or "/trade" in url,
+                          timeout=30000)
+
+        # Extract cookies
+        cookies = context.cookies()
+        session_token = ""
+        cookie_parts = []
+        for c in cookies:
+            cookie_parts.append(f"{c['name']}={c['value']}")
+            if c['name'] == 'root-session':
+                session_token = c['value']
+
+        browser.close()
+
+        if session_token:
+            SM_COOKIE_FILE.write_text("; ".join(cookie_parts))
+            logger.info(f"Auto-login successful, session saved to {SM_COOKIE_FILE}")
+            return session_token
+        else:
+            logger.error("Auto-login: no root-session cookie found after login")
+            return ""
+
+
 def auto_login():
     """Log into SportsMarket using Playwright headless browser.
     Extracts the root-session cookie and saves it to .sm_cookie.
     Returns the session token, or empty string on failure.
+
+    Runs Playwright in a separate thread to avoid conflicts with
+    any running asyncio event loop (e.g. after place_order_playwright).
     """
-    username = SM_USERNAME
     password = os.getenv("SM_PASSWORD", "")
     if not password:
         logger.error("SM_PASSWORD not set in .env — cannot auto-login")
@@ -69,44 +116,10 @@ def auto_login():
 
     logger.info("Auto-logging into SportsMarket...")
     try:
-        from playwright.sync_api import sync_playwright
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
-            context = browser.new_context()
-            page = context.new_page()
-
-            page.goto("https://pro.sportmarket.com/login", timeout=30000)
-            page.wait_for_selector('input[type="text"]', timeout=10000)
-
-            # Fill login form
-            page.fill('input[type="text"]', username)
-            page.fill('input[type="password"]', password)
-            page.click('button[data-testid="35eb9af8"]')
-
-            # Wait for redirect (successful login navigates away from /login)
-            page.wait_for_url(lambda url: "/sportsbook" in url or "/trade" in url,
-                              timeout=30000)
-
-            # Extract cookies
-            cookies = context.cookies()
-            session_token = ""
-            cookie_parts = []
-            for c in cookies:
-                cookie_parts.append(f"{c['name']}={c['value']}")
-                if c['name'] == 'root-session':
-                    session_token = c['value']
-
-            browser.close()
-
-            if session_token:
-                # Save to cookie file
-                SM_COOKIE_FILE.write_text("; ".join(cookie_parts))
-                logger.info(f"Auto-login successful, session saved to {SM_COOKIE_FILE}")
-                return session_token
-            else:
-                logger.error("Auto-login: no root-session cookie found after login")
-                return ""
-
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            future = pool.submit(_auto_login_worker)
+            return future.result(timeout=60)
     except Exception as e:
         logger.exception(f"Auto-login failed: {e}")
         return ""
@@ -352,7 +365,7 @@ SCREENSHOT_DIR = PROJECT_ROOT / "debug_screenshots"
 # SM country/league URL prefixes — maps our config slug to SM's URL path
 SM_LEAGUE_PREFIXES = {
     "english_premier_league": "XE/1",
-    "english_sky_bet_championship": "GB/2",
+    "english_sky_bet_championship": "XE/2",
     "french_ligue_1": "FR/38",
     "german_bundesliga": "DE/12",
     "italian_serie_a": "IT/19",
@@ -363,14 +376,14 @@ SM_LEAGUE_PREFIXES = {
     "turkish_super_league": "TR/160",
     "greek_super_league": "GR/119",
     "romanian_liga_i": "RO/167",
-    "swiss_super_league": "CH/164",
+    "swiss_super_league": "CH/251",
     "danish_superliga": "DK/76",
     "croatian_hnl": "HR/189",
     "polish_ekstraklasa": "PL/134",
     "serbian_super_league": "RS/518",
     "austrian_bundesliga": "AT/116",
     "czech_1_liga": "CZ/154",
-    "scottish_premiership": "GB/1",
+    "scottish_premiership": "XS/8",
     "norwegian_eliteserien": "NO/111",
     "swedish_allsvenskan": "SE/104",
     "uefa_champions_league": "XE/1",
@@ -439,7 +452,7 @@ def place_order_playwright(sm_event_id, bet_type, prediction, stake_eur=250.0,
             page.wait_for_selector('input[type="text"]', timeout=10000)
             page.fill('input[type="text"]', SM_USERNAME)
             page.fill('input[type="password"]', password)
-            page.click('button[data-testid="35eb9af8"]')
+            page.get_by_role("button", name="log In").click()
             # Wait for redirect after login — SM may go to /sportsbook or /trade
             page.wait_for_url(lambda url: "/sportsbook" in url or "/trade" in url,
                               timeout=30000)
@@ -507,149 +520,165 @@ def place_order_playwright(sm_event_id, bet_type, prediction, stake_eur=250.0,
 def _click_odds_button(page, ui_info):
     """Find and click the correct odds button on the SM event page.
 
-    SM DOM structure (discovered via inspection):
-    - Market sections: div._db547d4 with header span in div._53364e30
-    - Goals market: "asian total goals" with 3 line rows (._4aa3c57e)
-    - Each line row has: div._430d5ce1 (line label like "1.5") +
-      div._5efe57c4 buttons with span._2b5878f5 ("over"/"under")
-    - BTTS market: "both teams to score" with "yes"/"no" buttons
+    Uses ONLY text-based matching — no CSS class selectors, so it survives
+    SM deployments that rotate obfuscated class names.
+
+    Strategy:
+    1. Find all spans containing market header text ("asian total goals" / "both teams to score")
+    2. Walk up to the section container (parent with multiple children)
+    3. Find line labels ("1.5", "2.5", "3.5") and side buttons ("over"/"under"/"yes"/"no")
+    4. Match by text content only
 
     Returns (success, message, market_odds) where market_odds is a float or None.
     """
     market = ui_info["market"]
     line = ui_info["line"]
-    side = ui_info["side"].lower()  # "over", "under", "yes", "no"
+    side = ui_info["side"].lower()
 
-    # Wait for odds to load
     logger.info("Waiting for odds to load...")
     page.wait_for_timeout(3000)
 
     try:
-        # For goal markets, click "Show all lines" first to reveal all lines
-        if market == "Goals":
-            try:
-                atg_section = page.locator(
-                    'div._db547d4:has(span:text("asian total goals"))')
-                show_all = atg_section.locator('div._3dcf8bbe')
-                if show_all.is_visible(timeout=3000):
-                    show_all.scroll_into_view_if_needed()
-                    show_all.click()
-                    page.wait_for_timeout(2000)
-                    logger.info("Clicked 'Show all lines' for asian total goals")
-            except Exception as e:
-                logger.warning(f"Could not click Show all lines: {e}")
-
-        if market == "BTTS":
-            # Find "both teams to score" section via JS for reliability
-            clicked = page.evaluate('''(side) => {
-                const sections = document.querySelectorAll("div._db547d4");
-                for (const sec of sections) {
-                    const header = sec.querySelector("._53364e30 span");
-                    if (!header || !header.textContent.toLowerCase().includes("both teams to score"))
-                        continue;
-                    const buttons = sec.querySelectorAll("div._5efe57c4");
-                    for (const btn of buttons) {
-                        const label = btn.querySelector("._2b5878f5");
-                        if (label && label.textContent.trim().toLowerCase() === side) {
-                            btn.click();
-                            const odds = btn.querySelector("._6319cb42");
-                            return {ok: true, label: label.textContent.trim(),
-                                    odds: odds ? odds.textContent.trim() : "?"};
-                        }
-                    }
-                }
-                return {ok: false};
-            }''', side)
-
-            if clicked.get("ok"):
-                odds_str = clicked.get("odds", "")
-                market_odds = _parse_odds_text(odds_str)
-                return True, f"Clicked BTTS {clicked['label']} button (odds: {odds_str})", market_odds
-            return False, f"Could not find BTTS {side} button", None
-
-        else:
-            # Goals Over/Under — find "asian total goals" section
-            # Match by actual line label value, not index position
-            # First, scroll the asian total goals section into view and
-            # expand it to reveal all lines (SM may truncate/collapse lines)
+        # Click ALL "Show all lines" buttons on the page to reveal all markets
+        try:
             page.evaluate('''() => {
-                const sections = document.querySelectorAll("div._db547d4");
-                for (const sec of sections) {
-                    const header = sec.querySelector("._53364e30 span");
-                    if (header && header.textContent.toLowerCase().includes("asian total goals")) {
-                        sec.scrollIntoView({behavior: "instant", block: "center"});
-                        break;
-                    }
+                const divs = document.querySelectorAll("div");
+                for (const div of divs) {
+                    const t = div.textContent.trim();
+                    if (t === "Show all lines") div.click();
                 }
             }''')
-            page.wait_for_timeout(1000)
+            page.wait_for_timeout(2000)
+        except Exception:
+            pass
 
-            clicked = page.evaluate('''(args) => {
-                const {side, targetLine} = args;
-                const sections = document.querySelectorAll("div._db547d4");
-                for (const sec of sections) {
-                    const header = sec.querySelector("._53364e30 span");
-                    if (!header || !header.textContent.toLowerCase().includes("asian total goals"))
-                        continue;
-                    // Each line group is a ._4aa3c57e container inside ._67b4d261
-                    // Lines can also be direct children with ._430d5ce1 labels
-                    const lineRows = sec.querySelectorAll("._67b4d261");
-                    let allLines = [];
-                    for (const row of lineRows) {
-                        const lineLabel = row.querySelector("._430d5ce1");
-                        const lineLabelText = lineLabel ? lineLabel.textContent.trim() : "?";
-                        allLines.push(lineLabelText);
+        clicked = page.evaluate('''(args) => {
+            const {market, side, targetLine} = args;
+            const headerText = market === "BTTS" ? "both teams to score" : "asian total goals";
 
-                        if (lineLabelText !== targetLine) continue;
-
-                        const buttons = row.querySelectorAll("div._5efe57c4");
-                        for (const btn of buttons) {
-                            const label = btn.querySelector("._2b5878f5");
-                            if (label && label.textContent.trim().toLowerCase() === side) {
-                                btn.scrollIntoView({behavior: "instant", block: "center"});
-                                btn.click();
-                                const odds = btn.querySelector("._6319cb42");
-                                return {ok: true, label: label.textContent.trim(),
-                                        line: lineLabelText,
-                                        odds: odds ? odds.textContent.trim() : "?"};
+            // Step 1: Find the market header span
+            const allSpans = document.querySelectorAll("span");
+            let sectionEl = null;
+            for (const span of allSpans) {
+                if (span.textContent.trim().toLowerCase() === headerText) {
+                    // Step 2: Walk up to find container that has over/under or yes/no spans
+                    let parent = span;
+                    for (let i = 0; i < 10; i++) {
+                        parent = parent.parentElement;
+                        if (!parent) break;
+                        const childSpans = parent.querySelectorAll("span");
+                        let hasButtons = false;
+                        for (const s of childSpans) {
+                            const t = s.textContent.trim().toLowerCase();
+                            if (t === "over" || t === "under" || t === "yes" || t === "no") {
+                                hasButtons = true;
+                                break;
                             }
                         }
-                        return {ok: false, error: "button '" + side + "' not found in line " + lineLabelText};
-                    }
-                    // Also try ._4aa3c57e containers as fallback
-                    if (allLines.length === 0) {
-                        const fallbackRows = sec.querySelectorAll("._4aa3c57e");
-                        for (const row of fallbackRows) {
-                            const lineLabel = row.querySelector("._430d5ce1");
-                            const lineLabelText = lineLabel ? lineLabel.textContent.trim() : "?";
-                            allLines.push(lineLabelText);
-                            if (lineLabelText !== targetLine) continue;
-                            const buttons = row.querySelectorAll("div._5efe57c4");
-                            for (const btn of buttons) {
-                                const label = btn.querySelector("._2b5878f5");
-                                if (label && label.textContent.trim().toLowerCase() === side) {
-                                    btn.scrollIntoView({behavior: "instant", block: "center"});
-                                    btn.click();
-                                    const odds = btn.querySelector("._6319cb42");
-                                    return {ok: true, label: label.textContent.trim(),
-                                            line: lineLabelText,
-                                            odds: odds ? odds.textContent.trim() : "?"};
-                                }
-                            }
+                        if (hasButtons) {
+                            sectionEl = parent;
+                            break;
                         }
                     }
-                    return {ok: false, error: "line " + targetLine + " not found. Available lines: " + allLines.join(", ")};
+                    break;
                 }
-                return {ok: false, error: "asian total goals section not found"};
-            }''', {"side": side, "targetLine": line})
+            }
 
-            if clicked.get("ok"):
-                odds_str = clicked.get("odds", "")
-                market_odds = _parse_odds_text(odds_str)
-                logger.info(f"Clicked {clicked['label']} {clicked['line']} "
-                           f"(odds: {odds_str}, parsed: {market_odds})")
-                return True, f"Clicked {side} {line} button (odds: {odds_str})", market_odds
-            return False, f"Could not find {side} {line} button: {clicked.get('error', '?')}", None
+            if (!sectionEl) {
+                return {ok: false, error: headerText + " section not found"};
+            }
+
+            if (market === "BTTS") {
+                // Find yes/no buttons by span text within the section
+                const spans = sectionEl.querySelectorAll("span");
+                for (const span of spans) {
+                    if (span.textContent.trim().toLowerCase() === side) {
+                        // Click the parent div (the button container)
+                        const btn = span.parentElement;
+                        if (btn) {
+                            btn.click();
+                            // Find odds value — sibling span with a number
+                            const siblings = btn.querySelectorAll("span");
+                            let odds = "?";
+                            for (const s of siblings) {
+                                const t = s.textContent.trim();
+                                if (/^\d+\.\d+$/.test(t)) { odds = t; break; }
+                            }
+                            return {ok: true, label: span.textContent.trim(), odds: odds};
+                        }
+                    }
+                }
+                return {ok: false, error: "BTTS " + side + " button not found in section"};
+            }
+
+            // Goals market — find the right line, then the right side button
+            // Line labels are leaf divs with text exactly "1.5", "2.5", or "3.5"
+            const allDivs = sectionEl.querySelectorAll("div");
+            let allLines = [];
+            const validLines = new Set(["0.5", "1.5", "2.5", "3.5", "4.5", "5.5"]);
+
+            for (const div of allDivs) {
+                if (div.children.length > 0) continue;
+                const t = div.textContent.trim();
+                if (!validLines.has(t)) continue;
+                allLines.push(t);
+                if (t !== targetLine) continue;
+
+                // Found the line — now find the over/under button in the same row
+                // The line label and buttons share a common parent (the row container)
+                let row = div.parentElement;
+                // Walk up until we find a container with over/under spans
+                for (let i = 0; i < 4; i++) {
+                    if (!row) break;
+                    const rowSpans = row.querySelectorAll("span");
+                    let hasOverUnder = false;
+                    for (const s of rowSpans) {
+                        const st = s.textContent.trim().toLowerCase();
+                        if (st === "over" || st === "under") { hasOverUnder = true; break; }
+                    }
+                    if (hasOverUnder) break;
+                    row = row.parentElement;
+                }
+
+                if (!row) continue;
+
+                // Click the matching side button
+                const rowSpans = row.querySelectorAll("span");
+                for (const span of rowSpans) {
+                    if (span.textContent.trim().toLowerCase() === side) {
+                        const btn = span.parentElement;
+                        if (btn) {
+                            btn.scrollIntoView({behavior: "instant", block: "center"});
+                            btn.click();
+                            const siblings = btn.querySelectorAll("span");
+                            let odds = "?";
+                            for (const s of siblings) {
+                                const st = s.textContent.trim();
+                                if (/^\d+\.\d+$/.test(st)) { odds = st; break; }
+                            }
+                            return {ok: true, label: span.textContent.trim(),
+                                    line: t, odds: odds};
+                        }
+                    }
+                }
+                return {ok: false, error: side + " button not found in line " + t};
+            }
+
+            if (allLines.length === 0) {
+                return {ok: false, error: "no line labels found in " + headerText + " section"};
+            }
+            return {ok: false, error: "line " + targetLine + " not found. Available: " + allLines.join(", ")};
+        }''', {"market": market, "side": side, "targetLine": line})
+
+        if clicked.get("ok"):
+            odds_str = clicked.get("odds", "")
+            market_odds = _parse_odds_text(odds_str)
+            label = clicked.get("label", side)
+            line_found = clicked.get("line", line or "")
+            log_msg = f"Clicked {label} {line_found}" if line_found else f"Clicked {label}"
+            logger.info(f"{log_msg} (odds: {odds_str}, parsed: {market_odds})")
+            return True, f"Clicked {side} {line} button (odds: {odds_str})", market_odds
+        return False, f"Could not find {side} {line} button: {clicked.get('error', '?')}", None
 
     except Exception as e:
         return False, f"Error clicking odds button: {e}", None
@@ -659,49 +688,42 @@ def _read_betslip_price(page):
     """Read the average market price from the betslip exchange table.
 
     After clicking an odds button, the betslip shows a table with bookmaker
-    prices. The "All Bookies" header row has 3 price columns:
-      - Column 0 (rightmost visually): highest/best back price
-      - Column 1 (middle): average price  <-- this is what we want
-      - Column 2 (leftmost): lowest price
+    prices. The "All Bookies" row has 3 price columns:
+      - Column 0: highest/best back price
+      - Column 1: average price  <-- this is what we want
+      - Column 2: lowest price
 
+    Uses text-based matching only — no CSS class selectors.
     Returns float or None.
     """
     try:
-        prices = page.evaluate('''() => {
-            // Strategy 1: Find the row containing "All Bookies" text
+        prices = page.evaluate(r'''() => {
+            // Find "All Bookies" text, walk up to row, extract price-like spans
             const allEls = document.querySelectorAll("*");
             for (const el of allEls) {
                 if (el.children.length === 0 && el.textContent.trim() === "All Bookies") {
-                    // Walk up to find the row container, then get price spans
                     let parent = el.parentElement;
-                    for (let i = 0; i < 5 && parent; i++) {
-                        const priceEls = parent.querySelectorAll("._22b002ed");
-                        if (priceEls.length >= 2) {
-                            let vals = [];
-                            priceEls.forEach(p => vals.push(p.textContent.trim()));
-                            return vals;
+                    for (let i = 0; i < 8 && parent; i++) {
+                        // Find all leaf spans/divs with price-like text (e.g. "1.567")
+                        const leaves = parent.querySelectorAll("span, div");
+                        const priceVals = [];
+                        for (const leaf of leaves) {
+                            if (leaf.children.length > 0) continue;
+                            const t = leaf.textContent.trim();
+                            if (/^\d+\.\d{2,3}$/.test(t) && parseFloat(t) > 1.0 && parseFloat(t) < 50) {
+                                priceVals.push(t);
+                            }
+                        }
+                        if (priceVals.length >= 2) {
+                            return priceVals;
                         }
                         parent = parent.parentElement;
                     }
                 }
             }
-
-            // Strategy 2: Fallback — find header row by class (._75f9aa20 without 'back')
-            const headers = document.querySelectorAll("._75f9aa20");
-            for (const h of headers) {
-                if (h.className.includes("back") || h.className.includes("136ac012")) continue;
-                const priceEls = h.querySelectorAll("._22b002ed");
-                if (priceEls.length >= 2) {
-                    let vals = [];
-                    priceEls.forEach(p => vals.push(p.textContent.trim()));
-                    return vals;
-                }
-            }
             return null;
         }''')
         if prices and len(prices) >= 2:
-            # prices[0] = highest (best back), prices[1] = average, prices[2] = lowest
-            # We want the average (middle column)
             avg_price = float(prices[1])
             logger.info(f"Betslip prices: highest={prices[0]}, avg={prices[1]}, "
                        f"lowest={prices[2] if len(prices) > 2 else '?'} — using avg={avg_price}")
@@ -773,7 +795,7 @@ def _fill_betslip(page, stake_eur, want_price=None, duration_hours=72):
         stake_input = page.locator("input.stake-input").first
         try:
             stake_input.wait_for(state="visible", timeout=5000)
-        except:
+        except Exception:
             return False, (f"Could not find stake input (input.stake-input). "
                           f"Visible inputs: {json.dumps(betslip_info)}")
 
@@ -790,7 +812,7 @@ def _fill_betslip(page, stake_eur, want_price=None, duration_hours=72):
                 price_input.click()
                 price_input.fill(str(want_price))
                 logger.info(f"Set price: {want_price}")
-            except:
+            except Exception:
                 logger.warning("Could not find price input — Place button may be disabled")
         else:
             logger.warning("No price available — Place button may be disabled")
@@ -819,7 +841,7 @@ def _click_place_order(page):
         btn = page.locator('button:has-text("Place")').first
         try:
             btn.wait_for(state="visible", timeout=5000)
-        except:
+        except Exception:
             return False, "Could not find Place button"
 
         is_disabled = btn.get_attribute("disabled")
@@ -836,7 +858,7 @@ def _click_place_order(page):
         confirm_btn = page.locator('button:has-text("Place Order")').first
         try:
             confirm_btn.wait_for(state="visible", timeout=5000)
-        except:
+        except Exception:
             # Maybe there's no confirmation dialog — order went through directly
             logger.info("No confirmation dialog found — order may have been placed directly")
             return True, "Order submitted (no confirmation dialog)"

@@ -39,15 +39,45 @@ LEAGUES = CONFIG.get("leagues", [])
 # ---------------------------
 # JSON-RPC helper
 # ---------------------------
-def make_request(app_key:str, session_token:str, payload):
+def make_request(app_key:str, session_token:str, payload, max_attempts:int=3):
+    """Send a Betfair JSON-RPC request with retries on transient failures."""
+    import time
     headers = {
         "X-Application": app_key,
         "X-Authentication": session_token,
         "Content-Type": "application/json"
     }
-    response = requests.post(BETFAIR_API_URL, data=json.dumps(payload), headers=headers, timeout=30)
-    response.raise_for_status()
-    return response.json()
+    backoff = [2, 5]
+    last_err = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            response = requests.post(BETFAIR_API_URL, data=json.dumps(payload),
+                                     headers=headers, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+            # Betfair returns errors inside the JSON body — surface them so we can retry
+            if isinstance(data, dict) and data.get("error"):
+                err = data["error"]
+                # APING errors with a 'data' field are usually permanent (bad params),
+                # but transient ones (TOO_MUCH_DATA, TIMEOUT_ERROR) should retry
+                err_code = (err.get("data", {}) or {}).get("APINGException", {}).get("errorCode", "")
+                if err_code in ("TIMEOUT_ERROR", "REQUEST_SIZE_EXCEEDS_LIMIT", "SERVICE_BUSY",
+                                "INSUFFICIENT_FUNDS", "TOO_MUCH_DATA"):
+                    last_err = f"Betfair API transient error: {err_code}"
+                    print(f"  [BF] Transient error (attempt {attempt}): {err_code}")
+                else:
+                    # Permanent error — return as-is so caller can decide
+                    return data
+            else:
+                return data
+        except Exception as e:
+            last_err = e
+            print(f"  [BF] Request failed (attempt {attempt}/{max_attempts}): {e}")
+
+        if attempt < max_attempts:
+            time.sleep(backoff[min(attempt - 1, len(backoff) - 1)])
+
+    raise Exception(f"Betfair API failed after {max_attempts} attempts: {last_err}")
 
 # ---------------------------
 # Betfair certificate login
@@ -101,25 +131,39 @@ def get_over_under_markets(session_token:str, competition_id):
     data = make_request(APP_KEY, session_token, payload)
     return data["result"]
 
-def get_ou_volume(session_token:str, league_name:str):
-    """Fetch OU/BTTS volume for a league.
+def get_ou_volume(session_token:str, league_name:str, max_attempts:int=3):
+    """Fetch OU/BTTS volume for a league with retries.
 
     Returns (df_volume, market_catalogue) so the caller can reuse
     the catalogue for price fallback without a redundant API call.
     """
+    import time
     competition_id = get_competition_id(session_token, league_name)
-    markets = get_over_under_markets(session_token, competition_id)
+    last_markets = []
 
-    rows = []
-    for m in markets:
-        rows.append({
-            "marketId": m["marketId"],
-            "line": m["marketName"],
-            "total_volume": m["totalMatched"],
-            "event": m["event"]["name"],
-        })
+    for attempt in range(1, max_attempts + 1):
+        try:
+            markets = get_over_under_markets(session_token, competition_id)
+            if markets:
+                last_markets = markets
+                rows = [{
+                    "marketId": m["marketId"],
+                    "line": m["marketName"],
+                    "total_volume": m["totalMatched"],
+                    "event": m["event"]["name"],
+                } for m in markets]
+                if attempt > 1:
+                    print(f"  [BF] Got {len(markets)} markets for {league_name} on attempt {attempt}")
+                return pd.DataFrame(rows), markets
+            print(f"  [BF] No markets returned for {league_name} (attempt {attempt}/{max_attempts})")
+        except Exception as e:
+            print(f"  [BF] get_over_under_markets failed for {league_name} "
+                  f"(attempt {attempt}/{max_attempts}): {e}")
+        if attempt < max_attempts:
+            time.sleep(3)
 
-    return pd.DataFrame(rows), markets
+    print(f"  [BF] Returning empty markets for {league_name} after {max_attempts} attempts")
+    return pd.DataFrame(), last_markets
 
 
 # ---------------------------

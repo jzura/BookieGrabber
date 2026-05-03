@@ -24,6 +24,7 @@ import pytz
 import pandas as pd
 from openpyxl import load_workbook
 import yaml
+from bet_tracker_updater import update_master_from_dataframes
 
 # Import existing helper functions from your current module if available.
 # For portability we duplicate small helpers here; if you re-use your module, import instead.
@@ -34,7 +35,7 @@ PERTH = pytz.timezone("Australia/Perth")
 # Configurable paths & constants
 # -------------------------------------------------------------
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+from constants import PROJECT_ROOT
 EXPORT_ROOT = PROJECT_ROOT / "data" / "exports"
 READY_ROOT = PROJECT_ROOT / "data" / "ready"
 CACHE_PATH = PROJECT_ROOT / "processed_cache.json"
@@ -258,8 +259,11 @@ def apply_excel_formulas(workbook_path: Path, config: dict):
         for row in range(2, ws.max_row + 1):
             # O/U formula
             ws[f"T{row}"] = expand_formula(config["excel_formulas"]["O/U"], row)
-            over_rpd = float(ws[f"K{row}"].value)
-            under_rpd = float(ws[f"L{row}"].value)
+            try:
+                over_rpd = float(ws[f"K{row}"].value)
+                under_rpd = float(ws[f"L{row}"].value)
+            except (TypeError, ValueError):
+                continue
             if over_rpd < under_rpd:
                 bf_col = f"I{row}"
                 rpd_col = f"K{row}"
@@ -376,6 +380,14 @@ def run_postprocessing_and_exports(league_slug: str, totals_master: pd.DataFrame
             apply_excel_formulas(workbook_path, formulas)
         except Exception:
             logger.exception("Failed applying Excel formulas")  
+
+    # Update master bet tracker spreadsheet
+    try:
+        appended = update_master_from_dataframes(ready_totals, ready_btts)
+        if appended > 0:
+            logger.info(f"Master bet tracker updated: {appended} rows appended")
+    except Exception:
+        logger.exception("Failed updating master bet tracker")
 
     # Mark processed events
     mark_events_processed(list(ready_event_ids), CACHE_PATH)

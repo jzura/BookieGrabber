@@ -12,7 +12,6 @@ Designed to run independently from the main bookie_grabber pipeline.
 """
 
 import os
-import sys
 import json
 import yaml
 import logging
@@ -20,14 +19,14 @@ import requests
 import pandas as pd
 import pytz
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil import parser as dtparser
 from dotenv import load_dotenv
 
 load_dotenv()
 
 # ─── Config ───
-PROJECT_ROOT = Path(__file__).resolve().parent
+from constants import PROJECT_ROOT
 TIMELINE_DIR = PROJECT_ROOT / "data" / "odds_timeline"
 CONFIG_PATH = PROJECT_ROOT / "config.yaml"
 LOG_DIR = PROJECT_ROOT / "logs"

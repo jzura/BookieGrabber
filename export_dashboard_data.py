@@ -11,9 +11,7 @@ from datetime import datetime
 import openpyxl
 import pandas as pd
 
-PROJECT_ROOT = Path(__file__).resolve().parent
-MASTER_PATH = Path.home() / "Desktop" / "EFB_Master_Bet_Tracker_VS Code.xlsx"
-DASHBOARD_DIR = PROJECT_ROOT / "dashboard_data"
+from constants import PROJECT_ROOT, MASTER_PATH, DASHBOARD_DIR
 CSV_PATH = DASHBOARD_DIR / "bets.csv"
 
 LOG_DIR = PROJECT_ROOT / "logs"
@@ -29,13 +27,7 @@ logging.basicConfig(
 logger = logging.getLogger("dashboard_export")
 
 
-def _rpd(o365, bf):
-    try:
-        a, b = float(o365), float(bf)
-        if a > b: return 1.0
-        pct = abs(a - b) / ((a + b) / 2) * 100
-        return 1.0 if pct < 1 else round(pct, 3)
-    except: return None
+from strategy_config import compute_rpd as _rpd
 
 
 def _compute_stake_and_return(df):
@@ -94,7 +86,8 @@ def _compute_stake_and_return(df):
         if rpd is not None and rpd <= DOUBLE_STAKE_RPD and match_count[mk] >= DOUBLE_STAKE_MIN_COUNT:
             try:
                 match_dbl[mk].append((idx, float(row['BF'])))
-            except: pass
+            except Exception:
+                pass
     dbl_idx = set()
     for mk, candidates in match_dbl.items():
         best = max(candidates, key=lambda x: x[1])[0]
@@ -141,7 +134,8 @@ def _compute_stake_and_return(df):
         result = int(result)
         try:
             bf = float(row['BF'])
-        except: continue
+        except Exception:
+            continue
 
         # Use SM matched odds when available, else estimate from BF with tiered discount
         from strategy_config import FADE_ODDS_HAIRCUT, estimate_sm_odds
@@ -327,7 +321,8 @@ def export_sm_balance():
             if balance_file.exists():
                 try:
                     history = json.loads(balance_file.read_text())
-                except: pass
+                except Exception:
+                    pass
             entry = {"timestamp": datetime.now().isoformat()}
             for item in data.get("data", []):
                 entry[item["key"]] = item["value"]

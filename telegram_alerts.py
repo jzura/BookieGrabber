@@ -71,6 +71,18 @@ def send_bet_alert(bet, with_button=True):
 
     stake_emoji = "2️⃣" if stake == 2 else "1️⃣"
 
+    # Calculate EUR amount for display
+    from strategy_config import get_stake_per_unit
+    match_date = bet.get("date")
+    if match_date and isinstance(match_date, str):
+        from datetime import datetime as _dt
+        try:
+            match_date = _dt.strptime(match_date, "%Y-%m-%d").date()
+        except Exception:
+            match_date = None
+    eur_per_unit = get_stake_per_unit(match_date)
+    total_eur = stake * eur_per_unit
+
     text = (
         f"🎯 <b>NEW BET ALERT</b>\n"
         f"\n"
@@ -79,7 +91,7 @@ def send_bet_alert(bet, with_button=True):
         f"{comp}\n"
         f"\n"
         f"BF: {bf:.2f} | RPD: {rpd:.1f} | Vol: {vol:.0f}\n"
-        f"Stake: {stake_emoji} {stake} unit{'s' if stake > 1 else ''}\n"
+        f"Stake: {stake_emoji} {stake} unit{'s' if stake > 1 else ''} (€{total_eur:.0f})\n"
         f"\n"
         f"KO: {time_str}"
     )
@@ -170,7 +182,7 @@ def _load_pending_bet(key):
     try:
         pending = json.loads(PENDING_BETS_PATH.read_text())
         return pending.get(key)
-    except:
+    except Exception:
         return None
 
 
@@ -191,7 +203,7 @@ def _find_sm_event_id(token, bet):
     """Search SM for the matching event and return their event_id format."""
     from sportsmarket_api import SM_BASE
     from difflib import SequenceMatcher
-    from datetime import datetime as dt, timedelta
+    from datetime import datetime as dt
 
     home = bet.get("home_team", "")
     away = bet.get("away_team", "")
@@ -293,6 +305,25 @@ SM_BET_TYPES = {
 }
 
 
+SM_EVENT_MAP_FILE = Path(__file__).resolve().parent / "data" / "state" / "sm_event_map.json"
+
+
+def _lookup_preflight_sm_id(bet):
+    """Look up SM event ID from the pre-resolved mapping file (written by preflight_check.py)."""
+    if not SM_EVENT_MAP_FILE.exists():
+        return None
+    try:
+        mapping = json.loads(SM_EVENT_MAP_FILE.read_text())
+        key = f"{bet.get('home_team', '')}|{bet.get('away_team', '')}"
+        entry = mapping.get(key)
+        if entry:
+            logger.info(f"Preflight SM event ID found: {key} → {entry['sm_event_id']}")
+            return entry["sm_event_id"]
+    except Exception as e:
+        logger.warning(f"Preflight SM map lookup failed: {e}")
+    return None
+
+
 def place_sm_order(bet, stake_eur=250.0):
     """Place an order on SportsMarket via Playwright browser automation.
 
@@ -310,10 +341,13 @@ def place_sm_order(bet, stake_eur=250.0):
     if event_id and "," in event_id and len(event_id.split(",")) == 3:
         sm_event_id = event_id
     else:
-        token = get_session()
-        if not token:
-            return False, "SM session expired. Cannot place bet."
-        sm_event_id = _find_sm_event_id(token, bet)
+        # Check pre-resolved mapping from preflight_check first
+        sm_event_id = _lookup_preflight_sm_id(bet)
+        if not sm_event_id:
+            token = get_session()
+            if not token:
+                return False, "SM session expired. Cannot place bet."
+            sm_event_id = _find_sm_event_id(token, bet)
         if not sm_event_id:
             return False, (f"Could not find event on SportsMarket for "
                            f"{bet.get('home_team')} vs {bet.get('away_team')}")
@@ -328,49 +362,6 @@ def place_sm_order(bet, stake_eur=250.0):
         league_slug=bet.get("league_slug"),
     )
 
-
-def _get_order_fills(token, order_id):
-    """Check an order's fill status and return summary."""
-    from sportsmarket_api import SM_BASE
-    try:
-        r = requests.get(f"{SM_BASE}/orders/{order_id}/",
-            headers={
-                "Accept": "application/json",
-                "session": token,
-                "x-molly-client-name": "sonic",
-            },
-            timeout=10)
-        if r.status_code != 200:
-            return None
-        data = r.json()
-        order = data.get("data", {})
-        bets = order.get("bets", [])
-
-        if not bets:
-            return f"Order {order_id} placed, waiting for fills..."
-
-        total_stake = 0
-        weighted_price = 0
-        for b in bets:
-            got_stake = b.get("got_stake", [None, 0])
-            got_price = b.get("got_price", 0)
-            stake = got_stake[1] if got_stake and len(got_stake) > 1 else 0
-            if stake and got_price:
-                weighted_price += got_price * stake
-                total_stake += stake
-
-        if total_stake > 0:
-            avg_odds = weighted_price / total_stake
-            fills = len(bets)
-            exchanges = ", ".join(set(b.get("bookie", "?") for b in bets))
-            return (f"Order {order_id}\n"
-                    f"Avg odds: {avg_odds:.3f}\n"
-                    f"Filled: €{total_stake:.2f} across {fills} fill(s)\n"
-                    f"Exchanges: {exchanges}")
-        else:
-            return f"Order {order_id} placed, pending fill..."
-    except:
-        return None
 
 
 # ─── Callback handler (runs as long-polling bot) ───
@@ -390,7 +381,7 @@ def run_bot():
             logger.info(f"Flushed {len(updates)} pending updates, starting from {last_update_id}")
         else:
             last_update_id = 0
-    except:
+    except Exception:
         last_update_id = 0
 
     while True:
@@ -426,8 +417,16 @@ def run_bot():
                     # Remove pending bet IMMEDIATELY to prevent duplicate placements
                     _remove_pending_bet(key)
 
-                    # Calculate EUR stake (stake units * 250 EUR per unit)
-                    stake_eur = stake * 250.0
+                    # Calculate EUR stake based on day of week
+                    from strategy_config import get_stake_per_unit
+                    match_date = bet.get("date")
+                    if match_date and isinstance(match_date, str):
+                        from datetime import datetime as _dt
+                        try:
+                            match_date = _dt.strptime(match_date, "%Y-%m-%d").date()
+                        except Exception:
+                            match_date = None
+                    stake_eur = stake * get_stake_per_unit(match_date)
 
                     _answer_callback(callback_id, "Placing bet...")
                     _update_message(message_id,
