@@ -35,10 +35,12 @@ load_dotenv()
 # Configuration
 # -------------------------------------------------------------
 
-MASTER_PATH = Path.home() / "Desktop" / "EFB_Master_Bet_Tracker_VS Code.xlsx"
+from constants import MASTER_PATH, PROJECT_ROOT
 PENDING_RETRIES_PATH = Path(__file__).resolve().parent / "pending_retries.json"
 FAILED_WRITES_PATH = Path(__file__).resolve().parent / "failed_master_writes.json"
-MASTER_SHEET = "Master Bet Tracker"
+from constants import MASTER_SHEET
+from master_io import master_lock, safe_save_workbook, InsufficientSpaceError
+from strategy_config import G15_FADE_RPD
 
 logger = logging.getLogger("bookie_grabber.tracker_updater")
 
@@ -73,6 +75,7 @@ LEAGUE_NAME_MAP = {
     "Denmark - Superliga": "Danish Superligaen",
     "Greece - Super League": "Greek Super League",
     "Norway - Eliteserien": "Norwegian Eliteserien",
+    "Sweden - Allsvenskan": "Swedish Allsvenskan",
 }
 
 
@@ -199,7 +202,7 @@ def _describe_bet(row_data):
     rpd = row_data.get("rpd")
 
     is_btts_fade = (bt == "BTTS" and pred == 0 and rpd is not None and rpd >= 5)
-    is_1_5g_fade = (bt == "1.5G" and pred == 1 and rpd is not None and rpd >= 4.6)
+    is_1_5g_fade = (bt == "1.5G" and pred == 1 and rpd is not None and rpd >= G15_FADE_RPD)
 
     if bt == "BTTS":
         if is_btts_fade:
@@ -297,7 +300,7 @@ def send_stake_alerts(bets):
             pred = b["prediction"]
             rpd = b.get("rpd")
             is_btts_fade = (bt == "BTTS" and pred == 0 and rpd is not None and rpd >= 5)
-            is_1_5g_fade = (bt == "1.5G" and pred == 1 and rpd is not None and rpd >= 4.6)
+            is_1_5g_fade = (bt == "1.5G" and pred == 1 and rpd is not None and rpd >= G15_FADE_RPD)
             if is_btts_fade:
                 actual_pred = 1  # Bet Yes instead of No
             elif is_1_5g_fade:
@@ -324,11 +327,14 @@ def send_stake_alerts(bets):
         logger.warning(f"Telegram alert failed: {e}")
 
 
+SM_EVENT_MAP_FILE = Path(__file__).resolve().parent / "data" / "state" / "sm_event_map.json"
+
+
 def _resolve_sm_event_ids(tg_bets):
     """Resolve SportsMarket event IDs for a list of Telegram bets.
 
-    Opens one Playwright session, visits each league's SM sportsbook page,
-    extracts all event links, and matches them to our bets by team name.
+    First checks the pre-resolved mapping file from preflight_check.py.
+    Falls back to opening a Playwright session if any bets are unresolved.
     Modifies each bet dict in-place to set 'event_id' to the SM format
     (e.g. '2026-04-18,994,996').
     """
@@ -336,10 +342,31 @@ def _resolve_sm_event_ids(tg_bets):
     from difflib import SequenceMatcher
     import re
 
-    # Group bets by league_slug to minimize page loads
+    # Try preflight map first
+    preflight_map = {}
+    if SM_EVENT_MAP_FILE.exists():
+        try:
+            preflight_map = json.loads(SM_EVENT_MAP_FILE.read_text())
+        except Exception:
+            pass
+
+    unresolved = []
+    for b in tg_bets:
+        key = f"{b.get('home_team', '')}|{b.get('away_team', '')}"
+        entry = preflight_map.get(key)
+        if entry:
+            b["event_id"] = entry["sm_event_id"]
+            logger.info(f"Preflight SM event: {key} → {entry['sm_event_id']}")
+        else:
+            unresolved.append(b)
+
+    if not unresolved:
+        return
+
+    # Group remaining bets by league_slug to minimize page loads
     from collections import defaultdict
     bets_by_league = defaultdict(list)
-    for b in tg_bets:
+    for b in unresolved:
         slug = b.get("league_slug", "")
         if slug:
             bets_by_league[slug].append(b)
@@ -365,7 +392,7 @@ def _resolve_sm_event_ids(tg_bets):
             page.wait_for_selector('input[type="text"]', timeout=10000)
             page.fill('input[type="text"]', username)
             page.fill('input[type="password"]', password)
-            page.click('button[data-testid="35eb9af8"]')
+            page.get_by_role("button", name="log In").click()
             page.wait_for_url(
                 lambda url: "/sportsbook" in url or "/trade" in url,
                 timeout=30000)
@@ -380,7 +407,7 @@ def _resolve_sm_event_ids(tg_bets):
                 page.wait_for_load_state("networkidle", timeout=10000)
                 page.wait_for_timeout(3000)
 
-                # Extract all event links on the page (any link with date,id,id pattern)
+                # Extract event links with individual team names
                 sm_events = page.evaluate('''() => {
                     const links = document.querySelectorAll('a[href*=","]');
                     let r = [];
@@ -388,32 +415,51 @@ def _resolve_sm_event_ids(tg_bets):
                         const href = l.getAttribute('href') || '';
                         const match = href.match(/(\\d{4}-\\d{2}-\\d{2},\\d+,\\d+)/);
                         if (match && href.includes('/sportsbook/')) {
-                            r.push({eid: match[1], text: l.textContent.trim()});
+                            const leafDivs = l.querySelectorAll("div");
+                            const teams = [];
+                            for (const d of leafDivs) {
+                                if (d.querySelectorAll("div").length > 0) continue;
+                                const t = d.textContent.trim();
+                                if (t && t !== "today" && t !== "tomorrow" && t.length > 2
+                                    && !/^\\d+[.:,]\\d+$/.test(t) && !/^\\d{2}\\/\\d{2}$/.test(t)
+                                    && t !== "HT" && t !== "FT" && !/^\\d+'/.test(t) && !/^\\d+$/.test(t)) {
+                                    teams.push(t);
+                                }
+                            }
+                            r.push({eid: match[1], teams: teams.slice(0, 2), text: l.textContent.trim()});
                         }
                     });
                     return r;
                 }''')
 
-                # Match each bet to an SM event by team name similarity
+                # Match each bet to an SM event — require BOTH teams to match
                 for b in bets:
-                    home = b.get("home_team", "")
-                    away = b.get("away_team", "")
+                    home = b.get("home_team", "").lower()
+                    away = b.get("away_team", "").lower()
                     best_score = 0
                     best_eid = None
                     for ev in sm_events:
-                        txt = ev["text"].lower()
-                        h_score = SequenceMatcher(None, home.lower(), txt).ratio()
-                        a_score = SequenceMatcher(None, away.lower(), txt).ratio()
-                        # Both teams should appear in the event text
-                        score = h_score + a_score
+                        teams = ev.get("teams", [])
+                        if len(teams) < 2:
+                            continue
+                        sm_home = teams[0].lower()
+                        sm_away = teams[1].lower()
+                        # Try both orderings
+                        h1 = SequenceMatcher(None, home, sm_home).ratio()
+                        a1 = SequenceMatcher(None, away, sm_away).ratio()
+                        h2 = SequenceMatcher(None, home, sm_away).ratio()
+                        a2 = SequenceMatcher(None, away, sm_home).ratio()
+                        score1 = (h1 + a1) / 2 if min(h1, a1) > 0.4 else 0
+                        score2 = (h2 + a2) / 2 if min(h2, a2) > 0.4 else 0
+                        score = max(score1, score2)
                         if score > best_score:
                             best_score = score
                             best_eid = ev["eid"]
-                    if best_eid and best_score > 0.6:
+                    if best_eid and best_score > 0.55:
                         b["event_id"] = best_eid
-                        logger.info(f"Resolved SM event: {home} vs {away} -> {best_eid}")
+                        logger.info(f"Resolved SM event: {b.get('home_team')} vs {b.get('away_team')} -> {best_eid}")
                     else:
-                        logger.warning(f"Could not resolve SM event for {home} vs {away} "
+                        logger.warning(f"Could not resolve SM event for {b.get('home_team')} vs {b.get('away_team')} "
                                       f"(best_score={best_score:.2f})")
 
             browser.close()
@@ -460,8 +506,8 @@ def transform_totals(df):
         else:
             prediction = 1  # Over
 
-        # 1.5G exception: Over RPD >= 4.6 forces Under
-        if bet_type == "1.5G" and over_rpd >= 4.6:
+        # 1.5G exception: Over RPD >= G15_FADE_RPD forces Under (fade)
+        if bet_type == "1.5G" and over_rpd >= G15_FADE_RPD:
             prediction = 0
 
         # Select odds for predicted side
@@ -626,7 +672,7 @@ def _core_conditions(r):
     return core_conditions_excel(r)
 
 def _fade_conditions(r):
-    """Fade: BTTS pred=0 RPD>=5 (fade to Yes), 1.5G pred=1 RPD>=4.6 (fade to Under)."""
+    """Fade: BTTS pred=0 RPD>=5 (fade to Yes), 1.5G pred=1 RPD>=G15_FADE_RPD (fade to Under)."""
     from strategy_config import fade_conditions_excel
     return fade_conditions_excel(r)
 
@@ -650,7 +696,7 @@ def return_formula(r):
     Q = Stake, P = Result, J = BF odds."""
     return (
         f'=IF(Q{r}="","",'
-        f'IF(OR(AND(A{r}="BTTS",H{r}=0,L{r}>=5),AND(A{r}="1.5G",H{r}=1,L{r}>=4.6)),'
+        f'IF(OR(AND(A{r}="BTTS",H{r}=0,L{r}>=5),AND(A{r}="1.5G",H{r}=1,L{r}>={G15_FADE_RPD})),'
         f'IF(P{r}=0,'
         f'Q{r}*(1+(1/(1-1/J{r})-1)*(1-IF(1/(1-1/J{r})<=1.5,0.01,IF(1/(1-1/J{r})<=2.8,0.02,IF(1/(1-1/J{r})<=3.5,0.03,0.04))))),'
         f'0),'
@@ -687,6 +733,16 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
         logger.error(f"Master spreadsheet not found: {master_path}")
         return 0
 
+    # Serialise concurrent writers; held until function returns.
+    _lock_cm = master_lock(master_path)
+    _lock_cm.__enter__()
+    try:
+        return _append_to_master_locked(transformed_rows, master_path)
+    finally:
+        _lock_cm.__exit__(None, None, None)
+
+
+def _append_to_master_locked(transformed_rows, master_path):
     wb = load_workbook(master_path)
     ws = wb[MASTER_SHEET]
 
@@ -883,9 +939,9 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
                     d = date.fromisoformat(k.split(":")[1])
                     if (today - d).days <= 3:
                         alerted_keys.add(k)
-                except:
+                except Exception:
                     alerted_keys.add(k)  # keep unparseable keys
-        except:
+        except Exception:
             pass
 
     # Collect qualifying bets for stake alert email
@@ -912,7 +968,7 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
         if _is_bf(bt, pred, rpd, vol):
             stake = stake or 1
 
-        # Fade: 1.5G pred=1, RPD>=4.6 (fade to Under)
+        # Fade: 1.5G pred=1, RPD>=G15_FADE_RPD (fade to Under)
         if _is_1f(bt, pred, rpd, vol):
             stake = stake or 1
 
@@ -937,7 +993,7 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
         ALERTED_STATE_FILE.write_text(json.dumps(list(alerted_keys), default=str))
 
     try:
-        wb.save(master_path)
+        safe_save_workbook(wb, master_path)
         wb.close()
         logger.info(f"Master spreadsheet saved: {master_path}")
     except PermissionError:
@@ -945,9 +1001,14 @@ def append_to_master(transformed_rows, master_path=MASTER_PATH):
         logger.warning(f"Master spreadsheet is locked (open in Excel?) — queuing {appended} rows for next run")
         _queue_failed_writes(new_rows)
         return 0
+    except InsufficientSpaceError as e:
+        wb.close()
+        logger.error(f"Disk too full to save master safely ({e}) — queuing {appended} rows; live file untouched")
+        _queue_failed_writes(new_rows)
+        return 0
     except Exception as e:
         wb.close()
-        logger.error(f"Failed to save master spreadsheet: {e} — queuing {appended} rows")
+        logger.error(f"Failed to save master spreadsheet: {e} — queuing {appended} rows; live file untouched")
         _queue_failed_writes(new_rows)
         return 0
 

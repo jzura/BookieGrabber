@@ -22,15 +22,18 @@ from pathlib import Path
 from collections import defaultdict
 
 import openpyxl
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # -------------------------------------------------------------
 # Configuration
 # -------------------------------------------------------------
 
-MASTER_PATH = Path.home() / "Desktop" / "EFB_Master_Bet_Tracker_VS Code.xlsx"
-MASTER_SHEET = "Master Bet Tracker"
+from constants import MASTER_PATH, MASTER_SHEET
+from master_io import master_lock, safe_save_workbook
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+from constants import PROJECT_ROOT
 LOG_DIR = PROJECT_ROOT / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 date_str = datetime.now().strftime("%Y-%m-%d")
@@ -127,12 +130,118 @@ ESPN_LEAGUES = {
     "German Bundesliga I": "ger.1",
     "Sweden - Allsvenskan": "swe.1",
     "Sweden Allsvenskan": "swe.1",
+    "Swedish Allsvenskan": "swe.1",
 }
 
+
+# Odds API competition name → sport_key mapping (for historical results)
+ODDS_API_LEAGUES = {
+    "English Premier League": "england-premier-league",
+    "English Championship League": "england-championship",
+    "English Sky Bet Championship": "england-championship",
+    "French Ligue 1": "france-ligue-1",
+    "German Bundesliga": "germany-bundesliga",
+    "German Bundesliga I": "germany-bundesliga",
+    "Italian Serie A": "italy-serie-a",
+    "Spanish La Liga": "spain-laliga",
+    "Portuguese Primeira Liga": "portugal-liga-portugal",
+    "Belgian Pro League": "belgium-pro-league",
+    "Belgian First Division A": "belgium-pro-league",
+    "Turkish Super League": "turkey-super-lig",
+    "Turkish Super Lig": "turkey-super-lig",
+    "Dutch Eredivisie": "netherlands-eredivisie",
+    "Netherlands Eredivisie": "netherlands-eredivisie",
+    "Greek Super League": "greece-super-league",
+    "Scottish Premiership": "scotland-premiership",
+    "Austrian Bundesliga": "austria-bundesliga",
+    "Danish Superliga": "denmark-superliga",
+    "Danish Superligaen": "denmark-superliga",
+    "Polish Ekstraklasa": "poland-ekstraklasa",
+    "Romanian Liga I": "romania-superliga",
+    "Swiss Super League": "switzerland-super-league",
+    "Croatian HNL": "croatia-hnl",
+    "Serbian SuperLiga": "serbia-superliga",
+    "Serbian Super Liga": "serbia-superliga",
+    "Czech First League": "czechia-1-liga",
+    "Norwegian Eliteserien": "norway-eliteserien",
+    "Swedish Allsvenskan": "sweden-allsvenskan",
+    "UEFA Champions League": "international-clubs-uefa-champions-league",
+    "UEFA Europa League": "international-clubs-uefa-europa-league",
+    "UEFA Europa Conference League": "international-clubs-uefa-conference-league",
+}
 
 # -------------------------------------------------------------
 # Download results
 # -------------------------------------------------------------
+
+def download_odds_api_results(needed_leagues_dates):
+    """Download results from the Odds API /historical/events endpoint.
+
+    needed_leagues_dates: dict of {sport_key: (from_date, to_date)}
+    Max date span is 31 days per request — automatically chunks wider ranges.
+    Returns DataFrame with _date, _home, _away, _hg, _ag columns.
+    """
+    api_key = os.getenv("ODDS_API_KEY", "")
+    if not api_key:
+        logger.warning("ODDS_API_KEY not set — skipping Odds API results")
+        return pd.DataFrame()
+
+    base = "https://api2.odds-api.io/v3"
+    all_results = []
+    MAX_SPAN = 30  # days per request (API max is 31, use 30 for safety)
+
+    for sport_key, (from_date, to_date) in needed_leagues_dates.items():
+        # Chunk into MAX_SPAN-day windows
+        chunk_start = from_date
+        while chunk_start <= to_date:
+            chunk_end = min(chunk_start + timedelta(days=MAX_SPAN), to_date)
+            from_str = f"{chunk_start.isoformat()}T00:00:00Z"
+            to_str = f"{chunk_end.isoformat()}T23:59:59Z"
+            try:
+                r = requests.get(f"{base}/historical/events", params={
+                    "apiKey": api_key,
+                    "sport": "football",
+                    "league": sport_key,
+                    "from": from_str,
+                    "to": to_str,
+                }, timeout=15)
+                if r.status_code != 200:
+                    chunk_start = chunk_end + timedelta(days=1)
+                    continue
+                data = r.json()
+                events = data.get("data", data) if isinstance(data, dict) else data
+                if not isinstance(events, list):
+                    chunk_start = chunk_end + timedelta(days=1)
+                    continue
+                for ev in events:
+                    if ev.get("status") != "settled":
+                        continue
+                    scores = ev.get("scores", {})
+                    periods = scores.get("periods", {})
+                    ft = periods.get("fulltime", {})
+                    hg = ft.get("home") if ft else scores.get("home")
+                    ag = ft.get("away") if ft else scores.get("away")
+                    if hg is None or ag is None:
+                        continue
+                    ev_date = ev.get("date", "")
+                    try:
+                        d = datetime.fromisoformat(ev_date.replace("Z", "+00:00")).date()
+                    except (ValueError, TypeError):
+                        continue
+                    all_results.append({
+                        "_date": d,
+                        "_home": ev.get("home", ""),
+                        "_away": ev.get("away", ""),
+                        "_hg": int(hg),
+                        "_ag": int(ag),
+                    })
+            except Exception as e:
+                logger.warning(f"Odds API historical {sport_key} {chunk_start}-{chunk_end}: {e}")
+            chunk_start = chunk_end + timedelta(days=1)
+
+    logger.info(f"Odds API: {len(all_results)} results fetched")
+    return pd.DataFrame(all_results) if all_results else pd.DataFrame()
+
 
 def download_football_data_csvs():
     """Download results from football-data.co.uk."""
@@ -333,18 +442,21 @@ def find_result(lookup, match_date, home_team, away_team):
             if h_sub and a_sub:
                 return m["hg"], m["ag"]
 
-        # Fuzzy
+        # Fuzzy — require both teams to individually meet a minimum threshold
         best_score = 0
         best_match = None
         for m in matches:
             h_score = SequenceMatcher(None, home_n, m["home_norm"]).ratio()
             a_score = SequenceMatcher(None, away_n, m["away_norm"]).ratio()
+            # Both teams must individually score above 0.4 to prevent cross-matching
+            if h_score < 0.4 or a_score < 0.4:
+                continue
             combined = (h_score + a_score) / 2
             if combined > best_score:
                 best_score = combined
                 best_match = m
 
-        if best_score >= 0.55:
+        if best_score >= 0.6:
             return best_match["hg"], best_match["ag"]
 
     return None, None
@@ -359,7 +471,7 @@ def fetch_sm_results():
     Returns dict of {(date, home_norm, away_norm): (hg, ag)}"""
     results = {}
     try:
-        from sportsmarket_api import fetch_all_orders, parse_order, normalize as sm_norm
+        from sportsmarket_api import fetch_all_orders
         orders = fetch_all_orders(max_pages=20)
         for o in orders:
             # Only use reconciled orders — 'done' status may have null/zero scores
@@ -377,7 +489,7 @@ def fetch_sm_results():
             if match_date:
                 try:
                     d = datetime.strptime(match_date, "%Y-%m-%d").date()
-                except:
+                except Exception:
                     continue
             else:
                 continue
@@ -411,8 +523,12 @@ def main():
             break
         n_val = ws.cell(row=r, column=14).value
         o_val = ws.cell(row=r, column=15).value
-        if n_val is not None and n_val != "" and o_val is not None and o_val != "":
-            continue
+        has_score = (n_val is not None and n_val != "" and o_val is not None and o_val != "")
+        if has_score:
+            # Re-check recent 0-0 results (may be bogus from previous runs)
+            is_zero_zero = (n_val == 0 and o_val == 0)
+            if not is_zero_zero:
+                continue
 
         d = ws.cell(row=r, column=2).value
         comp = ws.cell(row=r, column=5).value
@@ -444,19 +560,42 @@ def main():
 
     def _apply(lookup, rows):
         filled, remaining = 0, []
-        now_date = datetime.now().date()
+        now = datetime.now()
+        now_date = now.date()
         for r, bt, d, home, away, pred, comp in rows:
             # Never fill results for matches that haven't happened yet
             if d and d > now_date:
                 remaining.append((r, bt, d, home, away, pred, comp))
                 continue
+            # For today's matches, require at least 3 hours since midnight
+            # to avoid writing in-progress or pre-kickoff 0-0 scores.
+            # Most matches take ~2h; this ensures they've finished.
+            if d and d == now_date:
+                # Read match time from spreadsheet (column 6 or 7)
+                match_time_cell = ws.cell(row=r, column=6).value
+                if match_time_cell is not None:
+                    try:
+                        if hasattr(match_time_cell, 'hour'):
+                            ko_hour = match_time_cell.hour
+                        else:
+                            ko_hour = int(str(match_time_cell).split(':')[0])
+                        # Skip if match hasn't had time to finish
+                        # (kickoff + 2.5 hours should have elapsed)
+                        hours_since_ko = now.hour - ko_hour + (now.minute / 60)
+                        if hours_since_ko < 2.5:
+                            remaining.append((r, bt, d, home, away, pred, comp))
+                            continue
+                    except (ValueError, TypeError):
+                        pass
             hg, ag = find_result(lookup, d, home, away)
             if hg is None:
                 remaining.append((r, bt, d, home, away, pred, comp))
                 continue
             # Validate: don't write results that are clearly wrong
-            # (negative goals, or suspiciously both zero for a match that should have goals)
             if not isinstance(hg, (int, float)) or not isinstance(ag, (int, float)):
+                remaining.append((r, bt, d, home, away, pred, comp))
+                continue
+            if int(hg) < 0 or int(ag) < 0:
                 remaining.append((r, bt, d, home, away, pred, comp))
                 continue
             ws.cell(row=r, column=14, value=int(hg))
@@ -464,94 +603,49 @@ def main():
             filled += 1
         return filled, remaining
 
-    # Re-open for writing
-    wb = openpyxl.load_workbook(MASTER_PATH)
-    ws = wb[MASTER_SHEET]
+    # --- Odds API historical results (primary and sole source) ---
+    # Fetch BEFORE acquiring the master lock — this HTTP call takes ~2 min
+    # and we don't want to block other writers (bet_tracker_updater) on it.
+    logger.info(f"Fetching results from Odds API for {len(rows_to_fill)} rows")
+    oa_needed = defaultdict(lambda: [date.max, date.min])
+    for _r, _bt, d, _h, _a, _p, comp in rows_to_fill:
+        sport_key = ODDS_API_LEAGUES.get(comp)
+        if sport_key and d:
+            oa_needed[sport_key][0] = min(oa_needed[sport_key][0], d - timedelta(days=1))
+            oa_needed[sport_key][1] = max(oa_needed[sport_key][1], d + timedelta(days=1))
 
-    filled_rows = 0
-    remaining = rows_to_fill
+    oa_df = pd.DataFrame()
+    if not oa_needed:
+        logger.warning("No league mappings found for remaining rows")
+    else:
+        oa_params = {k: (v[0], v[1]) for k, v in oa_needed.items()}
+        oa_df = download_odds_api_results(oa_params)
 
-    # --- Primary: SportsMarket (exact scores from settled bets) ---
-    logger.info("Primary source: SportsMarket")
-    sm_results = fetch_sm_results()
-    if sm_results:
-        sm_filled = 0
-        still_remaining = []
-        for r, bt, d, home, away, pred, comp in remaining:
-            key = (d, normalize(home), normalize(away))
-            # Try exact match, then +/- 1 day
-            result = sm_results.get(key)
-            if not result:
-                for offset in [-1, 1]:
-                    alt = (d + timedelta(days=offset), normalize(home), normalize(away))
-                    result = sm_results.get(alt)
-                    if result:
-                        break
-            if result:
-                hg, ag = result
-                ws.cell(row=r, column=14, value=hg)
-                ws.cell(row=r, column=15, value=ag)
-                sm_filled += 1
-            else:
-                still_remaining.append((r, bt, d, home, away, pred, comp))
-        filled_rows += sm_filled
-        remaining = still_remaining
-        logger.info(f"SM filled: {sm_filled}, remaining: {len(remaining)}")
+    # Now serialise with other writers and apply results to the master.
+    with master_lock(MASTER_PATH):
+        wb = openpyxl.load_workbook(MASTER_PATH)
+        ws = wb[MASTER_SHEET]
 
-    # --- Secondary: ESPN (free, reliable, covers all leagues) ---
-    if remaining:
-        logger.info(f"Secondary source: ESPN for {len(remaining)} remaining rows")
-        espn_needed = defaultdict(set)
-        for _r, _bt, d, _h, _a, _p, comp in remaining:
-            code = ESPN_LEAGUES.get(comp)
-            if code:
-                espn_needed[code].add(d)
-                espn_needed[code].add(d - timedelta(days=1))
-                espn_needed[code].add(d + timedelta(days=1))
+        filled_rows = 0
+        remaining = rows_to_fill
 
-        espn_df = download_espn_results(espn_needed) if espn_needed else pd.DataFrame()
-        if not espn_df.empty:
-            lookup = build_lookup(espn_df)
+        if not oa_df.empty:
+            lookup = build_lookup(oa_df)
             n, remaining = _apply(lookup, remaining)
             filled_rows += n
-            logger.info(f"ESPN filled: {n}, remaining: {len(remaining)}")
+            logger.info(f"Odds API filled: {n}, remaining: {len(remaining)}")
 
-    # --- Tertiary: Fotmob (currently broken — 502 errors, kept as fallback) ---
-    if remaining:
-        logger.info("Tertiary source: Fotmob")
-        try:
-            fotmob_df = download_fotmob_results(needed_dates)
-        except Exception as e:
-            logger.warning(f"Fotmob fetch failed: {e}")
-            fotmob_df = pd.DataFrame()
+        logger.info(f"Total filled rows (N home, O away): {filled_rows}")
+        if remaining:
+            logger.warning(f"Unresolved rows: {len(remaining)}")
+            for r, bt, d, home, away, _p, comp in remaining[:20]:
+                logger.warning(f"  row {r}: {d} {home} vs {away} [{comp}]")
 
-        if not fotmob_df.empty:
-            lookup = build_lookup(fotmob_df)
-            n, remaining = _apply(lookup, remaining)
-            filled_rows += n
-            logger.info(f"Fotmob filled: {n}, remaining: {len(remaining)}")
+        sort_master_rows(ws)
+        rebuild_stake_formulas(ws)
 
-    # --- Last resort: football-data.co.uk CSVs ---
-    if remaining:
-        logger.info(f"Last resort: football-data.co.uk for {len(remaining)} unresolved rows")
-        fd_df = download_football_data_csvs()
-        if not fd_df.empty:
-            lookup = build_lookup(fd_df)
-            n, remaining = _apply(lookup, remaining)
-            filled_rows += n
-            logger.info(f"football-data filled: {n}, still unresolved: {len(remaining)}")
-
-    logger.info(f"Total filled rows (N home, O away): {filled_rows}")
-    if remaining:
-        logger.warning(f"Unresolved rows: {len(remaining)}")
-        for r, bt, d, home, away, _p, comp in remaining[:20]:
-            logger.warning(f"  row {r}: {d} {home} vs {away} [{comp}]")
-
-    sort_master_rows(ws)
-    rebuild_stake_formulas(ws)
-
-    wb.save(MASTER_PATH)
-    logger.info(f"Saved: {MASTER_PATH}")
+        safe_save_workbook(wb, MASTER_PATH)
+        logger.info(f"Saved: {MASTER_PATH}")
 
 
 # Input columns (everything else is a formula and should not be touched)
@@ -604,15 +698,7 @@ def sort_master_rows(ws):
     logger.info(f"Sorted {len(rows)} rows by match date/time")
 
 
-def _rpd(o365, bf):
-    try:
-        a, b = float(o365), float(bf)
-        if a > b:
-            return 1.0
-        pct = abs(a - b) / ((a + b) / 2) * 100
-        return 1.0 if pct < 1 else round(pct, 3)
-    except (TypeError, ValueError, ZeroDivisionError):
-        return None
+from strategy_config import compute_rpd as _rpd
 
 
 def _is_core(bt, pred, vol, bf, rpd):
