@@ -168,8 +168,12 @@ def load_historical_bets(master_path: Path = MASTER_PATH) -> list[BetRow]:
         odds_365 = ws.cell(row=r, column=9).value
         bf = ws.cell(row=r, column=10).value
         vol = ws.cell(row=r, column=11).value
-        goals = ws.cell(row=r, column=13).value
-        result = ws.cell(row=r, column=14).value
+        # Score columns are written directly by results_updater (col N=HG, col O=AG).
+        # Don't read col M (Goals) or col P (Result) — those are formulas whose
+        # cached values are stale/empty when the file was last written via openpyxl
+        # rather than Excel. Compute settlement from HG/AG directly.
+        hg_v = ws.cell(row=r, column=14).value   # N — home goals
+        ag_v = ws.cell(row=r, column=15).value   # O — away goals
 
         try:
             odds_365_f = float(odds_365)
@@ -185,21 +189,24 @@ def load_historical_bets(master_path: Path = MASTER_PATH) -> list[BetRow]:
         if rpd is None:
             continue
 
-        # Parse goals if present
         try:
-            goals_int = int(goals) if goals not in (None, "") else None
+            hg = int(hg_v) if hg_v not in (None, "") else None
+            ag = int(ag_v) if ag_v not in (None, "") else None
         except (ValueError, TypeError):
+            hg, ag = None, None
+
+        if hg is None or ag is None:
             goals_int = None
-
-        # Parse result — for goals markets it's a formula; for BTTS it's a direct value
-        try:
-            result_int = int(result) if isinstance(result, (int, float)) else None
-        except (ValueError, TypeError):
-            result_int = None
-
-        # If we have goals but no result for goals markets, compute it
-        if bt in ("1.5G", "2.5G", "3.5G") and result_int is None and goals_int is not None:
-            result_int = _compute_goals_result(bt, pred, goals_int)
+            result_int = None     # unsettled
+        else:
+            goals_int = hg + ag
+            if bt in ("1.5G", "2.5G", "3.5G"):
+                result_int = _compute_goals_result(bt, pred, goals_int)
+            elif bt == "BTTS":
+                btts_actual = 1 if (hg > 0 and ag > 0) else 0
+                result_int = 1 if btts_actual == pred else 0
+            else:
+                result_int = None
 
         bets.append(BetRow(
             bet_type=bt,
