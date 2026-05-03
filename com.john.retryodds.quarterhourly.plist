@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <key>Label</key>
+    <string>com.john.retryodds.quarterhourly</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/Joel/REPOS/BookieGrabber/venv/bin/python</string>
+        <string>/Users/Joel/REPOS/BookieGrabber/retry_missing_odds.py</string>
+    </array>
+
+    <!-- Run every 15 minutes -->
+    <key>StartInterval</key>
+    <integer>900</integer>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/Joel/REPOS/BookieGrabber</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/retryodds.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/Joel/REPOS/BookieGrabber/logs/retryodds.err</string>
+
+</dict>
+</plist>
