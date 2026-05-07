@@ -147,8 +147,8 @@ ODDS_API_LEAGUES = {
     "Portuguese Primeira Liga": "portugal-liga-portugal",
     "Belgian Pro League": "belgium-pro-league",
     "Belgian First Division A": "belgium-pro-league",
-    "Turkish Super League": "turkey-super-lig",
-    "Turkish Super Lig": "turkey-super-lig",
+    "Turkish Super League": "turkiye-super-lig",
+    "Turkish Super Lig": "turkiye-super-lig",
     "Dutch Eredivisie": "netherlands-eredivisie",
     "Netherlands Eredivisie": "netherlands-eredivisie",
     "Greek Super League": "greece-super-league",
@@ -387,11 +387,34 @@ def download_espn_results(needed_dates):
 # Matching logic
 # -------------------------------------------------------------
 
+_CITY_SUFFIXES = (
+    " istanbul", " ankara", " izmir", " bursa", " trabzon", " antalya",
+    " madrid", " barcelona", " seville", " bilbao",
+    " london", " manchester", " liverpool",
+    " milan", " rome", " naples", " turin",
+    " munich", " berlin", " hamburg", " frankfurt",
+    " athinon", " athens", " saloniki", " piraeus",
+    " bucharest", " bucuresti",
+    " warszawa", " warsaw", " krakow",
+    " belgrade", " beograd",
+    " kobenhavn", " copenhagen",
+    " bergen", " oslo", " stockholm",
+    " kuopio", " helsinki",
+    " amsterdam", " rotterdam",
+)
+
+
+def _strip_diacritics(s):
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
+
+
 def normalize(name):
     """Normalize team name for fuzzy matching."""
     if not isinstance(name, str):
         return ""
-    return (name.lower()
+    s = _strip_diacritics(name).lower()
+    s = (s
         .replace("fc ", "").replace(" fc", "")
         .replace("sc ", "").replace(" sc", "")
         .replace("sv ", "").replace(" sv", "")
@@ -399,6 +422,12 @@ def normalize(name):
         .replace("ac ", "").replace(" ac", "")
         .replace("1. ", "").replace(".", "").replace("'", "")
         .strip())
+    # Strip trailing city qualifiers (e.g., "besiktas istanbul" → "besiktas")
+    for suffix in _CITY_SUFFIXES:
+        if s.endswith(suffix):
+            s = s[:-len(suffix)].strip()
+            break
+    return s
 
 
 def build_lookup(results_df):
