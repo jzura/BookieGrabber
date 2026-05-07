@@ -1084,12 +1084,30 @@ def _retry_failed_writes(master_path=MASTER_PATH):
                     pass
         rows.append(row)
 
+    queue_size_before = len(queued)
     try:
         appended = append_to_master(rows, master_path)
+
+        # Re-read the queue to detect whether append_to_master re-queued anything.
+        # On a save failure it calls _queue_failed_writes(new_rows), growing the file;
+        # on all-duplicates it short-circuits before saving and leaves the file alone.
+        try:
+            with open(FAILED_WRITES_PATH, "r") as f:
+                queue_size_after = len(_json.load(f))
+        except FileNotFoundError:
+            queue_size_after = 0
+        except Exception:
+            queue_size_after = queue_size_before  # fail-safe: assume unchanged
+
         if appended > 0:
-            # Clear the queue on success
             FAILED_WRITES_PATH.unlink(missing_ok=True)
             logger.info(f"Successfully retried {appended} queued rows")
+        elif queue_size_after <= queue_size_before:
+            # No new rows appended AND queue did not grow → all queued rows
+            # are duplicates already present in the master. Clear the file so
+            # we stop retrying them every hour forever.
+            FAILED_WRITES_PATH.unlink(missing_ok=True)
+            logger.info(f"Cleared {queue_size_before} stale queued rows already present in master")
         return appended
     except Exception:
         logger.exception("Retry of queued rows also failed — will try again next run")
