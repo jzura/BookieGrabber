@@ -20578,14 +20578,14 @@ BTTS,2026-05-14,Getafe CF,RCD Mallorca,Spanish La Liga,0,1.615,1.71,1004.8,5.714
 BTTS,2026-05-14,FC Basel 1893,FC St. Gallen 1879,Swiss Super League,0,3.0,3.1,30.55,3.279,4.0,1.0,3.0,0.0,,,,
 BTTS,2026-05-14,FC Sion,FC Lugano,Swiss Super League,1,1.615,1.66,179.61,2.748,4.0,2.0,2.0,1.0,,,,
 BTTS,2026-05-14,FC Thun,Young Boys Bern,Swiss Super League,0,3.25,3.25,2147.75,1.0,11.0,3.0,8.0,0.0,,,,
-1.5G,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,0,3.3,3.45,621.24,4.444,,,,,1,,,3.429
-2.5G,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,1,2.1,2.2,18858.57,4.651,,,,,,,,
-3.5G,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,0,1.275,1.31,1488.36,2.708,,,,,,,,
-BTTS,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,1,1.8,1.89,825.25,4.878,,,,,,,,
-1.5G,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,1,1.23,1.26,383.75,2.41,,,,,,,,
-2.5G,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,1,1.8,1.8,5079.48,1.0,,,,,,,,
-3.5G,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,0,1.425,1.47,445.12,3.109,,,,,1,,,1.454
-BTTS,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,1,1.666,1.72,4059.65,3.19,,,,,,,,
+1.5G,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,0,3.3,3.45,621.24,4.444,2.0,1.0,1.0,0.0,1,0,-1,3.429
+2.5G,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,1,2.1,2.2,18858.57,4.651,2.0,1.0,1.0,0.0,,,,
+3.5G,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,0,1.275,1.31,1488.36,2.708,2.0,1.0,1.0,1.0,,,,
+BTTS,2026-05-15,Valencia CF,Rayo Vallecano,Spanish La Liga,1,1.8,1.89,825.25,4.878,2.0,1.0,1.0,1.0,,,,
+1.5G,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,1,1.23,1.26,383.75,2.41,2.0,1.0,1.0,1.0,,,,
+2.5G,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,1,1.8,1.8,5079.48,1.0,2.0,1.0,1.0,0.0,,,,
+3.5G,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,0,1.425,1.47,445.12,3.109,2.0,1.0,1.0,1.0,1,1.454,0.454,1.454
+BTTS,2026-05-15,Girona FC,Real Sociedad San Sebastian,Spanish La Liga,1,1.666,1.72,4059.65,3.19,2.0,1.0,1.0,1.0,,,,
 1.5G,2026-05-15,Real Madrid,Real Oviedo,Spanish La Liga,1,1.14,1.17,3896.93,2.597,,,,,,,,
 2.5G,2026-05-15,Real Madrid,Real Oviedo,Spanish La Liga,0,2.75,2.86,3800.3,3.922,,,,,,,,
 3.5G,2026-05-15,Real Madrid,Real Oviedo,Spanish La Liga,0,1.675,1.74,4281.6,3.807,,,,,,,,
