@@ -2003,5 +2003,16 @@
     "available_credit": 3940.3111,
     "today_pl": 0.0,
     "yesterday_pl": 1078.29
+  },
+  {
+    "timestamp": "2026-05-15T01:10:13.071118",
+    "current_balance": 4940.2756,
+    "open_stakes": 999.9445,
+    "commission_rate": 0,
+    "smart_credit": 0.0,
+    "credit_limit": 0.0,
+    "available_credit": 3940.3311,
+    "today_pl": -499.95,
+    "yesterday_pl": 1078.29
   }
 ]
