@@ -76,12 +76,49 @@ LEAGUE_NAME_MAP = {
     "Greece - Super League": "Greek Super League",
     "Norway - Eliteserien": "Norwegian Eliteserien",
     "Sweden - Allsvenskan": "Swedish Allsvenskan",
+    "International - World Cup": "FIFA World Cup",
 }
 
 
 def normalize_league_name(name):
     """Map Odds API league names to canonical master spreadsheet names."""
     return LEAGUE_NAME_MAP.get(name, name)
+
+
+# Per-league overrides loaded from config.yaml, keyed by canonical competition
+# name (the master-sheet name). Lets World Cup widen its volume cap and flag
+# itself as paper-trade without affecting club leagues.
+_LEAGUE_OVERRIDES = None
+
+
+def _league_overrides():
+    """Return {competition_name: {"vol_max": float, "paper_trade": bool}}."""
+    global _LEAGUE_OVERRIDES
+    if _LEAGUE_OVERRIDES is None:
+        _LEAGUE_OVERRIDES = {}
+        try:
+            import yaml
+            cfg_path = Path(__file__).resolve().parent / "config.yaml"
+            with open(cfg_path) as f:
+                cfg = yaml.safe_load(f)
+            from strategy_config import VOL_MAX as _VMAX
+            for lg in cfg.get("leagues", []):
+                _LEAGUE_OVERRIDES[lg["name"]] = {
+                    "vol_max": float(lg.get("vol_max", _VMAX)),
+                    "paper_trade": bool(lg.get("paper_trade", False)),
+                }
+        except Exception:
+            logger.exception("Failed to load per-league overrides from config.yaml")
+    return _LEAGUE_OVERRIDES
+
+
+def _vol_max_for(competition):
+    from strategy_config import VOL_MAX as _VMAX
+    return _league_overrides().get(competition, {}).get("vol_max", _VMAX)
+
+
+def _is_paper_trade(competition):
+    return _league_overrides().get(competition, {}).get("paper_trade", False)
 
 
 # -------------------------------------------------------------
@@ -231,35 +268,34 @@ def send_stake_alerts(bets):
     recipients = [e.strip() for e in email_to.split(",") if e.strip()]
 
     if not email_user or not email_pass or not recipients:
-        logger.warning("Email not configured — skipping stake alerts")
-        return
+        logger.info("Email not configured — skipping email, sending Telegram only")
+    else:
+        lines = []
+        for b in bets:
+            desc = _describe_bet(b)
+            stake_str = f"{b['stake']}x" if b["stake"] == 2 else "1x"
+            lines.append(
+                f"  {stake_str}  {b['competition']}  |  "
+                f"{b['home_team']} vs {b['away_team']}  |  "
+                f"{desc}  |  BF {b['bf']}  |  KO {b['match_time']}"
+            )
 
-    lines = []
-    for b in bets:
-        desc = _describe_bet(b)
-        stake_str = f"{b['stake']}x" if b["stake"] == 2 else "1x"
-        lines.append(
-            f"  {stake_str}  {b['competition']}  |  "
-            f"{b['home_team']} vs {b['away_team']}  |  "
-            f"{desc}  |  BF {b['bf']}  |  KO {b['match_time']}"
-        )
+        body = f"{len(bets)} bet(s) to place:\n\n" + "\n".join(lines)
 
-    body = f"{len(bets)} bet(s) to place:\n\n" + "\n".join(lines)
+        msg = EmailMessage()
+        msg["From"] = email_user
+        msg["To"] = ", ".join(recipients)
+        msg["Subject"] = f"Stake Alert — {len(bets)} bet(s)"
+        msg.set_content(body)
 
-    msg = EmailMessage()
-    msg["From"] = email_user
-    msg["To"] = ", ".join(recipients)
-    msg["Subject"] = f"Stake Alert — {len(bets)} bet(s)"
-    msg.set_content(body)
-
-    try:
-        with smtplib.SMTP("smtp.mail.me.com", 587, timeout=15) as server:
-            server.starttls()
-            server.login(email_user, email_pass)
-            server.send_message(msg)
-        logger.info(f"Stake alert email sent: {len(bets)} bet(s)")
-    except Exception as e:
-        logger.exception(f"Failed to send stake alert: {e}")
+        try:
+            with smtplib.SMTP("smtp.mail.me.com", 587, timeout=15) as server:
+                server.starttls()
+                server.login(email_user, email_pass)
+                server.send_message(msg)
+            logger.info(f"Stake alert email sent: {len(bets)} bet(s)")
+        except Exception as e:
+            logger.exception(f"Failed to send stake alert: {e}")
 
     # Also send via Telegram
     try:
@@ -341,6 +377,12 @@ def _resolve_sm_event_ids(tg_bets):
     from sportsmarket_api import SM_LEAGUE_PREFIXES, SM_SPORTSBOOK_BASE
     from difflib import SequenceMatcher
     import re
+
+    # Paper-trade bets are never placed, so skip SM resolution for them
+    # (avoids a fruitless Playwright session for leagues SM may not list).
+    tg_bets = [b for b in tg_bets if not b.get("paper_trade")]
+    if not tg_bets:
+        return
 
     # Try preflight map first
     preflight_map = {}
@@ -785,7 +827,8 @@ def _append_to_master_locked(transformed_rows, master_path):
             return False
         rpd = _compute_rpd(row_data.get("odds_365"), row_data.get("bf"))
         return _is_core(row_data["bet_type"], row_data["prediction"],
-                        row_data.get("bf"), row_data.get("volume"), rpd)
+                        row_data.get("bf"), row_data.get("volume"), rpd,
+                        vol_max=_vol_max_for(row_data.get("competition")))
 
     from collections import defaultdict
     core_indices = set()
@@ -960,16 +1003,18 @@ def _append_to_master_locked(transformed_rows, master_path):
 
         from strategy_config import is_core_qualifying as _is_core, is_btts_fade as _is_bf, is_15g_fade as _is_1f
 
+        _vmax = _vol_max_for(row_data.get("competition"))
+
         # Core contrarian
-        if _is_core(bt, pred, bf, vol, rpd):
+        if _is_core(bt, pred, bf, vol, rpd, vol_max=_vmax):
             stake = 2 if i in double_stake_indices else 1
 
         # Fade: BTTS pred=0, RPD>=5 (fade to Yes)
-        if _is_bf(bt, pred, rpd, vol):
+        if _is_bf(bt, pred, rpd, vol, vol_max=_vmax):
             stake = stake or 1
 
         # Fade: 1.5G pred=1, RPD>=G15_FADE_RPD (fade to Under)
-        if _is_1f(bt, pred, rpd, vol):
+        if _is_1f(bt, pred, rpd, vol, vol_max=_vmax):
             stake = stake or 1
 
         # Under 2.5G piggyback (pre-qualified above)
@@ -983,6 +1028,7 @@ def _append_to_master_locked(transformed_rows, master_path):
             alert_bets.append({
                 **row_data,
                 "stake": stake,
+                "paper_trade": _is_paper_trade(row_data.get("competition")),
             })
             alerted_keys.add(alert_key)
 

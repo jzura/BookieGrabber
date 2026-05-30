@@ -71,6 +71,11 @@ def send_bet_alert(bet, with_button=True):
 
     stake_emoji = "2️⃣" if stake == 2 else "1️⃣"
 
+    # Paper-trade bets (e.g. World Cup): informational only, never placed.
+    paper_trade = bool(bet.get("paper_trade"))
+    if paper_trade:
+        with_button = False
+
     # Calculate EUR amount for display
     from strategy_config import get_stake_per_unit
     match_date = bet.get("date")
@@ -80,21 +85,36 @@ def send_bet_alert(bet, with_button=True):
             match_date = _dt.strptime(match_date, "%Y-%m-%d").date()
         except Exception:
             match_date = None
-    eur_per_unit = get_stake_per_unit(match_date)
+    eur_per_unit = get_stake_per_unit(match_date, bet.get("match_time"))
     total_eur = stake * eur_per_unit
 
-    text = (
-        f"🎯 <b>NEW BET ALERT</b>\n"
-        f"\n"
-        f"<b>{desc}</b>\n"
-        f"{home} vs {away}\n"
-        f"{comp}\n"
-        f"\n"
-        f"BF: {bf:.2f} | RPD: {rpd:.1f} | Vol: {vol:.0f}\n"
-        f"Stake: {stake_emoji} {stake} unit{'s' if stake > 1 else ''} (€{total_eur:.0f})\n"
-        f"\n"
-        f"KO: {time_str}"
-    )
+    if paper_trade:
+        text = (
+            f"📊 <b>PAPER TRADE — NO BET PLACED</b>\n"
+            f"\n"
+            f"<b>{desc}</b>\n"
+            f"{home} vs {away}\n"
+            f"{comp}\n"
+            f"\n"
+            f"BF: {bf:.2f} | RPD: {rpd:.1f} | Vol: {vol:.0f}\n"
+            f"Notional stake: {stake} unit{'s' if stake > 1 else ''} (€{total_eur:.0f})\n"
+            f"\n"
+            f"KO: {time_str}\n"
+            f"<i>Tracking only — place manually if you want this bet.</i>"
+        )
+    else:
+        text = (
+            f"🎯 <b>NEW BET ALERT</b>\n"
+            f"\n"
+            f"<b>{desc}</b>\n"
+            f"{home} vs {away}\n"
+            f"{comp}\n"
+            f"\n"
+            f"BF: {bf:.2f} | RPD: {rpd:.1f} | Vol: {vol:.0f}\n"
+            f"Stake: {stake_emoji} {stake} unit{'s' if stake > 1 else ''} (€{total_eur:.0f})\n"
+            f"\n"
+            f"KO: {time_str}"
+        )
 
     if not TOKEN or not CHAT_ID:
         logger.warning("Telegram not configured")
@@ -426,7 +446,7 @@ def run_bot():
                             match_date = _dt.strptime(match_date, "%Y-%m-%d").date()
                         except Exception:
                             match_date = None
-                    stake_eur = stake * get_stake_per_unit(match_date)
+                    stake_eur = stake * get_stake_per_unit(match_date, bet.get("match_time"))
 
                     _answer_callback(callback_id, "Placing bet...")
                     _update_message(message_id,

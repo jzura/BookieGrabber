@@ -50,7 +50,7 @@ leagues:
   - name: "Romanian Liga I"
     slug: "romanian_liga_i"
     sport_key: "romania-superliga"
-    odds_time_limit: 8 #7 #6 #5 
+    odds_time_limit: 8 #7 #6 #5
   - name: "Swiss Super League"
     slug: "swiss_super_league"
     sport_key: "switzerland-super-league"
@@ -101,3 +101,13 @@ leagues:
     sport_key: "sweden-allsvenskan"
     odds_time_limit: 8
 
+  # FIFA World Cup 2026 — PAPER TRADE ONLY (no auto-placement).
+  # WC markets carry far higher volume than club leagues, so the normal
+  # VOL_MAX (1100) cap would filter out every match; vol_max is widened here.
+  # Strategy is untuned for international football — alerts are informational.
+  - name: "FIFA World Cup"            # must match Betfair competition name
+    slug: "fifa_world_cup"
+    sport_key: "international-world-cup"  # odds-api league slug
+    odds_time_limit: 12
+    vol_max: 1000000
+    paper_trade: true

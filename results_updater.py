@@ -219,6 +219,11 @@ def download_odds_api_results(needed_leagues_dates):
                     scores = ev.get("scores", {})
                     periods = scores.get("periods", {})
                     ft = periods.get("fulltime", {})
+                    # Prefer periods.fulltime (90-min, the basis Betfair markets
+                    # settle on). A 2026-05 audit of 200 matches found that ft
+                    # was the verifiable truth in 8/11 disagreements vs top-level,
+                    # so keep it as the primary signal. A few isolated API glitches
+                    # (e.g. Aalesund vs HamKam 2026-05-29) need manual correction.
                     hg = ft.get("home") if ft else scores.get("home")
                     ag = ft.get("away") if ft else scores.get("away")
                     if hg is None or ag is None:

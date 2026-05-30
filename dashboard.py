@@ -1561,9 +1561,14 @@ with tab9:
                         continue
                     fig_split.add_trace(go.Scatter(
                         x=tier_data["Hours"], y=tier_data["ROI %"],
-                        mode="lines+markers", name=tier,
+                        mode="lines+markers+text", name=tier,
                         line=dict(color=color, width=2),
-                        hovertemplate="%{x}h: %{y:+.1f}% ROI<extra>" + tier + "</extra>",
+                        marker=dict(size=8),
+                        text=[f"n={int(n)}" for n in tier_data["Bets"]],
+                        textposition="top center",
+                        textfont=dict(size=10, color=color),
+                        customdata=tier_data["Bets"],
+                        hovertemplate="%{x}h before KO<br>ROI: %{y:+.1f}%<br>Bets: %{customdata}<extra>" + tier + "</extra>",
                     ))
                 fig_split.add_hline(y=0, line_dash="dash", line_color="gray")
                 fig_split.update_layout(
@@ -1576,6 +1581,135 @@ with tab9:
 
                 with st.expander("League volume tiers"):
                     st.dataframe(league_tiers, use_container_width=True, hide_index=True)
+
+            # ─── Volume vs Optimal Hour-Before-KO (per-league scatter) ───
+            st.markdown("#### Volume vs Optimal Hour-Before-KO")
+            st.caption("Each point is one league. X = average market volume (log scale). "
+                       "Y = the hour-before-KO timeslice with the highest ROI for that league. "
+                       "Point size = number of qualifying bets at that best timeslice. "
+                       "A downward-sloping cloud would support the hypothesis that higher-volume "
+                       "markets peak closer to KO. Hover for details.")
+
+            @st.cache_data(ttl=600)
+            def compute_league_peak_hours(tl_df, bets_df):
+                """Per-league: best ROI timeslice, n at that timeslice, avg volume."""
+                from strategy_config import (is_core_qualifying, is_btts_fade,
+                                             estimate_sm_odds, FADE_ODDS_HAIRCUT)
+                import numpy as np
+
+                tl_df = tl_df.copy()
+                bets_df = bets_df.copy()
+                bets_df["Date"] = pd.to_datetime(bets_df["Date"]).dt.date
+                tl_df["match_date"] = pd.to_datetime(tl_df["match_time"]).dt.date
+
+                merged = tl_df.merge(
+                    bets_df[["Date", "Home", "Away", "Market", "Result"]].drop_duplicates(),
+                    left_on=["match_date", "home_team", "away_team"],
+                    right_on=["Date", "Home", "Away"], how="inner"
+                )
+                settled = merged[merged["Result"].notna()]
+
+                _rpd = _rpd_scalar
+                market_cols = {
+                    "1.5G": {"bf": "bf_under_1_5", "b365": "b365_under_1_5", "vol": "vol_1_5"},
+                    "3.5G": {"bf": "bf_under_3_5", "b365": "b365_under_3_5", "vol": "vol_3_5"},
+                    "BTTS": {"bf": "bf_btts_no",   "b365": "b365_btts_no",   "vol": "vol_btts"},
+                }
+
+                cells = []
+                for (league, target_h), subset in settled.groupby(["league", "target_hours_before"]):
+                    n_bets = 0; total_stake = 0.0; total_return = 0.0; vols = []
+                    for _, row in subset.iterrows():
+                        mkt = row.get("Market")
+                        if mkt not in market_cols: continue
+                        mc = market_cols[mkt]
+                        try:
+                            bf = float(row[mc["bf"]]); b365 = float(row[mc["b365"]]); vol = float(row[mc["vol"]])
+                        except Exception:
+                            continue
+                        if not (bf > 1 and b365 > 0 and vol >= 0): continue
+                        rpd = _rpd(b365, bf); result = int(row["Result"])
+                        is_core = is_core_qualifying(mkt, 0, bf, vol, rpd)
+                        is_fade = is_btts_fade(mkt, 0, rpd, vol) if mkt == "BTTS" else False
+                        if not is_core and not is_fade: continue
+                        n_bets += 1; total_stake += 1; vols.append(vol)
+                        if is_fade:
+                            if result == 0:
+                                opp = 1/(1-1/bf)*(1-FADE_ODDS_HAIRCUT)
+                                c = 0.01 if opp<=1.5 else 0.02 if opp<=2.8 else 0.03 if opp<=3.5 else 0.04
+                                total_return += 1*(1+(opp-1)*(1-c))
+                        elif result == 1:
+                            odds = estimate_sm_odds(bf)
+                            c = 0.01 if odds<=1.5 else 0.02 if odds<=2.8 else 0.03 if odds<=3.5 else 0.04
+                            total_return += 1*(1+(odds-1)*(1-c))
+                    if n_bets >= 5:
+                        cells.append({"league": league, "hours": int(target_h),
+                                      "bets": n_bets,
+                                      "roi": (total_return-total_stake)/total_stake*100,
+                                      "avg_vol": float(np.mean(vols))})
+
+                if not cells:
+                    return pd.DataFrame()
+                cells_df = pd.DataFrame(cells)
+                rows = []
+                for league, g in cells_df.groupby("league"):
+                    best = g.loc[g["roi"].idxmax()]
+                    rows.append({
+                        "League": league,
+                        "Avg Volume": round(g["avg_vol"].mean(), 0),
+                        "Best Hour": int(best["hours"]),
+                        "Best ROI %": round(best["roi"], 2),
+                        "n at Best": int(best["bets"]),
+                    })
+                return pd.DataFrame(rows).sort_values("Avg Volume", ascending=False)
+
+            peak_df = compute_league_peak_hours(tl, df)
+
+            if not peak_df.empty and len(peak_df) >= 3:
+                # Correlation (rank-based, robust to outliers)
+                rx = peak_df["Avg Volume"].rank().to_numpy()
+                ry = peak_df["Best Hour"].rank().to_numpy()
+                sp_r = float(np.corrcoef(rx, ry)[0, 1]) if len(rx) > 1 else 0.0
+
+                fig_peak = go.Figure()
+                fig_peak.add_trace(go.Scatter(
+                    x=peak_df["Avg Volume"], y=peak_df["Best Hour"],
+                    mode="markers+text",
+                    text=peak_df["League"],
+                    textposition="top center",
+                    textfont=dict(size=9, color="#aaa"),
+                    marker=dict(
+                        size=peak_df["n at Best"] * 1.5 + 6,
+                        color=peak_df["Best ROI %"],
+                        colorscale="RdYlGn",
+                        cmid=0,
+                        showscale=True,
+                        colorbar=dict(title="Best<br>ROI %", thickness=12),
+                        line=dict(width=1, color="#444"),
+                    ),
+                    customdata=peak_df[["n at Best", "Best ROI %"]].values,
+                    hovertemplate=(
+                        "<b>%{text}</b><br>"
+                        "Avg Volume: %{x:.0f}<br>"
+                        "Best Hour: %{y}h before KO<br>"
+                        "Bets at best: %{customdata[0]}<br>"
+                        "ROI at best: %{customdata[1]:+.1f}%<extra></extra>"
+                    ),
+                ))
+                fig_peak.update_layout(
+                    height=500, margin=dict(l=40, r=20, t=30, b=40),
+                    xaxis=dict(title="Avg Market Volume (log scale)", type="log"),
+                    yaxis_title="Best Hour Before KO",
+                    template="plotly_dark",
+                    title=f"Spearman rank correlation: r = {sp_r:+.3f} "
+                          f"({'inverse' if sp_r < -0.1 else 'positive' if sp_r > 0.1 else 'no clear'} relationship)",
+                )
+                st.plotly_chart(fig_peak, use_container_width=True)
+
+                with st.expander("Per-league peak data"):
+                    st.dataframe(peak_df, use_container_width=True, hide_index=True)
+            else:
+                st.info("Not enough per-league data yet to plot volume-vs-optimal-hour.")
         else:
             st.info("Not enough settled matches with timeline data to compute ROI by timeslice yet.")
 

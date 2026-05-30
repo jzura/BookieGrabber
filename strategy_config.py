@@ -24,7 +24,7 @@ BF_MIN = 1.45
 # Changed to 3.0 on 2026-04-20, reverted to 2.7 same day
 BF_TIER1 = 2.7
 RPD_TIER1 = 4.0   # max RPD when BF <= BF_TIER1
-RPD_TIER2 = 6.0   # max RPD when BF > BF_TIER1
+RPD_TIER2 = 5.0   # max RPD when BF > BF_TIER1  (was 6.0, tightened 2026-05-30)
 
 # ─── Fade thresholds ───
 BTTS_FADE_RPD = 5.0    # BTTS pred=0 with RPD >= this → fade to Yes
@@ -82,26 +82,59 @@ STAKE_PER_UNIT_WEEKEND = 250.0   # Saturday, Sunday
 STAKE_PER_UNIT_MIDWEEK = 500.0   # Monday–Friday
 
 
-def get_stake_per_unit(match_date=None):
-    """Return stake per unit based on day of week."""
+def get_stake_per_unit(match_date=None, match_time=None):
+    """Return stake per unit based on day of week in match-local (European) time.
+
+    `match_date` is the Perth-local kickoff date (date or "YYYY-MM-DD" string),
+    and `match_time` is the Perth-local kickoff time ("HH:MM" or "HH:MM AWST").
+    Perth is UTC+8 and European kickoffs are 6–8h behind Perth, so a Perth-Monday
+    03:00 kickoff is still a Sunday match in Europe and must qualify as weekend.
+    When `match_time` is given we shift Perth → UTC to recover the match-local
+    weekday; otherwise we fall back to the supplied date or today.
+    """
+    from datetime import date, datetime, timedelta
+
     if match_date is None:
-        from datetime import date
         match_date = date.today()
-    if hasattr(match_date, 'weekday'):
-        if match_date.weekday() in (5, 6):  # Saturday=5, Sunday=6
-            return STAKE_PER_UNIT_WEEKEND
-        return STAKE_PER_UNIT_MIDWEEK
+
+    if isinstance(match_date, str):
+        try:
+            match_date = datetime.strptime(match_date, "%Y-%m-%d").date()
+        except Exception:
+            return STAKE_PER_UNIT_MIDWEEK
+
+    weekday = None
+    if match_time and hasattr(match_date, "year") and not isinstance(match_date, datetime):
+        try:
+            hhmm = str(match_time).strip().split()[0]
+            hh, mm = hhmm.split(":")[:2]
+            perth_dt = datetime(match_date.year, match_date.month, match_date.day,
+                                int(hh), int(mm))
+            weekday = (perth_dt - timedelta(hours=8)).weekday()
+        except Exception:
+            weekday = None
+
+    if weekday is None:
+        if isinstance(match_date, datetime) and match_date.tzinfo is not None:
+            import pytz
+            weekday = match_date.astimezone(pytz.UTC).weekday()
+        elif hasattr(match_date, "weekday"):
+            weekday = match_date.weekday()
+
+    if weekday in (5, 6):  # Saturday=5, Sunday=6
+        return STAKE_PER_UNIT_WEEKEND
     return STAKE_PER_UNIT_MIDWEEK
 
 
-def is_core_qualifying(bet_type, prediction, bf, vol, rpd):
+def is_core_qualifying(bet_type, prediction, bf, vol, rpd, vol_max=VOL_MAX):
     """Check if a bet qualifies under core contrarian rules.
-    Returns True if it qualifies."""
+    Returns True if it qualifies. `vol_max` defaults to the global cap but can
+    be overridden per-league (e.g. World Cup markets carry far higher volume)."""
     if bet_type not in CORE_BET_TYPES:
         return False
     if prediction != 0:
         return False
-    if vol is None or not (VOL_MIN <= vol <= VOL_MAX):
+    if vol is None or not (VOL_MIN <= vol <= vol_max):
         return False
     if bf is None or bf <= BF_MIN:
         return False
@@ -114,7 +147,7 @@ def is_core_qualifying(bet_type, prediction, bf, vol, rpd):
     return True
 
 
-def is_btts_fade(bet_type, prediction, rpd, vol):
+def is_btts_fade(bet_type, prediction, rpd, vol, vol_max=VOL_MAX):
     """Check if a BTTS bet qualifies as a fade (bet Yes instead of No)."""
     if bet_type != "BTTS":
         return False
@@ -122,12 +155,12 @@ def is_btts_fade(bet_type, prediction, rpd, vol):
         return False
     if rpd is None or rpd < BTTS_FADE_RPD:
         return False
-    if vol is None or not (VOL_MIN <= vol <= VOL_MAX):
+    if vol is None or not (VOL_MIN <= vol <= vol_max):
         return False
     return True
 
 
-def is_15g_fade(bet_type, prediction, rpd, vol):
+def is_15g_fade(bet_type, prediction, rpd, vol, vol_max=VOL_MAX):
     """Check if a 1.5G bet qualifies as a fade (bet Under instead of Over)."""
     if bet_type != "1.5G":
         return False
@@ -135,7 +168,7 @@ def is_15g_fade(bet_type, prediction, rpd, vol):
         return False
     if rpd is None or rpd < G15_FADE_RPD:
         return False
-    if vol is None or not (VOL_MIN <= vol <= VOL_MAX):
+    if vol is None or not (VOL_MIN <= vol <= vol_max):
         return False
     return True
 
