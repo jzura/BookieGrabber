@@ -168,6 +168,7 @@ ODDS_API_LEAGUES = {
     "UEFA Champions League": "international-clubs-uefa-champions-league",
     "UEFA Europa League": "international-clubs-uefa-europa-league",
     "UEFA Europa Conference League": "international-clubs-uefa-conference-league",
+    "FIFA World Cup": "international-fifa-world-cup",
 }
 
 # -------------------------------------------------------------
@@ -218,7 +219,9 @@ def download_odds_api_results(needed_leagues_dates):
                         continue
                     scores = ev.get("scores", {})
                     periods = scores.get("periods", {})
-                    ft = periods.get("fulltime", {})
+                    # Odds API renamed the key from "fulltime" to "ft" around
+                    # 2026-06 (seen on World Cup events). Accept both.
+                    ft = periods.get("fulltime") or periods.get("ft") or {}
                     # Prefer periods.fulltime (90-min, the basis Betfair markets
                     # settle on). A 2026-05 audit of 200 matches found that ft
                     # was the verifiable truth in 8/11 disagreements vs top-level,

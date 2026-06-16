@@ -77,6 +77,7 @@ LEAGUE_NAME_MAP = {
     "Norway - Eliteserien": "Norwegian Eliteserien",
     "Sweden - Allsvenskan": "Swedish Allsvenskan",
     "International - World Cup": "FIFA World Cup",
+    "International - FIFA World Cup": "FIFA World Cup",  # Odds API renamed slug 2026-06
 }
 
 

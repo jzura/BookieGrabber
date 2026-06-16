@@ -107,7 +107,7 @@ leagues:
   # Strategy is untuned for international football — alerts are informational.
   - name: "FIFA World Cup"            # must match Betfair competition name
     slug: "fifa_world_cup"
-    sport_key: "international-world-cup"  # odds-api league slug
+    sport_key: "international-fifa-world-cup"  # odds-api league slug (renamed 2026-06; was international-world-cup)
     odds_time_limit: 12
     vol_max: 1000000
     paper_trade: true
