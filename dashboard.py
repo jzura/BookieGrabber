@@ -1715,6 +1715,181 @@ with tab9:
 
         st.markdown("---")
 
+        # ─── FIFA World Cup paper-trade tracker (12h vs 5h focus) ───
+        st.subheader("FIFA World Cup — Paper-Trade Performance")
+        st.caption("Compares hypothetical strategy ROI when odds are taken at "
+                   "different points before kickoff. The 12h vs 5h pair tests "
+                   "whether very-high-volume markets like the WC reward "
+                   "delaying the odds snapshot closer to KO — the same pattern "
+                   "the high-volume club leagues hinted at (+19% at 5h on 176 bets).")
+
+        @st.cache_data(ttl=300)
+        def compute_wc_roi_by_hour(tl_df, bets_df):
+            """For each timeslice, re-qualify WC paper-trade bets using that
+            snapshot's odds and compute the ROI. Uses the World Cup vol cap
+            from config (paper_trade: true, vol_max: 1_000_000) so high-volume
+            markets are not filtered out."""
+            from strategy_config import (is_core_qualifying, is_btts_fade,
+                                         estimate_sm_odds, FADE_ODDS_HAIRCUT)
+            import yaml
+
+            wc_vol_max = 1_000_000.0
+            try:
+                cfg = yaml.safe_load(open("config.yaml"))
+                wc_cfg = next((l for l in cfg.get("leagues", [])
+                              if l.get("slug") == "fifa_world_cup"), None)
+                if wc_cfg and wc_cfg.get("vol_max"):
+                    wc_vol_max = float(wc_cfg["vol_max"])
+            except Exception:
+                pass
+
+            tl_wc = tl_df[tl_df["league"] == "fifa_world_cup"].copy()
+            if tl_wc.empty:
+                return pd.DataFrame(), pd.DataFrame()
+
+            tl_wc["match_date"] = pd.to_datetime(tl_wc["match_time"]).dt.date
+            bets_df = bets_df.copy()
+            bets_df["Date"] = pd.to_datetime(bets_df["Date"]).dt.date
+
+            merged = tl_wc.merge(
+                bets_df[["Date", "Home", "Away", "Market", "Result"]].drop_duplicates(),
+                left_on=["match_date", "home_team", "away_team"],
+                right_on=["Date", "Home", "Away"], how="inner"
+            )
+            settled = merged[merged["Result"].notna()]
+            if settled.empty:
+                return pd.DataFrame(), pd.DataFrame()
+
+            market_cols = {
+                "1.5G": {"bf":"bf_under_1_5","b365":"b365_under_1_5","vol":"vol_1_5"},
+                "3.5G": {"bf":"bf_under_3_5","b365":"b365_under_3_5","vol":"vol_3_5"},
+                "BTTS": {"bf":"bf_btts_no","b365":"b365_btts_no","vol":"vol_btts"},
+            }
+
+            cells = []
+            per_bet = []
+            for h in sorted(settled["target_hours_before"].dropna().unique()):
+                sub = settled[settled["target_hours_before"] == h]
+                pls = []
+                for _, row in sub.iterrows():
+                    mkt = row.get("Market")
+                    if mkt not in market_cols: continue
+                    mc = market_cols[mkt]
+                    try:
+                        bf=float(row[mc["bf"]]); b365=float(row[mc["b365"]]); vol=float(row[mc["vol"]])
+                    except Exception:
+                        continue
+                    if not (bf > 1 and b365 > 0 and vol >= 0): continue
+                    rpd = _rpd_scalar(b365, bf)
+                    result = int(row["Result"])
+                    is_core = is_core_qualifying(mkt, 0, bf, vol, rpd, vol_max=wc_vol_max)
+                    is_fade = is_btts_fade(mkt, 0, rpd, vol, vol_max=wc_vol_max) if mkt == "BTTS" else False
+                    if not is_core and not is_fade: continue
+                    if is_fade:
+                        if result == 0:
+                            opp = 1/(1-1/bf)*(1-FADE_ODDS_HAIRCUT)
+                            c = 0.01 if opp<=1.5 else 0.02 if opp<=2.8 else 0.03 if opp<=3.5 else 0.04
+                            pl = (opp-1)*(1-c)
+                        else:
+                            pl = -1.0
+                    else:
+                        if result == 1:
+                            odds = estimate_sm_odds(bf)
+                            c = 0.01 if odds<=1.5 else 0.02 if odds<=2.8 else 0.03 if odds<=3.5 else 0.04
+                            pl = (odds-1)*(1-c)
+                        else:
+                            pl = -1.0
+                    pls.append(pl)
+                    per_bet.append({
+                        "Match": f"{row['home_team']} vs {row['away_team']}",
+                        "Market": mkt,
+                        "Hours Before KO": int(h),
+                        "BF": round(bf, 2),
+                        "Volume": int(vol),
+                        "RPD": round(rpd, 2),
+                        "Result HG-AG": f"{int(row['Result'])}",
+                        "P/L (units)": round(pl, 3),
+                    })
+                n = len(pls)
+                if n > 0:
+                    import numpy as np
+                    arr = np.array(pls)
+                    cells.append({
+                        "Hours Before KO": int(h),
+                        "Bets": n,
+                        "Wins": int((arr > 0).sum()),
+                        "P/L (units)": round(arr.sum(), 2),
+                        "ROI %": round(arr.mean()*100, 2),
+                    })
+            return pd.DataFrame(cells), pd.DataFrame(per_bet)
+
+        wc_by_hour, wc_per_bet = compute_wc_roi_by_hour(tl, df)
+
+        if wc_by_hour.empty:
+            st.info("No qualifying WC paper-trade bets settled yet — the tracker "
+                    "will populate as group-stage matches finish and the "
+                    "odds-timeline recorder accumulates snapshots at each "
+                    "target hour before KO.")
+        else:
+            # Headline 12h vs 5h comparison
+            c12 = wc_by_hour[wc_by_hour["Hours Before KO"] == 12]
+            c5  = wc_by_hour[wc_by_hour["Hours Before KO"] == 5]
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                if not c12.empty:
+                    st.metric("12h before KO",
+                              f"{c12.iloc[0]['ROI %']:+.1f}% ROI",
+                              f"{int(c12.iloc[0]['Bets'])} bets")
+                else:
+                    st.metric("12h before KO", "no data", "0 bets")
+            with col2:
+                if not c5.empty:
+                    st.metric("5h before KO",
+                              f"{c5.iloc[0]['ROI %']:+.1f}% ROI",
+                              f"{int(c5.iloc[0]['Bets'])} bets")
+                else:
+                    st.metric("5h before KO", "no data", "0 bets")
+            with col3:
+                if not c12.empty and not c5.empty:
+                    delta = c5.iloc[0]['ROI %'] - c12.iloc[0]['ROI %']
+                    direction = "5h better" if delta > 0 else "12h better"
+                    st.metric("Spread", f"{abs(delta):+.1f}pp", direction)
+                else:
+                    st.metric("Spread", "—", "need both")
+
+            # ROI line across all timeslices
+            fig_wc = go.Figure()
+            fig_wc.add_trace(go.Scatter(
+                x=wc_by_hour["Hours Before KO"], y=wc_by_hour["ROI %"],
+                mode="lines+markers+text",
+                line=dict(color="#FFD700", width=2),
+                marker=dict(size=10),
+                text=[f"n={int(n)}" for n in wc_by_hour["Bets"]],
+                textposition="top center",
+                customdata=wc_by_hour[["Bets","P/L (units)","Wins"]].values,
+                hovertemplate=("%{x}h before KO<br>ROI: %{y:+.2f}%<br>"
+                               "Bets: %{customdata[0]}<br>"
+                               "Wins: %{customdata[2]}<br>"
+                               "P/L: %{customdata[1]:+.2f}u<extra>FIFA WC</extra>"),
+            ))
+            fig_wc.add_hline(y=0, line_dash="dash", line_color="gray")
+            fig_wc.update_layout(
+                height=380, margin=dict(l=40, r=20, t=10, b=40),
+                xaxis_title="Hours Before Kickoff",
+                yaxis_title="Paper-Trade ROI %",
+                xaxis=dict(autorange="reversed"),
+                template="plotly_dark",
+            )
+            st.plotly_chart(fig_wc, use_container_width=True)
+
+            with st.expander(f"Per-bet detail ({len(wc_per_bet)} qualifying bets across snapshots)"):
+                st.dataframe(wc_per_bet.sort_values(["Hours Before KO","Match"]),
+                             use_container_width=True, hide_index=True)
+            with st.expander("Summary by hour"):
+                st.dataframe(wc_by_hour, use_container_width=True, hide_index=True)
+
+        st.markdown("---")
+
         # ─── 6. League Breakdown ───
         st.subheader("6. Coverage by League")
 
